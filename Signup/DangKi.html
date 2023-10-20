@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Form Dang Ky Tai Khoan</title>
+    <link rel="stylesheet" href="DangKicss.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="DangKiJS.js" defer></script>
+</head>
+<body>
+<div id="page">
+    <div class="form-account">
+        <div class="input-group">
+<!--            <div class="logo">-->
+<!--            <h1>DDD</h1>-->
+<!--            </div>-->
+            <div class="header">
+
+                <p>ĐĂNG KÝ TÀI KHOẢN</p>
+            </div>
+
+            <div class="form-group">
+                <i class="far fa-user"></i>
+                <input type="text" class="form-input" placeholder="Họ và tên">
+                <div id="full_name_error" class="error-message"></div>
+            </div>
+            <div class="form-group">
+                <i class="fa-solid fa-envelope"></i>
+                <input type="text" class="form-input" placeholder="Địa chỉ email">
+                <div id="email_error" class="error-message"></div>
+
+            </div>
+            <div class="form-group">
+                <i class="fa-solid fa-key"></i>
+                <input type="password" class="form-input" placeholder="Mật khẩu" id="passwordInput">
+                <i  id="togglePassword" onclick="togglePassword('passwordInput')"></i>
+                <div id="password_error" class="error-message"></div>
+            </div>
+
+            <div class="form-group">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" class="form-input" placeholder="Nhập lại mật khẩu" id="password2Input">
+                <i  id="togglePassword2" onclick="togglePassword('password2Input')"></i>
+                <div id="password2_error" class="error-message"></div>
+            </div>
+
+
+            <div class="form-group">
+
+                <button>ĐĂNG KÝ</button>
+            </div>
+            <div>
+                <a href="#">Bạn có tài khoản? Đăng nhập </a>
+            </div>
+        </div>
+    </div>
+</div>
+    <script src="DangKiJS.js"></script>
+</body>
+</html>
