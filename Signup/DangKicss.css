@@ -26,12 +26,20 @@
     text-align: left;
 }
 
-/*h1{*/
-/*    color: #e8b949  ;*/
-/*   margin: 0;*/
-/*    font-size: 20px;*/
+h1{
+    color: #e8b949  ;
+    margin-left: 200px;
+    font-size: 35px;
+    font-weight: bold;
+    text-align: center;
+    border: 2px solid #997404 ;
+    border-radius: 10px;
+    display: inline-block;
+    /*box-shadow: 0 0 10px rgba(0, 0, 0, 0.4); !* Thêm hiệu ứng bóng *!*/
+    background-color: #2c1c0c;
+    padding: 10px;
 
-/*}*/
+}
 .form-group {
     margin: 20px 0;
     display: flex;
