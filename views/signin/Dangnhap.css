@@ -124,4 +124,19 @@ body {
 button {
     cursor: pointer;
 }
+h1{
+    color: #e8b949  ;
+    font-size: 35px;
+    font-weight: bold;
+    text-align: center;
+    border: 2px solid #997404 ;
+    border-radius: 10px;
+    display: inline-block;
+    background-color: #2c1c0c;
+    padding: 10px;
+
+}
+.logo{
+    text-align: center;
+}
 
