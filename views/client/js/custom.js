@@ -71,3 +71,28 @@
     };
     sitePlusMinus();
 })()
+
+// Thay đổi tiêu đề
+let p_tag = document.getElementById("mxh-changing");
+let maxWidth = 768;
+
+function checkScreen() {
+    if (window.innerWidth <= maxWidth) {
+        p_tag.textContent = "MXH";
+    }
+    else {
+        p_tag.textContent = "Mạng xã hội";
+    }
+}
+checkScreen();
+window.addEventListener("resize", checkScreen);
+
+let button = document.getElementById("scroll-to-top");
+// Scroll to top
+window.onscroll = function scrollToTop() {
+    (document.body.scrollTop > 150 || document.documentElement.scrollTop > 150) ? (button.style.display = "block") : (button.style.display = "none");
+}
+button.addEventListener("click", function () {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+});

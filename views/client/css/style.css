@@ -7,7 +7,7 @@
     --primary-color-darkyellow_alpha: rgba(232, 185, 73, .7);
     --primary-color-productbg: #ffffff;
     --primary-color-darkred_alpha: rgba(42, 23, 16, .8);
-    --primary-color-light_text: #9d9d9d;
+    --primary-color-light_text: #868686;
 }
 
 body {
@@ -47,6 +47,10 @@ a.more {
 
 .right-text {
     text-align: right;
+}
+
+.center-text {
+    text-align: center;
 }
 
 .position-relative-top-84px {
@@ -140,6 +144,7 @@ a.more {
 }
 
 .custom-navbar .custom-navbar-cta {
+    position: relative;
     margin-left: 0 !important;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
@@ -175,6 +180,53 @@ a.more {
 
 .custom-navbar .custom-navbar-cta .nav-link.yellow:hover i {
     color: var(--primary-color-darkyellow);
+}
+
+.custom-navbar .custom-navbar-cta .ul-drop-menu {
+    display: none;
+    margin: 0;
+    padding: 0;
+    width: 150px;
+    position: absolute;
+    top: 60px;
+    right: -70px;
+    background-color: var(--primary-color-darkred);
+}
+
+.custom-navbar .custom-navbar-cta .hv-li {
+    position: relative;
+    transition: .3s all ease-out;
+}
+
+.custom-navbar .custom-navbar-cta .hv-li::after {
+    content: "";
+    width: 150px;
+    position: absolute;
+    top: 30px;
+    right: -70px;
+    padding-bottom: 30px;
+}
+
+.custom-navbar .custom-navbar-cta .hv-li:hover .ul-drop-menu {
+    display: block;
+}
+
+.custom-navbar .custom-navbar-cta .drop-menu {
+    list-style-type: none;
+    text-align: left;
+    padding: 8px;
+    transition: .3s color ease-out;
+}
+
+.custom-navbar .custom-navbar-cta .drop-menu.hello-user {
+    color: var(--primary-color-darkyellow);
+    cursor: default;
+    margin: 0 !important;
+}
+
+.custom-navbar .custom-navbar-cta .drop-menu.hv-gray:hover {
+    color: var(--primary-color-gray);
+    cursor: pointer;
 }
 
 @media (min-height: 768px) {}
@@ -514,17 +566,6 @@ a.more {
     margin-bottom: 20px;
 }
 
-.feature .icon:before {
-    content: "";
-    width: 33px;
-    height: 33px;
-    position: absolute;
-    background: rgba(59, 93, 80, 0.2);
-    border-radius: 50%;
-    right: -8px;
-    bottom: 0;
-}
-
 .feature h3 {
     font-size: 14px;
     color: #2f2f2f;
@@ -810,8 +851,6 @@ a.more {
 }
 
 .blog-section {
-    position: relative;
-    top: 84px;
     padding: 7rem 0 12rem 0;
     background: var(--primary-color-darkyellow);
 }
@@ -866,14 +905,14 @@ a.more {
 
 .footer-section a {
     text-decoration: none;
-    color: #2f2f2f;
+    color: #6a6a6a;
     -webkit-transition: .3s all ease;
     -o-transition: .3s all ease;
     transition: .3s all ease;
 }
 
 .footer-section a:hover {
-    color: rgba(47, 47, 47, 0.5);
+    color: #ffffff !important;
 }
 
 .footer-section .subscription-form {
@@ -939,11 +978,37 @@ a.more {
     margin-bottom: 10px;
 }
 
-.footer-section .footer-logo-wrap .footer-logo {
-    font-size: 32px;
+.footer-section .footer-head {
+    font-size: 2rem;
     font-weight: 500;
     text-decoration: none;
-    color: #3b5d50;
+    color: var(--primary-color-darkyellow);
+}
+
+@media (max-width: 992px) {
+    .footer-section .footer-head {
+        font-size: 1.75rem
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-section .footer-head {
+        font-size: 1.5rem;
+    }
+
+    .footer-content {
+        font-size: .8rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .footer-section .footer-head {
+        font-size: 1.25rem;
+    }
+
+    .footer-content {
+        font-size: .75rem;
+    }
 }
 
 .footer-section .custom-social li {
@@ -957,14 +1022,14 @@ a.more {
     text-align: center;
     line-height: 40px;
     display: inline-block;
-    background: #dce5e4;
-    color: #3b5d50;
+    background: var(--primary-color-gray);
+    color: var(--primary-color-darkred);
     border-radius: 50%;
 }
 
 .footer-section .custom-social li a:hover {
-    background: #3b5d50;
-    color: #ffffff;
+    background: var(--primary-color-darkyellow);
+    color: var(--primary-color-gray);
 }
 
 .footer-section .border-top {
@@ -1099,4 +1164,32 @@ textarea {
     height: 50px;
     border-radius: 50%;
     background: rgba(59, 93, 80, 0.2);
+}
+
+#scroll-to-top {
+    width: 40px;
+    height: 40px;
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+    outline: none;
+    border: none;
+    display: none;
+    background-color: #ffffff;
+    z-index: 99;
+    border-radius: 50%;
+}
+
+@media (min-width: 992px) {
+    #scroll-to-top {
+        right: 20px;
+        bottom: 20px;
+    }
+}
+
+@media (min-width: 768px) {
+    #scroll-to-top {
+        right: 15px;
+        bottom: 15px;
+    }
 }
