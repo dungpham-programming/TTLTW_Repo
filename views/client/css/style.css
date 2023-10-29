@@ -592,7 +592,6 @@ a.more {
     content: "";
     width: 255px;
     height: 217px;
-    background-image: url("../images/dots-yellow.svg");
     background-repeat: no-repeat;
     background-size: contain;
     -webkit-transform: translate(-40%, -40%);
