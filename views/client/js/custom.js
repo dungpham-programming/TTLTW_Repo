@@ -72,6 +72,7 @@
     sitePlusMinus();
 })()
 
+// Dung Pham
 // Thay đổi tiêu đề
 let p_tag = document.getElementById("mxh-changing");
 let maxWidth = 768;
@@ -96,3 +97,49 @@ button.addEventListener("click", function () {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
 });
+
+// Thay đổi màu khi click button
+function changeColor(list) {
+    for (let i = 0; i < list.length; i++) {
+        // Thêm event cho các button
+        list[i].addEventListener("click", function () {
+            for (let j = 0; j < list.length; j++) {
+                // Xóa toàn bộ lớp được chọn (Để reset trạng thái)
+                list[j].classList.remove("darkred-active");
+            }
+            // Sau đó, thêm lớp được chọn vào nút ừa click
+            this.classList.add("darkred-active");
+        });
+    }
+}
+
+// Lấy phần tử theo id, từ id đó lấy ra các phần tử có tên class
+const myList = document.getElementById("myList")
+const listButton = myList.getElementsByClassName("list-group-item-action");
+changeColor(listButton);
+
+// Thay đổi cách sắp xếp button khi kích thước màn hình thay đổi
+let innerWidth = window.innerWidth;
+
+function checkScreenToArrangeBtn(btnBack) {
+    if (innerWidth < lgWidth) {
+        btnBack.classList.remove("flex-row", "justify-content-between");
+        btnBack.classList.add("flex-column");
+        btnBack.firstElementChild.style.marginBottom = "20px"
+    }
+}
+
+function modifyTagBaseOnWidth(listBtn) {
+    for (let i = 0; i < btnBack.length; i++) {
+        if (innerWidth < lgWidth) {
+            btnBack[i].style.textAlign = "center";
+            btnBack[i].style.fontSize = "14";
+        }
+    }
+}
+
+const lgWidth = 992;
+const btnBack = document.getElementById("btn-back");
+const listBtn = document.getElementsByClassName("back")
+checkScreenToArrangeBtn(btnBack)
+modifyTagBaseOnWidth(listBtn)
