@@ -41,12 +41,20 @@ a.more {
     color: var(--primary-color-light_text) !important;
 }
 
+.darkred-text {
+    color: var(--primary-color-darkred);
+}
+
 .right-text {
     text-align: right;
 }
 
 .center-text {
     text-align: center;
+}
+
+.hidden {
+    display: none;
 }
 
 .position-relative-top-84px {
@@ -661,8 +669,8 @@ a.more {
 
 .we-help-section .imgs-grid .grid.grid-2 {
     -ms-grid-column: 19;
-    -ms-grid-column-span: 27;
-    grid-column: 19 / span 27;
+    -ms-grid-column-span: 24;
+    grid-column: 17 / span 24;
     -ms-grid-row: 1;
     -ms-grid-row-span: 5;
     grid-row: 1 / span 5;
@@ -1075,8 +1083,59 @@ a.more {
     font-size: 14px !important;
 }
 
-.untree_co-section {
+.product-section {
     padding: 7rem 0;
+}
+
+.product-section .darkredbg {
+    background: var(--primary-color-darkred);
+}
+
+.product-section .nav-left-block {
+    position: sticky;
+    /* Khoảng cách của position: fixed của navtop là 84px + cách 16px so với navtop */
+    top: 100px;
+}
+
+.product-section .nav-left-title {
+    padding: 1rem 1.2rem;
+    margin: 0;
+    color: var(--primary-color-darkyellow);
+    background: var(--primary-color-darkred);
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.product-section .nav-left-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.product-section .nav-left-item {
+    padding: 1rem 1.2rem;
+    background: #ffffff;
+    transition: .3s all ease-out;
+    border: 4px solid #ffffff;
+}
+
+.product-section .nav-left-item .nav-left-link {
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.product-section .nav-left-item:hover {
+    background: var(--primary-color-darkred);
+    border: 4px solid var(--primary-color-darkyellow);
+}
+
+.product-section .nav-left-item:hover a {
+    color: var(--primary-color-gray);
+}
+
+.product-section .product-list-madeby,
+.product-section .product-category {
+    color: var(--primary-color-darkyellow);
 }
 
 .form-control {
@@ -1087,8 +1146,6 @@ a.more {
 
 .form-control:active, .form-control:focus {
     outline: none;
-    -webkit-box-shadow: none;
-    box-shadow: none;
     border-color: #3b5d50;
     -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
