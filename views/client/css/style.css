@@ -250,24 +250,51 @@ a.more {
     cursor: pointer;
 }
 
-@media (min-height: 768px) {}
-
 .hero {
-    background-image: url("../images/client_home/handicraft_bag.jpg");
-    background-position: center;
-    background-size: cover;
     padding: calc(4rem - 30px) 0 0 0;
     z-index: 1;
+    background-position: center;
+    background-size: cover;
+}
+
+.hero.home {
+    background-image: url("../images/client_home/handicraft_bag.jpg");
+}
+
+.hero.shop {
+
+}
+
+.hero.blog {
+
+}
+
+.hero.contact {
+
+}
+
+.hero.aboutus {
+
+}
+
+.hero.cart {
+
+}
+
+.hero .checkout {
+
 }
 
 @media (min-width: 768px) {
-    .hero {
+    .hero.home, .hero.shop, .hero.blog, .hero.contact,
+    .hero.aboutus, .hero.cart, .hero.checkout {
         padding: calc(4rem - 30px) 0 4rem 0;
     }
 }
 
 @media (min-width: 992px) {
-    .hero {
+    .hero.home, .hero.shop, .hero.blog, .hero.contact,
+    .hero.aboutus, .hero.cart, .hero.checkout {
         padding: calc(8rem - 30px) 0 8rem 0;
     }
 }
@@ -415,6 +442,10 @@ a.more {
 
 .section-title {
     color: var(--primary-color-darkred);
+}
+
+.untree_co-section {
+    padding: 3rem 0;
 }
 
 .product-section {
