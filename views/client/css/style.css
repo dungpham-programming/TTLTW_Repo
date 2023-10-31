@@ -266,7 +266,7 @@ a.more {
 }
 
 .hero.blog {
-
+    background-image: url("../images/client_home/sapo-thiet-ke-web-thu-cong-my-nghe.png");
 }
 
 .hero.contact {
@@ -274,7 +274,7 @@ a.more {
 }
 
 .hero.aboutus {
-
+    background-image: url("../images/client_home/my-nghe.jpg");
 }
 
 .hero.cart {
@@ -282,7 +282,7 @@ a.more {
 }
 
 .hero .checkout {
-
+    background-image: url("../images/client_home/144400_1456148192_news_5303.jpg");
 }
 
 @media (min-width: 768px) {
