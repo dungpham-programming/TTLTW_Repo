@@ -453,7 +453,52 @@ a.more {
     background: var(--primary-color-gray);
 }
 
-.product-section .product-item {
+.product-section .wood .pop-right {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    top: 59px;
+    left: 300px;
+    z-index: 500;
+    width: 200px;
+    box-shadow: 1px 3px 10px rgb(178, 173, 173);
+    display: none;
+}
+
+@media (max-width: 1300px) {
+    .product-section .wood .pop-right {
+        left: 270px;
+        width: 250px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .product-section .wood .pop-right {
+        left: 212px;
+    }
+}
+
+@media (max-width: 992px) {
+    .product-section .wood .pop-right {
+        left: 153px;
+    }
+}
+
+.product-section .pop-right-item {
+    padding: 1rem 1.2rem;
+    font-weight: 500;
+    font-size: 16px;
+    border: 4px solid #ffffff;
+    background-color: #ffffff;
+    transition: .3s all ease-out;
+}
+
+.product-section .nav-left-item.wood:hover .pop-right {
+    display: block;
+}
+
+.product-item {
     background-color: var(--primary-color-productbg);
     /*text-align: center;*/
     text-decoration: none;
@@ -1017,8 +1062,6 @@ a.more {
 
 .footer-section .subscription-form .form-control:active, .footer-section .subscription-form .form-control:focus {
     outline: none;
-    -webkit-box-shadow: none;
-    box-shadow: none;
     border-color: #3b5d50;
     -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
@@ -1155,12 +1198,14 @@ a.more {
     font-size: 16px;
 }
 
-.product-section .nav-left-item:hover {
+.product-section .nav-left-item:hover,
+.product-section .nav-left-item.wood .pop-right-item:hover {
     background: var(--primary-color-darkred);
     border: 4px solid var(--primary-color-darkyellow);
 }
 
-.product-section .nav-left-item:hover a {
+.product-section .nav-left-item:hover .nav-left-link,
+.product-section .nav-left-item.wood .pop-right-item:hover .pop-right-link {
     color: var(--primary-color-gray);
 }
 
@@ -1315,6 +1360,10 @@ textarea {
         right: 15px;
         bottom: 15px;
     }
+}
+
+.nav-left {
+    z-index: 100;
 }
 
 /* End Main Client */
