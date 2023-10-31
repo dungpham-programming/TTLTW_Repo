@@ -262,7 +262,7 @@ a.more {
 }
 
 .hero.shop {
-
+    background-image: url("../images/client_home/br1.jpg");
 }
 
 .hero.blog {
@@ -270,7 +270,7 @@ a.more {
 }
 
 .hero.contact {
-
+    background-image: url("../images/client_home/br22.jpg");
 }
 
 .hero.aboutus {
@@ -278,7 +278,7 @@ a.more {
 }
 
 .hero.cart {
-
+    background-image: url("../images/client_home/br3.jpg");
 }
 
 .hero .checkout {
