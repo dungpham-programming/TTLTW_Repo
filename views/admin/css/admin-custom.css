@@ -1,0 +1,106 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+:root {
+    --primary-color-darkyellow: #e3bd74;
+    --primary-color-gray: #f0f0f0;
+    --primary-color-darkred: #2a1710;
+    --primary-color-gray_alpha: rgba(240, 240, 240, .7);
+    --primary-color-darkyellow_alpha: rgba(232, 185, 73, .7);
+    --primary-color-productbg: #ffffff;
+    --primary-color-darkred_alpha: rgba(42, 23, 16, .8);
+    --primary-color-light_text: #868686;
+    --primary-color-cyan: #2266cb;
+}
+
+body {
+    font-family: Inter, sans-serif;
+}
+
+.logo {
+    color: var(--primary-color-darkyellow);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.logo:hover {
+    color: var(--primary-color-darkyellow);
+}
+
+.navbar-darkred {
+    background: var(--primary-color-darkred);
+}
+
+.gray {
+    color: var(--primary-color-gray) !important;
+}
+
+.gray-bg {
+    background: var(--primary-color-gray);
+}
+
+
+.sb-sidenav-dark .sb-sidenav-menu .nav-link.light-text,
+.light-text {
+    color: #aaaaaa;
+}
+
+.sb-sidenav-dark .sb-sidenav-menu .nav-link.light-text:hover {
+    color: var(--primary-color-gray);
+}
+
+.yellow-hv:hover,
+.yellow-hv:hover i,
+.yellow-active {
+    color: var(--primary-color-darkyellow) !important;
+}
+
+.hi-admin {
+    display: block;
+    padding: 0.25rem 1rem;
+    width: 100%;
+    white-space: nowrap;
+}
+
+.highlight-admin {
+    position: relative;
+    text-decoration: none;
+    color: var(--primary-color-darkyellow);
+}
+
+a.highlight-admin {
+    color: var(--primary-color-darkyellow);
+}
+
+.highlight-admin::after {
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    content: "";
+    display: block;
+    width: 0;
+    height: 2px;
+    background-color: var(--primary-color-darkyellow);
+    transition: .3s all ease-out;
+}
+
+.highlight-admin:hover::after {
+    width: 100%;
+}
+
+.dropdown-item.light-text {
+    transition: .3s all ease-out;
+}
+
+.dropdown-item.light-text:hover {
+    background-color: var(--primary-color-darkyellow);
+}
+
+#manageAccountTable {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid rgba(0, 0, 0, .25); /* Tạo đường kẻ xung quanh mỗi ô */
+    padding: 8px;
+    text-align: left;
+}
