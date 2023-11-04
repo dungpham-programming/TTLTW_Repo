@@ -27,12 +27,9 @@
                 <a class="nav-link dropdown yellow-hv" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
                    aria-expanded="false"><i class="fa-thin fa-user fa-lg" style="color: #f0f0f0;"></i></a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="#!">Settings</a></li>
-                    <li><a class="dropdown-item" href="#!">Activity Log</a></li>
-                    <li>
-                        <hr class="dropdown-divider"/>
-                    </li>
-                    <li><a class="dropdown-item" href="#!">Logout</a></li>
+                    <li><a class="dropdown-item" href="#!">Xin chào, quản trị viên!</a></li>
+                    <li><a class="dropdown-item" href="#!">Thông tin tài khoản</a></li>
+                    <li><a class="dropdown-item" href="#!">Đăng xuất</a></li>
                 </ul>
             </li>
         </ul>
@@ -51,19 +48,19 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Quản lý tài khoản
                         </a>
-                        <a class="nav-link light-text pt-3 pb-3" href="index.html">
+                        <a class="nav-link light-text pt-3 pb-3" href="#">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Quản lý sản phẩm
                         </a>
-                        <a class="nav-link light-text pt-3 pb-3" href="index.html">
+                        <a class="nav-link light-text pt-3 pb-3" href="#">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Quản lý đơn hàng
                         </a>
-                        <a class="nav-link light-text pt-3 pb-3" href="index.html">
+                        <a class="nav-link light-text pt-3 pb-3" href="#">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Quản lý tin tức
                         </a>
-                        <a class="nav-link light-text pt-3 pb-3" href="index.html">
+                        <a class="nav-link light-text pt-3 pb-3" href="#">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Quản lý phân quyền
                         </a>
@@ -83,10 +80,19 @@
                             <i class="fas fa-table me-1"></i>
                             Quản lý tài khoản
                         </div>
+                        <div class="list-button">
+                            <a href="#" data-bs-toggle="tooltip" title="Thêm tài khoản" class="add"><i class="fa-solid fa-plus" style="color: #e3bd74;"></i>Thêm tài khoản</a>
+                            <a href="#" data-bs-toggle="tooltip" title="Xóa tài khoản" class="add"><i class="fa-solid fa-trash" style="color: #e3bd74;"></i>Xóa tài khoản đã chọn</a>
+                        </div>
                         <div class="table-responsive">
                             <table id="manageAccountTable">
                                 <thead>
                                 <tr>
+                                    <th>
+                                        <label>
+                                            <input type="checkbox" name="deleteAll">
+                                        </label>
+                                    </th>
                                     <th>ID Tài khoản</th>
                                     <th>Email</th>
                                     <th>Mật khẩu</th>
@@ -100,10 +106,16 @@
                                     <th>Tạo bởi</th>
                                     <th>Sửa ngày</th>
                                     <th>Sửa bởi</th>
+                                    <th>Chức năng</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
+                                    <td>
+                                        <label>
+                                            <input type="checkbox" name="delete">
+                                        </label>
+                                    </td>
                                     <td>00101</td>
                                     <td>admin@test.com</td>
                                     <td>admin</td>
@@ -117,6 +129,9 @@
                                     <td>admin4</td>
                                     <td>null</td>
                                     <td>null</td>
+                                    <td>
+                                        <a href="#" data-bs-toggle="tooltip" title="Chỉnh sửa tài khoản" class="edit"><i class="fa-regular fa-pen-to-square" style="color: #e3bd74;"></i></a>
+                                    </td>
                                 </tr>
                                 </tbody>
                             </table>

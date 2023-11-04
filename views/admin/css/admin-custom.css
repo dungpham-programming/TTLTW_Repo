@@ -104,3 +104,28 @@ th, td {
     padding: 8px;
     text-align: left;
 }
+
+.list-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    padding: 1rem 0;
+}
+
+.edit, .add {
+    padding: .75rem;
+    border-radius: 3px;
+    background: var(--primary-color-darkred);
+    text-decoration: none;
+    color: var(--primary-color-darkyellow);
+    font-size: 14px;
+    margin-right: 3px;
+}
+
+.edit:hover, .add:hover {
+    color: var(--primary-color-darkyellow);
+}
+
+.list-button a svg {
+    margin-right: 4px;
+}
