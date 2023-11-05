@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DDD. Admin - Management Blog</title>
+
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/all.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/sharp-solid.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/sharp-regular.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/sharp-light.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/admin-custom.css">
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+</head>
+<body class="sb-nav-fixed">
+<nav class="sb-topnav navbar navbar-expand navbar-darkred">
+    <!-- Navbar Brand-->
+    <a class="navbar-brand ps-3 logo fs-4" href="index.html">DDD. Admin</a>
+    <!-- Sidebar Toggle-->
+    <button class="btn btn-lg yellow-hv gray order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
+            class="fas fa-bars"></i></button>
+    <ul class="navbar-nav ms-auto me-3 me-lg-4">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown yellow-hv" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+               aria-expanded="false"><i class="fa-thin fa-user fa-lg" style="color: #f0f0f0;"></i></a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="#!">Xin chào, quản trị viên!</a></li>
+                <li><a class="dropdown-item" href="#!">Thông tin tài khoản</a></li>
+                <li><a class="dropdown-item" href="#!">Đăng xuất</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav">
+        <nav class="sb-sidenav accordion sb-sidenav-dark navbar-darkred mt-3" id="sidenavAccordion">
+            <div class="sb-sidenav-menu">
+                <div class="nav">
+                    <div class="sb-sidenav-menu-heading gray">Quản trị viên</div>
+                    <a class="nav-link pt-3 pb-3" href="index.html">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Trang chủ
+                    </a>
+                    <a class="nav-link light-text pt-3 pb-3 " href="manage-account.html">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Quản lý tài khoản
+                    </a>
+                    <a class="nav-link light-text pt-3 pb-3 " href="management-product.html">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Quản lý sản phẩm
+                    </a>
+                    <a class="nav-link light-text pt-3 pb-3 " href="management-order.html">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Quản lý đơn hàng
+                    </a>
+                    <a class="nav-link light-text pt-3 pb-3 yellow-active" href="management-blog.html">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Quản lý tin tức
+                    </a>
+                    <a class="nav-link light-text pt-3 pb-3" href="management-role.html">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Quản lý phân quyền
+                    </a>
+                </div>
+            </div>
+            <div class="sb-sidenav-footer">
+                <div class="small">Logged in as:</div>
+                Start Bootstrap
+            </div>
+        </nav>
+    </div>
+    <div id="layoutSidenav_content" class="gray-bg">
+        <main>
+            <div class="container-fluid px-4">
+                <div class="card mb-4 mt-4">
+                    <div class="card-header">
+                        <i class="fas fa-table me-1"></i>
+                        Quản lý tin tức
+                    </div>
+                    <div class="list-button">
+                        <a href="#" data-bs-toggle="tooltip" title="Thêm tài khoản" class="add"><i class="fa-solid fa-plus" style="color: #e3bd74;"></i>Thêm tài khoản</a>
+                        <a href="#" data-bs-toggle="tooltip" title="Xóa tài khoản" class="add"><i class="fa-solid fa-trash" style="color: #e3bd74;"></i>Xóa tài khoản đã chọn</a>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="manageAccountTable">
+                            <thead>
+                            <tr>
+                                <th>
+                                    <label>
+                                        <input type="checkbox" name="deleteAll">
+                                    </label>
+                                </th>
+                                <th>ID Tin tức</th>
+                                <th>Tiêu đề</th>
+                                <th>Mô tả</th>
+                                <th>Nội dung</th>
+                                <th>Mã Loại</th>
+                                <th>Tạo ngày</th>
+                                <th>Tạo bởi</th>
+                                <th>Sửa ngày</th>
+                                <th>Sửa bởi</th>
+                                <th>Chức năng</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <label>
+                                        <input type="checkbox" name="delete">
+                                    </label>
+                                </td>
+                                <th>210001</th>
+                                <th>4 kiểu túi xách cói đẹp dành cho những ngày hè rực rỡ</th>
+                                <th>hè đã đến tới mông rồi, bạn đã chuẩn bị thời trang cho những ngày này chưa? Nếu bạn đã chuẩn bị sẵn sàng rồi thì còn túi xách như thế nào? Đã chọn được item nào ưng ý chưa? Nếu bạn còn đang băn khoăn thì các nàng phải tham khảo 4 kiểu túi xách cói xinh xắn được gợi ý dưới đây nhé.</th>
+                                <th>Túi cói là gì?
+                                    Túi cói là túi xách được làm từ 100% chât liệu thiên nhiên như cói, nan tre, mây, và các sợi nhựa,…. Chúng kết hợp lại với nhau tạo thành một sản phẩm túi xách thân thiện với môi trường. Đặc tính quan trọng của túi cói là em nó rất nhẹ và bền, nên chúng ta có thể đựng nhiều đồ linh tinh mà không sợ bị hư nhá.
+                                    Có nhiều kiểu đan khác nhau nên túi cói rất đa dạng, thêm vào đó, để cho túi coi thêm nổi bật, em nó sẽ được mặc thêm một lớp áo hoa văn đầy tinh tế, và được trang trí thêm bởi các phụ kiển mini dễ thương khác. Tùy vào nhu cầu và sở thích, các nàng có thể lựa chọn cho mình túi cói phù hợp với phong cách của mình.
+                                    Từ phong cách streetstyle đến phong cách bánh bèo vô dụng, thì túi cói vẫn là 1 trong những phụ kiện lựa chọn hàng đầu.</th>
+                                <td>10001</td>
+                                <td>03/11/2023</td>
+                                <td>client1</td>
+                                <td>null</td>
+                                <td>null</td>
+                                <td>
+                                    <a href="#" data-bs-toggle="tooltip" title="Chỉnh sửa tài khoản" class="edit"><i class="fa-regular fa-pen-to-square" style="color: #e3bd74;"></i></a>
+                                </td>
+                            </tr>
+                            </tbody>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <label>
+                                        <input type="checkbox" name="delete">
+                                    </label>
+                                </td>
+                                <th>210002</th>
+                                <th>Thị trường hàng thủ công từ cây lục bình chưa bao giờ hết hot</th>
+                                <th>Người dân miền tây đã từng đau đầu với giống cây lục bình này, vì nó sinh sản khá nhanh, làm ảnh hưởng đến các sinh vật sống gần nó và làm tắc nghẽn sự lưu thông của người dân trên sông. Nhưng giờ đây nó đã trở thành vị cứu tính của người dân nghèo miền tây.</th>
+                                <th>Lục bình trở thành nguyên liệu chính cho các sản phẩm thủ công độc đáo.
+                                    Không biết cây lục bình có nguồn gốc từ đâu, và có tự bao giờ. Nhưng bất cứ người dân miền tây sông nước nào đều lớn lên cùng với loại cây lục bình này.
+                                    Cây lục bình có đặc tính là sinh sản rất nhanh, nên chúng gây ảnh hưởng đến hệ sinh thái sinh vật sống dưới nước, làm tắc nghẽn các dòng chảy của các con sông và gây khó khăn cho việc đánh bắt thủy hải sản của người dân.
+                                    Thế là các sản phẩm đơn giản được ra đời như: quạt lục bình, giỏ xách lục bình đi chợ, nón lục bình,… . Do nghề đan lục bình còn mới, nên sản phẩm còn kém phần tinh tế và đẹp. Không phát triển được trên thị trường toàn quốc. Nhưng bước đầu giải quyết được vấn nạn cây lục bình này.
+                                </th>
+                                <td>10002</td>
+                                <td>03/11/2023</td>
+                                <td>client2</td>
+                                <td>null</td>
+                                <td>null</td>
+                                <td>
+                                    <a href="#" data-bs-toggle="tooltip" title="Chỉnh sửa tài khoản" class="edit"><i class="fa-regular fa-pen-to-square" style="color: #e3bd74;"></i></a>
+                                </td>
+                            </tr>
+                            </tbody>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <label>
+                                        <input type="checkbox" name="delete">
+                                    </label>
+                                </td>
+                                <th>210003</th>
+                                <th>Những điều bạn chưa biết về đồ thủ công mỹ nghệ Việt Nam</th>
+                                <th>Việt Nam là một đất nước giàu sản phẩm thủ công mỹ nghệ, nhờ đức tính cần cù, khéo léo và sáng tạo của người Việt Nam. Từ rất lâu, các sản phẩm thủ công mỹ nghệ đã là nguồn tự hào văn hóa và là nguồn thu nhập của người dân Việt Nam.</th>
+                                <th>Sự hình thành của đồ thủ công mỹ nghệ
+                                    Ở Việt Nam ngành thủ công mỹ nghệ bắt đầu từ làng nghề và kết thúc với thị trường xuất khẩu bao gồm các nghệ nhân, thợ thủ công, công ty xuất khẩu hàng thủ công mỹ nghệ Việt Nam và chính phủ Việt Nam.
+                                    Nghệ nhân và thợ thủ công là những người sản xuất sản phẩm. Các nghệ nhân tạo ra đồ thủ công mỹ nghệ và đồ nội thất tại ngôi làng họ sinh sống, bằng nguồn cung cấp địa phương, họ duy trì ngành công nghiệp này hơn một nghìn năm. Đồ thủ công thường do một làng làm.
+                                    Những người không thường xuyên lao động chân tay trên các lĩnh vực hỗ trợ trực tiếp hoặc gián tiếp cho việc sản xuất hàng thủ công như: thu gom nguyên vật liệu, vận chuyển nguyên liệu thô hoặc thành phẩm đến nơi. Sau đó, các công ty xuất khẩu hàng thủ công mỹ nghệ chịu trách nhiệm tiếp thị sản phẩm trên toàn thế giới với sự giúp đỡ của chính phủ Việt Nam.
+                                    Có thể nói, chính phủ Việt Nam cùng với các quy định về xuất khẩu hàng thủ công mỹ nghệ đóng một vai trò quan trọng. Vì vậy, việc phân phối phải kết hợp với nhau để đạt được thành công. Ngoài ra, để thành công cần phải có nhiều nghệ nhân, thợ thủ công và đạt doanh thu xuất khẩu cao hơn.
+                                </th>
+                                <td>10003</td>
+                                <td>03/11/2023</td>
+                                <td>client3</td>
+                                <td>null</td>
+                                <td>null</td>
+                                <td>
+                                    <a href="#" data-bs-toggle="tooltip" title="Chỉnh sửa tài khoản" class="edit"><i class="fa-regular fa-pen-to-square" style="color: #e3bd74;"></i></a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+<script src="js/scripts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+<script src="assets/demo/chart-area-demo.js"></script>
+<script src="assets/demo/chart-bar-demo.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+        crossorigin="anonymous"></script>
+<script src="js/datatables-simple-demo.js"></script>
+</body>
+</html>
