@@ -300,6 +300,7 @@ a.more {
     .hero.home, .hero.shop, .hero.blog, .hero.contact,
     .hero.aboutus, .hero.cart, .hero.checkout, .hero.thankyou {
         padding: calc(8rem - 30px) 0 8rem 0;
+
     }
 }
 
