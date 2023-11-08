@@ -73,7 +73,7 @@
 })()
 
 // Dung Pham
-// Thay đổi tiêu đề
+// Thay đổi tiêu đề (Footer)
 let p_tag = document.getElementById("mxh-changing");
 let maxWidth = 768;
 
@@ -89,7 +89,7 @@ checkScreen();
 window.addEventListener("resize", checkScreen);
 
 let button = document.getElementById("scroll-to-top");
-// Scroll to top
+// Scroll to top (button)
 window.onscroll = function scrollToTop() {
     (document.body.scrollTop > 150 || document.documentElement.scrollTop > 150) ? (button.style.display = "block") : (button.style.display = "none");
 }
@@ -98,7 +98,7 @@ button.addEventListener("click", function () {
     document.documentElement.scrollTop = 0;
 });
 
-// Thay đổi màu khi click button
+// Thay đổi màu khi click button (Trong product-detail.html)
 function changeColor(list) {
     for (let i = 0; i < list.length; i++) {
         // Thêm event cho các button
@@ -107,7 +107,7 @@ function changeColor(list) {
                 // Xóa toàn bộ lớp được chọn (Để reset trạng thái)
                 list[j].classList.remove("darkred-active");
             }
-            // Sau đó, thêm lớp được chọn vào nút ừa click
+            // Sau đó, thêm lớp được chọn vào nút vừa click
             this.classList.add("darkred-active");
         });
     }
@@ -143,5 +143,4 @@ const btnBack = document.getElementById("btn-back");
 const listBtn = document.getElementsByClassName("back")
 checkScreenToArrangeBtn(btnBack)
 modifyTagBaseOnWidth(listBtn)
-
 

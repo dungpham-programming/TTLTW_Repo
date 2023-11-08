@@ -38,6 +38,11 @@ a.more {
     font-weight: 600;
 }
 
+hr {
+    color: var(--primary-color-darkred);
+    margin: 20px 0;
+}
+
 .light-text {
     color: var(--primary-color-light_text) !important;
 }
@@ -70,7 +75,7 @@ a.more {
     background: var(--primary-color-darkred) !important;
     padding-top: 20px;
     padding-bottom: 20px;
-    z-index: 100;
+    z-index: 500;
 }
 
 .custom-navbar .navbar-brand {
@@ -453,7 +458,7 @@ a.more {
     background: var(--primary-color-gray);
 }
 
-.product-section .wood .pop-right {
+.product-section .pop-right {
     list-style-type: none;
     padding: 0;
     margin: 0;
@@ -467,26 +472,25 @@ a.more {
 }
 
 @media (max-width: 1300px) {
-    .product-section .wood .pop-right {
+    .product-section .pop-right {
         left: 257px;
         width: 250px;
     }
 }
 
 @media (max-width: 1200px) {
-    .product-section .wood .pop-right {
+    .product-section .pop-right {
         left: 212px;
     }
 }
 
 @media (max-width: 992px) {
-    .product-section .wood .pop-right {
+    .product-section .pop-right {
         left: 153px;
     }
 }
 
 .product-section .pop-right-item {
-    padding: 1rem 1.2rem;
     font-weight: 500;
     font-size: 16px;
     border: 4px solid #ffffff;
@@ -494,17 +498,21 @@ a.more {
     transition: .3s all ease-out;
 }
 
-.product-section .nav-left-item.wood:hover .pop-right {
+.product-section .pop-right-item .pop-right-link {
+    padding: 1rem 1.2rem;
+    display: block;
+}
+
+.product-section .nav-left-item:hover .pop-right {
     display: block;
 }
 
 .product-item {
     background-color: var(--primary-color-productbg);
-    /*text-align: center;*/
     text-decoration: none;
     display: block;
     position: relative;
-    padding: 35px 10px 75px;
+    padding: 25px 10px 50px;
     cursor: pointer;
     z-index: 2;
     border: 2px solid var(--primary-color-darkred);
@@ -1230,6 +1238,7 @@ a.more {
     position: sticky;
     /* Khoảng cách của position: fixed của navtop là 84px + cách 16px so với navtop */
     top: 100px;
+    z-index: 200;
 }
 
 .product-section .nav-left-title {
@@ -1248,7 +1257,7 @@ a.more {
 }
 
 .product-section .nav-left-item {
-    padding: 1rem 1.2rem;
+
     background: #ffffff;
     transition: .3s all ease-out;
     border: 4px solid #ffffff;
@@ -1257,21 +1266,23 @@ a.more {
 .product-section .nav-left-item .nav-left-link {
     font-weight: 500;
     font-size: 16px;
+    padding: 1rem 1.2rem;
+    display: block;
 }
 
-.product-section .nav-left-item.nav-left-active .nav-left-link {
+.product-section .nav-left-item .nav-left-link.nav-left-active {
     color: var(--primary-color-gray);
 }
 
 .product-section .nav-left-item:hover,
-.product-section .nav-left-item.wood .pop-right-item:hover,
-.product-section .nav-left-item.nav-left-active {
+.product-section .nav-left-item .pop-right-item:hover,
+.product-section .nav-left-item.wood {
     background: var(--primary-color-darkred);
     border: 4px solid var(--primary-color-darkyellow);
 }
 
 .product-section .nav-left-item:hover .nav-left-link,
-.product-section .nav-left-item.wood .pop-right-item:hover .pop-right-link {
+.product-section .nav-left-item .pop-right-item:hover .pop-right-link {
     color: var(--primary-color-gray);
 }
 
@@ -1401,8 +1412,8 @@ textarea {
 }
 
 #scroll-to-top {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     position: fixed;
     right: 10px;
     bottom: 10px;
@@ -1860,3 +1871,5 @@ p, dd {
 
 /* End Product Detail */
 
+/* Start Category Type */
+/* End Category Type */
