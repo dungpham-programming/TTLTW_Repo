@@ -60,9 +60,9 @@
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Quản lý tin tức
                     </a>
-                    <a class="nav-link light-text pt-3 pb-3 yellow-active" href="management-role.html">
+                    <a class="nav-link light-text pt-3 pb-3 yellow-active" href="management-contact.html">
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                        Quản lý phân quyền
+                        Quản lý liên hệ
                     </a>
                 </div>
             </div>
@@ -81,8 +81,10 @@
                         Quản lý phân quyền
                     </div>
                     <div class="list-button">
-                        <a href="#" data-bs-toggle="tooltip" title="Thêm tài khoản" class="add"><i class="fa-solid fa-plus" style="color: #e3bd74;"></i>Thêm tài khoản</a>
-                        <a href="#" data-bs-toggle="tooltip" title="Xóa tài khoản" class="add"><i class="fa-solid fa-trash" style="color: #e3bd74;"></i>Xóa tài khoản đã chọn</a>
+                        <a href="#" data-bs-toggle="tooltip" title="Thêm liên hệ" class="add"><i
+                                class="fa-solid fa-plus" style="color: #e3bd74;"></i>Thêm liên hệ</a>
+                        <a href="#" data-bs-toggle="tooltip" title="Xóa liên hệ" class="add"><i
+                                class="fa-solid fa-trash" style="color: #e3bd74;"></i>Xóa liên hệ đã chọn</a>
                     </div>
                     <div class="table-responsive">
                         <table id="manageAccountTable">
@@ -93,13 +95,15 @@
                                         <input type="checkbox" name="deleteAll">
                                     </label>
                                 </th>
-                                <th>ID Phân quyền</th>
-                                <th>Tên vai trò</th>
-                                <th>Mô tả</th>
+                                <th>ID Tài khoản</th>
+                                <th>Email</th>
+                                <th>Tiêu đề</th>
+                                <th>Tin nhắn</th>
                                 <th>Trạng thái</th>
-                                <th>Sửa tại</th>
-                                <th>Tạo tại</th>
-                                <th>Chức năng</th>
+                                <th>Tạo ngày</th>
+                                <th>Tạo bởi</th>
+                                <th>Sửa ngày</th>
+                                <th>Sửa bởi</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -109,50 +113,22 @@
                                         <input type="checkbox" name="delete">
                                     </label>
                                 </td>
-                                <th>101011</th>
-                                <th>Quản lý</th>
-                                <th>null</th>
-                                <th>null</th>
+                                <td>00109</td>
+                                <td>client@test.com</td>
+                                <td>Hỏi về DDD</td>
+                                <td>Lorem ipsum dolor sit amet. Ut similique omnis in sequi molestias et dolorem accusantium rem vitae consequatur ut modi consectetur! Ea magni omnis non eius consequatur et magni ipsam sit consequuntur aliquid vel explicabo officiis nam omnis officia. Ut consectetur iste non reprehenderit asperiores in cumque dolorum ab omnis labore eum quaerat quis aut fugiat saepe? Ad consequatur ullam ut laboriosam ipsa qui aperiam accusamus qui neque iure cum nihil doloribus!
+
+                                    Et voluptas possimus rem saepe velit et neque optio sed illum architecto eum molestiae odio ut quae harum qui galisum quod. Et amet corrupti est dolorem magnam in mollitia sunt hic impedit perspiciatis aut dolore iusto non voluptates sapiente. Ex eveniet sint et incidunt asperiores et molestias quas.
+
+                                    Quo molestiae minus est dolores alias in galisum autem ut blanditiis quisquam et soluta corporis rem asperiores consequatur? Sed tempora repudiandae quo voluptatibus voluptatibus qui incidunt omnis?</td>
+                                <td>Đã phản hồi</td>
+                                <td>23/7/2023</td>
+                                <td>cli</td>
                                 <td>null</td>
                                 <td>null</td>
                                 <td>
-                                    <a href="#" data-bs-toggle="tooltip" title="Chỉnh sửa tài khoản" class="edit"><i class="fa-regular fa-pen-to-square" style="color: #e3bd74;"></i></a>
-                                </td>
-                            </tr>
-                            </tbody>
-                            <tbody>
-                            <tr>
-                                <td>
-                                    <label>
-                                        <input type="checkbox" name="delete">
-                                    </label>
-                                </td>
-                                <th>101012</th>
-                                <th>Nhân viên 1</th>
-                                <th>null</th>
-                                <th>null</th>
-                                <td>null</td>
-                                <td>null</td>
-                                <td>
-                                    <a href="#" data-bs-toggle="tooltip" title="Chỉnh sửa tài khoản" class="edit"><i class="fa-regular fa-pen-to-square" style="color: #e3bd74;"></i></a>
-                                </td>
-                            </tr>
-                            </tbody>
-                            <tbody>
-                            <tr>
-                                <td>
-                                    <label>
-                                        <input type="checkbox" name="delete">
-                                    </label>
-                                </td>
-                                <th>101013</th>
-                                <th>Nhân viên 2</th>
-                                <th>null</th>
-                                <th>null</th>
-                                <td>null</td>
-                                <td>null</td>
-                                <td>
-                                    <a href="#" data-bs-toggle="tooltip" title="Chỉnh sửa tài khoản" class="edit"><i class="fa-regular fa-pen-to-square" style="color: #e3bd74;"></i></a>
+                                    <a href="#" data-bs-toggle="tooltip" title="Chỉnh sửa liên hệ" class="edit"><i
+                                            class="fa-regular fa-pen-to-square" style="color: #e3bd74;"></i></a>
                                 </td>
                             </tr>
                             </tbody>
@@ -175,3 +151,77 @@
 <script src="js/datatables-simple-demo.js"></script>
 </body>
 </html>
+
+<thead>
+<tr>
+    <th>
+        <label>
+            <input type="checkbox" name="deleteAll">
+        </label>
+    </th>
+    <th>ID Phân quyền</th>
+    <th>Tên vai trò</th>
+    <th>Mô tả</th>
+    <th>Trạng thái</th>
+    <th>Sửa tại</th>
+    <th>Tạo tại</th>
+    <th>Chức năng</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <td>
+        <label>
+            <input type="checkbox" name="delete">
+        </label>
+    </td>
+    <th>101011</th>
+    <th>Quản lý</th>
+    <th>null</th>
+    <th>null</th>
+    <td>null</td>
+    <td>null</td>
+    <td>
+        <a href="#" data-bs-toggle="tooltip" title="Chỉnh sửa tài khoản" class="edit"><i
+                class="fa-regular fa-pen-to-square" style="color: #e3bd74;"></i></a>
+    </td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+    <td>
+        <label>
+            <input type="checkbox" name="delete">
+        </label>
+    </td>
+    <th>101012</th>
+    <th>Nhân viên 1</th>
+    <th>null</th>
+    <th>null</th>
+    <td>null</td>
+    <td>null</td>
+    <td>
+        <a href="#" data-bs-toggle="tooltip" title="Chỉnh sửa tài khoản" class="edit"><i
+                class="fa-regular fa-pen-to-square" style="color: #e3bd74;"></i></a>
+    </td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+    <td>
+        <label>
+            <input type="checkbox" name="delete">
+        </label>
+    </td>
+    <th>101013</th>
+    <th>Nhân viên 2</th>
+    <th>null</th>
+    <th>null</th>
+    <td>null</td>
+    <td>null</td>
+    <td>
+        <a href="#" data-bs-toggle="tooltip" title="Chỉnh sửa tài khoản" class="edit"><i
+                class="fa-regular fa-pen-to-square" style="color: #e3bd74;"></i></a>
+    </td>
+</tr>
+</tbody>

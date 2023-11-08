@@ -13,6 +13,7 @@
 
 body {
     font-family: Inter, sans-serif;
+    font-size: 14px;
 }
 
 .logo {
@@ -113,7 +114,7 @@ th, td {
 }
 
 .edit, .add {
-    padding: .75rem;
+    padding: .65rem;
     border-radius: 3px;
     background: var(--primary-color-darkred);
     text-decoration: none;
@@ -128,4 +129,35 @@ th, td {
 
 .list-button a svg {
     margin-right: 4px;
+}
+
+.to-manage-link {
+    display: inline-block;
+    color: var(--primary-color-gray);
+    background-color: var(--primary-color-darkred);
+    margin-top: .5rem;
+    padding: .75rem .5rem;
+    text-decoration: none;
+    border: 2px solid var(--primary-color-darkred);
+    transition: .15s all ease-out;
+}
+
+.to-manage-link:hover {
+    color: var(--primary-color-darkyellow);
+}
+
+.card-body h6 {
+    margin-bottom: 14px;
+}
+
+.card-body h6.missing-1-row {
+    margin-bottom: 47px;
+}
+
+.card-body h6.missing-2-row {
+    margin-bottom: 80px;
+}
+
+td {
+    font-weight: 400;
 }
