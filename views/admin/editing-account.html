@@ -74,6 +74,10 @@
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Kiểm tra chi tiết đơn hàng
                     </a>
+                    <a class="nav-link light-text pt-3 pb-3" href="order-detail.html">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Kiểm tra chi tiết đơn hàng
+                    </a>
                 </div>
             </div>
             <div class="sb-sidenav-footer">
@@ -85,70 +89,64 @@
     <div id="layoutSidenav_content" class="gray-bg">
         <main>
             <div class="container-fluid px-4">
-                <h1 class="mt-4">Thêm tài khoản</h1>
+                <h1 class="mt-4">Chỉnh sửa tài khoản</h1>
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item active">DDD. Administrator</li>
                 </ol>
                 <form action="#" method="post">
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-12">
                             <label for="username">Tên tài khoản</label>
-                            <input type="text" id="username" name="username" required>
-                        </div>
-
-                        <div class="col-6">
-                            <label for="password">Mật khẩu</label>
-                            <input type="password" id="password" name="password" required>
+                            <input type="text" id="username" name="username" value="admintest" disabled>
                         </div>
 
                         <div class="col-3">
                             <label for="firstName">Họ</label>
-                            <input type="text" id="firstName" name="firstName" required>
+                            <input type="text" id="firstName" name="firstName" value="Pham" disabled>
                         </div>
 
                         <div class="col-3">
                             <label for="lastName">Tên</label>
-                            <input type="text" id="lastName" name="lastName" required>
+                            <input type="text" id="lastName" name="lastName" value="Minh Dung" disabled>
                         </div>
 
                         <div class="col-3">
                             <label for="email">Email</label>
-                            <input type="email" id="email" name="email" required>
+                            <input type="email" id="email" name="email" value="admin@test.com" disabled>
                         </div>
 
                         <div class="col-2">
                             <label for="roleID">Mã phân quyền</label>
-                            <input type="text" id="roleID" name="roleID" required>
+                            <input type="text" id="roleID" name="roleID" value="001" disabled>
                         </div>
 
                         <div class="col-1">
                             <label for="status">Trạng thái</label>
-                            <input type="text" id="status" name="status" required>
+                            <input type="text" id="status" name="status" value="Hoạt động" required>
                         </div>
 
                         <div class="col-12">
                             <label for="addressLine">Số nhà/Tên đường</label>
-                            <input type="text" id="addressLine" name="addressLine">
+                            <input type="text" id="addressLine" name="addressLine" value="Đường NAQ" disabled>
                         </div>
 
                         <div class="col-12">
                             <label for="addressWard">Phường/Xã</label>
-                            <input type="text" id="addressWard" name="addressWard">
+                            <input type="text" id="addressWard" name="addressWard" value="Phường Klfa" disabled>
                         </div>
 
                         <div class="col-12">
                             <label for="addressDistrict">Quận/Huyện</label>
-                            <input type="text" id="addressDistrict" name="addressDistrict">
+                            <input type="text" id="addressDistrict" name="addressDistrict" value="BH" disabled>
                         </div>
 
                         <div class="col-12">
                             <label for="addressProvince">Tỉnh/Thành phố</label>
-                            <input type="text" id="addressProvince" name="addressProvince">
+                            <input type="text" id="addressProvince" name="addressProvince" value="Đồng Nai" disabled>
                         </div>
                     </div>
 
-                    <input type="submit" value="Thêm tài khoản" class="adding button">
-                    <input type="reset" value="Đặt lại biểu mẫu" class="adding button">
+                    <input type="submit" value="Chỉnh sửa tài khoản" class="adding button">
                     <a href="manage-account.html">Quay về trang quản lý</a>
                     <a href="index.html">Quay về trang chủ</a>
                 </form>

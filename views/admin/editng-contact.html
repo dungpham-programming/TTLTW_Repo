@@ -46,7 +46,7 @@
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Trang chủ
                     </a>
-                    <a class="nav-link light-text pt-3 pb-3 yellow-active" href="manage-account.html">
+                    <a class="nav-link light-text pt-3 pb-3" href="manage-account.html">
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Quản lý tài khoản
                     </a>
@@ -62,7 +62,7 @@
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Quản lý tin tức
                     </a>
-                    <a class="nav-link light-text pt-3 pb-3" href="management-contact.html">
+                    <a class="nav-link light-text pt-3 pb-3 yellow-active" href="management-contact.html">
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Quản lý liên hệ
                     </a>
@@ -85,71 +85,41 @@
     <div id="layoutSidenav_content" class="gray-bg">
         <main>
             <div class="container-fluid px-4">
-                <h1 class="mt-4">Thêm tài khoản</h1>
+                <h1 class="mt-4">Chỉnh sửa liên hệ</h1>
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item active">DDD. Administrator</li>
                 </ol>
                 <form action="#" method="post">
                     <div class="row">
-                        <div class="col-6">
-                            <label for="username">Tên tài khoản</label>
-                            <input type="text" id="username" name="username" required>
-                        </div>
-
-                        <div class="col-6">
-                            <label for="password">Mật khẩu</label>
-                            <input type="password" id="password" name="password" required>
-                        </div>
-
-                        <div class="col-3">
-                            <label for="firstName">Họ</label>
-                            <input type="text" id="firstName" name="firstName" required>
-                        </div>
-
-                        <div class="col-3">
-                            <label for="lastName">Tên</label>
-                            <input type="text" id="lastName" name="lastName" required>
-                        </div>
-
-                        <div class="col-3">
+                        <div class="col-12">
                             <label for="email">Email</label>
-                            <input type="email" id="email" name="email" required>
+                            <input type="text" id="email" name="email" value="client@test.com" disabled>
                         </div>
 
-                        <div class="col-2">
-                            <label for="roleID">Mã phân quyền</label>
-                            <input type="text" id="roleID" name="roleID" required>
+                        <div class="col-12">
+                            <label for="title">Tiêu đề</label>
+                            <input type="text" id="title" name="title" value="Hỏi về DDD." disabled>
                         </div>
 
-                        <div class="col-1">
+                        <div class="col-12">
+                            <label for="message">Tin nhắn</label>
+                            <textarea id="message" name="message" disabled>
+Lorem ipsum dolor sit amet. Ut similique omnis in sequi molestias et dolorem accusantium rem vitae consequatur ut modi consectetur! Ea magni omnis non eius consequatur et magni ipsam sit consequuntur aliquid vel explicabo officiis nam omnis officia. Ut consectetur iste non reprehenderit asperiores in cumque dolorum ab omnis labore eum quaerat quis aut fugiat saepe? Ad consequatur ullam ut laboriosam ipsa qui aperiam accusamus qui neque iure cum nihil doloribus!
+
+Et voluptas possimus rem saepe velit et neque optio sed illum architecto eum molestiae odio ut quae harum qui galisum quod. Et amet corrupti est dolorem magnam in mollitia sunt hic impedit perspiciatis aut dolore iusto non voluptates sapiente. Ex eveniet sint et incidunt asperiores et molestias quas.
+
+Quo molestiae minus est dolores alias in galisum autem ut blanditiis quisquam et soluta corporis rem asperiores consequatur? Sed tempora repudiandae quo voluptatibus voluptatibus qui incidunt omnis?</textarea>
+                        </div>
+
+                        <div class="col-12">
                             <label for="status">Trạng thái</label>
-                            <input type="text" id="status" name="status" required>
-                        </div>
-
-                        <div class="col-12">
-                            <label for="addressLine">Số nhà/Tên đường</label>
-                            <input type="text" id="addressLine" name="addressLine">
-                        </div>
-
-                        <div class="col-12">
-                            <label for="addressWard">Phường/Xã</label>
-                            <input type="text" id="addressWard" name="addressWard">
-                        </div>
-
-                        <div class="col-12">
-                            <label for="addressDistrict">Quận/Huyện</label>
-                            <input type="text" id="addressDistrict" name="addressDistrict">
-                        </div>
-
-                        <div class="col-12">
-                            <label for="addressProvince">Tỉnh/Thành phố</label>
-                            <input type="text" id="addressProvince" name="addressProvince">
+                            <input type="text" id="status" name="status" value="Đã phản hồi" required>
                         </div>
                     </div>
 
-                    <input type="submit" value="Thêm tài khoản" class="adding button">
+                    <input type="submit" value="Thêm sản phẩm" class="adding button">
                     <input type="reset" value="Đặt lại biểu mẫu" class="adding button">
-                    <a href="manage-account.html">Quay về trang quản lý</a>
+                    <a href="management-product.html">Quay về trang quản lý</a>
                     <a href="index.html">Quay về trang chủ</a>
                 </form>
             </div>

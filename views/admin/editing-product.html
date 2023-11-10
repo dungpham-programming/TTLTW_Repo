@@ -46,11 +46,11 @@
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Trang chủ
                     </a>
-                    <a class="nav-link light-text pt-3 pb-3 yellow-active" href="manage-account.html">
+                    <a class="nav-link light-text pt-3 pb-3" href="manage-account.html">
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Quản lý tài khoản
                     </a>
-                    <a class="nav-link light-text pt-3 pb-3" href="management-product.html">
+                    <a class="nav-link light-text pt-3 pb-3 yellow-active" href="management-product.html">
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Quản lý sản phẩm
                     </a>
@@ -85,71 +85,55 @@
     <div id="layoutSidenav_content" class="gray-bg">
         <main>
             <div class="container-fluid px-4">
-                <h1 class="mt-4">Thêm tài khoản</h1>
+                <h1 class="mt-4">Chỉnh sửa sản phẩm</h1>
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item active">DDD. Administrator</li>
                 </ol>
                 <form action="#" method="post">
                     <div class="row">
-                        <div class="col-6">
-                            <label for="username">Tên tài khoản</label>
-                            <input type="text" id="username" name="username" required>
-                        </div>
-
-                        <div class="col-6">
-                            <label for="password">Mật khẩu</label>
-                            <input type="password" id="password" name="password" required>
+                        <div class="col-12">
+                            <label for="productName">Tên sản phẩm</label>
+                            <input type="text" id="productName" name="productName" value="Túi sen" required>
                         </div>
 
                         <div class="col-3">
-                            <label for="firstName">Họ</label>
-                            <input type="text" id="firstName" name="firstName" required>
+                            <label for="originalPrice">Giá gốc</label>
+                            <input type="text" id="originalPrice" name="originalPrice" value="500.000" required>
                         </div>
 
                         <div class="col-3">
-                            <label for="lastName">Tên</label>
-                            <input type="text" id="lastName" name="lastName" required>
+                            <label for="discountPrice">Giá giảm</label>
+                            <input type="text" id="discountPrice" name="discountPrice" value="450.000">
                         </div>
 
                         <div class="col-3">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" required>
+                            <label for="quantity">Số lượng còn</label>
+                            <input type="text" id="quantity" name="quantity" value="150">
                         </div>
 
                         <div class="col-2">
-                            <label for="roleID">Mã phân quyền</label>
-                            <input type="text" id="roleID" name="roleID" required>
+                            <label for="categoryTypeID">Mã phân loại sản phẩm</label>
+                            <input type="text" id="categoryTypeID" name="categoryTypeID" value="00003" required>
                         </div>
 
                         <div class="col-1">
                             <label for="status">Trạng thái</label>
-                            <input type="text" id="status" name="status" required>
+                            <input type="text" id="status" name="status" value="Còn hàng" required>
                         </div>
 
                         <div class="col-12">
-                            <label for="addressLine">Số nhà/Tên đường</label>
-                            <input type="text" id="addressLine" name="addressLine">
-                        </div>
-
-                        <div class="col-12">
-                            <label for="addressWard">Phường/Xã</label>
-                            <input type="text" id="addressWard" name="addressWard">
-                        </div>
-
-                        <div class="col-12">
-                            <label for="addressDistrict">Quận/Huyện</label>
-                            <input type="text" id="addressDistrict" name="addressDistrict">
-                        </div>
-
-                        <div class="col-12">
-                            <label for="addressProvince">Tỉnh/Thành phố</label>
-                            <input type="text" id="addressProvince" name="addressProvince">
+                            <label for="description">Mô tả</label>
+                            <textarea name="description" id="description">Làm từ chất liệu cỏ bàng tự nhiên, túi này là biểu tượng của sự bền vững và sáng tạo.
+Thiết kế đơn giản nhưng tinh tế, túi cỏ bàng mang lại không gian rộng rãi và thoải mái cho đồ đạc cá nhân.
+Dây đeo êm ái, làn da tự nhiên, và hoa văn tự nhiên tạo nên sự duyên dáng.
+Sự giao thoa giữa thiên nhiên và thời trang, túi cỏ bàng là sự lựa chọn độc đáo cho những ai yêu thích phong cách eco-friendly
+                            </textarea>
                         </div>
                     </div>
 
-                    <input type="submit" value="Thêm tài khoản" class="adding button">
+                    <input type="submit" value="Thêm sản phẩm" class="adding button">
                     <input type="reset" value="Đặt lại biểu mẫu" class="adding button">
-                    <a href="manage-account.html">Quay về trang quản lý</a>
+                    <a href="management-product.html">Quay về trang quản lý</a>
                     <a href="index.html">Quay về trang chủ</a>
                 </form>
             </div>

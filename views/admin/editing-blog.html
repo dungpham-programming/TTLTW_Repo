@@ -46,7 +46,7 @@
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Trang chủ
                     </a>
-                    <a class="nav-link light-text pt-3 pb-3 yellow-active" href="manage-account.html">
+                    <a class="nav-link light-text pt-3 pb-3" href="manage-account.html">
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Quản lý tài khoản
                     </a>
@@ -58,7 +58,7 @@
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Quản lý đơn hàng
                     </a>
-                    <a class="nav-link light-text pt-3 pb-3" href="management-blog.html">
+                    <a class="nav-link light-text pt-3 pb-3 yellow-active" href="management-blog.html">
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Quản lý tin tức
                     </a>
@@ -85,71 +85,48 @@
     <div id="layoutSidenav_content" class="gray-bg">
         <main>
             <div class="container-fluid px-4">
-                <h1 class="mt-4">Thêm tài khoản</h1>
+                <h1 class="mt-4">Chỉnh sửa bài viết</h1>
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item active">DDD. Administrator</li>
                 </ol>
                 <form action="#" method="post">
                     <div class="row">
-                        <div class="col-6">
-                            <label for="username">Tên tài khoản</label>
-                            <input type="text" id="username" name="username" required>
+                        <div class="col-12">
+                            <label for="title">Tiêu đề bài viết</label>
+                            <input type="text" id="title" name="title" value="4 kiểu túi xách cói đẹp dành cho những ngày hè rực rỡ" required>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="description">Mô tả ngắn</label>
+                            <textarea type="text" id="description" name="description" required>
+hè đã đến tới mông rồi, bạn đã chuẩn bị thời trang cho những ngày này chưa? Nếu bạn đã chuẩn bị sẵn sàng rồi thì còn túi xách như thế nào? Đã chọn được item nào ưng ý chưa? Nếu bạn còn đang băn khoăn thì các nàng phải tham khảo4 kiểu túi xách cói xinh xắn được gợi ý dưới đây nhé.
+                            </textarea>
                         </div>
 
                         <div class="col-6">
-                            <label for="password">Mật khẩu</label>
-                            <input type="password" id="password" name="password" required>
+                            <label for="categoryID">Mã loại sản phẩm</label>
+                            <input type="text" id="categoryID" name="categoryID" value="10001" required>
                         </div>
 
-                        <div class="col-3">
-                            <label for="firstName">Họ</label>
-                            <input type="text" id="firstName" name="firstName" required>
-                        </div>
-
-                        <div class="col-3">
-                            <label for="lastName">Tên</label>
-                            <input type="text" id="lastName" name="lastName" required>
-                        </div>
-
-                        <div class="col-3">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" required>
-                        </div>
-
-                        <div class="col-2">
-                            <label for="roleID">Mã phân quyền</label>
-                            <input type="text" id="roleID" name="roleID" required>
-                        </div>
-
-                        <div class="col-1">
+                        <div class="col-6">
                             <label for="status">Trạng thái</label>
-                            <input type="text" id="status" name="status" required>
+                            <input type="text" id="status" name="status" value="Hoạt động" required>
                         </div>
 
                         <div class="col-12">
-                            <label for="addressLine">Số nhà/Tên đường</label>
-                            <input type="text" id="addressLine" name="addressLine">
-                        </div>
-
-                        <div class="col-12">
-                            <label for="addressWard">Phường/Xã</label>
-                            <input type="text" id="addressWard" name="addressWard">
-                        </div>
-
-                        <div class="col-12">
-                            <label for="addressDistrict">Quận/Huyện</label>
-                            <input type="text" id="addressDistrict" name="addressDistrict">
-                        </div>
-
-                        <div class="col-12">
-                            <label for="addressProvince">Tỉnh/Thành phố</label>
-                            <input type="text" id="addressProvince" name="addressProvince">
+                            <label for="content">Nội dung</label>
+                            <textarea name="content" id="content" >
+Túi cói là gì?
+    Túi cói là túi xách được làm từ 100% chât liệu thiên nhiên như cói, nan tre, mây, và các sợi nhựa,…. Chúng kết hợp lại với nhau tạo thành một sản phẩm túi xách thân thiện với môi trường. Đặc tính quan trọng của túi cói là em nó rất nhẹ và bền, nên chúng ta có thể đựng nhiều đồ linh tinh mà không sợ bị hư nhá.
+    Có nhiều kiểu đan khác nhau nên túi cói rất đa dạng, thêm vào đó, để cho túi coi thêm nổi bật, em nó sẽ được mặc thêm một lớp áo hoa văn đầy tinh tế, và được trang trí thêm bởi các phụ kiển mini dễ thương khác. Tùy vào nhu cầu và sở thích, các nàng có thể lựa chọn cho mình túi cói phù hợp với phong cách của mình.
+    Từ phong cách streetstyle đến phong cách bánh bèo vô dụng, thì túi cói vẫn là 1 trong những phụ kiện lựa chọn hàng đầu.
+                            </textarea>
                         </div>
                     </div>
 
-                    <input type="submit" value="Thêm tài khoản" class="adding button">
+                    <input type="submit" value="Chỉnh sửa bài viết" class="adding button">
                     <input type="reset" value="Đặt lại biểu mẫu" class="adding button">
-                    <a href="manage-account.html">Quay về trang quản lý</a>
+                    <a href="management-blog.html">Quay về trang quản lý</a>
                     <a href="index.html">Quay về trang chủ</a>
                 </form>
             </div>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>DDD. Admin - Thêm tài khoản</title>
+    <title>DDD. Admin - Manage Account</title>
 
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/all.css">
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/sharp-solid.css">
@@ -46,7 +46,7 @@
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Trang chủ
                     </a>
-                    <a class="nav-link light-text pt-3 pb-3 yellow-active" href="manage-account.html">
+                    <a class="nav-link light-text pt-3 pb-3" href="manage-account.html">
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Quản lý tài khoản
                     </a>
@@ -70,7 +70,7 @@
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Quản lý ảnh sản phẩm
                     </a>
-                    <a class="nav-link light-text pt-3 pb-3" href="order-detail.html">
+                    <a class="nav-link light-text pt-3 pb-3 yellow-active" href="manage-image.html">
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Kiểm tra chi tiết đơn hàng
                     </a>
@@ -85,73 +85,51 @@
     <div id="layoutSidenav_content" class="gray-bg">
         <main>
             <div class="container-fluid px-4">
-                <h1 class="mt-4">Thêm tài khoản</h1>
+                <h1 class="mt-4">Chỉnh sửa chi tiết đơn hàng</h1>
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item active">DDD. Administrator</li>
                 </ol>
-                <form action="#" method="post">
-                    <div class="row">
-                        <div class="col-6">
-                            <label for="username">Tên tài khoản</label>
-                            <input type="text" id="username" name="username" required>
-                        </div>
 
-                        <div class="col-6">
-                            <label for="password">Mật khẩu</label>
-                            <input type="password" id="password" name="password" required>
-                        </div>
-
-                        <div class="col-3">
-                            <label for="firstName">Họ</label>
-                            <input type="text" id="firstName" name="firstName" required>
-                        </div>
-
-                        <div class="col-3">
-                            <label for="lastName">Tên</label>
-                            <input type="text" id="lastName" name="lastName" required>
-                        </div>
-
-                        <div class="col-3">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" required>
-                        </div>
-
-                        <div class="col-2">
-                            <label for="roleID">Mã phân quyền</label>
-                            <input type="text" id="roleID" name="roleID" required>
-                        </div>
-
-                        <div class="col-1">
-                            <label for="status">Trạng thái</label>
-                            <input type="text" id="status" name="status" required>
-                        </div>
-
-                        <div class="col-12">
-                            <label for="addressLine">Số nhà/Tên đường</label>
-                            <input type="text" id="addressLine" name="addressLine">
-                        </div>
-
-                        <div class="col-12">
-                            <label for="addressWard">Phường/Xã</label>
-                            <input type="text" id="addressWard" name="addressWard">
-                        </div>
-
-                        <div class="col-12">
-                            <label for="addressDistrict">Quận/Huyện</label>
-                            <input type="text" id="addressDistrict" name="addressDistrict">
-                        </div>
-
-                        <div class="col-12">
-                            <label for="addressProvince">Tỉnh/Thành phố</label>
-                            <input type="text" id="addressProvince" name="addressProvince">
-                        </div>
+                <div class="card mb-4 mt-4">
+                    <div class="card-header">
+                        <i class="fas fa-table me-1"></i>
+                        Chi tiết đơn hàng
                     </div>
+                    <div class="table-responsive">
+                        <table id="manageAccountTable">
+                            <thead>
+                            <tr>
+                                <th>ID Sản phẩm</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Giá gốc</th>
+                                <th>Giá giảm</th>
+                                <th>Số lượng</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>30001</td>
+                                <td>Túi sen</td>
+                                <td>500000</td>
+                                <td>450000</td>
+                                <td>5</td>
+                            </tr>
+                            </tbody>
 
-                    <input type="submit" value="Thêm tài khoản" class="adding button">
-                    <input type="reset" value="Đặt lại biểu mẫu" class="adding button">
-                    <a href="manage-account.html">Quay về trang quản lý</a>
-                    <a href="index.html">Quay về trang chủ</a>
-                </form>
+                            <tbody>
+                            <tr>
+                                <td>30011</td>
+                                <td>Thùng rác hình thú(voi)</td>
+                                <td>750000</td>
+                                <td>550000</td>
+                                <td>5</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <a href="order-detail.html" class="checking-order-detail">Quay về trang quản lý</a>
+                <a href="index.html" class="checking-order-detail">Quay về trang chủ</a>
             </div>
         </main>
     </div>

@@ -185,28 +185,34 @@ textarea {
 }
 
 form .adding.button {
-    margin-top: 24px;
+    margin: 24px 10px 24px 0;
     padding: 10px;
     width: auto;
     height: 45px;
     text-align: center;
     background-color: var(--primary-color-darkred);
     color: var(--primary-color-gray);
-    margin-right: 10px;
     transition: .15s all ease-out;
 }
 
-form a {
+form a, .checking-order-detail {
     text-decoration: none;
-    margin-top: 24px;
-    padding: 15px;
+    margin: 24px 10px 24px 0;
+    padding: 14px;
     background-color: var(--primary-color-darkred);
     color: var(--primary-color-gray);
-    margin-right: 10px;
     transition: .15s all ease-out;
 }
 
-form .adding.button:hover, form a:hover {
+form .adding.button:hover, form a:hover, .checking-order-detail:hover {
     color: var(--primary-color-darkyellow);
+}
+
+textarea#description {
+    height: 100px;
+}
+
+form img {
+    margin: 10px 0;
 }
 

@@ -26,10 +26,12 @@
         <li class="nav-item dropdown">
             <a class="nav-link dropdown yellow-hv" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
                aria-expanded="false"><i class="fa-thin fa-user fa-lg" style="color: #f0f0f0;"></i></a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="#!">Xin chào, quản trị viên!</a></li>
-                <li><a class="dropdown-item" href="#!">Thông tin tài khoản</a></li>
-                <li><a class="dropdown-item" href="#!">Đăng xuất</a></li>
+            <ul class="dropdown-menu dropdown-menu-end navbar-darkred" aria-labelledby="navbarDropdown">
+                <li class="hi-admin light-text">Xin chào, <a class="highlight-admin" href="">quản trị viên!</a></li>
+                <li><hr class="dropdown-divider" /></li>
+                <li><a class="dropdown-item light-text" href="#!">Tài khoản hiện tại</a></li>
+
+                <li><a class="dropdown-item light-text" href="#!">Đăng xuất</a></li>
             </ul>
         </li>
     </ul>
@@ -64,9 +66,13 @@
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Quản lý liên hệ
                     </a>
-                    <a class="nav-link light-text pt-3 pb-3 yellow-active" href="manage-image.html">
+                    <a class="nav-link light-text pt-3 pb-3" href="manage-image.html">
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Quản lý ảnh sản phẩm
+                    </a>
+                    <a class="nav-link light-text pt-3 pb-3" href="order-detail.html">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Kiểm tra chi tiết đơn hàng
                     </a>
                 </div>
             </div>
@@ -79,10 +85,14 @@
     <div id="layoutSidenav_content" class="gray-bg">
         <main>
             <div class="container-fluid px-4">
+                <h1 class="mt-4">Quản lý liên hệ</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item active">DDD. Administrator</li>
+                </ol>
                 <div class="card mb-4 mt-4">
                     <div class="card-header">
                         <i class="fas fa-table me-1"></i>
-                        Quản lý phân quyền
+                        Quản lý liên hệ
                     </div>
                     <div class="table-responsive">
                         <table id="manageAccountTable">
@@ -116,7 +126,7 @@
                                 <td>null</td>
                                 <td>null</td>
                                 <td>
-                                    <a href="#" data-bs-toggle="tooltip" title="Chỉnh sửa liên hệ" class="edit"><i
+                                    <a href="editng-contact.html" data-bs-toggle="tooltip" title="Chỉnh sửa liên hệ" class="edit"><i
                                             class="fa-regular fa-pen-to-square" style="color: #e3bd74;"></i></a>
                                     <a href="#" data-bs-toggle="tooltip" title="Xóa liên hệ" class="add"><i
                                             class="fa-solid fa-trash" style="color: #e3bd74;"></i></a>
