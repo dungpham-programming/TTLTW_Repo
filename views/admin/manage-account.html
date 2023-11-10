@@ -64,11 +64,15 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Quản lý liên hệ
                         </a>
+                        <a class="nav-link light-text pt-3 pb-3 yellow-active" href="manage-image.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Quản lý ảnh sản phẩm
+                        </a>
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">
                     <div class="small">Logged in as:</div>
-                    Start Bootstrap
+                    Admin3
                 </div>
             </nav>
         </div>
@@ -81,18 +85,12 @@
                             Quản lý tài khoản
                         </div>
                         <div class="list-button">
-                            <a href="#" data-bs-toggle="tooltip" title="Thêm tài khoản" class="add"><i class="fa-solid fa-plus" style="color: #e3bd74;"></i>Thêm tài khoản</a>
-                            <a href="#" data-bs-toggle="tooltip" title="Xóa tài khoản" class="add"><i class="fa-solid fa-trash" style="color: #e3bd74;"></i>Xóa tài khoản đã chọn</a>
+                            <a href="adding-account.html" data-bs-toggle="tooltip" title="Thêm tài khoản" class="add"><i class="fa-solid fa-plus" style="color: #e3bd74;"></i>Thêm tài khoản</a>
                         </div>
                         <div class="table-responsive">
                             <table id="manageAccountTable">
                                 <thead>
                                 <tr>
-                                    <th>
-                                        <label>
-                                            <input type="checkbox" name="deleteAll">
-                                        </label>
-                                    </th>
                                     <th>ID Tài khoản</th>
                                     <th>Email</th>
                                     <th>Mật khẩu</th>
@@ -111,11 +109,6 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>
-                                        <label>
-                                            <input type="checkbox" name="delete">
-                                        </label>
-                                    </td>
                                     <td>00101</td>
                                     <td>admin@test.com</td>
                                     <td>admin</td>
@@ -131,6 +124,7 @@
                                     <td>null</td>
                                     <td>
                                         <a href="#" data-bs-toggle="tooltip" title="Chỉnh sửa tài khoản" class="edit"><i class="fa-regular fa-pen-to-square" style="color: #e3bd74;"></i></a>
+                                        <a href="#" data-bs-toggle="tooltip" title="Xóa tài khoản" class="delete"><i class="fa-solid fa-trash" style="color: #e3bd74;"></i></a>
                                     </td>
                                 </tr>
                                 </tbody>
