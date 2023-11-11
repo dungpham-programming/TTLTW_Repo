@@ -1873,3 +1873,40 @@ p, dd {
 
 /* Start Category Type */
 /* End Category Type */
+
+.contain-form {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+#renewPwForm .password {
+    margin-bottom: 10px;
+}
+
+#renewPwForm #oldPassword,
+#renewPwForm #newPassword,
+#renewPwForm #retypePassword {
+    width: 100%;
+}
+
+.passwd-button {
+    padding: .25rem;
+    background-color: var(--primary-color-darkred);
+    color: var(--primary-color-gray);
+    /*margin-right: 10px;*/
+    margin-top: 10px;
+}
+
+.passwd-button.a-btn {
+    padding: .75rem;
+    display: inline-block;
+    transition: .15s all ease-out;
+}
+
+.passwd-button.a-btn:hover {
+    color: var(--primary-color-darkyellow);
+}
+
+.renew-password-title h3 {
+    text-align: center;
+}
