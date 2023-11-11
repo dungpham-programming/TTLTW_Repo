@@ -1910,3 +1910,32 @@ p, dd {
 .renew-password-title h3 {
     text-align: center;
 }
+
+#updateInfoForm .username, .firsttname,.lastname, .emaill,.addressLine,.addressWard,.addressDistrict,.addressProvince{
+    margin-bottom: 10px;
+}
+#updateInfoForm #oldUsername, #newUsername,
+#oldFirsttname,#newFirsttname
+#oldLastname,#newLastname,
+#oldEmaill,#newEmaill,
+#oldAddressLine,#newAddressLine,
+#oldAddressWard,#newAddressWard,
+#oldAddressDistrict,#newAddressDistrict,
+#oldAddressProvince, #newAddressProvince{
+    width: 100%;
+
+}
+.infom-button{
+    padding: .25rem;
+    background-color: var(--primary-color-darkred);
+    color: var(--primary-color-gray);
+    /*margin-right: 10px;*/
+    margin-top: 10px;
+
+}
+.infom-button.a-btn{
+    padding: .75rem;
+    display: inline-block;
+    transition: .15s all ease-out;
+
+}
