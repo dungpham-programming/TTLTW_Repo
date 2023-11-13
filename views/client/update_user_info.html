@@ -86,13 +86,13 @@
 
                     <div class="username">
                         <label for="oldUsername">Tên tài khoản cũ</label>
-                        <input type="username" name="oldUsername" id="oldUsername" oninput="updateInfo()">
+                        <input type="text" name="oldUsername" id="oldUsername" oninput="updateInfo()" disabled>
                     </div>
                     <div id="oldUsername-error"></div>
 
                     <div class="username">
                         <label for="newUsername">Cập nhật tên tài khoản </label>
-                        <input type="username" name="newUsername" id="newUsername" oninput="updateInfo()">
+                        <input type="text" name="newUsername" id="newUsername" oninput="updateInfo()">
                     </div>
                     <div id="newun-error"></div>
 
@@ -100,13 +100,13 @@
 
                     <div class="firsttname">
                         <label for="oldFirsttname">Họ cũ</label>
-                        <input type="firsttname" name="oldFirsttname" id="oldFirsttname" oninput="updateInfo()">
+                        <input type="text" name="oldFirsttname" id="oldFirsttname" oninput="updateInfo()" disabled>
                     </div>
                     <div id="oldFirsttname-error"></div>
 
                     <div class="firsttname">
                         <label for="newFirsttname">Cập nhật họ  </label>
-                        <input type="firsttname" name="newFirsttname" id="newFirsttname" oninput="updateInfo()">
+                        <input type="text" name="newFirsttname" id="newFirsttname" oninput="updateInfo()">
                     </div>
                     <div id="newfn-error"></div>
 
@@ -114,28 +114,28 @@
 
                     <div class="lastname">
                         <label for="oldLastname">Tên cũ</label>
-                        <input type="lastname" name="oldLastname" id="oldLastname" oninput="updateInfo()">
+                        <input type="text" name="oldLastname" id="oldLastname" oninput="updateInfo()" disabled>
                     </div>
                     <div id="oldLastname-error"></div>
 
                     <div class="lastname">
                         <label for="newLastname">Cập nhật tên </label>
-                        <input type="lastname" name="newLastname" id="newLastname" oninput="updateInfo()">
+                        <input type="text" name="newLastname" id="newLastname" oninput="updateInfo()">
                     </div>
                     <div id="newln-error"></div>
 
 
-                    <!--                    cập nhật email-->
+                    <!--  cập nhật email-->
 
                     <div class="emaill">
                         <label for="oldEmaill">Email cũ</label>
-                        <input type="emaill" name="oldEmaill" id="oldEmaill" oninput="updateInfo()">
+                        <input type="email" name="oldEmaill" id="oldEmaill" oninput="updateInfo()" disabled>
                     </div>
                     <div id="oldEmaill-error"></div>
 
                     <div class="emaill">
                         <label for="newEmaill">Cập nhật email </label>
-                        <input type="emaill" name="newEmaill" id="newEmaill" oninput="updateInfo()">
+                        <input type="email" name="newEmaill" id="newEmaill" oninput="updateInfo()">
                     </div>
                     <div id="newemaill-error"></div>
 
@@ -143,13 +143,13 @@
 <!--                    Cập nhật AddressLine-->
                     <div class="addressLine">
                         <label for="oldAddressLine">Tên đường cũ</label>
-                        <input type="addressLine" name="oldAddressLine" id="oldAddressLine" oninput="updateInfo()">
+                        <input type="text" name="oldAddressLine" id="oldAddressLine" oninput="updateInfo()" disabled>
                     </div>
                     <div id="oldAddressLine-error"></div>
 
                     <div class="addressLine">
                         <label for="newAddressLine">Cập nhật tên đường </label>
-                        <input type="addressLine" name="newAddressLine" id="newAddressLine" oninput="updateInfo()">
+                        <input type="text" name="newAddressLine" id="newAddressLine" oninput="updateInfo()">
                     </div>
                     <div id="newaddressLine-error"></div>
 
@@ -157,13 +157,13 @@
                     <!--                    Cập nhật AddressWard-->
                     <div class="addressWard">
                         <label for="oldAddressWard">Tên phường cũ</label>
-                        <input type="addressWard" name="oldAddressWard" id="oldAddressWard" oninput="updateInfo()">
+                        <input type="text" name="oldAddressWard" id="oldAddressWard" oninput="updateInfo()" disabled>
                     </div>
                     <div id="oldaddressWard-error"></div>
 
                     <div class="addressWard">
                         <label for="newAddressWard">Cập nhật tên phường </label>
-                        <input type="addressWard" name="newAddressWard" id="newAddressWard" oninput="updateInfo()">
+                        <input type="text" name="newAddressWard" id="newAddressWard" oninput="updateInfo()">
                     </div>
                     <div id="newaddressWard-error"></div>
 
@@ -171,13 +171,13 @@
                     <!--                    Cập nhật AddressDistrict-->
                     <div class="addressDistrict">
                         <label for="oldAddressDistrict">Tên quận cũ</label>
-                        <input type="addressDistrict" name="oldAddressDistrict" id="oldAddressDistrict" oninput="updateInfo()">
+                        <input type="text" name="oldAddressDistrict" id="oldAddressDistrict" oninput="updateInfo()" disabled>
                     </div>
                     <div id="oldaddressDistrict-error"></div>
 
                     <div class="addressDistrict">
                         <label for="newAddressDistrict">Cập nhật tên quận/huyện </label>
-                        <input type="addressDistrict" name="newAddressDistrict" id="newAddressDistrict" oninput="updateInfo()">
+                        <input type="text" name="newAddressDistrict" id="newAddressDistrict" oninput="updateInfo()">
                     </div>
                     <div id="newaddressDistrict-error"></div>
 
@@ -185,25 +185,19 @@
                     <!--                    Cập nhật AddressDistrict-->
                     <div class="addressProvince">
                         <label for="oldAddressProvince">Tên tỉnh cũ</label>
-                        <input type="addressProvince" name="oldAddressProvince" id="oldAddressProvince" oninput="updateInfo()">
+                        <input type="text" name="oldAddressProvince" id="oldAddressProvince" oninput="updateInfo()" disabled>
                     </div>
                     <div id="oldaddressProvince-error"></div>
 
                     <div class="addressProvince">
                         <label for="newAddressProvince">Cập nhật tên tỉnh </label>
-                        <input type="addressProvince" name="newAddressProvince" id="newAddressProvince" oninput="updateInfo()">
+                        <input type="text" name="newAddressProvince" id="newAddressProvince" oninput="updateInfo()">
                     </div>
                     <div id="newaddressProvince-error"></div>
-
-<!--                    <div class="password">-->
-<!--                        <label for="retypePassword">Nhập lại mật khẩu</label>-->
-<!--                        <input type="password" name="retypePassword" id="retypePassword" oninput="renewPassword()">-->
-<!--                    </div>-->
-<!--                    <div id="retype-error"></div>-->
-                    <!-- Tạm thời làm bằng thẻ a, khi code backend vào sẽ dùng thẻ input submit -->
-                    <!-- Khi dùng input thì sẽ đưa nút bằng thẻ a vào trong form và xóa margin-top -->
-                    <!--<input type="submit" value="Làm mới mật khẩu" class="passwd-button">-->
                 </form>
+                <!-- Tạm thời làm bằng thẻ a, khi code backend vào sẽ dùng thẻ input submit -->
+                <!-- Khi dùng input thì sẽ đưa nút bằng thẻ a vào trong form và xóa margin-top -->
+                <!--<input type="submit" value="Làm mới mật khẩu" class="passwd-button">-->
                 <div class="dp-flex justify-content-between renew-button-group">
                     <a href="success-renew.html" class="infom-button a-btn">Cập nhật tài khoản</a>
                     <a href="index.html" class="infom-button a-btn">Quay lại trang chủ</a>

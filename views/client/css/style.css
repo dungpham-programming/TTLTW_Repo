@@ -1276,7 +1276,7 @@ hr {
 
 .product-section .nav-left-item:hover,
 .product-section .nav-left-item .pop-right-item:hover,
-.product-section .nav-left-item.wood {
+.product-section .nav-left-item.li-active {
     background: var(--primary-color-darkred);
     border: 4px solid var(--primary-color-darkyellow);
 }
@@ -1915,9 +1915,9 @@ p, dd {
     margin-bottom: 10px;
 }
 #updateInfoForm #oldUsername, #newUsername,
-#oldFirsttname,#newFirsttname
-#oldLastname,#newLastname,
-#oldEmaill,#newEmaill,
+#oldFirsttname, #newFirsttname,
+#oldLastname, #newLastname,
+#oldEmaill, #newEmaill,
 #oldAddressLine,#newAddressLine,
 #oldAddressWard,#newAddressWard,
 #oldAddressDistrict,#newAddressDistrict,
