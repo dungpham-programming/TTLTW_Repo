@@ -3,7 +3,7 @@
     --primary-color-darkyellow: #e3bd74;
     --primary-color-gray: #f0f0f0;
     --primary-color-darkred: #2a1710;
-    --primary-color-gray_alpha: rgba(240, 240, 240, .4);
+    --primary-color-gray_alpha: rgba(240, 240, 240, .6);
     --primary-color-darkyellow_alpha: rgba(232, 185, 73, .7);
     --primary-color-productbg: #ffffff;
     --primary-color-darkred_alpha: rgba(42, 23, 16, .8);
@@ -1948,5 +1948,38 @@ p, dd {
 .cart-btn {
     padding: .75rem;
     background-color: var(--primary-color-darkred);
+    color: var(--primary-color-darkyellow);
+}
+
+#orderTable {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid rgba(0, 0, 0, .25); /* Tạo đường kẻ xung quanh mỗi ô */
+    padding: 8px;
+    text-align: left;
+}
+
+a.check {
+    padding: .7rem 1rem;
+    background-color: var(--primary-color-darkred);
+    border-radius: 5px;
+}
+
+.order-detail-btn .order-detail-check {
+    padding: .75rem;
+    background-color: var(--primary-color-darkred);
+    color: white;
+    transition: .15s all ease-out;
+    margin-right: 10px;
+}
+
+.order-detail-btn {
+    margin-top: 20px;
+}
+
+.order-detail-btn .order-detail-check:hover {
     color: var(--primary-color-darkyellow);
 }
