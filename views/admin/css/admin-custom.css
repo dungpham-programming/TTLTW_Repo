@@ -216,3 +216,10 @@ form img {
     margin: 10px 0;
 }
 
+a.changing-password-link {
+    color: var(--primary-color-darkred);
+    background: transparent;
+    text-decoration: underline;
+    padding: 0;
+}
+
