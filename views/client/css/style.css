@@ -1944,3 +1944,9 @@ p, dd {
     transition: .15s all ease-out;
 
 }
+
+.cart-btn {
+    padding: .75rem;
+    background-color: var(--primary-color-darkred);
+    color: var(--primary-color-darkyellow);
+}
