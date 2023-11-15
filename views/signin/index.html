@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><style data-styles="">ion-icon{visibility:hidden}.hydrated{visibility:inherit}</style>
+    <title>login</title>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule="" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap">
+    <link rel="stylesheet" href="Dangnhap.css">
+</head>
+<style>
+    .error-message {
+        color: red;
+        font-size: 80%;
+    }
+</style>
+<body>
+<div class="screen-1">
+    <div class="logo">
+        <h1>DDD.</h1>
+    </div>
+    <div class="header">
+    <h2>Đăng nhập</h2>
+    </div>
+    <div class="email">
+        <label for="email">Địa chỉ Email</label>
+        <div class="sec-2">
+            <ion-icon name="mail-outline" role="img" class="md hydrated" aria-label="mail outline"></ion-icon>
+            <input type="email" name="email" id="emailInput" placeholder="Nhập địa chỉ email">
+            <div id="emailError" class="error-message"></div>
+        </div>
+    </div>
+
+    <div class="password">
+        <label for="password">Mật khẩu</label>
+        <div class="sec-2">
+            <ion-icon name="lock-closed-outline" role="img" class="md hydrated" aria-label="lock closed outline"></ion-icon>
+            <input class="pas" type="password" name="password" id="passwordInput" placeholder="············">
+<!--            <ion-icon class="show-hide md hydrated" name="eye-outline" role="img" aria-label="eye outline"></ion-icon>-->
+            <div id="passwordError" class="error-message"></div>
+        </div>
+    </div>
+    <button class="login">Đăng nhập </button>
+    <div class="footer">
+        <span>Đăng ký</span>
+        <span>Quên mật khẩu?</span>
+    </div>
+</div>
+<script>
+    document.querySelector(".login").addEventListener("click", function() {
+        // Lấy giá trị của email và password
+        var email = document.getElementById("emailInput").value;
+        var password = document.getElementById("passwordInput").value;
+
+        // Xóa bất kỳ thông báo lỗi cũ nào
+        document.getElementById("emailError").textContent = "";
+        document.getElementById("passwordError").textContent = "";
+
+        // Kiểm tra tính hợp lệ của email và password
+        if (!isValidEmail(email)) {
+            document.getElementById("emailError").textContent = "Email không đúng.";
+            document.getElementById("emailInput").style.borderColor = "red";
+        }
+
+        if (!isValidPassword(password)) {
+            document.getElementById("passwordError").textContent = "Mật khẩu không đúng.";
+            document.getElementById("passwordInput").style.borderColor = "red";
+        }
+    });
+
+    // Hàm kiểm tra tính hợp lệ của email
+    function isValidEmail(email) {
+        // Sử dụng biểu thức chính quy để kiểm tra tính hợp lệ
+        var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailPattern.test(email);
+    }
+
+    // Hàm kiểm tra tính hợp lệ của password
+    function isValidPassword(password) {
+        return password.length >= 6;
+    }
+
+</script>
+</body>
+</html>
