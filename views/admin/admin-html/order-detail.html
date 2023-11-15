@@ -11,8 +11,8 @@
 
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/admin-custom.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/admin-custom.css">
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 <body class="sb-nav-fixed">
@@ -27,11 +27,10 @@
             <a class="nav-link dropdown yellow-hv" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
                aria-expanded="false"><i class="fa-thin fa-user fa-lg" style="color: #f0f0f0;"></i></a>
             <ul class="dropdown-menu dropdown-menu-end navbar-darkred" aria-labelledby="navbarDropdown">
-                <li class="hi-admin light-text">Xin chào, <a class="highlight-admin" href="">quản trị viên!</a></li>
+                <li class="hi-admin light-text">Xin chào, <a class="highlight-admin" href="admin-info.html">quản trị viên!</a></li>
                 <li><hr class="dropdown-divider" /></li>
-                <li><a class="dropdown-item light-text" href="#!">Tài khoản hiện tại</a></li>
-
-                <li><a class="dropdown-item light-text" href="#!">Đăng xuất</a></li>
+                <li><a class="dropdown-item light-text" href="admin-info.html">Tài khoản hiện tại</a></li>
+                <li><a class="dropdown-item light-text" href="#">Đăng xuất</a></li>
             </ul>
         </li>
     </ul>
@@ -50,7 +49,7 @@
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Quản lý tài khoản
                     </a>
-                    <a class="nav-link light-text pt-3 pb-3 yellow-active" href="management-product.html">
+                    <a class="nav-link light-text pt-3 pb-3" href="management-product.html">
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Quản lý sản phẩm
                     </a>
@@ -70,13 +69,13 @@
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Quản lý ảnh sản phẩm
                     </a>
-                    <a class="nav-link light-text pt-3 pb-3" href="order-detail.html">
+                    <a class="nav-link light-text pt-3 pb-3 yellow-active" href="order-detail.html">
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Kiểm tra chi tiết đơn hàng
                     </a>
                 </div>
             </div>
-            <div class="sb-sidenav-footer">
+            <div class="sb-sidenav-footer mb-3">
                 <div class="small">Logged in as:</div>
                 Admin3
             </div>
@@ -85,51 +84,22 @@
     <div id="layoutSidenav_content" class="gray-bg">
         <main>
             <div class="container-fluid px-4">
-                <h1 class="mt-4">Thêm sản phẩm</h1>
+                <h1 class="mt-4">Kiểm tra chi tiết đơn hàng</h1>
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item active">DDD. Administrator</li>
                 </ol>
                 <form action="#" method="post">
                     <div class="row">
-                        <div class="col-12">
-                            <label for="productName">Tên sản phẩm</label>
-                            <input type="text" id="productName" name="productName" required>
-                        </div>
-
-                        <div class="col-3">
-                            <label for="originalPrice">Giá gốc</label>
-                            <input type="text" id="originalPrice" name="originalPrice" required>
-                        </div>
-
-                        <div class="col-3">
-                            <label for="discountPrice">Giá giảm</label>
-                            <input type="text" id="discountPrice" name="discountPrice">
-                        </div>
-
-                        <div class="col-3">
-                            <label for="quantity">Số lượng còn</label>
-                            <input type="text" id="quantity" name="quantity">
-                        </div>
-
-                        <div class="col-2">
-                            <label for="categoryTypeID">Mã phân loại sản phẩm</label>
-                            <input type="text" id="categoryTypeID" name="categoryTypeID" required>
-                        </div>
-
-                        <div class="col-1">
-                            <label for="status">Trạng thái</label>
-                            <input type="text" id="status" name="status" required>
-                        </div>
-
-                        <div class="col-12">
-                            <label for="description">Mô tả</label>
-                            <textarea name="description" id="description"></textarea>
+                        <!-- Thêm input nhớ xóa mb-4 -->
+                        <div class="col-12 mb-4">
+                            <label for="orderID">ID Đơn hàng</label>
+                            <input type="text" id="orderID" name="orderID">
                         </div>
                     </div>
 
-                    <input type="submit" value="Thêm sản phẩm" class="adding button">
-                    <input type="reset" value="Đặt lại biểu mẫu" class="adding button">
-                    <a href="management-product.html">Quay về trang quản lý</a>
+                    <!-- Làm với backend sẽ sử dung input -->
+                    <!--<input type="submit" value="Kiểm tra" class="adding button">-->
+                    <a href="checking-orderdetail.html">Kiểm tra</a>
                     <a href="index.html">Quay về trang chủ</a>
                 </form>
             </div>
@@ -139,12 +109,12 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>
-<script src="js/scripts.js"></script>
+<script src="../js/scripts.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-<script src="assets/demo/chart-area-demo.js"></script>
-<script src="assets/demo/chart-bar-demo.js"></script>
+<script src="../assets/demo/chart-area-demo.js"></script>
+<script src="../assets/demo/chart-bar-demo.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
         crossorigin="anonymous"></script>
-<script src="js/datatables-simple-demo.js"></script>
+<script src="../js/datatables-simple-demo.js"></script>
 </body>
 </html>

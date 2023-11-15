@@ -223,3 +223,8 @@ a.changing-password-link {
     padding: 0;
 }
 
+td img {
+    width: 120px;
+    height: 150px;
+    margin-bottom: 5px;
+}
