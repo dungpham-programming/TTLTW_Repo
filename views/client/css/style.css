@@ -256,6 +256,15 @@ hr {
     cursor: pointer;
 }
 
+.custom-navbar .custom-navbar-cta .drop-menu > a {
+    color: var(--primary-color-gray_alpha);
+    transition: .3s color ease-out;
+}
+
+.custom-navbar .custom-navbar-cta .drop-menu > a:hover {
+    color: #ffffff
+}
+
 .hero {
     padding: calc(4rem - 30px) 0 0 0;
     z-index: 1;
@@ -1982,4 +1991,31 @@ a.check {
 
 .order-detail-btn .order-detail-check:hover {
     color: var(--primary-color-darkyellow);
+}
+
+.blog-content {
+    padding: 3rem 0;
+    background-color: var(--primary-color-gray);
+}
+
+.blog-content .author-n-date {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.blog-content .title {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.blog-content .author-n-date h6 {
+    color: grey;
+}
+
+.blog-content .blog-img {
+    margin-bottom: 1rem;
+}
+
+.blog-content .news-content p {
+    color: black;
 }

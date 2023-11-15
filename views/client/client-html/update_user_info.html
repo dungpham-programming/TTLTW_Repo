@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="shortcut icon" href="favicon.png">
+    <link rel="shortcut icon" href="../favicon.png">
 
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/all.css">
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/sharp-solid.css">
@@ -11,10 +11,10 @@
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/sharp-light.css">
 
     <!-- Bootstrap CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
-    <link href="css/tiny-slider.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
+    <link href="../css/tiny-slider.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
 
     <title>DDD. - Nghệ thuật mỹ nghệ</title>
 </head>
@@ -46,8 +46,8 @@
                 <li class="hv-li"><a class="nav-link yellow" href="#"><i class="fa-regular fa-user"></i></a>
                     <ul class="ul-drop-menu">
                         <li class="drop-menu hello-user">Xin chào, User!</li>
-                        <li class="drop-menu hv-gray"><a href="#"></a>Thông tin tài khoản</li>
-                        <li class="drop-menu hv-gray"><a href="#"></a>Đăng xuất</li>
+                        <li class="drop-menu hv-gray"><a href="update_user_info.html" class="">Thông tin tài khoản</a></li>
+                        <li class="drop-menu hv-gray"><a href="#">Đăng xuất</a></li>
                     </ul>
                 </li>
                 <li class="hv-li"><a class="nav-link yellow" href="cart.html"><i class="fa-light fa-cart-shopping"></i></a></li>
@@ -81,117 +81,63 @@
                     <h3>Cập nhật thông tin</h3>
                 </div>
                 <form action="#" method="post" id="updateInfoForm">
-
 <!--                    Cập nhật username-->
-
                     <div class="username">
-                        <label for="oldUsername">Tên tài khoản cũ</label>
-                        <input type="text" name="oldUsername" id="oldUsername" oninput="updateInfo()" disabled>
+                        <label for="newUsername">Tên tài khoản </label>
+                        <input type="text" name="newUsername" id="newUsername">
                     </div>
-                    <div id="oldUsername-error"></div>
-
-                    <div class="username">
-                        <label for="newUsername">Cập nhật tên tài khoản </label>
-                        <input type="text" name="newUsername" id="newUsername" oninput="updateInfo()">
-                    </div>
-                    <div id="newun-error"></div>
 
 <!--                    Cập nhật firstname-->
-
-                    <div class="firsttname">
-                        <label for="oldFirsttname">Họ cũ</label>
-                        <input type="text" name="oldFirsttname" id="oldFirsttname" oninput="updateInfo()" disabled>
-                    </div>
-                    <div id="oldFirsttname-error"></div>
-
                     <div class="firsttname">
                         <label for="newFirsttname">Cập nhật họ  </label>
-                        <input type="text" name="newFirsttname" id="newFirsttname" oninput="updateInfo()">
+                        <input type="text" name="newFirsttname" id="newFirsttname">
                     </div>
                     <div id="newfn-error"></div>
 
 <!--                    cập nhật lastname-->
-
-                    <div class="lastname">
-                        <label for="oldLastname">Tên cũ</label>
-                        <input type="text" name="oldLastname" id="oldLastname" oninput="updateInfo()" disabled>
-                    </div>
-                    <div id="oldLastname-error"></div>
-
                     <div class="lastname">
                         <label for="newLastname">Cập nhật tên </label>
-                        <input type="text" name="newLastname" id="newLastname" oninput="updateInfo()">
+                        <input type="text" name="newLastname" id="newLastname">
                     </div>
                     <div id="newln-error"></div>
 
 
                     <!--  cập nhật email-->
-
-                    <div class="emaill">
-                        <label for="oldEmaill">Email cũ</label>
-                        <input type="email" name="oldEmaill" id="oldEmaill" oninput="updateInfo()" disabled>
-                    </div>
-                    <div id="oldEmaill-error"></div>
-
                     <div class="emaill">
                         <label for="newEmaill">Cập nhật email </label>
-                        <input type="email" name="newEmaill" id="newEmaill" oninput="updateInfo()">
+                        <input type="email" name="newEmaill" id="newEmaill">
                     </div>
                     <div id="newemaill-error"></div>
 
 
 <!--                    Cập nhật AddressLine-->
                     <div class="addressLine">
-                        <label for="oldAddressLine">Tên đường cũ</label>
-                        <input type="text" name="oldAddressLine" id="oldAddressLine" oninput="updateInfo()" disabled>
-                    </div>
-                    <div id="oldAddressLine-error"></div>
-
-                    <div class="addressLine">
                         <label for="newAddressLine">Cập nhật tên đường </label>
-                        <input type="text" name="newAddressLine" id="newAddressLine" oninput="updateInfo()">
+                        <input type="text" name="newAddressLine" id="newAddressLine">
                     </div>
                     <div id="newaddressLine-error"></div>
 
 
                     <!--                    Cập nhật AddressWard-->
                     <div class="addressWard">
-                        <label for="oldAddressWard">Tên phường cũ</label>
-                        <input type="text" name="oldAddressWard" id="oldAddressWard" oninput="updateInfo()" disabled>
-                    </div>
-                    <div id="oldaddressWard-error"></div>
-
-                    <div class="addressWard">
                         <label for="newAddressWard">Cập nhật tên phường </label>
-                        <input type="text" name="newAddressWard" id="newAddressWard" oninput="updateInfo()">
+                        <input type="text" name="newAddressWard" id="newAddressWard">
                     </div>
                     <div id="newaddressWard-error"></div>
 
 
                     <!--                    Cập nhật AddressDistrict-->
                     <div class="addressDistrict">
-                        <label for="oldAddressDistrict">Tên quận cũ</label>
-                        <input type="text" name="oldAddressDistrict" id="oldAddressDistrict" oninput="updateInfo()" disabled>
-                    </div>
-                    <div id="oldaddressDistrict-error"></div>
-
-                    <div class="addressDistrict">
                         <label for="newAddressDistrict">Cập nhật tên quận/huyện </label>
-                        <input type="text" name="newAddressDistrict" id="newAddressDistrict" oninput="updateInfo()">
+                        <input type="text" name="newAddressDistrict" id="newAddressDistrict">
                     </div>
                     <div id="newaddressDistrict-error"></div>
 
 
                     <!--                    Cập nhật AddressDistrict-->
                     <div class="addressProvince">
-                        <label for="oldAddressProvince">Tên tỉnh cũ</label>
-                        <input type="text" name="oldAddressProvince" id="oldAddressProvince" oninput="updateInfo()" disabled>
-                    </div>
-                    <div id="oldaddressProvince-error"></div>
-
-                    <div class="addressProvince">
                         <label for="newAddressProvince">Cập nhật tên tỉnh </label>
-                        <input type="text" name="newAddressProvince" id="newAddressProvince" oninput="updateInfo()">
+                        <input type="text" name="newAddressProvince" id="newAddressProvince">
                     </div>
                     <div id="newaddressProvince-error"></div>
                 </form>
@@ -265,10 +211,10 @@
 
 <button id="scroll-to-top"><i class="fa-solid fa-chevron-up" style="color: #e3bd74;"></i></button>
 
-<script src="js/bootstrap.bundle.min.js"></script>
-<script src="js/tiny-slider.js"></script>
-<script src="js/reset-password.js"></script>
-<script src="js/custom.js"></script>
+<script src="../js/bootstrap.bundle.min.js"></script>
+<script src="../js/tiny-slider.js"></script>
+<script src="../js/reset-password.js"></script>
+<script src="../js/custom.js"></script>
 </body>
 
 </html>
