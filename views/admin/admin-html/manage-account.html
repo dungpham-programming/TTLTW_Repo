@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DDD. Admin - Manage Account</title>
+
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/all.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/sharp-solid.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/sharp-regular.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/sharp-light.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/admin-custom.css">
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+</head>
+<body class="sb-nav-fixed">
+<nav class="sb-topnav navbar navbar-expand navbar-darkred">
+    <!-- Navbar Brand-->
+    <a class="navbar-brand ps-3 logo fs-4" href="index.html">DDD. Admin</a>
+    <!-- Sidebar Toggle-->
+    <button class="btn btn-lg yellow-hv gray order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
+            class="fas fa-bars"></i></button>
+    <ul class="navbar-nav ms-auto me-3 me-lg-4">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown yellow-hv" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+               aria-expanded="false"><i class="fa-thin fa-user fa-lg" style="color: #f0f0f0;"></i></a>
+            <ul class="dropdown-menu dropdown-menu-end navbar-darkred" aria-labelledby="navbarDropdown">
+                <li class="hi-admin light-text">Xin chào, <a class="highlight-admin" href="admin-info.html">quản trị viên!</a></li>
+                <li><hr class="dropdown-divider" /></li>
+                <li><a class="dropdown-item light-text" href="admin-info.html">Tài khoản hiện tại</a></li>
+                <li><a class="dropdown-item light-text" href="#">Đăng xuất</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav">
+        <nav class="sb-sidenav accordion sb-sidenav-dark navbar-darkred mt-3" id="sidenavAccordion">
+            <div class="sb-sidenav-menu">
+                <div class="nav">
+                    <div class="sb-sidenav-menu-heading gray">Quản trị viên</div>
+                    <a class="nav-link pt-3 pb-3" href="index.html">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Trang chủ
+                    </a>
+                    <a class="nav-link light-text pt-3 pb-3 yellow-active" href="manage-account.html">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Quản lý tài khoản
+                    </a>
+                    <a class="nav-link light-text pt-3 pb-3" href="management-product.html">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Quản lý sản phẩm
+                    </a>
+                    <a class="nav-link light-text pt-3 pb-3" href="management-order.html">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Quản lý đơn hàng
+                    </a>
+                    <a class="nav-link light-text pt-3 pb-3" href="management-blog.html">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Quản lý tin tức
+                    </a>
+                    <a class="nav-link light-text pt-3 pb-3" href="management-contact.html">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Quản lý liên hệ
+                    </a>
+                    <a class="nav-link light-text pt-3 pb-3" href="manage-image.html">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Quản lý ảnh sản phẩm
+                    </a>
+                    <a class="nav-link light-text pt-3 pb-3" href="order-detail.html">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Kiểm tra chi tiết đơn hàng
+                    </a>
+                </div>
+            </div>
+            <div class="sb-sidenav-footer mb-3">
+                <div class="small">Logged in as:</div>
+                Admin3
+            </div>
+        </nav>
+    </div>
+    <div id="layoutSidenav_content" class="gray-bg">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">Quản lý tài khoản</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item active">DDD. Administrator</li>
+                </ol>
+                <div class="card mb-4 mt-4">
+                    <div class="card-header">
+                        <i class="fas fa-table me-1"></i>
+                        Quản lý tài khoản
+                    </div>
+                    <div class="list-button">
+                        <a href="adding-account.html" data-bs-toggle="tooltip" title="Thêm tài khoản" class="add"><i
+                                class="fa-solid fa-plus" style="color: #e3bd74;"></i>Thêm tài khoản</a>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="manageAccountTable">
+                            <thead>
+                            <tr>
+                                <th>ID Tài khoản</th>
+                                <th>Username</th>
+                                <th>Mật khẩu</th>
+                                <th>Họ</th>
+                                <th>Tên</th>
+                                <th>Phân quyền</th>
+                                <th>Email</th>
+                                <th>Địa chỉ đầy đủ</th>
+                                <th>Trạng thái</th>
+                                <th>Tạo ngày</th>
+                                <th>Tạo bởi</th>
+                                <th>Sửa ngày</th>
+                                <th>Sửa bởi</th>
+                                <th>Chức năng</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>00101</td>
+                                <td>admintest</td>
+                                <td>admin</td>
+                                <td>Pham</td>
+                                <td>Minh Dung</td>
+                                <td>001</td>
+                                <td>admin@test.com</td>
+                                <td>Đường NAQ, phường Klfa, BH, Đồng Nai</td>
+                                <td>Active</td>
+                                <td>13/5/2023</td>
+                                <td>admin4</td>
+                                <td>null</td>
+                                <td>null</td>
+                                <td>
+                                    <a href="editing-account.html" data-bs-toggle="tooltip" title="Chỉnh sửa tài khoản"
+                                       class="edit"><i class="fa-regular fa-pen-to-square" style="color: #e3bd74;"></i></a>
+                                    <a href="#" data-bs-toggle="tooltip" title="Xóa tài khoản" class="delete"><i
+                                            class="fa-solid fa-trash" style="color: #e3bd74;"></i></a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+<script src="../js/scripts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+<script src="../assets/demo/chart-area-demo.js"></script>
+<script src="../assets/demo/chart-bar-demo.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+        crossorigin="anonymous"></script>
+<script src="../js/datatables-simple-demo.js"></script>
+</body>
+</html>
