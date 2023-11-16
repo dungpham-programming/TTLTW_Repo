@@ -1,4 +1,4 @@
-document.querySelector(".login").addEventListener("click", function() {
+function checkEmail() {
     // Lấy giá trị của email
     var email = document.getElementById("emailInput").value;
 
@@ -6,11 +6,11 @@ document.querySelector(".login").addEventListener("click", function() {
     document.getElementById("emailError").textContent = "";
 
     // Kiểm tra tính hợp lệ của email và password
-    if (!isValidEmail(email)) {
+    if (!isValidEmail(email) && email !== "") {
         document.getElementById("emailError").textContent = "Email không đúng.";
         document.getElementById("emailInput").style.borderColor = "red";
     }
-});
+}
 
 // Hàm kiểm tra tính hợp lệ của email
 function isValidEmail(email) {

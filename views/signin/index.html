@@ -27,7 +27,7 @@
         <label for="email">Địa chỉ Email</label>
         <div class="sec-2">
             <ion-icon name="mail-outline" role="img" class="md hydrated" aria-label="mail outline"></ion-icon>
-            <input type="email" name="email" id="emailInput" placeholder="Nhập địa chỉ email">
+            <input type="email" name="email" id="emailInput" placeholder="Nhập địa chỉ email" oninput="checking()">
             <div id="emailError" class="error-message"></div>
         </div>
     </div>
@@ -36,51 +36,18 @@
         <label for="password">Mật khẩu</label>
         <div class="sec-2">
             <ion-icon name="lock-closed-outline" role="img" class="md hydrated" aria-label="lock closed outline"></ion-icon>
-            <input class="pas" type="password" name="password" id="passwordInput" placeholder="············">
+            <input class="pas" type="password" name="password" id="passwordInput" placeholder="············" oninput="checking()">
 <!--            <ion-icon class="show-hide md hydrated" name="eye-outline" role="img" aria-label="eye outline"></ion-icon>-->
             <div id="passwordError" class="error-message"></div>
         </div>
     </div>
-    <button class="login">Đăng nhập </button>
+    <a href="../client/client-html/index.html" class="login">Đăng nhập </a>
     <div class="footer">
-        <span>Đăng ký</span>
-        <span>Quên mật khẩu?</span>
+        <a href="../signup/DangKi.html" class="link">Đăng ký</a>
+        <a href="../forget_password/QuenMatKhau.html" class="link">Quên mật khẩu</a>
     </div>
 </div>
-<script>
-    document.querySelector(".login").addEventListener("click", function() {
-        // Lấy giá trị của email và password
-        var email = document.getElementById("emailInput").value;
-        var password = document.getElementById("passwordInput").value;
 
-        // Xóa bất kỳ thông báo lỗi cũ nào
-        document.getElementById("emailError").textContent = "";
-        document.getElementById("passwordError").textContent = "";
-
-        // Kiểm tra tính hợp lệ của email và password
-        if (!isValidEmail(email)) {
-            document.getElementById("emailError").textContent = "Email không đúng.";
-            document.getElementById("emailInput").style.borderColor = "red";
-        }
-
-        if (!isValidPassword(password)) {
-            document.getElementById("passwordError").textContent = "Mật khẩu không đúng.";
-            document.getElementById("passwordInput").style.borderColor = "red";
-        }
-    });
-
-    // Hàm kiểm tra tính hợp lệ của email
-    function isValidEmail(email) {
-        // Sử dụng biểu thức chính quy để kiểm tra tính hợp lệ
-        var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailPattern.test(email);
-    }
-
-    // Hàm kiểm tra tính hợp lệ của password
-    function isValidPassword(password) {
-        return password.length >= 6;
-    }
-
-</script>
+<script src="js/script.js"></script>
 </body>
 </html>

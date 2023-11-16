@@ -4,17 +4,39 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ca7ae974-5416-45ae-bedb-e3359567601f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/views/admin/management-blog.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/views/admin/management-role.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/admin/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/views/admin/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="ca7ae974-5416-45ae-bedb-e3359567601f" name="Changes" comment="Push nốt bên nhánh này">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_05_11_2023_21_20_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_05_11_2023_21_20__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/forget_password/DatLaiMK.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/forget_password/DatLaiMK.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/forget_password/QuenMatKhau.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/forget_password/QuenMatKhau.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/forget_password/css/DatLaiMK.css" beforeDir="false" afterPath="$PROJECT_DIR$/views/forget_password/css/DatLaiMK.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/forget_password/css/QuenMatKhau.css" beforeDir="false" afterPath="$PROJECT_DIR$/views/forget_password/css/QuenMatKhau.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/forget_password/js/DatLaiMK.js" beforeDir="false" afterPath="$PROJECT_DIR$/views/forget_password/js/DatLaiMK.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/forget_password/js/QuenMatKhau.js" beforeDir="false" afterPath="$PROJECT_DIR$/views/forget_password/js/QuenMatKhau.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/signin/css/Dangnhap.css" beforeDir="false" afterPath="$PROJECT_DIR$/views/signin/css/Dangnhap.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/signin/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/signin/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/signin/js/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/views/signin/js/script.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/signup/DangKi.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/signup/DangKi.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="signin_signup" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -30,11 +52,13 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "admin__view",
-    "last_opened_file_path": "C:/GitHub/DoAn/LTW_Group33",
+    "git-widget-placeholder": "developer",
+    "last_opened_file_path": "C:/Users/impmd/Downloads/demo",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -54,10 +78,39 @@
       <workItem from="1699193874902" duration="477000" />
       <workItem from="1699194445535" duration="638000" />
       <workItem from="1699196228668" duration="30000" />
+      <workItem from="1700102825916" duration="1093000" />
+      <workItem from="1700120454637" duration="733000" />
+      <workItem from="1700122885390" duration="3332000" />
+      <workItem from="1700142234384" duration="2875000" />
     </task>
+    <task id="LOCAL-00001" summary="Push nốt bên nhánh này">
+      <option name="closed" value="true" />
+      <created>1700057323932</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1700057323932</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Chỉnh sửa lại signin-signup" />
+    <MESSAGE value="Push nốt bên nhánh này" />
+    <option name="LAST_COMMIT_MESSAGE" value="Push nốt bên nhánh này" />
   </component>
 </project>

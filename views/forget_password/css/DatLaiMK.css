@@ -130,11 +130,13 @@ body {
 }
 
 .screen-1 .login {
+    text-decoration: none;
+    text-align: center;
     padding: 1em;
+    color: black;
     background: #e3bd74;
-    color: white;
     border-radius: 30px;
-    font-weight: 600;
+    font-weight: 500;
     border: 1px solid #997404;
     /*box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);*/
 }

@@ -27,7 +27,7 @@
         <label for="password">Mật khẩu cũ</label>
         <div class="sec-2">
             <ion-icon name="lock-closed-outline" role="img" class="md hydrated" aria-label="lock closed outline"></ion-icon>
-            <input class="pas" type="password" name="password" id="passwordInput1" placeholder="············">
+            <input class="pas" type="password" name="password" id="passwordInput1" placeholder="············" oninput="check()">
             <!--            <ion-icon class="show-hide md hydrated" name="eye-outline" role="img" aria-label="eye outline"></ion-icon>-->
             <div id="passwordError1" class="error-message"></div>
         </div>
@@ -37,7 +37,7 @@
         <label for="password">Mật khẩu mới</label>
         <div class="sec-2">
             <ion-icon name="lock-closed-outline" role="img" class="md hydrated" aria-label="lock closed outline"></ion-icon>
-            <input class="pas" type="password" name="password" id="passwordInput2" placeholder="············">
+            <input class="pas" type="password" name="password" id="passwordInput2" placeholder="············" oninput="check()">
             <!--            <ion-icon class="show-hide md hydrated" name="eye-outline" role="img" aria-label="eye outline"></ion-icon>-->
             <div id="passwordError2" class="error-message"></div>
         </div>
@@ -46,14 +46,13 @@
         <label for="password">Nhập lại mật khẩu mới</label>
         <div class="sec-2">
             <ion-icon name="lock-closed-outline" role="img" class="md hydrated" aria-label="lock closed outline"></ion-icon>
-            <input class="pas" type="password" name="password" id="passwordInput3" placeholder="············">
+            <input class="pas" type="password" name="password" id="passwordInput3" placeholder="············" oninput="check()">
             <!--            <ion-icon class="show-hide md hydrated" name="eye-outline" role="img" aria-label="eye outline"></ion-icon>-->
             <div id="passwordError3" class="error-message"></div>
         </div>
     </div>
-    <button class="login">Cập nhật mật khẩu</button>
+    <a href="datlaimk-success.html" class="login">Cập nhật mật khẩu</a>
     <!-- Thêm sau nút cập nhật mật khẩu -->
-    <a href="index.html" class="back-to-home">Quay lại trang chủ</a>
 </div>
 <script src="js/DatLaiMK.js"></script>
 </body>
