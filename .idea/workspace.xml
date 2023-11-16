@@ -4,21 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ca7ae974-5416-45ae-bedb-e3359567601f" name="Changes" comment="Push nốt bên nhánh này">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_05_11_2023_21_20_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_05_11_2023_21_20__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/forget_password/DatLaiMK.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/forget_password/DatLaiMK.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/forget_password/QuenMatKhau.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/forget_password/QuenMatKhau.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/forget_password/css/DatLaiMK.css" beforeDir="false" afterPath="$PROJECT_DIR$/views/forget_password/css/DatLaiMK.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/forget_password/css/QuenMatKhau.css" beforeDir="false" afterPath="$PROJECT_DIR$/views/forget_password/css/QuenMatKhau.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/forget_password/js/DatLaiMK.js" beforeDir="false" afterPath="$PROJECT_DIR$/views/forget_password/js/DatLaiMK.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/forget_password/js/QuenMatKhau.js" beforeDir="false" afterPath="$PROJECT_DIR$/views/forget_password/js/QuenMatKhau.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/signin/css/Dangnhap.css" beforeDir="false" afterPath="$PROJECT_DIR$/views/signin/css/Dangnhap.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/signin/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/signin/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/signin/js/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/views/signin/js/script.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/signup/DangKi.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/signup/DangKi.html" afterDir="false" />
-    </list>
+    <list default="true" id="ca7ae974-5416-45ae-bedb-e3359567601f" name="Changes" comment="Chỉnh sửa trong signin, signup, forget password" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -81,7 +67,7 @@
       <workItem from="1700102825916" duration="1093000" />
       <workItem from="1700120454637" duration="733000" />
       <workItem from="1700122885390" duration="3332000" />
-      <workItem from="1700142234384" duration="2875000" />
+      <workItem from="1700142234384" duration="3307000" />
     </task>
     <task id="LOCAL-00001" summary="Push nốt bên nhánh này">
       <option name="closed" value="true" />
@@ -91,7 +77,23 @@
       <option name="project" value="LOCAL" />
       <updated>1700057323932</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Chỉnh sửa trong signin, signup, forget password">
+      <option name="closed" value="true" />
+      <created>1700146298114</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1700146298114</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Chỉnh sửa trong signin, signup, forget password">
+      <option name="closed" value="true" />
+      <created>1700146353207</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1700146353207</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -111,6 +113,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Chỉnh sửa lại signin-signup" />
     <MESSAGE value="Push nốt bên nhánh này" />
-    <option name="LAST_COMMIT_MESSAGE" value="Push nốt bên nhánh này" />
+    <MESSAGE value="Chỉnh sửa trong signin, signup, forget password" />
+    <option name="LAST_COMMIT_MESSAGE" value="Chỉnh sửa trong signin, signup, forget password" />
   </component>
 </project>
