@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="ca7ae974-5416-45ae-bedb-e3359567601f" name="Changes" comment="Push file thiếu">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/about.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/about.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/blog-content.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/blog-content.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/blog.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/blog.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/cart.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/cart.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/check-order-detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/check-order-detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/check-order.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/check-order.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/checkout.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/checkout.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/contact.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/contact.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/knitting.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/knitting.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/porcelain.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/porcelain.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/product-detail-danlat1.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/product-detail-danlat1.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/product-detail-danlat2.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/product-detail-danlat2.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/product-detail-go1.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/product-detail-go1.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/product-detail-go2.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/product-detail-go2.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/product-detail-gomsu1.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/product-detail-gomsu1.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/product-detail-gomsu2.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/product-detail-gomsu2.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/renew-password.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/renew-password.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/shop.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/shop.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/success-renew-info.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/success-renew-info.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/success-renew.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/success-renew.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/thankyou.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/thankyou.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/update_user_info.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/update_user_info.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/css/style.css" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="signin_signup" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2XWznUwZtDSI5MyVOn89qOHpssm" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;developer&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/impmd/Downloads/demo&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ca7ae974-5416-45ae-bedb-e3359567601f" name="Changes" comment="" />
+      <created>1698759790545</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1698759790545</updated>
+      <workItem from="1698759791527" duration="1108000" />
+      <workItem from="1699193874902" duration="477000" />
+      <workItem from="1699194445535" duration="638000" />
+      <workItem from="1699196228668" duration="30000" />
+      <workItem from="1700102825916" duration="1093000" />
+      <workItem from="1700120454637" duration="733000" />
+      <workItem from="1700122885390" duration="3332000" />
+      <workItem from="1700142234384" duration="3641000" />
+      <workItem from="1700147349599" duration="2277000" />
+      <workItem from="1700186112780" duration="3175000" />
+    </task>
+    <task id="LOCAL-00001" summary="Push nốt bên nhánh này">
+      <option name="closed" value="true" />
+      <created>1700057323932</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1700057323932</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Chỉnh sửa trong signin, signup, forget password">
+      <option name="closed" value="true" />
+      <created>1700146298114</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1700146298114</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Chỉnh sửa trong signin, signup, forget password">
+      <option name="closed" value="true" />
+      <created>1700146353207</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1700146353207</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Push file thiếu">
+      <option name="closed" value="true" />
+      <created>1700146689966</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1700146689966</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Push file thiếu">
+      <option name="closed" value="true" />
+      <created>1700147372989</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1700147372989</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Chỉnh sửa lại signin-signup" />
+    <MESSAGE value="Push nốt bên nhánh này" />
+    <MESSAGE value="Chỉnh sửa trong signin, signup, forget password" />
+    <MESSAGE value="Push file thiếu" />
+    <option name="LAST_COMMIT_MESSAGE" value="Push file thiếu" />
+  </component>
+</project>
