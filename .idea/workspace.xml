@@ -6,7 +6,30 @@
   <component name="ChangeListManager">
     <list default="true" id="ca7ae974-5416-45ae-bedb-e3359567601f" name="Changes" comment="Push file thiếu">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/about.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/about.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/blog-content.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/blog-content.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/blog.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/blog.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/cart.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/cart.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/check-order-detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/check-order-detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/check-order.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/check-order.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/checkout.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/checkout.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/contact.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/contact.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/knitting.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/knitting.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/porcelain.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/porcelain.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/product-detail-danlat1.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/product-detail-danlat1.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/product-detail-danlat2.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/product-detail-danlat2.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/product-detail-go1.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/product-detail-go1.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/product-detail-go2.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/product-detail-go2.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/product-detail-gomsu1.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/product-detail-gomsu1.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/product-detail-gomsu2.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/product-detail-gomsu2.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/renew-password.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/renew-password.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/shop.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/shop.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/success-renew-info.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/success-renew-info.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/success-renew.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/success-renew.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/client-html/thankyou.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/thankyou.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/client/client-html/update_user_info.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/client-html/update_user_info.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/client/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/views/client/css/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,7 +94,8 @@
       <workItem from="1700120454637" duration="733000" />
       <workItem from="1700122885390" duration="3332000" />
       <workItem from="1700142234384" duration="3641000" />
-      <workItem from="1700147349599" duration="18000" />
+      <workItem from="1700147349599" duration="2277000" />
+      <workItem from="1700186112780" duration="3175000" />
     </task>
     <task id="LOCAL-00001" summary="Push nốt bên nhánh này">
       <option name="closed" value="true" />
@@ -105,7 +129,15 @@
       <option name="project" value="LOCAL" />
       <updated>1700146689966</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Push file thiếu">
+      <option name="closed" value="true" />
+      <created>1700147372989</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1700147372989</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

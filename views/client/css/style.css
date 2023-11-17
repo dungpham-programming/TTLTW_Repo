@@ -2019,3 +2019,35 @@ a.check {
 .blog-content .news-content p {
     color: black;
 }
+
+#orderHistory {
+    margin: 3rem 0;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.edit, .add, .delete {
+    padding: .5rem .8rem;
+    border-radius: 3px;
+    background: var(--primary-color-darkred);
+    text-decoration: none;
+    color: var(--primary-color-darkyellow);
+    font-size: 14px;
+    display: inline-block;
+    text-align: center;
+}
+
+.return-btn {
+    padding-bottom: 2rem;
+}
+
+.checking-order-detail {
+    padding: 1rem;
+    background-color: var(--primary-color-darkred);
+    color: var(--primary-color-gray);
+    transition: .15s all ease-out;
+}
+
+.checking-order-detail:hover {
+    color: var(--primary-color-darkyellow)
+}

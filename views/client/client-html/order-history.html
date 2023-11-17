@@ -1,5 +1,3 @@
-<!--License: https://creativecommons.org/licenses/by/3.0/-->
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -19,13 +17,14 @@
     <link href="../css/style.css" rel="stylesheet">
 
     <title>DDD. - Nghệ thuật mỹ nghệ</title>
+</head>
 
 <body>
 
 <!-- Start Header/Navigation -->
-<nav class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark" arial-label="Furni navigation bar">
+<nav id="navigation" class="custom-navbar navbar navbar-fixed navbar-expand-md navbar-dark bg-dark" aria-label="DDD Navigation Bar">
 
-    <div class="container">
+    <div class="container" id="container-nav">
         <a class="navbar-brand" href="index.html">DDD<span>.</span></a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni" aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,16 +33,13 @@
 
         <div class="collapse navbar-collapse" id="navbarsFurni">
             <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-                <li class="nav-item ">
+                <li class="nav-item active">
                     <a class="nav-link" href="index.html">Trang chủ</a>
                 </li>
                 <li><a class="nav-link" href="shop.html">Sản phẩm</a></li>
                 <li><a class="nav-link" href="blog.html">Tin tức</a></li>
                 <li><a class="nav-link" href="contact.html">Liên hệ</a></li>
-                <li class="active"><a class="nav-link" href="about.html">Về chúng tôi</a></li>
-                <!--						<li><a class="nav-link" href="services.html">Services</a></li>-->
-
-
+                <li><a class="nav-link" href="about.html">Về chúng tôi</a></li>
             </ul>
 
             <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
@@ -64,12 +60,12 @@
 <!-- End Header/Navigation -->
 
 <!-- Start Hero Section -->
-<div class="hero aboutus position-relative-top-84px">
+<div class="hero home position-relative-top-84px">
     <div class="container">
         <div class="row justify-content-between">
             <div class="col-12">
                 <div class="intro-excerpt">
-                    <h1>Kiểm tra đơn hàng</h1>
+                    <h1>Lịch sử đơn hàng</h1>
                 </div>
             </div>
         </div>
@@ -77,61 +73,60 @@
 </div>
 <!-- End Hero Section -->
 
-
-<!-- Start Check Order Section -->
-<div class="untree_co-section position-relative-top-84px">
+<!-- Start Renew Password -->
+<div class="renew-password position-relative-top-84px">
     <div class="container">
         <div class="table-responsive">
-            <table id="orderTable">
+            <table id="orderHistory">
                 <thead>
                 <tr>
                     <th>ID Đơn hàng</th>
-                    <th>ID Khách hàng</th>
-                    <th>Ngày đặt</th>
-                    <th>Ngày giao</th>
-                    <th>Tổng trị giá</th>
-                    <th>Trạng thái</th>
-                    <th>Chi tiết đơn hàng</th>
+                    <th>Ngày tạo</th>
+                    <th>Ngày nhận</th>
+                    <th>Tổng tiền</th>
+                    <td>Trạng thái</td>
+                    <th>Chức năng</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <td>360001</td>
-                    <td>13001</td>
-                    <td>13/11/2022</td>
-                    <td>17/11/2022</td>
-                    <td>5.000.000đ</td>
-                    <td>Đang giao</td></td>
+                    <td>10001</td>
+                    <td>10/3/2023</td>
+                    <td>17/3/2023</td>
+                    <td>500000</td>
+                    <td>Thành công</td>
                     <td>
-                        <a href="check-order-detail.html" data-bs-toggle="tooltip" title="Chi tiết đơn hàng" class="check">
-                            <i class="fa-solid fa-info fa-xl" style="color: #e3bd74;"></i>
-                        </a>
+                        <a href="orderdetail-history.html" data-bs-toggle="tooltip" title="Chi tiết đơn hàng"
+                           class="edit"><i class="fa-solid fa-info fa-xl" style="color: #e3bd74;"></i></a>
+                        <a href="#" data-bs-toggle="tooltip" title="Hủy đơn hàng" class="delete"><i
+                                class="fa-solid fa-trash" style="color: #e3bd74;"></i></a>
                     </td>
                 </tr>
                 </tbody>
 
                 <tbody>
                 <tr>
-                    <td>360002</td>
-                    <td>13002</td>
-                    <td>null</td>
-                    <td>null</td>
-                    <td>2.500.000đ</td>
-                    <td>Đang gói hàng</td>
+                    <td>10002</td>
+                    <td>17/11/2023</td>
+                    <td>23/11/2023</td>
+                    <td>750000</td>
+                    <td>Chờ xác nhận</td>
                     <td>
-                        <a href="check-order-detail.html" data-bs-toggle="tooltip" title="Chi tiết đơn hàng" class="check">
-                            <i class="fa-solid fa-info fa-xl" style="color: #e3bd74;"></i>
-                        </a>
+                        <a href="orderdetail-history.html" data-bs-toggle="tooltip" title="Chi tiết đơn hàng"
+                           class="edit"><i class="fa-solid fa-info fa-xl" style="color: #e3bd74;"></i></a>
+                        <a href="#" data-bs-toggle="tooltip" title="Hủy đơn hàng" class="delete"><i
+                                class="fa-solid fa-trash" style="color: #e3bd74;"></i></a>
                     </td>
                 </tr>
+                </tbody>
             </table>
         </div>
-        <div class="order-detail-btn">
-            <a href="index.html" class="order-detail-check">Quay về trang chủ</a>
+        <div class="return-btn">
+            <a href="index.html" class="checking-order-detail">Quay về trang chủ</a>
         </div>
     </div>
 </div>
-<!-- End Check Order Section -->
+<!-- End Renew Password -->
 
 <!-- Start Footer Section -->
 <footer class="footer-section position-relative-top-84px">
@@ -183,13 +178,16 @@
                 </div>
             </div>
         </div>
+
     </div>
 </footer>
 <!-- End Footer Section -->
+
 <button id="scroll-to-top"><i class="fa-solid fa-chevron-up" style="color: #e3bd74;"></i></button>
 
 <script src="../js/bootstrap.bundle.min.js"></script>
 <script src="../js/tiny-slider.js"></script>
+<script src="../js/reset-password.js"></script>
 <script src="../js/custom.js"></script>
 </body>
 
