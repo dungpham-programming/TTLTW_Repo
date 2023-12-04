@@ -37,6 +37,31 @@ public class RegisterController extends HttpServlet {
 
                 // Tạo biến boolean lấy kết quả kiểm tra email từ database (Mục đích để không gọi xuống database quá nhiều lần).
                 boolean isExistEmail = registerService.isExistEmail(email);
+
+                // Các trường hợp không thành công thì thông báo lỗi
+                // Kiểm tra xem Email có bị bỏ trống hay không
+                if (!registerService.isBlankEmail(email)) {
+                    // Nếu không bị bỏ trống, kiểm tra xem email có hợp lệ không
+                    if (registerService.isValidEmail(email)) {
+                        // Nếu hợp lệ, kiểm tra xem email có tồn tại trong database không
+                        if (isExistEmail) {
+                            // Tồn tại thì trả về lỗi và set vào request
+                            emailError = "Email này đã tồn tại!";
+                            req.setAttribute("emailError", emailError);
+                        }
+                        // Không tồn tại lỗi gì thì xuống điều kiện khác
+                    }
+                    // Nếu không hợp lệ, trả về lỗi
+                    else {
+                        emailError = "Email không hợp lệ!";
+                        req.setAttribute("emailError", emailError);
+                    }
+                }
+                // Nếu bị bỏ trống, trả vè lỗi
+                else {
+                    emailError = "Email không được để trống!";
+                    req.setAttribute("emailError", emailError);
+                }
             }
         }
     }
