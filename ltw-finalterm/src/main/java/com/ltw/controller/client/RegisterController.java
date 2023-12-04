@@ -48,6 +48,7 @@ public class RegisterController extends HttpServlet {
                             // Tồn tại thì trả về lỗi và set vào request
                             emailError = "Email này đã tồn tại!";
                             req.setAttribute("emailError", emailError);
+                            req.getRequestDispatcher("signup.jsp").forward(req, resp);
                         }
                         // Không tồn tại lỗi gì thì xuống điều kiện khác
                     }
@@ -55,13 +56,17 @@ public class RegisterController extends HttpServlet {
                     else {
                         emailError = "Email không hợp lệ!";
                         req.setAttribute("emailError", emailError);
+                        req.getRequestDispatcher("signup.jsp").forward(req, resp);
                     }
                 }
                 // Nếu bị bỏ trống, trả vè lỗi
                 else {
                     emailError = "Email không được để trống!";
                     req.setAttribute("emailError", emailError);
+                    req.getRequestDispatcher("signup.jsp").forward(req, resp);
                 }
+                // Không có lỗi gì về email thì redirect sang trang client-home
+                resp.sendRedirect("client-home.jsp");
             }
         }
     }
