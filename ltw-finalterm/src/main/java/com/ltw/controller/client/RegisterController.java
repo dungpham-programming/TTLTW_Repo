@@ -30,6 +30,7 @@ public class RegisterController extends HttpServlet {
             if (type.equals("sendRegister")) {
                 String emailError = "";
                 String passwordError = "";
+                boolean availableRegister = true;
 
                 String email = req.getParameter("email");
                 String password = req.getParameter("password");
@@ -48,7 +49,7 @@ public class RegisterController extends HttpServlet {
                             // Tồn tại thì trả về lỗi và set vào request
                             emailError = "Email này đã tồn tại!";
                             req.setAttribute("emailError", emailError);
-                            req.getRequestDispatcher("signup.jsp").forward(req, resp);
+                            availableRegister = false;
                         }
                         // Không tồn tại lỗi gì thì xuống điều kiện khác
                     }
@@ -56,17 +57,41 @@ public class RegisterController extends HttpServlet {
                     else {
                         emailError = "Email không hợp lệ!";
                         req.setAttribute("emailError", emailError);
-                        req.getRequestDispatcher("signup.jsp").forward(req, resp);
+                        availableRegister = false;
                     }
                 }
                 // Nếu bị bỏ trống, trả vè lỗi
                 else {
                     emailError = "Email không được để trống!";
                     req.setAttribute("emailError", emailError);
-                    req.getRequestDispatcher("signup.jsp").forward(req, resp);
+                    availableRegister = false;
                 }
-                // Không có lỗi gì về email thì redirect sang trang client-home
-                resp.sendRedirect("client-home.jsp");
+
+                // Kiểm tra xem trường Mật khẩu và Nhập lại mật khẩu có bị để trống
+                if (!registerService.isBlankPassword(password, retypePassword)) {
+                    // Nếu không bị bỏ trống, kiểm tra xem 2 trường này có trùng khớp hay không
+                    // Nếu không trùng thì trả về lỗi
+                    if (!registerService.isSamePassword(password, retypePassword)) {
+                        passwordError = "Mật khẩu và Nhập lại mật khẩu không khớp";
+                        req.setAttribute("passwordError", passwordError);
+                        availableRegister = false;
+                    }
+                }
+                // Nếu bị bỏ trống, trả về lỗi
+                else {
+                    passwordError = "Mật khẩu hoặc Nhập lại mật khẩu không được để trống";
+                    req.setAttribute("passwordError", passwordError);
+                    availableRegister = false;
+                }
+
+                // Nếu lỗi mật khẩu hoặc tài khoản, forward lại signup.jsp và báo lỗi
+                if (!availableRegister) {
+                    req.getRequestDispatcher("/signup.jsp").forward(req, resp);
+                }
+                // Nếu không, chuyển hướng về trang chủ
+                else {
+                    resp.sendRedirect("client-home.jsp");
+                }
             }
         }
     }

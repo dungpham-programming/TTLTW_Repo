@@ -27,5 +27,14 @@ public class RegisterService {
         return !userByEmail.isEmpty();
     }
 
-
+    // Service kiểm tra xem Mật khẩu và Nhập lại mật khẩu có bị trống không
+    public boolean isBlankPassword(String password, String retypePassword) {
+        return (password == null || password.isEmpty()) || (retypePassword == null || retypePassword.isEmpty());
+    }
+    public boolean isSamePassword(String password, String retypePassword) {
+        if (isBlankPassword(password, retypePassword)) {
+            return false;
+        }
+        return password.equals(retypePassword);
+    }
 }
