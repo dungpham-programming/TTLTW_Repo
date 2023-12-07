@@ -1,6 +1,8 @@
 package com.ltw.controller.client;
 
+import com.ltw.bean.UserBean;
 import com.ltw.service.RegisterService;
+import com.ltw.util.SendEmailUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,7 +21,6 @@ public class RegisterController extends HttpServlet {
     }
 
     @Override
-
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
         String type = req.getParameter("type");
@@ -30,7 +31,6 @@ public class RegisterController extends HttpServlet {
             if (type.equals("sendRegister")) {
                 String emailError = "";
                 String passwordError = "";
-                boolean availableRegister = true;
 
                 String email = req.getParameter("email");
                 String password = req.getParameter("password");
@@ -49,7 +49,6 @@ public class RegisterController extends HttpServlet {
                             // Tồn tại thì trả về lỗi và set vào request
                             emailError = "Email này đã tồn tại!";
                             req.setAttribute("emailError", emailError);
-                            availableRegister = false;
                         }
                         // Không tồn tại lỗi gì thì xuống điều kiện khác
                     }
@@ -57,14 +56,12 @@ public class RegisterController extends HttpServlet {
                     else {
                         emailError = "Email không hợp lệ!";
                         req.setAttribute("emailError", emailError);
-                        availableRegister = false;
                     }
                 }
                 // Nếu bị bỏ trống, trả vè lỗi
                 else {
                     emailError = "Email không được để trống!";
                     req.setAttribute("emailError", emailError);
-                    availableRegister = false;
                 }
 
                 // Kiểm tra xem trường Mật khẩu và Nhập lại mật khẩu có bị để trống
@@ -74,23 +71,32 @@ public class RegisterController extends HttpServlet {
                     if (!registerService.isSamePassword(password, retypePassword)) {
                         passwordError = "Mật khẩu và Nhập lại mật khẩu không khớp";
                         req.setAttribute("passwordError", passwordError);
-                        availableRegister = false;
                     }
                 }
                 // Nếu bị bỏ trống, trả về lỗi
                 else {
                     passwordError = "Mật khẩu hoặc Nhập lại mật khẩu không được để trống";
                     req.setAttribute("passwordError", passwordError);
-                    availableRegister = false;
                 }
 
-                // Nếu lỗi mật khẩu hoặc tài khoản, forward lại signup.jsp và báo lỗi
-                if (!availableRegister) {
-                    req.getRequestDispatcher("/signup.jsp").forward(req, resp);
-                }
-                // Nếu không, chuyển hướng về trang chủ
-                else {
-                    resp.sendRedirect("client-home.jsp");
+                // Kiểm tra password và retypePassword trước khi binding xuống Bean
+                // Nếu thành công thì binding dữ liệu vào Bean rồi gửi về Service, sau đó gọi phương thức tạo mã ngẫu nhiên và set vào verifiedCode
+                if (registerService.isSamePassword(password, retypePassword) && !isExistEmail) {
+                    UserBean user = new UserBean();
+                    String verifiedCode = registerService.generateVerifiedCode();
+                    user.setEmail(email);
+                    user.setPassword(password);
+                    user.setVerifiedCode(verifiedCode);
+
+                    // Gửi verifiedCode về Email
+                    SendEmailUtil.sendVerificationCode(email, verifiedCode);
+
+                    // Gửi kèm id để có thể truyền param khi thực hiện lấy verifiedCode lên để so sánh
+                    id = registerService.register(user);
+                    resp.sendRedirect(req.getContextPath() + "/verified.jsp?id=" + id + "&email=" + email);
+                } else {
+                    // Nếu không thành công, link sẽ được redirect cùng với lỗi
+                    req.getRequestDispatcher("signup.jsp").forward(req, resp);
                 }
             }
         }
