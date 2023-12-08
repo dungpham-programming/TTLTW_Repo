@@ -1,5 +1,7 @@
 package com.ltw.util;
 
+import com.sun.mail.util.MailLogger;
+
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;

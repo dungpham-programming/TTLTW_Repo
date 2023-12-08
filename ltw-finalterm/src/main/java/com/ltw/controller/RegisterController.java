@@ -1,4 +1,4 @@
-package com.ltw.controller.client;
+package com.ltw.controller;
 
 import com.ltw.bean.UserBean;
 import com.ltw.service.RegisterService;
@@ -100,5 +100,9 @@ public class RegisterController extends HttpServlet {
                 }
             }
         }
+    }
+
+    private boolean isCorrectEmail(String email) {
+        return true;
     }
 }
