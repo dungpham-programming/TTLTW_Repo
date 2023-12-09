@@ -1,5 +1,7 @@
 package com.ltw.controller.client;
 
+import com.ltw.bean.BlogBean;
+import com.ltw.bean.CategoryBean;
 import com.ltw.service.BlogService;
 import com.ltw.service.CategoryService;
 
@@ -18,6 +20,10 @@ public class HomeController extends HttpServlet {
     private final BlogService blogService = new BlogService();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        List<CategoryBean> listCategories = categoryService.findAllCategories();
+        List<BlogBean> listThreeBlogs = blogService.findThreeBlogs();
+        req.setAttribute("listCategories", listCategories);
+        req.setAttribute("listBlogs", listThreeBlogs);
         req.getRequestDispatcher("client-home.jsp").forward(req, resp);
     }
 
