@@ -2052,3 +2052,12 @@ a.check {
 .checking-order-detail:hover {
     color: var(--primary-color-darkyellow)
 }
+
+.error {
+    color: red;
+}
+
+.success {
+    font-weight: 700;
+    color: green;
+}

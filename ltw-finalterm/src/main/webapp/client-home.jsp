@@ -51,7 +51,7 @@
                 <li class="hv-li"><a class="nav-link yellow" href="#"><i class="fa-regular fa-user"></i></a>
                     <ul class="ul-drop-menu">
                         <li class="drop-menu hello-user">Xin chào, User!</li>
-                        <li class="drop-menu hv-gray"><a href="update_user_info.html" class="">Thông tin tài khoản</a></li>
+                        <li class="drop-menu hv-gray"><a href="<c:url value="/userinfo?action=view&id=5"/>" class="">Thông tin tài khoản</a></li>
                         <li class="drop-menu hv-gray"><a href="order-history.html" class="">Lịch sử đơn hàng</a></li>
                         <li class="drop-menu hv-gray"><a href="#">Đăng xuất</a></li>
                     </ul>
