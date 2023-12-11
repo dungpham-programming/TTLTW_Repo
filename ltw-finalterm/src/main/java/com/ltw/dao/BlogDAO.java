@@ -47,4 +47,39 @@ public class BlogDAO {
             CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
         }
     }
+
+    public List<BlogBean> findAllBlogs() {
+        List<BlogBean> result = new ArrayList<>();
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT id, title, categoryId, createdDate ")
+                .append("FROM blogs ")
+                .append("WHERE status = 1 ");
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            preparedStatement = connection.prepareStatement(sql.toString());
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                BlogBean blogBean = new BlogBean();
+                blogBean.setId(resultSet.getInt("id"));
+                blogBean.setTitle(resultSet.getString("title"));
+                blogBean.setCategoryId(resultSet.getInt("categoryId"));
+                blogBean.setCreatedDate(resultSet.getTimestamp("createdDate"));
+
+                result.add(blogBean);
+            }
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+
+    }
 }
