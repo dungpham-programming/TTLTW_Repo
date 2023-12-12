@@ -9,16 +9,15 @@
 </head>
 <body>
 
-<%-- Loop through the list of blogs to display them --%>
 <div>
     <h1>List of Blogs</h1>
     <% List<BlogBean> listBlogs = (List<BlogBean>) request.getAttribute("listBlogs");
-        if (listBlogs != null) {
+        if (listBlogs != null && !listBlogs.isEmpty()) {
             for (BlogBean blog : listBlogs) { %>
     <div>
-        <h2><a href="blog-content.html?id=<%=blog.setId(resultSet.getInt("id")); %>"><%=blog.setTitle(resultSet.getString("title"));%></a></h2>
-        <%=blog.setCategoryId(resultSet.getInt("categoryId"))%>
-        <%=blog.setCreatedDate(resultSet.getTimestamp("createdDate"));%>
+        <h2><a href="blog-content.html?id=<%= blog.getId() %>"><%= blog.getTitle() %></a></h2>
+        <p>Category: <%= blog.getCategoryId() %></p>
+        <p>Created Date: <%= blog.getCreatedDate() %></p>
     </div>
     <% }
     } else { %>
