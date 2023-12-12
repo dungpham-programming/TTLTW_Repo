@@ -22,6 +22,7 @@ public class SigninController extends HttpServlet {
 
     }
 
+    // TODO: Hashing password + Hiển thị lỗi lên JSP
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String email = req.getParameter("email");
