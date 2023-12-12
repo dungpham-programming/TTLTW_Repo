@@ -182,7 +182,7 @@ public class UserDAO {
             connection = OpenConnectionUtil.openConnection();
             preparedStatement = connection.prepareStatement(sql.toString());
 
-            SetParameterUtil.setParameter(preparedStatement, email);
+            SetParameterUtil.setParameter(preparedStatement, email, password);
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
@@ -245,6 +245,7 @@ public class UserDAO {
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
+                userBean = new UserBean();
                 userBean.setId(resultSet.getInt("id"));
                 userBean.setEmail(resultSet.getString("email"));
                 userBean.setRoleId(resultSet.getInt("roleId"));
