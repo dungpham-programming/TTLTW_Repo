@@ -10,36 +10,37 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class ContactDAO {
-    public void createContact(ContactBean contactBean){
+    public void createContact(ContactBean contactBean) {
         StringBuilder sql = new StringBuilder();
-        sql.append("INSERT INTO contacts ")
-                .append("(email, title, message, status)")
-                .append("VALUE")
-                .append("(?,?,?,1");
+        sql.append("INSERT INTO users ")
+                .append("(email, firstName, lastName, message, status)")
+                .append(" VALUES ")
+                .append("(?, ?, ?, ?, 1)");
 
         Connection connection = null;
-        PreparedStatement preparedStatement=null;
+        PreparedStatement preparedStatement = null;
 
-        try{
+        try {
             connection = OpenConnectionUtil.openConnection();
-
+            // Do đây là non-query (Non-query là INSERT, UPDATE, DELETE trong SQL) nên cần setAutoCommit(false)...
             connection.setAutoCommit(false);
             preparedStatement = connection.prepareStatement(sql.toString());
 
-            SetParameterUtil.setParameter(preparedStatement, contactBean.getEmail(), contactBean.getTitle(),
-                    contactBean.getMessage());
+            SetParameterUtil.setParameter(preparedStatement, contactBean.getEmail(), contactBean.getFirstName(),
+                    contactBean.getLastName(), contactBean.getMessage());
 
             preparedStatement.executeUpdate();
+            // ... và commit ở đây...
             connection.commit();
         } catch (SQLException e) {
             try {
+                // ... cũng như rollback khi bị lỗi SQL ở đây.
                 connection.rollback();
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
         } finally {
             CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
-
         }
     }
 }

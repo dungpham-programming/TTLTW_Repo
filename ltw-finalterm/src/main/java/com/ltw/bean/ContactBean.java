@@ -5,6 +5,9 @@ import java.sql.Timestamp;
 public class ContactBean {
     private int id;
     private String email;
+    private String firstName;
+    private String lastName;
+
     private String title;
     private String message;
     private int status;
@@ -86,5 +89,21 @@ public class ContactBean {
 
     public void setModifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }
