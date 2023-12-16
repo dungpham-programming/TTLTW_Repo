@@ -18,11 +18,6 @@ public class RegisterService {
         userDAO.setNewVerifiedCode(id, verifiedCode);
     }
 
-    // Service set code rỗng sau khi đã verify
-    public void setEmptyCode(int id) {
-        userDAO.setEmptyCode(id);
-    }
-
     // Service kiểm tra xem Email có để trống không
     public boolean isBlankEmail(String email) {
         return email == null || email.isEmpty();
@@ -88,7 +83,7 @@ public class RegisterService {
         // Nếu tìm thấy verifiedCode và id query được trùng với id được gửi từ Servlet về
         // => Trả vè true và set verifiedCode = "" (Không sợ người dùng gửi "" về vì đã validate).
         if (id == idQuery) {
-            setEmptyCode(id);
+            userDAO.setEmptyCodeAndActive(id);
             check = true;
         }
         else {
