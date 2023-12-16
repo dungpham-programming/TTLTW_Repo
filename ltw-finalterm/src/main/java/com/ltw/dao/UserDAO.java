@@ -138,11 +138,11 @@ public class UserDAO {
         }
     }
 
-    // Set code bằng chuỗi rỗng (Sau khi đã xác thực thành công)
-    public void setEmptyCode(int id) {
+    // Set code bằng chuỗi rỗng (Sau khi đã xác thực thành công) và active tài khoản
+    public void setEmptyCodeAndActive(int id) {
         StringBuilder sql = new StringBuilder();
         sql.append("UPDATE users ")
-                .append("SET verifiedCode = '' ")
+                .append("SET verifiedCode = '' AND status = 1 ")
                 .append("WHERE id = ?");
 
         Connection connection = null;

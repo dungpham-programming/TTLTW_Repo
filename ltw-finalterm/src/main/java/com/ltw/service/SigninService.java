@@ -14,6 +14,16 @@ public class SigninService {
         return userDAO.findIdByEmail(email).get(0);
     }
 
+    // Service tạo ra một verifiedCode mới
+    public void setNewVerifiedCode(int id, String verifiedCode) {
+        userDAO.setNewVerifiedCode(id, verifiedCode);
+    }
+
+    // Service set code rỗng sau khi đã verify và active tài khoản
+    public void setEmptyCodeAndActive(int id) {
+        userDAO.setEmptyCodeAndActive(id);
+    }
+
     // Service kiểm tra xem Email có để trống không
     public boolean isBlankEmail(String email) {
         return email == null || email.isEmpty();
@@ -62,5 +72,35 @@ public class SigninService {
             verifiedCode.append(randomCharacter);
         }
         return verifiedCode.toString();
+    }
+
+    // Service kiểm tra xem verify input có để trống không
+    public boolean isBlankVerification(String verifyInput) {
+        return (verifyInput == null || verifyInput.isEmpty());
+    }
+
+    // Service kiểm tra xem verify input có đủ 8 ký tự không
+    public boolean isCorrectLength(String verifyInput) {
+        if (verifyInput == null || verifyInput.isEmpty()) {
+            return false;
+        }
+        return verifyInput.length() == 8;
+    }
+
+    // Service kiểm tra verifiedCode
+    public boolean isCorrectVerifiedCode(int id, String verifiedCode) {
+        boolean check = false;
+        int idQuery = userDAO.checkVerifiedCode(verifiedCode);
+        // Nếu tìm thấy verifiedCode và id query được trùng với id được gửi từ Servlet về
+        // => Trả vè true và set verifiedCode = "" (Không sợ người dùng gửi "" về vì đã validate).
+        // cùng với đó là active tài khoản
+        if (id == idQuery) {
+            setEmptyCodeAndActive(id);
+            check = true;
+        }
+        else {
+            check = false;
+        }
+        return check;
     }
 }

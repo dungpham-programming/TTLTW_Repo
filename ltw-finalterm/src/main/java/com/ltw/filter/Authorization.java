@@ -20,17 +20,25 @@ public class Authorization implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String uri = request.getRequestURI();
-        // Filter các url bắt đầu bằng "/admin"
-        if (uri.startsWith("/admin")) {
+        // Filter các url bắt đầu bằng "/admin" hoặc có chứa "admin"
+        if (uri.startsWith("/admin") || uri.contains("admin")) {
             UserBean user = (UserBean) SessionUtil.getInstance().getValue(request, "user");
+            // Nếu có tồn tại Session thì tiếp tục
             if (user != null) {
-                if (user.getRoleId() == 1 || user.getRoleId() == 2) {
+                // Nếu roleId là 2 (Admin) hoặc 3 (Mod) thì cho qua
+                if (user.getRoleId() == 2 || user.getRoleId() == 3) {
                     filterChain.doFilter(servletRequest, servletResponse);
+                } else {
+                    // Nếu không phải thì trả về trang home và nhắc nhở không có quyền truy cập
+                    response.sendRedirect(request.getContextPath() + "/home?message=not_permission");
                 }
-                else {
-                    
-                }
+            } else {
+                // Nếu chưa tồn tại Session, điều hướng sang trang login
+                response.sendRedirect(request.getContextPath() + "/signin.jsp?message=must_login");
             }
+        } else {
+            // Nếu không chứa gì liên quan đến admin thì cho qua
+            filterChain.doFilter(servletRequest, servletResponse);
         }
     }
 

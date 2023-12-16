@@ -73,6 +73,7 @@ public class SigninController extends HttpServlet {
                 // Nếu chưa active thì tạo ra verifiedCode mới, gửi về email người dùng và redirect sang trang verified
                 int id = signinService.findIdByEmail(email);
                 String verifiedCode = signinService.generateVerifiedCode();
+                signinService.setNewVerifiedCode(id, verifiedCode);
                 SendEmailUtil.sendVerificationCode(email, verifiedCode);
                 resp.sendRedirect(req.getContextPath() + "/verified.jsp?id=" + id + "&email=" + email);
             }
