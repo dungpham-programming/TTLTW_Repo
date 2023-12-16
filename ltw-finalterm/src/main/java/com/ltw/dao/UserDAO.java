@@ -143,7 +143,7 @@ public class UserDAO {
     public void setEmptyCodeAndActive(int id) {
         StringBuilder sql = new StringBuilder();
         sql.append("UPDATE users ")
-                .append("SET verifiedCode = '' AND status = 1 ")
+                .append("SET verifiedCode = '', status = 1 ")
                 .append("WHERE id = ?");
 
         Connection connection = null;
