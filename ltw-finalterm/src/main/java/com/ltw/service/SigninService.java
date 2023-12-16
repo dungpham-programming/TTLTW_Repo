@@ -19,11 +19,6 @@ public class SigninService {
         userDAO.setNewVerifiedCode(id, verifiedCode);
     }
 
-    // Service set code rỗng sau khi đã verify và active tài khoản
-    public void setEmptyCodeAndActive(int id) {
-        userDAO.setEmptyCodeAndActive(id);
-    }
-
     // Service kiểm tra xem Email có để trống không
     public boolean isBlankEmail(String email) {
         return email == null || email.isEmpty();
@@ -95,7 +90,7 @@ public class SigninService {
         // => Trả vè true và set verifiedCode = "" (Không sợ người dùng gửi "" về vì đã validate).
         // cùng với đó là active tài khoản
         if (id == idQuery) {
-            setEmptyCodeAndActive(id);
+            userDAO.setEmptyCodeAndActive(id);
             check = true;
         }
         else {
