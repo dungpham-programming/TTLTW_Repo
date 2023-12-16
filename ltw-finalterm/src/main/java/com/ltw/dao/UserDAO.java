@@ -40,13 +40,14 @@ public class UserDAO {
     }
 
     // Tạo tài khoản mới (Thông qua đăng ký của client)
+    // Role mặc định của client là 1
     public int createInRegister(UserBean user) {
         int id = 0;
         StringBuilder sql = new StringBuilder();
         sql.append("INSERT INTO users ")
                 .append("(email, password, roleId, status, verifiedCode)")
                 .append(" VALUES ")
-                .append("(?, ?, 2, 2, ?)");
+                .append("(?, ?, 1, 2, ?)");
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
