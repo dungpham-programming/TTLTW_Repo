@@ -26,8 +26,10 @@ public class VerifiedController extends HttpServlet {
                 SendEmailUtil.sendVerificationCode(email, verifiedCode);
                 // Set vào database
                 registerService.setNewVerifiedCode(id, verifiedCode);
+                // Thông báo cho người dùng đẫ gửi code mới thông qua 1 String
+                String confirm = "confirm";
                 // Chuyển hướng người dùng
-                resp.sendRedirect(req.getContextPath() + "/verified.jsp?id=" + id +"&email=" + email);
+                resp.sendRedirect(req.getContextPath() + "/verified.jsp?id=" + id +"&email=" + email + "&confirm=" + confirm);
             }
         }
     }
@@ -70,7 +72,8 @@ public class VerifiedController extends HttpServlet {
                     codeError = "VerifiedCode không được để trống";
                     req.setAttribute("codeError", codeError);
                 }
-                req.getRequestDispatcher("/verified.jsp?id=" + id).forward(req, resp);
+                // Trong request đã có id và email của input hidden
+                req.getRequestDispatcher("/verified.jsp").forward(req, resp);
             }
         }
     }

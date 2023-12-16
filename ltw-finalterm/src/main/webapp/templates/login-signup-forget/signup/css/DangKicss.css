@@ -25,13 +25,20 @@
 
 }
 
-.input-group {
+.input {
+    margin-top: 50px;
     text-align: left;
+    display: block;
 }
 
-h1{
-    color: #e8b949  ;
-    margin-left: 200px;
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo h1{
+    color: #e8b949;
     font-size: 35px;
     font-weight: bold;
     text-align: center;

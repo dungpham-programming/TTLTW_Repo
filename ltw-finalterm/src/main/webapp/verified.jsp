@@ -6,12 +6,13 @@
     <meta charset="UTF-8">
     <title>Form Dang Ky Tai Khoan</title>
     <link rel="stylesheet" href="<c:url value="/templates/login-signup-forget/signup/css/DangKicss.css"/>">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
 <div id="page">
     <div class="form-account">
-        <div class="input-group">
+        <div class="input">
             <div class="logo">
                 <h1>DDD.</h1>
             </div>
@@ -24,7 +25,12 @@
                 String id = request.getParameter("id");
                 String codeError = (String) request.getAttribute("codeError");
                 String email = request.getParameter("email");
+                String confirm = request.getParameter("confirm");
             %>
+            <% if (confirm != null) { %>
+            <p class="alert alert-success">Mã xác thực mới đã gửi về email của bạn!</p>
+            <% } %>
+
             <form action="<c:url value="/verification"/>" method="post" accept-charset="UTF-8">
                 <div class="form-group">
                     <i class="fa-solid fa-envelope"></i>
@@ -38,6 +44,7 @@
 
                 <input type="hidden" name="type" value="verified">
                 <input type="hidden" name="id" value="<%= id %>">
+                <input type="hidden" name="email" value="<%= email %>">
                 <div class="form-group">
                     <input type="submit"/>
                 </div>
