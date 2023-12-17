@@ -38,42 +38,41 @@ public class UserDAO {
             CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
         }
     }
-//check verify
-public boolean isEmailVerified(String email) {
-    int status = -1;
-    StringBuilder sql = new StringBuilder();
-    sql.append("SELECT status FROM users ")
-            .append("WHERE email = ?");
 
-    Connection connection = null;
-    PreparedStatement preparedStatement = null;
-    ResultSet resultSet = null;
-    try {
-        connection = OpenConnectionUtil.openConnection();
-        preparedStatement = connection.prepareStatement(sql.toString());
+    // Kiểm tra xem tài khoản đã được active chưa
+    public boolean isActiveAccount(String email) {
+        int status = -1;
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT status FROM users ")
+                .append("WHERE email = ?");
 
-        // Set the email parameter
-        SetParameterUtil.setParameter(preparedStatement, email);
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            preparedStatement = connection.prepareStatement(sql.toString());
 
-        // Execute the query
-        resultSet = preparedStatement.executeQuery();
+            // Set the email parameter
+            SetParameterUtil.setParameter(preparedStatement, email);
 
-        // Check if the result set has a row
-        if (resultSet.next()) {
-            status = resultSet.getInt(1);
+            // Execute the query
+            resultSet = preparedStatement.executeQuery();
+
+            // Check if the result set has a row
+            if (resultSet.next()) {
+                status = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            // Handle the exception (log it or throw a custom exception)
+            e.printStackTrace(); // Example, you should handle this appropriately in your application
+        } finally {
+            // Close resources in the finally block
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
         }
-
         // Check if the status indicates email verification (you can adjust this condition)
         return status == 1;
-    } catch (SQLException e) {
-        // Handle the exception (log it or throw a custom exception)
-        e.printStackTrace(); // Example, you should handle this appropriately in your application
-        return false;
-    } finally {
-        // Close resources in the finally block
-        CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
     }
-}
 
     // Tạo tài khoản mới (Thông qua đăng ký của client)
     public int createInRegister(UserBean user) {
@@ -102,7 +101,6 @@ public boolean isEmailVerified(String email) {
                 id = resultSet.getInt(1);
             }
             connection.commit();
-            return id;
         } catch (SQLException e) {
             try {
                 connection.rollback();
@@ -113,6 +111,7 @@ public boolean isEmailVerified(String email) {
         } finally {
             CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
         }
+        return id;
     }
 
     // Lấy lên id dựa vào verifiedCode (Để kiểm tra tính hợp lệ của code)
@@ -137,12 +136,12 @@ public boolean isEmailVerified(String email) {
             if (resultSet.next()) {
                 result = resultSet.getInt(1);
             }
-            return result;
         } catch (SQLException e) {
             return 0;
         } finally {
             CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
         }
+        return result;
     }
 
     // Set verifiedCode mới khi người dùng yêu cầu
@@ -201,5 +200,41 @@ public boolean isEmailVerified(String email) {
         } finally {
             CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
         }
+    }
+
+    // Lưu verifiedCode vào tài khoản có email tương ứng và trả vè id của tài khoản đó
+    public int saveCodeByEmail(String email, String verifiedCode) {
+        int id = -1;
+        StringBuilder sql = new StringBuilder();
+        sql.append("UPDATE users ")
+                .append("SET verifiedCode = ? ")
+                .append("WHERE email = ?");
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            connection.setAutoCommit(false);
+            preparedStatement = connection.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
+
+            SetParameterUtil.setParameter(preparedStatement, verifiedCode, email);
+            preparedStatement.executeUpdate();
+            resultSet = preparedStatement.getGeneratedKeys();
+            if (resultSet.next()) {
+                id = resultSet.getInt(1);
+            }
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        } finally {
+            CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
+        }
+        return id;
     }
 }
