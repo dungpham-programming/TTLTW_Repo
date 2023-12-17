@@ -16,7 +16,7 @@ public class BlogDAO {
     public List<BlogBean> findThreeBlogs() {
         List<BlogBean> result = new ArrayList<>();
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT id, title, categoryId, createdDate ")
+        sql.append("SELECT id, title, author, categoryId, createdDate ")
                 .append("FROM blogs ")
                 .append("WHERE status = 1 ")
                 .append("LIMIT 3");
@@ -34,6 +34,7 @@ public class BlogDAO {
                 BlogBean blogBean = new BlogBean();
                 blogBean.setId(resultSet.getInt("id"));
                 blogBean.setTitle(resultSet.getString("title"));
+                blogBean.setAuthor(resultSet.getString("author"));
                 blogBean.setCategoryId(resultSet.getInt("categoryId"));
                 blogBean.setCreatedDate(resultSet.getTimestamp("createdDate"));
 
@@ -51,7 +52,7 @@ public class BlogDAO {
     public List<BlogBean> findAllBlogs() {
         List<BlogBean> result = new ArrayList<>();
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT id, title, categoryId, createdDate ")
+        sql.append("SELECT id, title, author, categoryId, createdDate ")
                 .append("FROM blogs ")
                 .append("WHERE status = 1 ");
 
@@ -68,6 +69,7 @@ public class BlogDAO {
                 BlogBean blogBean = new BlogBean();
                 blogBean.setId(resultSet.getInt("id"));
                 blogBean.setTitle(resultSet.getString("title"));
+                blogBean.setAuthor(resultSet.getString("author"));
                 blogBean.setCategoryId(resultSet.getInt("categoryId"));
                 blogBean.setCreatedDate(resultSet.getTimestamp("createdDate"));
 

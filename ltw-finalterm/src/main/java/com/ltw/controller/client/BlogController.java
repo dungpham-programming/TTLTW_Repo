@@ -20,4 +20,3 @@ public class BlogController extends HttpServlet {
         req.getRequestDispatcher("blog.jsp").forward(req, resp);
     }
 }
-
