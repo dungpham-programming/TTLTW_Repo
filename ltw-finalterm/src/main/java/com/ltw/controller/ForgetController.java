@@ -28,12 +28,12 @@ public class ForgetController extends HttpServlet {
                 // Nếu email có tồn tại trong database thì tiếp tục
                 if (forgetService.isExistEmail(email)) {
                     // Nếu tài khoản của email đã được active (status = 1) thì gửi verify code
-                    // và sendRedirect sang trang check-forget.jsp cùng với tham số id và email trên URL
+                    // và sendRedirect sang trang checking-forget.jsp cùng với tham số id và email trên URL
                     if (forgetService.isActiveAccount(email)) {
                         String verifiedCode = forgetService.generateVerifiedCode();
                         int id = forgetService.saveCodeByEmail(email, verifiedCode);
                         SendEmailUtil.sendVerificationCode(email, verifiedCode);
-//                        resp.sendRedirect();
+                        resp.sendRedirect(req.getContextPath() + "checking-forget.jsp/id=" + id + "&email=" + email);
                     }
                 } else {
                     // Nếu tài khoản chưa active thì lấy id và email truyền vào URL rồi sendRedirect
