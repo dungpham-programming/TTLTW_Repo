@@ -38,7 +38,7 @@
         String id = request.getParameter("id");
         String email = request.getParameter("email");
     %>
-    <form action="<c:url value="/forget-verify"/>" method="post">
+    <form action="<c:url value="/forget-verify">" method="post">
         <div class="email">
             <label for="emailInput">Mã xác thực</label>
             <div class="sec-2">
@@ -52,7 +52,9 @@
         <button class="login" type="submit">Gửi</button>
     </form>
 
-    <a href="<c:url"></a>
+    <a href="<c:url>
+                <c:param name=""/>
+             <c:url/>"></a>
 </div>
 
 <script src="js/QuenMatKhau.js"></script>
