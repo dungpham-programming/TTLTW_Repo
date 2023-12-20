@@ -5,9 +5,9 @@
   Time: 6:32 CH
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!--License: https://creativecommons.org/licenses/by/3.0/-->
 
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <html lang="en">
 <head>
@@ -21,10 +21,9 @@
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/sharp-light.css">
 
     <!-- Bootstrap CSS -->
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="<c:url value="/templates/client/css/bootstrap.min.css"/>" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
-    <link href="../css/tiny-slider.css" rel="stylesheet">
-    <link href="../css/style.css" rel="stylesheet">
+    <link href="<c:url value="/templates/client/css/style.css"/>" rel="stylesheet">
 
     <title>DDD. - Nghệ thuật mỹ nghệ</title>
 </head>
@@ -150,7 +149,7 @@
                         </div>
                     </div>
 
-                    <form>
+                    <form action="<c:url value="/contact"/>  " method="post " accept-charset="UTF-8">
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
@@ -252,9 +251,9 @@
 <button id="scroll-to-top"><i class="fa-solid fa-chevron-up" style="color: #e3bd74;"></i></button>
 
 
-<script src="../js/bootstrap.bundle.min.js"></script>
-<script src="../js/tiny-slider.js"></script>
-<script src="../js/custom.js"></script>
+
+<script src="<c:url value="/templates/client/js/bootstrap.bundle.min.js"/>"></script>
+<script src="<c:url value="/templates/client/js/custom.js"/>"></script>
 </body>
 
 </html>

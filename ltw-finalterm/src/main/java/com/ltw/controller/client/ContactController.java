@@ -1,5 +1,7 @@
 package com.ltw.controller.client;
 
+import com.ltw.bean.ContactBean;
+import com.ltw.dao.ContactDAO;
 import com.ltw.util.BlankInputUtil;
 
 import javax.servlet.ServletException;
@@ -11,6 +13,7 @@ import java.io.IOException;
 
 @WebServlet(value = {"/contact"})
 public class ContactController extends HttpServlet {
+    private final ContactDAO contactDAO =new ContactDAO();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("contact.jsp").forward(req, resp);
@@ -53,6 +56,13 @@ public class ContactController extends HttpServlet {
         }
         // Hợp lệ thì set thành công và forward về trang
         else {
+            ContactBean contactBean=new ContactBean();
+            contactBean.setEmail(email);
+            contactBean.setFirstName(firstName);
+            contactBean.setLastName(lastName);
+            contactBean.setMessage(message);
+            contactDAO.createContact(contactBean);
+
             req.setAttribute("success", success);
             req.getRequestDispatcher("contact.jsp").forward(req, resp);
 
