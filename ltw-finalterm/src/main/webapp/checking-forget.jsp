@@ -1,3 +1,4 @@
+<%@ page import="com.ltw.bean.UserBean" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -41,27 +42,33 @@
     %>
     <form action="<c:url value="/forget-verify"/>" method="post">
         <% if (confirm != null) { %>
-        <div class="resend alert-success">Mã xác thực mới đã được gửi về email của bạn</div>
+        <div class="resend"><p class="success">Mã xác thực mới đã được gửi về email của bạn</p></div>
         <% } %>
         <div class="email">
-            <label for="emailInput">Mã xác thực</label>
+            <label for="codeInput">Mã xác thực</label>
             <div class="sec-2">
                 <ion-icon name="lock-closed-outline" role="img" class="md hydrated"
                           aria-label="lock closed outline"></ion-icon>
-                <input type="email" name="email" id="emailInput" placeholder="Nhập mã xác thực" oninput="checkEmail()">
+                <input type="text" name="code" id="codeInput" placeholder="Nhập mã xác thực" oninput="checkEmail()">
                 <div id="emailError" class="error-message"></div>
             </div>
         </div>
 
-        <button class="login" type="submit">Gửi</button>
+        <input type="hidden" name="email" value="<%=email%>">
+        <button class="sending" type="submit">Gửi</button>
     </form>
-
-    <a href="<c:url>
+    <div class="link">
+        <a class="a-link" href="<c:url value="/forget-verify">
                 <c:param name="email" value="<%= email %>"/>
                 <c:param name="type" value="resendCode" />
             </c:url>">
-        Gửi lại mã
-    </a>
+            Gửi lại mã
+        </a>
+
+        <a class="a-link" href="#">
+            Quay về đăng nhập
+        </a>
+    </div>
 </div>
 
 <script src="<c:url value="/templates/login-signup-forget/forget/js/QuenMatKhau.js"/>"></script>

@@ -115,10 +115,10 @@ public class UserDAO {
     }
 
     // Lấy lên id dựa vào verifiedCode (Để kiểm tra tính hợp lệ của code)
-    public int checkVerifiedCode(String verifiedCode) {
-        int result = 0;
+    public String checkVerifiedCode(String verifiedCode) {
+        String email = null;
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT id FROM users ")
+        sql.append("SELECT email FROM users ")
                 .append("WHERE verifiedCode = ?");
 
         Connection connection = null;
@@ -134,14 +134,14 @@ public class UserDAO {
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                result = resultSet.getInt(1);
+                email = resultSet.getString("email");
             }
         } catch (SQLException e) {
-            return 0;
+            throw new RuntimeException(e);
         } finally {
             CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
         }
-        return result;
+        return email;
     }
 
     // Set verifiedCode mới khi người dùng yêu cầu
@@ -174,7 +174,7 @@ public class UserDAO {
     }
 
     // Set code bằng chuỗi rỗng (Sau khi đã xác thực thành công)
-    public void setEmptyCode(int id) {
+    public void setEmptyCode(String email) {
         StringBuilder sql = new StringBuilder();
         sql.append("UPDATE users ")
                 .append("SET verifiedCode = '' ")
@@ -188,7 +188,7 @@ public class UserDAO {
             connection.setAutoCommit(false);
             preparedStatement = connection.prepareStatement(sql.toString());
 
-            SetParameterUtil.setParameter(preparedStatement, id);
+            SetParameterUtil.setParameter(preparedStatement, email);
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {

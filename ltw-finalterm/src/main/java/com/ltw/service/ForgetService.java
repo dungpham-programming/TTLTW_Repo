@@ -19,8 +19,8 @@ public class ForgetService {
     }
 
     // Service kiểm tra xem Email có để trống không
-    public boolean isBlankEmail(String email) {
-        return email == null || email.isEmpty();
+    public boolean isBlankInput(String input) {
+        return input == null || input.trim().isEmpty();
     }
 
     // Service Kiểm tra tính hợp lệ của email
@@ -31,7 +31,7 @@ public class ForgetService {
     // Service kiểm tra xem trong database đã tồn tại email được truyền vào hay chưa
     public boolean isExistEmail(String email) {
         // Nếu để trống thì trả luôn về false
-        if (isBlankEmail(email)) {
+        if (isBlankInput(email)) {
             return false;
         }
         int id = userDAO.findIdByEmail(email);
@@ -56,5 +56,25 @@ public class ForgetService {
             verifiedCode.append(randomCharacter);
         }
         return verifiedCode.toString();
+    }
+
+    // Service kiểm tra xem verify input có đủ 8 ký tự không
+    public boolean isCorrectLength(String verifyInput) {
+        if (isBlankInput(verifyInput)) {
+            return false;
+        }
+        return verifyInput.length() == 8;
+    }
+
+    // Service kiểm tra verifiedCode
+    public boolean isCorrectVerifiedCode(String email, String verifiedCode) {
+        String emailQuery = userDAO.checkVerifiedCode(verifiedCode);
+        // Nếu tìm thấy verifiedCode và id query được trùng với id được gửi từ Servlet => Trả vè true
+        return email.equals(emailQuery);
+    }
+
+    // Servlet thêm code rỗng vào verifiedCode
+    public void setEmptyCode(String email) {
+        userDAO.setEmptyCode(email);
     }
 }

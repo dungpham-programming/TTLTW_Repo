@@ -10,7 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-// TODO: Làm nốt vệc validate email, xác thực quên mật khẩu và xác thực tài khoản
+// TODO: Làm nốt việc validate email, xác thực quên mật khẩu và xác thực tài khoản
+// TODO: Làm lại Forget Password bằng cách ấn link
 @WebServlet(value = {"/forget"})
 public class ForgetController extends HttpServlet {
     private final ForgetService forgetService = new ForgetService();
@@ -22,26 +23,22 @@ public class ForgetController extends HttpServlet {
 
         // Validate các trường hợp nhập email
         // Nếu email không bị bỏ trống thì tiếp tục
-        if (!forgetService.isBlankEmail(email)) {
+        if (!forgetService.isBlankInput(email)) {
             // Nếu email đúng cú pháp thì tiếp tục
             if (forgetService.isValidEmail(email)) {
                 // Nếu email có tồn tại trong database thì tiếp tục
                 if (forgetService.isExistEmail(email)) {
                     // Nếu tài khoản của email đã được active (status = 1) thì gửi verify code
-                    // và sendRedirect sang trang checkingforget.jsp cùng với tham số id và email trên URL
+                    // và sendRedirect sang trang checking-forget.jsp cùng với tham số id và email trên URL
                     if (forgetService.isActiveAccount(email)) {
                         String verifiedCode = forgetService.generateVerifiedCode();
                         forgetService.saveNewCodeByEmail(email, verifiedCode);
                         SendEmailUtil.sendVerificationCode(email, verifiedCode);
-                        resp.sendRedirect(req.getContextPath() + "/checkingforget.jsp?email=" + email);
-                        // return; sau khi sendRedirect (sendRedirect là đã gửi đi một request mới)
-                        return;
+                        resp.sendRedirect(req.getContextPath() + "/checking-forget.jsp?email=" + email);
                     } else {
-                        // Nếu tài khoản chưa active thì lấy id và email truyền vào URL rồi sendRedirect
+                        // Nếu tài khoản chưa active thì lấy email truyền vào URL rồi sendRedirect
                         // sang trang verified.jsp
-                        int id = forgetService.findIdByEmail(email);
-                        resp.sendRedirect(req.getContextPath() + "verified.jsp?email=" + email);
-                        return;
+                        resp.sendRedirect(req.getContextPath() + "/verified.jsp?email=" + email);
                     }
                 } else {
                     // Nếu email không tồn tại, trả về lỗi
@@ -59,7 +56,9 @@ public class ForgetController extends HttpServlet {
             req.setAttribute("emailError", emailError);
         }
 
-        // Sau khi đã thêm lỗi vào request, forward lại về trang forget.jsp
-        req.getRequestDispatcher("forget.jsp").forward(req, resp);
+        // Nếu có tồn tại lỗi, forward lại về trang và báo lỗi
+        if (emailError != null) {
+            req.getRequestDispatcher("forget.jsp").forward(req, resp);
+        }
     }
 }

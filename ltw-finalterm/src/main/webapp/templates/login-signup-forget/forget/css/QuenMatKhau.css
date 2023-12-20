@@ -32,7 +32,7 @@ body {
 }
 .header{
     align-self: center;
-    padding-bottom: 40px;
+    margin-bottom: 30px;
 }
 
 .screen-1 .email {
@@ -45,7 +45,7 @@ body {
     border-radius: 20px;
     color: #4d4d4d;
     margin-top: -3em;
-    width: 300px;
+    width: 100%;
 }
 .screen-1 .email input {
     outline: none;
@@ -70,16 +70,40 @@ body {
     margin-bottom: -0.2em;
 }
 
-.screen-1 .login {
+.screen-1 .sending {
+    width: 100%;
+    margin-top: 20px;
     text-decoration: none;
     text-align: center;
-    padding: 1em;
+    padding: .5em;
     color: black;
     background: #e3bd74;
     border-radius: 30px;
     font-weight: 500;
     border: 1px solid #997404;
-    /*box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);*/
+}
+
+.screen-1 .resend {
+    margin-bottom: 70px;
+}
+
+.screen-1 .success {
+    color: green;
+}
+
+.screen-1 .link {
+    display: flex;
+    justify-content: space-between;
+}
+
+.screen-1 .link .a-link {
+    text-decoration: none;
+    color: black;
+    transition: .3s ease-out color;
+}
+
+.screen-1 .link .a-link:hover {
+    color: #e3bd74  ;
 }
 
 button {
