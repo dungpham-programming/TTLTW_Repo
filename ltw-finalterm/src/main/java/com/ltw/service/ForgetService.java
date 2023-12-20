@@ -9,13 +9,13 @@ public class ForgetService {
     private final UserDAO userDAO = new UserDAO();
 
     // Service lưu verifiedCode xuống database
-    public int saveCodeByEmail(String email, String verifiedCode) {
-        return userDAO.saveCodeByEmail(email, verifiedCode);
+    public void saveCodeByEmail(String email, String verifiedCode) {
+        userDAO.saveCodeByEmail(email, verifiedCode);
     }
 
     // Service tìm id theo email
     public int findIdByEmail(String email) {
-        return userDAO.findIdByEmail(email).get(0);
+        return userDAO.findIdByEmail(email);
     }
 
     // Service kiểm tra xem Email có để trống không
@@ -34,8 +34,8 @@ public class ForgetService {
         if (isBlankEmail(email)) {
             return false;
         }
-        List<Integer> userByEmail = userDAO.findIdByEmail(email);
-        return !userByEmail.isEmpty();
+        int id = userDAO.findIdByEmail(email);
+        return id != -1;
     }
 
     // Service kiểm tra xem tài khoản đã được active (status = 1) hay chưa

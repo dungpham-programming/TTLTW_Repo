@@ -11,8 +11,8 @@ import java.util.List;
 
 public class UserDAO {
     // Tìm danh sách người dùng theo email
-    public List<Integer> findIdByEmail(String email) {
-        List<Integer> result = new ArrayList<>();
+    public int findIdByEmail(String email) {
+        int id = -1;
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT id FROM users ")
                 .append("WHERE email = ?");
@@ -29,14 +29,14 @@ public class UserDAO {
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                result.add(resultSet.getInt(1));
+                id = resultSet.getInt("id");
             }
-            return result;
         } catch (SQLException e) {
-            return null;
+            e.printStackTrace();
         } finally {
             CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
         }
+        return id;
     }
 
     // Kiểm tra xem tài khoản đã được active chưa
@@ -202,9 +202,8 @@ public class UserDAO {
         }
     }
 
-    // Lưu verifiedCode vào tài khoản có email tương ứng và trả vè id của tài khoản đó
-    public int saveCodeByEmail(String email, String verifiedCode) {
-        int id = -1;
+    // Lưu verifiedCode vào tài khoản có email tương ứng
+    public void saveCodeByEmail(String email, String verifiedCode) {
         StringBuilder sql = new StringBuilder();
         sql.append("UPDATE users ")
                 .append("SET verifiedCode = ? ")
@@ -212,19 +211,14 @@ public class UserDAO {
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
 
         try {
             connection = OpenConnectionUtil.openConnection();
             connection.setAutoCommit(false);
-            preparedStatement = connection.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
+            preparedStatement = connection.prepareStatement(sql.toString());
 
             SetParameterUtil.setParameter(preparedStatement, verifiedCode, email);
             preparedStatement.executeUpdate();
-            resultSet = preparedStatement.getGeneratedKeys();
-            if (resultSet.next()) {
-                id = resultSet.getInt(1);
-            }
             connection.commit();
         } catch (SQLException e) {
             try {
@@ -235,6 +229,5 @@ public class UserDAO {
         } finally {
             CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
         }
-        return id;
     }
 }
