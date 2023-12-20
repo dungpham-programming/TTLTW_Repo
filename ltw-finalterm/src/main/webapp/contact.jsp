@@ -149,29 +149,29 @@
                         </div>
                     </div>
 
-                    <form action="<c:url value="/contact"/>  " method="post " accept-charset="UTF-8">
+                    <form action="<c:url value="/contact"/> " method="post" accept-charset="UTF-8">
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
                                     <label class="text-black" for="fname">Họ</label>
-                                    <input type="text" class="form-control" id="fname">
+                                    <input type="text" name="firstName" class="form-control" id="fname">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
                                     <label class="text-black" for="lname">Tên</label>
-                                    <input type="text" class="form-control" id="lname">
+                                    <input type="text" name="lastName" class="form-control" id="lname">
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="text-black" for="email">Địa chỉ email</label>
-                            <input type="email" class="form-control" id="email">
+                            <input type="email" name="email" class="form-control" id="email">
                         </div>
 
                         <div class="form-group mb-5">
                             <label class="text-black" for="message">Lời nhắn</label>
-                            <textarea name="" class="form-control" id="message" cols="30" rows="5"></textarea>
+                            <textarea name="message" class="form-control" id="message" cols="30" rows="5"></textarea>
                         </div>
 
                         <button type="submit" class="btn btn-primary-hover-outline">Gửi</button>
