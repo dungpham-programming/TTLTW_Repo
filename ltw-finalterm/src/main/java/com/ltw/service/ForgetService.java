@@ -9,8 +9,8 @@ public class ForgetService {
     private final UserDAO userDAO = new UserDAO();
 
     // Service lưu verifiedCode xuống database
-    public void saveCodeByEmail(String email, String verifiedCode) {
-        userDAO.saveCodeByEmail(email, verifiedCode);
+    public void saveNewCodeByEmail(String email, String verifiedCode) {
+        userDAO.saveNewCodeByEmail(email, verifiedCode);
     }
 
     // Service tìm id theo email

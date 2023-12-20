@@ -203,7 +203,7 @@ public class UserDAO {
     }
 
     // Lưu verifiedCode vào tài khoản có email tương ứng
-    public void saveCodeByEmail(String email, String verifiedCode) {
+    public void saveNewCodeByEmail(String email, String verifiedCode) {
         StringBuilder sql = new StringBuilder();
         sql.append("UPDATE users ")
                 .append("SET verifiedCode = ? ")

@@ -19,17 +19,16 @@ public class ForgetVerifyController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String type = req.getParameter("type");
         String email = req.getParameter("email");
-        String id = req.getParameter("id");
         if (type != null) {
             if (type.equals("resendCode")) {
                 // Tạo verifiedCode mới
                 String verifiedCode = forgetService.generateVerifiedCode();
                 // Lưu email vào database và gửi về email cho người dùng
-                forgetService.saveCodeByEmail(email, verifiedCode);
+                forgetService.saveNewCodeByEmail(email, verifiedCode);
                 SendEmailUtil.sendVerificationCode(email, verifiedCode);
                 // Chuyển hướng và báo cho người dùng rằng code đã được gửi
                 String confirm = "confirm";
-                resp.sendRedirect(req.getContextPath() + "/verified.jsp?id=" + id +"&email=" + email + "&confirm=" + confirm);
+                resp.sendRedirect(req.getContextPath() + "/checkingforget.jsp" + "&email=" + email + "&confirm=" + confirm);
             }
         }
     }

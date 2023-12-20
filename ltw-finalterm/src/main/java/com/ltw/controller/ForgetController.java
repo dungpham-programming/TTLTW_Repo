@@ -31,17 +31,16 @@ public class ForgetController extends HttpServlet {
                     // và sendRedirect sang trang checkingforget.jsp cùng với tham số id và email trên URL
                     if (forgetService.isActiveAccount(email)) {
                         String verifiedCode = forgetService.generateVerifiedCode();
-                        forgetService.saveCodeByEmail(email, verifiedCode);
-                        int id = forgetService.findIdByEmail(email);
+                        forgetService.saveNewCodeByEmail(email, verifiedCode);
                         SendEmailUtil.sendVerificationCode(email, verifiedCode);
-                        resp.sendRedirect(req.getContextPath() + "checkingforget.jsp?id=" + id + "&email=" + email);
+                        resp.sendRedirect(req.getContextPath() + "/checkingforget.jsp?email=" + email);
                         // return; sau khi sendRedirect (sendRedirect là đã gửi đi một request mới)
                         return;
                     } else {
                         // Nếu tài khoản chưa active thì lấy id và email truyền vào URL rồi sendRedirect
                         // sang trang verified.jsp
                         int id = forgetService.findIdByEmail(email);
-                        resp.sendRedirect(req.getContextPath() + "verified.jsp?id=" + id + "&email=" + email);
+                        resp.sendRedirect(req.getContextPath() + "verified.jsp?email=" + email);
                         return;
                     }
                 } else {

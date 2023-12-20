@@ -36,7 +36,6 @@
         <h2>Quên mật khẩu</h2>
     </div>
     <%
-        String id = request.getParameter("id");
         String email = request.getParameter("email");
         String confirm = request.getParameter("confirm");
     %>
@@ -58,9 +57,8 @@
     </form>
 
     <a href="<c:url>
-                <c:param name="id" value="<%= id %>" />
-                <c:param name="type" value="resendCode" />
                 <c:param name="email" value="<%= email %>"/>
+                <c:param name="type" value="resendCode" />
             </c:url>">
         Gửi lại mã
     </a>
