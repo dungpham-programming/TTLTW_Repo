@@ -22,7 +22,7 @@
     <div class="success">
         Đặt lại mật khẩu thành công!
     </div>
-    <a href="<c:url value="/login"/>" class="login">Về trang đăng nhập</a>
+    <a href="<c:url value="/signin.jsp"/>" class="login">Về trang đăng nhập</a>
     <!-- Thêm sau nút cập nhật mật khẩu -->
 </div>
 <script src="<c:url value="/templates/login-signup-forget/forget/js/DatLaiMK.js"/>"></script>
