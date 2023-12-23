@@ -43,28 +43,6 @@ public class ForgetService {
         return userDAO.isActiveAccount(email);
     }
 
-    // Service tạo ra verifiedCode
-    public String generateVerifiedCode() {
-        int codeLength = 8;
-        String characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        Random random = new Random();
-        StringBuilder verifiedCode = new StringBuilder();
-
-        for (int i = 0; i < codeLength; i++) {
-            // Lấy ngẫu nhiên 1 ký tự trong dãy characters
-            char randomCharacter = characters.charAt(random.nextInt(characters.length()));
-            verifiedCode.append(randomCharacter);
-        }
-        return verifiedCode.toString();
-    }
-
-    // Service kiểm tra xem verify input có đủ 8 ký tự không
-    public boolean isCorrectLength(String verifyInput) {
-        if (isBlankInput(verifyInput)) {
-            return false;
-        }
-        return verifyInput.length() == 8;
-    }
 
     // Service kiểm tra verifiedCode
     public boolean isCorrectVerifiedCode(String email, String verifiedCode) {
@@ -76,5 +54,20 @@ public class ForgetService {
     // Servlet thêm code rỗng vào verifiedCode
     public void setEmptyCode(String email) {
         userDAO.setEmptyCode(email);
+    }
+
+    // Service kiểm tra xem input có chứa khoảng trống không
+    public boolean containsSpace(String input) {
+        return input.contains(" ");
+    }
+
+    // Service kiểm tra độ dài của mật khẩu
+    public boolean isLengthEnough(String password) {
+        return password.length() >= 6;
+    }
+
+    // Service lưu mật khẩu mới vào trong database
+    public void saveRenewPasswordByEmail(String email, String password) {
+        userDAO.saveRenewPasswordByEmail(email, password);
     }
 }

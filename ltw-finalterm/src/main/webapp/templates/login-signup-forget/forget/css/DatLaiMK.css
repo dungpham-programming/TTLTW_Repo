@@ -32,7 +32,7 @@ body {
 }
 .header{
     align-self: center;
-    padding-bottom: 40px;
+    padding-bottom: 20px;
 }
 
 .screen-1 .password1 {
@@ -129,7 +129,13 @@ body {
     margin-bottom: -0.2em;
 }
 
-.screen-1 .login {
+.screen-1 form {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+}
+
+.screen-1 .sending {
     text-decoration: none;
     text-align: center;
     padding: 1em;
@@ -138,6 +144,7 @@ body {
     border-radius: 30px;
     font-weight: 500;
     border: 1px solid #997404;
+    width: 100%;
     /*box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);*/
 }
 
@@ -174,4 +181,18 @@ h1{
 .back-to-home {
     /*background-color: #2ecc71;*/
     color: #2c1c0c;
+}
+
+.back-home {
+    width: 100%;
+}
+
+.link {
+    text-decoration: none;
+    color: black;
+    transition: .3s color ease-out;
+}
+
+.link:hover {
+    color: #e3bd74;
 }

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.UUID;
 
 // TODO: Làm nốt việc validate email, xác thực quên mật khẩu và xác thực tài khoản
 // TODO: Làm lại Forget Password bằng cách ấn link
@@ -17,7 +18,25 @@ public class ForgetController extends HttpServlet {
     private final ForgetService forgetService = new ForgetService();
 
     @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
+        String action = req.getParameter("action");
+        if (action != null) {
+            if (action.equals("resend")) {
+                String email = req.getParameter("email");
+                UUID uuid = UUID.randomUUID();
+                String verifiedCode = uuid.toString();
+                forgetService.saveNewCodeByEmail(email, verifiedCode);
+                String verifiedLink = "http://" + req.getServerName() + ":" + req.getLocalPort() + req.getContextPath() + "/forget-verify?email=" + email + "&verifyCode=" + verifiedCode + "&action=verify";
+                SendEmailUtil.sendVerificationLink(email, verifiedLink);
+                resp.sendRedirect(req.getContextPath() + "/checking-forget.jsp?email=" + email);
+            }
+        }
+    }
+
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
         String email = req.getParameter("email");
         String emailError = null;
 
@@ -28,12 +47,14 @@ public class ForgetController extends HttpServlet {
             if (forgetService.isValidEmail(email)) {
                 // Nếu email có tồn tại trong database thì tiếp tục
                 if (forgetService.isExistEmail(email)) {
-                    // Nếu tài khoản của email đã được active (status = 1) thì gửi verify code
-                    // và sendRedirect sang trang checking-forget.jsp cùng với tham số id và email trên URL
+                    // Nếu tài khoản của email đã được active (status = 1) thì gửi verify code về database
+                    // sau đó tạo 1 verify link và gửi về mail cho người dùng
                     if (forgetService.isActiveAccount(email)) {
-                        String verifiedCode = forgetService.generateVerifiedCode();
+                        UUID uuid = UUID.randomUUID();
+                        String verifiedCode = uuid.toString();
                         forgetService.saveNewCodeByEmail(email, verifiedCode);
-                        SendEmailUtil.sendVerificationCode(email, verifiedCode);
+                        String verifiedLink = "http://" + req.getServerName() + ":" + req.getLocalPort() + req.getContextPath() + "/forget-verify?email=" + email + "&verifyCode=" + verifiedCode + "&action=verify";
+                        SendEmailUtil.sendVerificationLink(email, verifiedLink);
                         resp.sendRedirect(req.getContextPath() + "/checking-forget.jsp?email=" + email);
                     } else {
                         // Nếu tài khoản chưa active thì lấy email truyền vào URL rồi sendRedirect

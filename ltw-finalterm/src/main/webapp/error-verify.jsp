@@ -19,9 +19,6 @@
     }
 </style>
 <body>
-<%
-    String email = request.getParameter("email");
-%>
 <div class="screen-1">
     <div class="logo">
         <h1>DDD.</h1>
@@ -30,12 +27,11 @@
         <h2>Quên mật khẩu</h2>
     </div>
     <div class="checking">
-        Kiểm tra email để xác minh
+        Đường link này không hợp lệ! Hãy kiểm tra lại!
     </div>
-    <a class="sending" href="<c:url value='/forget?email='/><%= email %>&action=resend">
-        Gửi lại đường dẫn xác thực
-    </a>
-
+    <div class="back-home">
+        <a href="<c:url value="/home"/>" class="link">Trở lại trang chủ</a>
+    </div>
 </div>
 <script src="<c:url value="/templates/login-signup-forget/forget/js/QuenMatKhau.js"/>"></script>
 </body>

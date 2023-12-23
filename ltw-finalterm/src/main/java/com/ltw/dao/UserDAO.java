@@ -178,7 +178,7 @@ public class UserDAO {
         StringBuilder sql = new StringBuilder();
         sql.append("UPDATE users ")
                 .append("SET verifiedCode = '' ")
-                .append("WHERE id = ?");
+                .append("WHERE email = ?");
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -218,6 +218,35 @@ public class UserDAO {
             preparedStatement = connection.prepareStatement(sql.toString());
 
             SetParameterUtil.setParameter(preparedStatement, verifiedCode, email);
+            preparedStatement.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        } finally {
+            CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
+        }
+    }
+
+    // Lưu mật khẩu mới cho tài khoản
+    public void saveRenewPasswordByEmail(String email, String password) {
+        StringBuilder sql = new StringBuilder();
+        sql.append("UPDATE users ")
+                .append("SET password = ? ")
+                .append("WHERE email = ?");
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            connection.setAutoCommit(false);
+            preparedStatement = connection.prepareStatement(sql.toString());
+
+            SetParameterUtil.setParameter(preparedStatement, password, email);
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
