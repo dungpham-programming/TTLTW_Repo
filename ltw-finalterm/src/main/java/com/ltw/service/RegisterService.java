@@ -91,4 +91,14 @@ public class RegisterService {
         }
         return check;
     }
+
+    // Service kiểm tra xem có khoảng trống trong password không
+    public boolean containsSpace(String password) {
+        return password.contains(" ");
+    }
+
+    // Service kiểm tra độ dài mật khẩu
+    public boolean isLengthEnough(String password) {
+        return password.length() >= 6;
+    }
 }

@@ -52,7 +52,7 @@ public class VerifiedController extends HttpServlet {
                         // Nếu đủ, kiểm tra xem có khớp verify code không
                         if (registerService.isCorrectVerifiedCode(id, verifyInput)) {
                             // Nếu khớp, chuyển hướng về trang home và không thực hiện các bước phía dưới nữa (return;)
-                            resp.sendRedirect(req.getContextPath() + "/home");
+                            resp.sendRedirect(req.getContextPath() + "/signin.jsp");
                             return;
                         }
                         // Nếu không khớp verified code, trả về lỗi

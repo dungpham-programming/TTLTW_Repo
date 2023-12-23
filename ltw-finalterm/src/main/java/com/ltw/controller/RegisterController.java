@@ -38,6 +38,7 @@ public class RegisterController extends HttpServlet {
 
                 // Tạo biến boolean lấy kết quả kiểm tra email từ database (Mục đích để không gọi xuống database quá nhiều lần).
                 boolean isExistEmail = registerService.isExistEmail(email);
+                boolean isValid = true;
 
                 // Các trường hợp không thành công thì thông báo lỗi
                 // Kiểm tra xem Email có bị bỏ trống hay không
@@ -49,6 +50,7 @@ public class RegisterController extends HttpServlet {
                             // Tồn tại thì trả về lỗi và set vào request
                             emailError = "Email này đã tồn tại!";
                             req.setAttribute("emailError", emailError);
+                            isValid  = false;
                         }
                         // Không tồn tại lỗi gì thì xuống điều kiện khác
                     }
@@ -56,32 +58,50 @@ public class RegisterController extends HttpServlet {
                     else {
                         emailError = "Email không hợp lệ!";
                         req.setAttribute("emailError", emailError);
+                        isValid  = false;
                     }
                 }
                 // Nếu bị bỏ trống, trả vè lỗi
                 else {
                     emailError = "Email không được để trống!";
                     req.setAttribute("emailError", emailError);
+                    isValid  = false;
                 }
 
                 // Kiểm tra xem trường Mật khẩu và Nhập lại mật khẩu có bị để trống
                 if (!registerService.isBlankPassword(password, retypePassword)) {
                     // Nếu không bị bỏ trống, kiểm tra xem 2 trường này có trùng khớp hay không
                     // Nếu không trùng thì trả về lỗi
-                    if (!registerService.isSamePassword(password, retypePassword)) {
-                        passwordError = "Mật khẩu và Nhập lại mật khẩu không khớp";
+                    if (!registerService.containsSpace(password) || !registerService.containsSpace(retypePassword)) {
+                        if (registerService.isLengthEnough(password)) {
+                            if (!registerService.isSamePassword(password, retypePassword)) {
+                                passwordError = "Mật khẩu và Nhập lại mật khẩu không khớp";
+                                req.setAttribute("passwordError", passwordError);
+                                isValid  = false;
+                            }
+                        }
+                        else {
+                            passwordError = "Mật khẩu phải có 6 ký tự trở lên";
+                            req.setAttribute("passwordError", passwordError);
+                            isValid  = false;
+                        }
+                    }
+                    else {
+                        passwordError = "Mật khẩu không được chứa khoảng trắng";
                         req.setAttribute("passwordError", passwordError);
+                        isValid  = false;
                     }
                 }
                 // Nếu bị bỏ trống, trả về lỗi
                 else {
                     passwordError = "Mật khẩu hoặc Nhập lại mật khẩu không được để trống";
                     req.setAttribute("passwordError", passwordError);
+                    isValid  = false;
                 }
 
                 // Kiểm tra password và retypePassword trước khi binding xuống Bean
                 // Nếu thành công thì binding dữ liệu vào Bean rồi gửi về Service, sau đó gọi phương thức tạo mã ngẫu nhiên và set vào verifiedCode
-                if (registerService.isSamePassword(password, retypePassword) && !isExistEmail) {
+                if (isValid) {
                     UserBean user = new UserBean();
                     String verifiedCode = registerService.generateVerifiedCode();
                     user.setEmail(email);
@@ -100,9 +120,5 @@ public class RegisterController extends HttpServlet {
                 }
             }
         }
-    }
-
-    private boolean isCorrectEmail(String email) {
-        return true;
     }
 }
