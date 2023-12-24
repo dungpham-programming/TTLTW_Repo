@@ -1,7 +1,6 @@
 package com.ltw.controller.signin_signup_forget;
 
 import com.ltw.bean.UserBean;
-import com.ltw.dao.UserDAO;
 import com.ltw.service.SigninService;
 import com.ltw.util.SendEmailUtil;
 import com.ltw.util.SessionUtil;
