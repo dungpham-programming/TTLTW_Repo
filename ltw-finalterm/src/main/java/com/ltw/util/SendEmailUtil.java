@@ -10,6 +10,7 @@ import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.UUID;
 
+
 public class SendEmailUtil {
     private static final ResourceBundle fromEmailInfo = ResourceBundle.getBundle("fromEmail");
 
@@ -119,12 +120,8 @@ public class SendEmailUtil {
             // Gửi nội dung đi
             Transport.send(msg);
             System.out.println("Done!");
+          
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
     }
-
-    public static void main(String[] args) {
-        sendVerificationLink("impmd2305@gmail.com", "");
-    }
-}
