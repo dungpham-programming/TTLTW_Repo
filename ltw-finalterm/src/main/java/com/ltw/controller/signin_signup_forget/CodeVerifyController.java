@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(value = {"/verification"})
-public class RegisterVerifiedController extends HttpServlet {
+@WebServlet(value = {"/code-verification"})
+public class CodeVerifyController extends HttpServlet {
     private final CodeVerifyService codeVerifyService = new CodeVerifyService();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -52,7 +52,7 @@ public class RegisterVerifiedController extends HttpServlet {
                         if (codeVerifyService.isCorrectVerifiedCode(email, verifyInput)) {
                             // Nếu khớp, chuyển hướng về trang home và không thực hiện các bước phía dưới nữa (return;)
                             codeVerifyService.setEmptyCode(email);
-                            resp.sendRedirect(req.getContextPath() + "/signup.jsp");
+                            resp.sendRedirect(req.getContextPath() + "/verify-success.jsp");
                             return;
                         }
                         // Nếu không khớp verified code, trả về lỗi

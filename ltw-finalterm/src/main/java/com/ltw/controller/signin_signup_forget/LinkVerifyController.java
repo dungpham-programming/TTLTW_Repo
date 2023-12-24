@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 // TODO: Làm thêm phần hết hạn cho verify code
-@WebServlet(value = {"/forget-verify"})
-public class ForgetVerifyController extends HttpServlet {
+@WebServlet(value = {"/link-verification"})
+public class LinkVerifyController extends HttpServlet {
     private final LinkVerifyService linkVerifyService = new LinkVerifyService();
 
     @Override

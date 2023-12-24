@@ -38,7 +38,7 @@
         String emailError = (String) request.getAttribute("emailError");
         if (emailError != null) {
     %>
-    <div id="emailError" class="error-message"><%= emailError %></div>
+    <div id="staticError" class="error-message"><%= emailError %></div>
     <% } %>
     <form action="<c:url value="/signin"/> " method="post" accept-charset="UTF-8">
         <div class="email">
@@ -64,8 +64,8 @@
         </div>
     </form>
     <div class="footer">
-        <a href="../signup/DangKi.html" class="link">Đăng ký</a>
-        <a href="../forget_password/QuenMatKhau.html" class="link">Quên mật khẩu</a>
+        <a href="<c:url value="/register"/>" class="link">Đăng ký</a>
+        <a href="<c:url value="forget.jsp"/>" class="link">Quên mật khẩu</a>
     </div>
 </div>
 

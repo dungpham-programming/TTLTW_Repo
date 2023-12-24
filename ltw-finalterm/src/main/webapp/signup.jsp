@@ -61,7 +61,7 @@
 
             </form>
             <div>
-                <a href="../signin/index.html">Bạn có tài khoản? Đăng nhập </a>
+                <a href="<c:url value="signin.jsp"/>">Bạn có tài khoản? Đăng nhập </a>
             </div>
         </div>
     </div>

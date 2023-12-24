@@ -120,8 +120,9 @@ public class SendEmailUtil {
             // Gửi nội dung đi
             Transport.send(msg);
             System.out.println("Done!");
-          
+
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
     }
+}

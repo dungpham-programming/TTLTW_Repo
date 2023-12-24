@@ -127,6 +127,7 @@ body {
 .screen-1 form {
     display: flex;
     flex-direction: column;
+    margin-top: 50px;
 }
 
 button {
