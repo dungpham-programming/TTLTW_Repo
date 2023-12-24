@@ -1,4 +1,4 @@
-package com.ltw.controller;
+package com.ltw.controller.signin_signup_forget;
 
 import com.ltw.service.ForgetService;
 import com.ltw.util.SendEmailUtil;

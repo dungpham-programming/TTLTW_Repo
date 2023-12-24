@@ -1,4 +1,4 @@
-package com.ltw.controller;
+package com.ltw.controller.signin_signup_forget;
 
 import com.ltw.bean.UserBean;
 import com.ltw.service.RegisterService;

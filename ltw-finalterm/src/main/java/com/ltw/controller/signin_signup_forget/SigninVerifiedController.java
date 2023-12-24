@@ -1,6 +1,6 @@
-package com.ltw.controller;
+package com.ltw.controller.signin_signup_forget;
 
-import com.ltw.service.RegisterService;
+import com.ltw.service.SigninService;
 import com.ltw.util.SendEmailUtil;
 
 import javax.servlet.ServletException;
@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(value = {"/verification"})
-public class RegisterVerifiedController extends HttpServlet {
-    private final RegisterService registerService = new RegisterService();
+public class SigninVerifiedController extends HttpServlet {
+    private final SigninService signinService = new SigninService();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String type = req.getParameter("type");
@@ -21,11 +21,11 @@ public class RegisterVerifiedController extends HttpServlet {
         if (type != null) {
             if (type.equals("resendCode")) {
                 // Tạo verifiedCode mới
-                String verifiedCode = registerService.generateVerifiedCode();
+                String verifiedCode = signinService.generateVerifiedCode();
                 // Gửi vào email cho người dùng
                 SendEmailUtil.sendVerificationCode(email, verifiedCode);
                 // Set vào database
-                registerService.setNewVerifiedCode(id, verifiedCode);
+                signinService.setNewVerifiedCode(id, verifiedCode);
                 // Thông báo cho người dùng đẫ gửi code mới thông qua 1 String
                 String confirm = "confirm";
                 // Chuyển hướng người dùng
@@ -37,8 +37,9 @@ public class RegisterVerifiedController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String type = req.getParameter("type");
+        // Lấy id thông qua input hidden của form
         int id = Integer.parseInt(req.getParameter("id"));
-        String codeError = "";
+        String codeError;
 
         if (type != null) {
             if (type.equals("verified")) {
@@ -46,13 +47,13 @@ public class RegisterVerifiedController extends HttpServlet {
 
                 // Kiểm tra các trường hợp nhập VerifieCode
                 // Kiểm tra xem verify input có bị để trống không
-                if (!registerService.isBlankVerification(verifyInput)) {
+                if (!signinService.isBlankVerification(verifyInput)) {
                     // Nếu không trống, kiểm tra xem có đủ 8 ký tự hay không
-                    if (registerService.isCorrectLength(verifyInput)) {
+                    if (signinService.isCorrectLength(verifyInput)) {
                         // Nếu đủ, kiểm tra xem có khớp verify code không
-                        if (registerService.isCorrectVerifiedCode(id, verifyInput)) {
+                        if (signinService.isCorrectVerifiedCode(id, verifyInput)) {
                             // Nếu khớp, chuyển hướng về trang home và không thực hiện các bước phía dưới nữa (return;)
-                            resp.sendRedirect(req.getContextPath() + "/signin.jsp");
+                            resp.sendRedirect(req.getContextPath() + "/home");
                             return;
                         }
                         // Nếu không khớp verified code, trả về lỗi
