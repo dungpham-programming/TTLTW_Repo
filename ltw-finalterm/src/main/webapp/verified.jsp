@@ -5,7 +5,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Form Dang Ky Tai Khoan</title>
+
     <link rel="stylesheet" href="<c:url value="/templates/login-signup-forget/signup/css/DangKicss.css"/>">
+    <link rel="stylesheet" href="<c:url value="/templates/login-signup-forget/signin/css/login-custom.css"/>">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
@@ -52,17 +54,16 @@
             </form>
             <div>
                 <a href="<c:url value="/verification">
-                            <c:param name="id" value="<%= id %>" />
-                            <c:param name="type" value="resendCode" />
+                            <c:param name="id" value="<%= id %>"/>
+                            <c:param name="type" value="resendCode"/>
                             <c:param name="email" value="<%= email %>"/>
                          </c:url>">
                     Gửi lại mã
                 </a>
             </div>
-
         </div>
     </div>
 </div>
-<script src="<c:url value="/templates/login-signup-forget/signup/js/DangKiJS.js"/>"></script>
+<script src="<c:url value="/templates/login-signup-forget/signin/js/signin.js"/>"></script>
 </body>
 </html>
