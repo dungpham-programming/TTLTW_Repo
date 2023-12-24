@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(value = {"/verification"})
-public class VerifiedController extends HttpServlet {
+public class RegisterVerifiedController extends HttpServlet {
     private final RegisterService registerService = new RegisterService();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
