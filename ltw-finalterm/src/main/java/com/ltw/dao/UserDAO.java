@@ -70,12 +70,12 @@ public class UserDAO {
             // Close resources in the finally block
             CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
         }
-        // Check if the status indicates email verification (you can adjust this condition)
+        // Check if the status indicates email verification
         return status == 1;
     }
 
     // Tạo tài khoản mới (Thông qua đăng ký của client)
-    // Role mặc định của client là 
+    // Role mặc định của client là 1 và status là 2 (Chưa active)
     public int createInRegister(UserBean user) {
         int id = -1;
         StringBuilder sql = new StringBuilder();
@@ -237,7 +237,7 @@ public class UserDAO {
     public void saveRenewPasswordByEmail(String email, String password) {
         StringBuilder sql = new StringBuilder();
         sql.append("UPDATE users ")
-                .append("SET password = ? ")
+                .append("SET password = ? ");
           
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -260,7 +260,6 @@ public class UserDAO {
             CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
         }
     }
-}
 
     // Kiểm tra xem tài khoản và mật khẩu có hợp lệ không
     public boolean isValidCredentials(String email, String password) {

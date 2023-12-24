@@ -99,7 +99,6 @@ public class RegisterController extends HttpServlet {
                     isValid  = false;
                 }
 
-                // Kiểm tra password và retypePassword trước khi binding xuống Bean
                 // Nếu thành công thì binding dữ liệu vào Bean rồi gửi về Service, sau đó gọi phương thức tạo mã ngẫu nhiên và set vào verifiedCode
                 if (isValid) {
                     UserBean user = new UserBean();
@@ -110,10 +109,7 @@ public class RegisterController extends HttpServlet {
 
                     // Gửi verifiedCode về Email
                     SendEmailUtil.sendVerificationCode(email, verifiedCode);
-
-                    // Gửi kèm id để có thể truyền param khi thực hiện lấy verifiedCode lên để so sánh
-                    id = registerService.register(user);
-                    resp.sendRedirect(req.getContextPath() + "/verified.jsp?id=" + id + "&email=" + email);
+                    resp.sendRedirect(req.getContextPath() + "/verified.jsp?email=" + email);
                 } else {
                     // Nếu không thành công, link sẽ được redirect cùng với lỗi
                     req.getRequestDispatcher("signup.jsp").forward(req, resp);

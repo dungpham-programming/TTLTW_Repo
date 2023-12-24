@@ -37,22 +37,22 @@ public class RegisterVerifiedController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String type = req.getParameter("type");
-        int id = Integer.parseInt(req.getParameter("id"));
-        String codeError = "";
+        String email = req.getParameter("email");
+        String codeError;
 
         if (type != null) {
             if (type.equals("verified")) {
                 String verifyInput = req.getParameter("verifyInput");
-
                 // Kiểm tra các trường hợp nhập VerifieCode
                 // Kiểm tra xem verify input có bị để trống không
                 if (!registerService.isBlankVerification(verifyInput)) {
                     // Nếu không trống, kiểm tra xem có đủ 8 ký tự hay không
                     if (registerService.isCorrectLength(verifyInput)) {
                         // Nếu đủ, kiểm tra xem có khớp verify code không
-                        if (registerService.isCorrectVerifiedCode(id, verifyInput)) {
+                        if (registerService.isCorrectVerifiedCode(email, verifyInput)) {
                             // Nếu khớp, chuyển hướng về trang home và không thực hiện các bước phía dưới nữa (return;)
-                            resp.sendRedirect(req.getContextPath() + "/signin.jsp");
+                            registerService.setEmptyCode(email);
+                            resp.sendRedirect(req.getContextPath() + "/signup.jsp");
                             return;
                         }
                         // Nếu không khớp verified code, trả về lỗi

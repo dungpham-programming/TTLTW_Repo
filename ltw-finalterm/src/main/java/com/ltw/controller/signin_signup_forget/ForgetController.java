@@ -11,8 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.UUID;
 
-// TODO: Làm nốt việc validate email, xác thực quên mật khẩu và xác thực tài khoản
-// TODO: Làm lại Forget Password bằng cách ấn link
+// TODO: Thực hiện kiểm tra xem liệu tài khoản đó đã được active hay chưa
 @WebServlet(value = {"/forget"})
 public class ForgetController extends HttpServlet {
     private final ForgetService forgetService = new ForgetService();

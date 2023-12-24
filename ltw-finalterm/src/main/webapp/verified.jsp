@@ -24,7 +24,6 @@
             </div>
 
             <%
-                String id = request.getParameter("id");
                 String codeError = (String) request.getAttribute("codeError");
                 String email = request.getParameter("email");
                 String confirm = request.getParameter("confirm");
@@ -45,7 +44,6 @@
                 </div>
 
                 <input type="hidden" name="type" value="verified">
-                <input type="hidden" name="id" value="<%= id %>">
                 <input type="hidden" name="email" value="<%= email %>">
                 <div class="form-group">
                     <input type="submit"/>
@@ -54,7 +52,6 @@
             </form>
             <div>
                 <a href="<c:url value="/verification">
-                            <c:param name="id" value="<%= id %>"/>
                             <c:param name="type" value="resendCode"/>
                             <c:param name="email" value="<%= email %>"/>
                          </c:url>">

@@ -34,14 +34,14 @@ public class RegisterService {
         if (isBlankEmail(email)) {
             return false;
         }
-        List<Integer> userByEmail = userDAO.findIdByEmail(email);
-        return !userByEmail.isEmpty();
+        return userDAO.findIdByEmail(email) != -1;
     }
 
     // Service kiểm tra xem Mật khẩu và Nhập lại mật khẩu có bị trống không
     public boolean isBlankPassword(String password, String retypePassword) {
         return (password == null || password.isEmpty()) || (retypePassword == null || retypePassword.isEmpty());
     }
+
     public boolean isSamePassword(String password, String retypePassword) {
         if (isBlankPassword(password, retypePassword)) {
             return false;
@@ -77,19 +77,9 @@ public class RegisterService {
     }
 
     // Service kiểm tra verifiedCode
-    public boolean isCorrectVerifiedCode(int id, String verifiedCode) {
-        boolean check = false;
-        int idQuery = userDAO.checkVerifiedCode(verifiedCode);
-        // Nếu tìm thấy verifiedCode và id query được trùng với id được gửi từ Servlet về
-        // => Trả vè true và set verifiedCode = "" (Không sợ người dùng gửi "" về vì đã validate).
-        if (id == idQuery) {
-            userDAO.setEmptyCodeAndActive(id);
-            check = true;
-        }
-        else {
-            check = false;
-        }
-        return check;
+    public boolean isCorrectVerifiedCode(String email, String verifiedCode) {
+        String emailQuery = userDAO.checkVerifiedCode(verifiedCode);
+        return emailQuery.equals(email);
     }
 
     // Service kiểm tra xem có khoảng trống trong password không
@@ -100,5 +90,10 @@ public class RegisterService {
     // Service kiểm tra độ dài mật khẩu
     public boolean isLengthEnough(String password) {
         return password.length() >= 6;
+    }
+
+    // Service set một verify code rỗng cho user sau khi đã xác thực thành công
+    public void setEmptyCode(String email) {
+        userDAO.setEmptyCode(email);
     }
 }
