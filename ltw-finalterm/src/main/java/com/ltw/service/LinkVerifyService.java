@@ -2,10 +2,7 @@ package com.ltw.service;
 
 import com.ltw.dao.UserDAO;
 
-import java.util.List;
-import java.util.Random;
-
-public class ForgetService {
+public class LinkVerifyService {
     private final UserDAO userDAO = new UserDAO();
 
     // Service lưu verifiedCode xuống database

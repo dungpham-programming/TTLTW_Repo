@@ -1,7 +1,6 @@
 package com.ltw.controller.signin_signup_forget;
 
-import com.ltw.service.ForgetService;
-import com.ltw.util.SendEmailUtil;
+import com.ltw.service.LinkVerifyService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +12,7 @@ import java.io.IOException;
 // TODO: Làm thêm phần hết hạn cho verify code
 @WebServlet(value = {"/forget-verify"})
 public class ForgetVerifyController extends HttpServlet {
-    private final ForgetService forgetService = new ForgetService();
+    private final LinkVerifyService linkVerifyService = new LinkVerifyService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -24,8 +23,8 @@ public class ForgetVerifyController extends HttpServlet {
             if (action.equals("verify")) {
                 String email = req.getParameter("email");
                 String verifyCode = req.getParameter("verifyCode");
-                if (forgetService.isCorrectVerifiedCode(email, verifyCode)) {
-                    forgetService.setEmptyCode(email);
+                if (linkVerifyService.isCorrectVerifiedCode(email, verifyCode)) {
+                    linkVerifyService.setEmptyCode(email);
                     resp.sendRedirect("change-password.jsp?email=" + email);
                 }
                 else {

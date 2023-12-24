@@ -146,11 +146,11 @@ public class UserDAO {
     }
 
     // Set verifiedCode mới khi người dùng yêu cầu
-    public void setNewVerifiedCode(int id, String verifiedCode) {
+    public void setNewVerifiedCode(String email, String verifiedCode) {
         StringBuilder sql = new StringBuilder();
         sql.append("UPDATE users ")
                 .append("SET verifiedCode = ? ")
-                .append("WHERE id = ?");
+                .append("WHERE email = ?");
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -160,7 +160,7 @@ public class UserDAO {
             connection.setAutoCommit(false);
             preparedStatement = connection.prepareStatement(sql.toString());
 
-            SetParameterUtil.setParameter(preparedStatement, verifiedCode, id);
+            SetParameterUtil.setParameter(preparedStatement, verifiedCode, email);
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {

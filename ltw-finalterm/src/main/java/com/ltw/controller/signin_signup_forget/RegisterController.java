@@ -1,7 +1,7 @@
 package com.ltw.controller.signin_signup_forget;
 
 import com.ltw.bean.UserBean;
-import com.ltw.service.RegisterService;
+import com.ltw.service.CodeVerifyService;
 import com.ltw.util.SendEmailUtil;
 
 import javax.servlet.ServletException;
@@ -13,7 +13,7 @@ import java.io.IOException;
 
 @WebServlet(value = {"/register"})
 public class RegisterController extends HttpServlet {
-    private final RegisterService registerService = new RegisterService();
+    private final CodeVerifyService codeVerifyService = new CodeVerifyService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -37,14 +37,14 @@ public class RegisterController extends HttpServlet {
                 String retypePassword = req.getParameter("retypePassword");
 
                 // Tạo biến boolean lấy kết quả kiểm tra email từ database (Mục đích để không gọi xuống database quá nhiều lần).
-                boolean isExistEmail = registerService.isExistEmail(email);
+                boolean isExistEmail = codeVerifyService.isExistEmail(email);
                 boolean isValid = true;
 
                 // Các trường hợp không thành công thì thông báo lỗi
                 // Kiểm tra xem Email có bị bỏ trống hay không
-                if (!registerService.isBlankEmail(email)) {
+                if (!codeVerifyService.isBlankEmail(email)) {
                     // Nếu không bị bỏ trống, kiểm tra xem email có hợp lệ không
-                    if (registerService.isValidEmail(email)) {
+                    if (codeVerifyService.isValidEmail(email)) {
                         // Nếu hợp lệ, kiểm tra xem email có tồn tại trong database không
                         if (isExistEmail) {
                             // Tồn tại thì trả về lỗi và set vào request
@@ -69,12 +69,12 @@ public class RegisterController extends HttpServlet {
                 }
 
                 // Kiểm tra xem trường Mật khẩu và Nhập lại mật khẩu có bị để trống
-                if (!registerService.isBlankPassword(password, retypePassword)) {
+                if (!codeVerifyService.isBlankPassword(password, retypePassword)) {
                     // Nếu không bị bỏ trống, kiểm tra xem 2 trường này có trùng khớp hay không
                     // Nếu không trùng thì trả về lỗi
-                    if (!registerService.containsSpace(password) || !registerService.containsSpace(retypePassword)) {
-                        if (registerService.isLengthEnough(password)) {
-                            if (!registerService.isSamePassword(password, retypePassword)) {
+                    if (!codeVerifyService.containsSpace(password) || !codeVerifyService.containsSpace(retypePassword)) {
+                        if (codeVerifyService.isLengthEnough(password)) {
+                            if (!codeVerifyService.isSamePassword(password, retypePassword)) {
                                 passwordError = "Mật khẩu và Nhập lại mật khẩu không khớp";
                                 req.setAttribute("passwordError", passwordError);
                                 isValid  = false;
@@ -102,7 +102,7 @@ public class RegisterController extends HttpServlet {
                 // Nếu thành công thì binding dữ liệu vào Bean rồi gửi về Service, sau đó gọi phương thức tạo mã ngẫu nhiên và set vào verifiedCode
                 if (isValid) {
                     UserBean user = new UserBean();
-                    String verifiedCode = registerService.generateVerifiedCode();
+                    String verifiedCode = codeVerifyService.generateVerifiedCode();
                     user.setEmail(email);
                     user.setPassword(password);
                     user.setVerifiedCode(verifiedCode);

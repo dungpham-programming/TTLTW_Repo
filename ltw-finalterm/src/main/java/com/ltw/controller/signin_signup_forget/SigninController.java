@@ -1,7 +1,7 @@
 package com.ltw.controller.signin_signup_forget;
 
 import com.ltw.bean.UserBean;
-import com.ltw.service.SigninService;
+import com.ltw.service.CodeVerifyService;
 import com.ltw.util.SendEmailUtil;
 import com.ltw.util.SessionUtil;
 
@@ -14,7 +14,7 @@ import java.io.IOException;
 
 @WebServlet(value = {"/signin"})
 public class SigninController extends HttpServlet {
-    private final SigninService signinService = new SigninService();
+    private final CodeVerifyService codeVerifyService = new CodeVerifyService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -30,13 +30,13 @@ public class SigninController extends HttpServlet {
 
         // Kiểm tra các trường hợp email
         // Nếu email không để trống thì tiếp tục
-        if (!signinService.isBlankEmail(email)) {
+        if (!codeVerifyService.isBlankEmail(email)) {
             // Nếu email không sai cú pháp thì tiếp tục
-            if (signinService.isValidEmail(email)) {
+            if (codeVerifyService.isValidEmail(email)) {
                 // Nếu email đã tồn tại trong database thì tiếp tục
-                if (signinService.isExistEmail(email)) {
+                if (codeVerifyService.isExistEmail(email)) {
                     // Nếu email và password không trùng khớp với database, trả về lỗi
-                    if (!signinService.isValidLogin(email, password)) {
+                    if (!codeVerifyService.isValidLogin(email, password)) {
                         emailError = "Email hoặc mật khẩu không đúng!";
                         req.setAttribute("emailError", emailError);
                     }
@@ -62,17 +62,17 @@ public class SigninController extends HttpServlet {
         } else {
             // Nếu không có lỗi gì, kiểm tra xem tài khoản đã active chưa
             // Nếu đã active thì tạo ra một Session và redirect người dùng về trang home
-            if (signinService.isActive(email)) {
-                UserBean user = signinService.findUserByEmail(email);
+            if (codeVerifyService.isActive(email)) {
+                UserBean user = codeVerifyService.findUserByEmail(email);
                 if (user != null) {
                     SessionUtil.getInstance().putValue(req, "user", user);
                     resp.sendRedirect(req.getContextPath() + "/home");
                 }
             } else {
                 // Nếu chưa active thì tạo ra verifiedCode mới, gửi về email người dùng và redirect sang trang verified
-                int id = signinService.findIdByEmail(email);
-                String verifiedCode = signinService.generateVerifiedCode();
-                signinService.setNewVerifiedCode(id, verifiedCode);
+                int id = codeVerifyService.findIdByEmail(email);
+                String verifiedCode = codeVerifyService.generateVerifiedCode();
+                codeVerifyService.setNewVerifiedCode(email, verifiedCode);
                 SendEmailUtil.sendVerificationCode(email, verifiedCode);
                 resp.sendRedirect(req.getContextPath() + "/verified.jsp?id=" + id + "&email=" + email);
             }

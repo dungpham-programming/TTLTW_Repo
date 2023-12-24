@@ -1,6 +1,6 @@
 package com.ltw.controller.signin_signup_forget;
 
-import com.ltw.service.RegisterService;
+import com.ltw.service.CodeVerifyService;
 import com.ltw.util.SendEmailUtil;
 
 import javax.servlet.ServletException;
@@ -12,7 +12,7 @@ import java.io.IOException;
 
 @WebServlet(value = {"/verification"})
 public class RegisterVerifiedController extends HttpServlet {
-    private final RegisterService registerService = new RegisterService();
+    private final CodeVerifyService codeVerifyService = new CodeVerifyService();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String type = req.getParameter("type");
@@ -21,11 +21,11 @@ public class RegisterVerifiedController extends HttpServlet {
         if (type != null) {
             if (type.equals("resendCode")) {
                 // Tạo verifiedCode mới
-                String verifiedCode = registerService.generateVerifiedCode();
+                String verifiedCode = codeVerifyService.generateVerifiedCode();
                 // Gửi vào email cho người dùng
                 SendEmailUtil.sendVerificationCode(email, verifiedCode);
                 // Set vào database
-                registerService.setNewVerifiedCode(id, verifiedCode);
+                codeVerifyService.setNewVerifiedCode(email, verifiedCode);
                 // Thông báo cho người dùng đẫ gửi code mới thông qua 1 String
                 String confirm = "confirm";
                 // Chuyển hướng người dùng
@@ -45,13 +45,13 @@ public class RegisterVerifiedController extends HttpServlet {
                 String verifyInput = req.getParameter("verifyInput");
                 // Kiểm tra các trường hợp nhập VerifieCode
                 // Kiểm tra xem verify input có bị để trống không
-                if (!registerService.isBlankVerification(verifyInput)) {
+                if (!codeVerifyService.isBlankVerification(verifyInput)) {
                     // Nếu không trống, kiểm tra xem có đủ 8 ký tự hay không
-                    if (registerService.isCorrectLength(verifyInput)) {
+                    if (codeVerifyService.isCorrectLength(verifyInput)) {
                         // Nếu đủ, kiểm tra xem có khớp verify code không
-                        if (registerService.isCorrectVerifiedCode(email, verifyInput)) {
+                        if (codeVerifyService.isCorrectVerifiedCode(email, verifyInput)) {
                             // Nếu khớp, chuyển hướng về trang home và không thực hiện các bước phía dưới nữa (return;)
-                            registerService.setEmptyCode(email);
+                            codeVerifyService.setEmptyCode(email);
                             resp.sendRedirect(req.getContextPath() + "/signup.jsp");
                             return;
                         }

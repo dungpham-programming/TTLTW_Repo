@@ -1,6 +1,6 @@
 package com.ltw.controller.signin_signup_forget;
 
-import com.ltw.service.ForgetService;
+import com.ltw.service.LinkVerifyService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,7 +12,7 @@ import java.io.IOException;
 // TODO: Mã hóa mật khẩu
 @WebServlet(value = {"/change-password"})
 public class ChangePwController extends HttpServlet {
-    private final ForgetService forgetService = new ForgetService();
+    private final LinkVerifyService linkVerifyService = new LinkVerifyService();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -28,11 +28,11 @@ public class ChangePwController extends HttpServlet {
 
         boolean isValid = true;
 
-        if (!forgetService.isBlankInput(newPassword) || !forgetService.isBlankInput(retypePassword)) {
-            if (!forgetService.containsSpace(newPassword) || !forgetService.containsSpace(retypePassword)) {
-                if (forgetService.isLengthEnough(newPassword)) {
+        if (!linkVerifyService.isBlankInput(newPassword) || !linkVerifyService.isBlankInput(retypePassword)) {
+            if (!linkVerifyService.containsSpace(newPassword) || !linkVerifyService.containsSpace(retypePassword)) {
+                if (linkVerifyService.isLengthEnough(newPassword)) {
                     if (newPassword.equals(retypePassword)) {
-                        forgetService.saveRenewPasswordByEmail(email, newPassword);
+                        linkVerifyService.saveRenewPasswordByEmail(email, newPassword);
                         resp.sendRedirect(req.getContextPath() + "/change-success.jsp");
                     } else {
                         newPasswordInputErr = "Mật khẩu và Nhập lại mật khẩu không đúng!";
@@ -46,22 +46,22 @@ public class ChangePwController extends HttpServlet {
                     req.setAttribute("newPasswordInputErr", newPasswordInputErr);
                 }
             } else {
-                if (forgetService.containsSpace(newPassword)) {
+                if (linkVerifyService.containsSpace(newPassword)) {
                     newPasswordSpaceErr = "Mật khẩu không được chứa ô trống!";
                     req.setAttribute("newPasswordSpaceErr", newPasswordSpaceErr);
                 }
-                if (forgetService.containsSpace(retypePassword)) {
+                if (linkVerifyService.containsSpace(retypePassword)) {
                     retypePasswordSpaceErr = "Mật khẩu không được chứa ô trống!";
                     req.setAttribute("retypePasswordSpaceErr", retypePasswordSpaceErr);
                 }
                 isValid = false;
             }
         } else {
-            if (forgetService.isBlankInput(newPassword)) {
+            if (linkVerifyService.isBlankInput(newPassword)) {
                 newPasswordInputErr = "Mật khẩu không được để trống!";
                 req.setAttribute("newPasswordInputErr", newPasswordInputErr);
             }
-            if (forgetService.isBlankInput(retypePassword)) {
+            if (linkVerifyService.isBlankInput(retypePassword)) {
                 retypePasswordInputErr = "Mật khẩu không được để trống!";
                 req.setAttribute("retypePasswordInputErr", retypePasswordInputErr);
             }

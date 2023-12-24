@@ -3,10 +3,9 @@ package com.ltw.service;
 import com.ltw.bean.UserBean;
 import com.ltw.dao.UserDAO;
 
-import java.util.List;
 import java.util.Random;
 
-public class RegisterService {
+public class CodeVerifyService {
     private final UserDAO userDAO = new UserDAO();
 
     // Service thêm một user vào trong database
@@ -14,8 +13,8 @@ public class RegisterService {
         return userDAO.createInRegister(user);
     }
 
-    public void setNewVerifiedCode(int id, String verifiedCode) {
-        userDAO.setNewVerifiedCode(id, verifiedCode);
+    public void setNewVerifiedCode(String email, String verifiedCode) {
+        userDAO.setNewVerifiedCode(email, verifiedCode);
     }
 
     // Service kiểm tra xem Email có để trống không
@@ -95,5 +94,25 @@ public class RegisterService {
     // Service set một verify code rỗng cho user sau khi đã xác thực thành công
     public void setEmptyCode(String email) {
         userDAO.setEmptyCode(email);
+    }
+
+    // Service kiểm tra xem email và password có hợp lệ không
+    public boolean isValidLogin(String email, String password) {
+        return userDAO.isValidCredentials(email, password);
+    }
+
+    // Service kiểm tra xem tài khoản đã active chưa
+    public boolean isActive(String email) {
+        return userDAO.findActiveAccountByEmail(email) != -1;
+    }
+
+    // Service lấy lên thông tin user dựa vào email để đưa vào Session
+    public UserBean findUserByEmail(String email) {
+        return userDAO.findUserByEmail(email);
+    }
+
+    // Service lấy lên id từ email
+    public int findIdByEmail(String email) {
+        return userDAO.findIdByEmail(email);
     }
 }
