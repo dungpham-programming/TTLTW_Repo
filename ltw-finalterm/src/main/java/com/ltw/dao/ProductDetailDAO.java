@@ -45,12 +45,11 @@ public class ProductDetailDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
         }
         return productDetailBean;
 
-//        } finally {
-//            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
-//        }
     }
 
     public List<ImageBean> findImagesByProductId(int productId) {
