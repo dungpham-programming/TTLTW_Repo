@@ -237,7 +237,8 @@ public class UserDAO {
     public void saveRenewPasswordByEmail(String email, String password) {
         StringBuilder sql = new StringBuilder();
         sql.append("UPDATE users ")
-                .append("SET password = ? ");
+                .append("SET password = ? ")
+                .append("WHERE email = ?");
           
         Connection connection = null;
         PreparedStatement preparedStatement = null;
