@@ -32,11 +32,9 @@ public class ImageDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
         } finally {
             CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
         }
-        // Có tồn tại ảnh thì trả về instance ImageBean, không tồn tại thì trả về null
         return imageBean;
     }
     // TODO: Ở đây ta lấy ví dụ productId = 1, sau này khi chạy thật sẽ thay thế

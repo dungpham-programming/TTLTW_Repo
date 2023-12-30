@@ -1,6 +1,7 @@
 package com.ltw.dao;
 
 import com.ltw.bean.CategoryBean;
+import com.ltw.util.CloseResourceUtil;
 import com.ltw.util.OpenConnectionUtil;
 
 import java.sql.Connection;
@@ -15,10 +16,14 @@ public class CategoryDAO {
         String sql = "SELECT id, name FROM categories";
         List<CategoryBean> result = new ArrayList<>();
 
-        try (Connection connection = OpenConnectionUtil.openConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-             ResultSet resultSet = preparedStatement.executeQuery();
-             ) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
                 CategoryBean categoryBean = new CategoryBean();
@@ -27,9 +32,11 @@ public class CategoryDAO {
 
                 result.add(categoryBean);
             }
-            return result;
         } catch (SQLException e) {
-            return null;
+            e.printStackTrace();
+        } finally {
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
         }
+        return result;
     }
 }

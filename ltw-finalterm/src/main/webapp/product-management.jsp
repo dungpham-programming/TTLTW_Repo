@@ -1,4 +1,8 @@
+<%@ page import="java.util.List" %>
+<%@ page import="com.ltw.bean.ProductBean" %>
+<%@ page import="com.ltw.service.ProductService" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -51,7 +55,7 @@
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Quản lý tài khoản
                     </a>
-                    <a class="nav-link light-text pt-3 pb-3 yellow-active" href="management-product.html">
+                    <a class="nav-link light-text pt-3 pb-3 yellow-active" href="<c:url value="/admin/product-management"/>">
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Quản lý sản phẩm
                     </a>
@@ -109,7 +113,11 @@
                                 <th>Mã danh mục</th>
                                 <th>Giá gốc</th>
                                 <th>Giá giảm</th>
+                                <th>Phần trăm giảm</th>
                                 <th>Số lượng còn</th>
+                                <th>Kích thước</th>
+                                <th>Thông tin khác</th>
+                                <th>Từ khóa</th>
                                 <th>Trạng thái</th>
                                 <th>Ảnh</th>
                                 <th>Tạo ngày</th>
@@ -119,32 +127,48 @@
                                 <th>Chức năng</th>
                             </tr>
                             </thead>
+                            <%
+                                List<ProductBean> listProduct = (List<ProductBean>) request.getAttribute("listProduct");
+
+                                for (ProductBean product : listProduct) {
+                            %>
                             <tbody>
                             <tr>
-                                <td>30001</td>
-                                <td>Túi sen</td>
-                                <td>Làm từ chất liệu cỏ bàng tự nhiên, túi này là biểu tượng của sự bền vững và sáng
-                                    tạo.
-                                    Thiết kế đơn giản nhưng tinh tế, túi cỏ bàng mang lại không gian rộng rãi và thoải
-                                    mái cho đồ đạc cá nhân.
-                                    Dây đeo êm ái, làn da tự nhiên, và hoa văn tự nhiên tạo nên sự duyên dáng.
-                                    Sự giao thoa giữa thiên nhiên và thời trang, túi cỏ bàng là sự lựa chọn độc đáo cho
-                                    những ai yêu thích phong cách eco-friendly
-                                </td>
-                                <td>00003</td>
-                                <td>500.000đ</td>
-                                <td>450.000đ</td>
-                                <td>150</td>
+                                <td><%=product.getId()%></td>
+
+                                <% if (product.getName() != null) { %>
+                                <td><%=product.getName()%></td>
+                                <% } %>
+
+                                <% if (product.getDescription() != null) { %>
+                                <td><%=product.getDescription()%></td>
+                                <% } %>
+
+                                <td><%=product.getCategoryTypeId()%></td>
+                                <td><fmt:formatNumber value="<%=product.getOriginalPrice()%>" pattern="#,##0.##"/>đ</td>
+                                <td><fmt:formatNumber value="<%=product.getDiscountPrice()%>" pattern="#,##0.##"/>đ</td>
+                                <td><fmt:formatNumber value="<%=product.getDiscountPercent()%>" pattern="#.##"/>%</td>
+                                <td><%=product.getQuantity()%></td>
+                                <td><%=product.getSize()%></td>
+                                <td><%=product.getOtherSpec()%></td>
+                                <td><%=product.getKeyword()%></td>
+                                <% if (product.getStatus() == 1) { %>
                                 <td>Còn hàng</td>
+                                <% } else if (product.getStatus() == 2) { %>
+                                <td>Vô hiệu hóa</td>
+                                <% } else if (product.getStatus() == 0) { %>
+                                <td>Hết hàng</td>
+                                <% } %>
+                                <%-- TODO: Ảnh chỉ là để link tạm thời --%>
                                 <td>
-                                    <img src="../assets/img/tui_sen_1.jpg" alt="">
-                                    <img src="../assets/img/tui_sen_2.jpg" alt="">
-                                    <img src="../assets/img/tui_sen_3.jpg" alt="">
+                                    <img src="<c:url value="/templates/admin/assets/img/tui_sen_1.jpg"/>" alt="">
+                                    <img src="<c:url value="/templates/admin/assets/img/tui_sen_2.jpg"/>" alt="">
+                                    <img src="<c:url value="/templates/admin/assets/img/tui_sen_3.jpg"/>" alt="">
                                 </td>
-                                <td>03/06/2023</td>
-                                <td>admin3</td>
-                                <td>null</td>
-                                <td>null</td>
+                                <td><%=product.getCreatedDate()%></td>
+                                <td><%=product.getCreatedBy()%></td>
+                                <td><%=product.getModifiedDate()%></td>
+                                <td><%=product.getModifiedBy()%></td>
                                 <td>
                                     <a href="editing-product.html" data-bs-toggle="tooltip" title="Chỉnh sửa sản phẩm" class="edit"><i
                                             class="fa-regular fa-pen-to-square" style="color: #e3bd74;"></i></a>
@@ -153,71 +177,7 @@
                                 </td>
                             </tr>
                             </tbody>
-
-                            <tbody>
-                            <tr>
-                                <td>30011</td>
-                                <td>Thùng rác hình thú(voi)</td>
-                                <td>Sự sáng tạo gặp gỡ với bảo vệ môi trường trong sọt rác lụt bình này.
-                                    Được làm từ lụt bình tái chế, mỗi chiếc sọt là một tác phẩm nghệ thuật duyên dáng.
-                                    Thiết kế đan tinh tế tạo nên không gian lớn cho việc thu gom rác một cách tiện lợi.
-                                    Đường nét tự nhiên của lụt bình tạo nên sự độc đáo và sinh động.
-                                    Sự hòa quyện giữa nghệ thuật và bảo vệ môi trường, sọt rác đan bằng lụt bình
-                                    là sự chọn lựa ý nghĩa cho những người muốn góp phần vào việc giảm lượng rác thải.
-                                </td>
-                                <td>00003</td>
-                                <td>700.000đ</td>
-                                <td>550.000đ</td>
-                                <td>97</td>
-                                <td>Còn hàng</td>
-                                <td>
-                                    <img src="../assets/img/tui_sen_1.jpg" alt="">
-                                    <img src="../assets/img/tui_sen_2.jpg" alt="">
-                                    <img src="../assets/img/tui_sen_3.jpg" alt="">
-                                </td>
-                                <td>23/06/2023</td>
-                                <td>admin3</td>
-                                <td>null</td>
-                                <td>null</td>
-                                <td>
-                                    <a href="#" data-bs-toggle="tooltip" title="Chỉnh sửa sản phẩm" class="edit"><i
-                                            class="fa-regular fa-pen-to-square" style="color: #e3bd74;"></i></a>
-                                    <a href="#" data-bs-toggle="tooltip" title="Xóa sản phẩm" class="delete"><i
-                                            class="fa-solid fa-trash" style="color: #e3bd74;"></i></a>
-                                </td>
-                            </tr>
-                            </tbody>
-
-                            <tbody>
-                            <tr>
-                                <td>30044</td>
-                                <td>Nhà ngủ thú cưng</td>
-                                <td>Chỗ ngủ thú cưng bằng lục bình - Nơi an lành và thoải mái cho người bạn thân của bạn.
-                                    Chất liệu tự nhiên giúp tạo không gian dễ chịu và thoáng mát.
-                                    Thiết kế đẹp mắt và bền bỉ, mang đến cho thú cưng của bạn không gian riêng tư .
-                                </td>
-                                <td>00003</td>
-                                <td>1.300.000đ</td>
-                                <td>1.250.000đ</td>
-                                <td>72</td>
-                                <td>Còn hàng</td>
-                                <td>
-                                    <img src="../assets/img/tui_sen_1.jpg" alt="">
-                                    <img src="../assets/img/tui_sen_2.jpg" alt="">
-                                    <img src="../assets/img/tui_sen_3.jpg" alt="">
-                                </td>
-                                <td>23/07/2023</td>
-                                <td>admin3</td>
-                                <td>null</td>
-                                <td>null</td>
-                                <td>
-                                    <a href="#" data-bs-toggle="tooltip" title="Chỉnh sửa sản phẩm" class="edit"><i
-                                            class="fa-regular fa-pen-to-square" style="color: #e3bd74;"></i></a>
-                                    <a href="#" data-bs-toggle="tooltip" title="Xóa sản phẩm" class="delete"><i
-                                            class="fa-solid fa-trash" style="color: #e3bd74;"></i></a>
-                                </td>
-                            </tr>
-                            </tbody>
+                            <% } %>
                         </table>
                     </div>
                 </div>
