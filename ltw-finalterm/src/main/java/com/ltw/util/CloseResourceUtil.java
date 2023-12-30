@@ -34,4 +34,9 @@ public class CloseResourceUtil {
             e.printStackTrace();
         }
     }
+<<<<<<< HEAD
 }
+=======
+}
+
+>>>>>>> fd4f24609b794ad7abb93a675d3ff3422711ce21

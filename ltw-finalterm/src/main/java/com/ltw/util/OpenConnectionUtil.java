@@ -18,4 +18,8 @@ public class OpenConnectionUtil {
             return null;
         }
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> fd4f24609b794ad7abb93a675d3ff3422711ce21

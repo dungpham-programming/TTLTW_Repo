@@ -49,6 +49,7 @@ public class SendEmailUtil {
             msg.setSentDate(new Date());
             // Nội dung
             msg.setContent("<html>" +
+<<<<<<< HEAD
                     "<body>" +
                     "<h1 style=\"color: #b07911\">DDD. - Nghệ thuật mỹ nghệ</h1>" +
                     "<hr/>" +
@@ -57,6 +58,16 @@ public class SendEmailUtil {
                     "<p>Vui lòng không tiết lộ mã này cho bất kỳ ai. Trân trọng cảm ơn quý khách đã lựa chọn DDD. - Nghệ thuật mỹ nghệ.</p>" +
                     "<body>" +
                     "</html>", "text/html; charset=utf-8");
+=======
+                                    "<body>" +
+                                        "<h1 style=\"color: #b07911\">DDD. - Nghệ thuật mỹ nghệ</h1>" +
+                                        "<hr/>" +
+                                        "<h3>Mã xác minh của bạn là (Viết hoa):<h3>" +
+                                        "<h1>" + verifiedCode + "</h1>" +
+                                        "<p>Vui lòng không tiết lộ mã này cho bất kỳ ai. Trân trọng cảm ơn quý khách đã lựa chọn DDD. - Nghệ thuật mỹ nghệ.</p>" +
+                                    "<body>" +
+                                "</html>", "text/html; charset=utf-8");
+>>>>>>> fd4f24609b794ad7abb93a675d3ff3422711ce21
 
             // Gửi nội dung đi
             Transport.send(msg);
