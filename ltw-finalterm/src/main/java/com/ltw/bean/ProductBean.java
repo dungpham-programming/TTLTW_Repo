@@ -13,8 +13,8 @@ public class ProductBean {
     private int quantity;
     private String size;
     private String otherSpec;
-    private String keyword;
     private int status;
+    private String keyword;
     private Timestamp createdDate;
     private String createdBy;
     private Timestamp modifiedDate;

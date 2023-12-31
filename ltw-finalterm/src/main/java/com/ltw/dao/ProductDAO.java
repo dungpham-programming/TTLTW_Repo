@@ -5,6 +5,7 @@ import com.ltw.bean.ImageBean;
 import com.ltw.bean.ProductBean;
 import com.ltw.util.CloseResourceUtil;
 import com.ltw.util.OpenConnectionUtil;
+import com.ltw.util.SetParameterUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -54,10 +55,54 @@ public class ProductDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
         } finally {
             CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
         }
         return productList;
+    }
+
+    public ProductBean findProductById(int id) {
+        ProductBean product = null;
+        String sql = "SELECT id, name, description, categoryTypeId, originalPrice, discountPrice, " +
+                "discountPercent, quantity, size, otherSpec, status, keyword, " +
+                "createdDate, createdBy, modifiedDate, modifiedBy " +
+                "FROM products " +
+                "WHERE id = ?";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            SetParameterUtil.setParameter(preparedStatement, id);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                product = new ProductBean();
+                product.setId(resultSet.getInt("id"));
+                product.setName(resultSet.getString("name"));
+                product.setDescription(resultSet.getString("description"));
+                product.setCategoryTypeId(resultSet.getInt("categoryTypeId"));
+                product.setOriginalPrice(resultSet.getDouble("originalPrice"));
+                product.setDiscountPrice(resultSet.getDouble("discountPrice"));
+                product.setDiscountPercent(resultSet.getDouble("discountPercent"));
+                product.setQuantity(resultSet.getInt("quantity"));
+                product.setSize(resultSet.getString("size"));
+                product.setOtherSpec(resultSet.getString("otherSpec"));
+                product.setStatus(resultSet.getInt("status"));
+                product.setKeyword(resultSet.getString("keyword"));
+                product.setCreatedDate(resultSet.getTimestamp("createdDate"));
+                product.setCreatedBy(resultSet.getString("createdBy"));
+                product.setModifiedDate(resultSet.getTimestamp("modifiedDate"));
+                product.setModifiedBy(resultSet.getString("modifiedBy"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return product;
     }
 }

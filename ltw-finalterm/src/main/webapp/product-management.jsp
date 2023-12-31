@@ -131,6 +131,7 @@
                                 List<ProductBean> listProduct = (List<ProductBean>) request.getAttribute("listProduct");
 
                                 for (ProductBean product : listProduct) {
+                                    String idStr = String.valueOf(product.getId());
                             %>
                             <tbody>
                             <tr>
@@ -170,7 +171,11 @@
                                 <td><%=product.getModifiedDate()%></td>
                                 <td><%=product.getModifiedBy()%></td>
                                 <td>
-                                    <a href="editing-product.html" data-bs-toggle="tooltip" title="Chỉnh sửa sản phẩm" class="edit"><i
+                                    <a href="<c:url value="/admin/product-management">
+                                                <c:param name="id" value="<%=idStr%>"/>
+                                                <c:param name="action" value="editing"/>
+                                            </c:url>" 
+                                       data-bs-toggle="tooltip" title="Chỉnh sửa sản phẩm" class="edit"><i
                                             class="fa-regular fa-pen-to-square" style="color: #e3bd74;"></i></a>
                                     <a href="#" data-bs-toggle="tooltip" title="Xóa sản phẩm" class="delete"><i
                                             class="fa-solid fa-trash" style="color: #e3bd74;"></i></a>

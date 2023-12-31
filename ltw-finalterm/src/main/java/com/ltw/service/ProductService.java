@@ -11,4 +11,8 @@ public class ProductService {
     public List<ProductBean> findAllProducts() {
         return productDAO.findAllProducts();
     }
+
+    public ProductBean findProductById(int id) {
+        return productDAO.findProductById(id);
+    }
 }
