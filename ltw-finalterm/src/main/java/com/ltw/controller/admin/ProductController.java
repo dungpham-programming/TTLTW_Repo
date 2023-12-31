@@ -2,6 +2,7 @@ package com.ltw.controller.admin;
 
 import com.ltw.bean.ProductBean;
 import com.ltw.service.ProductService;
+import com.ltw.util.BlankInputUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 // TODO: Làm thêm chức nằng hiển thị các sản phẩm theo status (Hết hàng, Còn hàng, Vô hiệu hóa,...) và tất cả các loại status
@@ -29,8 +31,13 @@ public class ProductController extends HttpServlet {
                 case "editing":
                     int id = Integer.parseInt(req.getParameter("id"));
                     ProductBean productBean = productService.findProductById(id);
-                    req.setAttribute("productBean", productBean);
-                    req.getRequestDispatcher("/editing-product.jsp").forward(req, resp);
+                    if (productBean == null) {
+                        // Phòng trường hợp truyền id không đúng (Từ URL) sẽ bị null bean
+                        resp.sendRedirect("/admin/product-management");
+                    } else {
+                        req.setAttribute("productBean", productBean);
+                        req.getRequestDispatcher("/editing-product.jsp").forward(req, resp);
+                    }
                     break;
 
                 default:
@@ -51,7 +58,7 @@ public class ProductController extends HttpServlet {
         String type = req.getParameter("action");
         if (type != null) {
             if (type.equals("adding")) {
-                // Sử dụng vòng lặp để set lỗi theo index,
+                // Sử dụng vòng lặp để set lỗi để trống theo index,
                 // tuy nhiên cần phải giữ đúng thứ tự của input theo form và theo database (Vì sử dụng vòng lặp theo i để set lỗi)
                 String name = req.getParameter("name");
                 String description = req.getParameter("description");
@@ -66,9 +73,20 @@ public class ProductController extends HttpServlet {
                 String keyword = req.getParameter("keyword");
 
                 // Đặt các thuộc tính đúng thứ tự
-                String[] inputsForm = new String[]{name, description, categoryTypeId, originalPrice, discountPrice, discountPercent, quantity, size, otherSpec,  status, keyword};
+                String[] inputsForm = new String[]{name, description, categoryTypeId, originalPrice, discountPrice, discountPercent, quantity, size, otherSpec, status, keyword};
                 // Mảng lưu trữ lỗi
-                String[] errors = new String[]{};
+                ArrayList<String> errors = new ArrayList<>();
+
+                for (String string : inputsForm) {
+                    if (BlankInputUtil.isBlank(string)) {
+                        errors.add("e");
+                    } else {
+                        errors.add(null);
+                    }
+                }
+                req.setAttribute("errors", errors);
+
+                // Kiểm tra các lỗi nhập liệu khác
             }
         }
     }

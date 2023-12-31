@@ -101,62 +101,74 @@
                         <div class="col-12">
                             <label for="productName">Tên sản phẩm</label>
                             <input type="text" id="productName" name="productName" value="<%=productBean.getName()%>" required>
+                            <div class="error error1"></div>
                         </div>
 
                         <div class="col-12">
                             <label for="description">Mô tả</label>
                             <textarea name="description" id="description"><%=productBean.getDescription()%>
                             </textarea>
+                            <div class="error" id="error1"></div>
                         </div>
 
                         <div class="col-3">
                             <label for="categoryTypeID">Mã phân loại sản phẩm</label>
                             <input type="text" id="categoryTypeID" name="categoryTypeID" value="<%=productBean.getCategoryTypeId()%>" required>
+                            <div class="error" id="error2"></div>
                         </div>
 
                         <div class="col-3">
                             <label for="originalPrice">Giá gốc</label>
                             <input type="text" id="originalPrice" name="originalPrice" value="<fmt:formatNumber value="<%=productBean.getOriginalPrice()%>" pattern="#,##0.##"/>" required>
+                            <div class="error" id="error3"></div>
                         </div>
 
                         <div class="col-3">
                             <label for="discountPrice">Giá giảm</label>
                             <input type="text" id="discountPrice" name="discountPrice" value="<fmt:formatNumber value="<%=productBean.getDiscountPrice()%>" pattern="#,##0.##"/>">
+                            <div class="error" id="error4"></div>
                         </div>
 
                         <div class="col-3">
                             <label for="discountPercent">Phần trăm giảm</label>
                             <input type="text" id="discountPercent" name="discountPercent" value="<fmt:formatNumber value="<%=productBean.getDiscountPercent()%>" pattern="#,##0.##"/>" required>
+                            <div class="error" id="error5"></div>
                         </div>
 
                         <div class="col-3">
                             <label for="quantity">Số lượng còn</label>
                             <input type="text" id="quantity" name="quantity" value="<%=productBean.getQuantity()%>">
+                            <div class="error" id="error6"></div>
                         </div>
 
                         <div class="col-3">
                             <label for="size">Size</label>
                             <input type="text" id="size" name="size" value="<%=productBean.getSize()%>">
+                            <div class="error" id="error7"></div>
                         </div>
 
                         <div class="col-3">
                             <label for="otherSpec">Thông số khác</label>
                             <input type="text" id="otherSpec" name="otherSpec" value="<%=productBean.getOtherSpec()%>">
+                            <div class="error" id="error8"></div>
                         </div>
 
                         <div class="col-3">
                             <label for="status">Trạng thái</label>
                             <input type="text" id="status" name="status" value="<%=productBean.getStatus()%>">
+                            <div class="error" id="error9"></div>
                         </div>
 
                         <div class="col-12">
                             <label for="keyword">Từ khóa tìm kiếm</label>
                             <input type="text" id="keyword" name="keyword" value="<%=productBean.getKeyword()%>" required>
+                            <div class="error" id="error10"></div>
                         </div>
 
                         <div class="col-12">
                             <label for="images">Các ảnh của sản phẩm</label>
                             <input type="file" name="images" id="images" multiple>
+                            <div class="error" id="error11"></div>
                         </div>
                     </div>
 
