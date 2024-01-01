@@ -1,4 +1,5 @@
 <%@ page import="com.ltw.bean.ProductBean" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -95,84 +96,113 @@
                 </ol>
                 <%
                     ProductBean productBean = (ProductBean) request.getAttribute("productBean");
+                    ArrayList<String> errors = (ArrayList<String>) request.getAttribute("errors");
+                    String success = request.getParameter("success");
                 %>
-                <form action="<c:url value="/admin/product-management?action=editing-product"/>" method="post">
+                <% if (success != null) { %>
+                <div class="alert alert-success">
+                    Chỉnh sửa sản phẩm thành công!
+                </div>
+                <% } %>
+                <form action="<c:url value="/admin/product-management/editing"/>" method="post">
                     <div class="row">
                         <div class="col-12">
                             <label for="name">Tên sản phẩm</label>
                             <input type="text" id="name" name="name" placeholder="Tên sản phẩm" value="<%=productBean.getName()%>" required>
-                            <div class="error error1"></div>
+                            <% if (errors != null && errors.get(0) != null) { %>
+                            <div class="error error1">Không được để trống!</div>
+                            <% } %>
                         </div>
 
                         <div class="col-12">
                             <label for="description">Mô tả</label>
                             <textarea name="description" id="description" placeholder="Mô tả"><%=productBean.getDescription()%>
                             </textarea>
-                            <div class="error" id="error1"></div>
+                            <% if (errors != null && errors.get(1) != null) { %>
+                            <div class="error" id="error2">Không được để trống!</div>
+                            <% } %>
                         </div>
 
                         <div class="col-3">
                             <label for="categoryTypeId">Mã phân loại sản phẩm</label>
                             <input type="text" id="categoryTypeId" name="categoryTypeId" value="<%=productBean.getCategoryTypeId()%>" required>
-                            <div class="error" id="error2"></div>
+                            <% if (errors != null && errors.get(2) != null) { %>
+                            <div class="error" id="error3">Không được để trống!</div>
+                            <% } %>
                         </div>
 
                         <div class="col-3">
                             <label for="originalPrice">Giá gốc</label>
                             <input type="text" id="originalPrice" name="originalPrice" placeholder="(Có thể thêm chấm hoặc không)" value="<fmt:formatNumber value="<%=productBean.getOriginalPrice()%>" pattern="#,##0.##"/>" required>
-                            <div class="error" id="error3"></div>
+                            <% if (errors != null && errors.get(3) != null) { %>
+                            <div class="error" id="error4">Không được để trống!</div>
+                            <% } %>
                             <div class="error" id="oPrError"></div>
                         </div>
 
                         <div class="col-3">
                             <label for="discountPrice">Giá giảm</label>
                             <input type="text" id="discountPrice" name="discountPrice" placeholder="(Có thể thêm chấm hoặc không)" value="<fmt:formatNumber value="<%=productBean.getDiscountPrice()%>" pattern="#,##0.##"/>">
-                            <div class="error" id="error4"></div>
+                            <% if (errors != null && errors.get(4) != null) { %>
+                            <div class="error" id="error5">Không được để trống!</div>
+                            <% } %>
                             <div class="error" id="dPrError"></div>
                         </div>
 
                         <div class="col-3">
                             <label for="discountPercent">Phần trăm giảm</label>
                             <input type="text" id="discountPercent" name="discountPercent" placeholder="Phần trăm giảm" value="<fmt:formatNumber value="<%=productBean.getDiscountPercent()%>" pattern="#,##0.##"/>" required>
-                            <div class="error" id="error5"></div>
+                            <% if (errors != null && errors.get(5) != null) { %>
+                            <div class="error" id="error6">Không được để trống!</div>
+                            <% } %>
                             <div class="error" id="dPeError"></div>
                         </div>
 
                         <div class="col-3">
                             <label for="quantity">Số lượng còn</label>
                             <input type="text" id="quantity" name="quantity" placeholder="(Có thể thêm dấu chấm hoặc không)" value="<%=productBean.getQuantity()%>">
-                            <div class="error" id="error6"></div>
+                            <% if (errors != null && errors.get(6) != null) { %>
+                            <div class="error" id="error7">Không được để trống!</div>
+                            <% } %>
                             <div class="error" id="qError"></div>
                         </div>
 
                         <div class="col-3">
                             <label for="size">Size</label>
                             <input type="text" id="size" name="size" value="<%=productBean.getSize()%>" required>
-                            <div class="error" id="error7"></div>
+                            <% if (errors != null && errors.get(7) != null) { %>
+                            <div class="error" id="error8">Không được để trống!</div>
+                            <% } %>
                         </div>
 
                         <div class="col-3">
                             <label for="otherSpec">Thông số khác</label>
                             <input type="text" id="otherSpec" name="otherSpec" value="<%=productBean.getOtherSpec()%>">
-                            <div class="error" id="error8"></div>
+                            <% if (errors != null && errors.get(8) != null) { %>
+                            <div class="error" id="error9">Không được để trống!</div>
+                            <% } %>
                         </div>
 
                         <div class="col-3">
                             <label for="status">Trạng thái</label>
                             <input type="text" id="status" name="status" value="<%=productBean.getStatus()%>" required>
-                            <div class="error" id="error9"></div>
+                            <% if (errors != null && errors.get(9) != null) { %>
+                            <div class="error" id="error10">Không được để trống!</div>
+                            <% } %>
                         </div>
 
                         <div class="col-12">
                             <label for="keyword">Từ khóa tìm kiếm</label>
                             <input type="text" id="keyword" name="keyword" value="<%=productBean.getKeyword()%>" required>
-                            <div class="error" id="error10"></div>
+                            <% if (errors != null && errors.get(10) != null) { %>
+                            <div class="error" id="error11">Không được để trống!</div>
+                            <% } %>
                         </div>
 
                         <div class="col-12">
                             <label for="images">Các ảnh của sản phẩm</label>
                             <input type="file" name="images" id="images" multiple>
-                            <div class="error" id="error11"></div>
+                            <div class="error" id="error12"></div>
                         </div>
                     </div>
 

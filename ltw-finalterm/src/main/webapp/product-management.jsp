@@ -100,7 +100,7 @@
                         Quản lý sản phẩm
                     </div>
                     <div class="list-button">
-                        <a href="adding-product.html" data-bs-toggle="tooltip" title="Thêm sản phẩm" class="add"><i
+                        <a href="<c:url value="/admin/product-management/adding"/>" data-bs-toggle="tooltip" title="Thêm sản phẩm" class="add"><i
                                 class="fa-solid fa-plus" style="color: #e3bd74;"></i>Thêm sản phẩm</a>
                     </div>
                     <div class="table-responsive">
@@ -171,10 +171,9 @@
                                 <td><%=product.getModifiedDate()%></td>
                                 <td><%=product.getModifiedBy()%></td>
                                 <td>
-                                    <a href="<c:url value="/admin/product-management">
+                                    <a href="<c:url value="/admin/product-management/editing">
                                                 <c:param name="id" value="<%=idStr%>"/>
-                                                <c:param name="action" value="go-to-edit"/>
-                                            </c:url>"
+                                             </c:url>"
                                        data-bs-toggle="tooltip" title="Chỉnh sửa sản phẩm" class="edit"><i
                                             class="fa-regular fa-pen-to-square" style="color: #e3bd74;"></i></a>
                                     <a href="#" data-bs-toggle="tooltip" title="Xóa sản phẩm" class="delete"><i

@@ -228,3 +228,7 @@ td img {
     height: 150px;
     margin-bottom: 5px;
 }
+
+form .error {
+    color: red;
+}

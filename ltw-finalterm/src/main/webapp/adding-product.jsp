@@ -20,7 +20,7 @@
 <body class="sb-nav-fixed">
 <nav class="sb-topnav navbar navbar-expand navbar-darkred">
     <!-- Navbar Brand-->
-    <a class="navbar-brand ps-3 logo fs-4" href="index.html">DDD. Admin</a>
+    <a class="navbar-brand ps-3 logo fs-4" href="<c:url value="/admin/home"/>">DDD. Admin</a>
     <!-- Sidebar Toggle-->
     <button class="btn btn-lg yellow-hv gray order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
             class="fas fa-bars"></i></button>
@@ -43,7 +43,7 @@
             <div class="sb-sidenav-menu">
                 <div class="nav">
                     <div class="sb-sidenav-menu-heading gray">Quản trị viên</div>
-                    <a class="nav-link pt-3 pb-3" href="index.html">
+                    <a class="nav-link pt-3 pb-3" href="<c:url value="/admin/home"/>">
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Trang chủ
                     </a>
