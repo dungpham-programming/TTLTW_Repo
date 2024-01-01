@@ -96,54 +96,58 @@
                 <%
                     ProductBean productBean = (ProductBean) request.getAttribute("productBean");
                 %>
-                <form action="#" method="post">
+                <form action="<c:url value="/admin/product-management?action=editing-product"/>" method="post">
                     <div class="row">
                         <div class="col-12">
-                            <label for="productName">Tên sản phẩm</label>
-                            <input type="text" id="productName" name="productName" value="<%=productBean.getName()%>" required>
+                            <label for="name">Tên sản phẩm</label>
+                            <input type="text" id="name" name="name" placeholder="Tên sản phẩm" value="<%=productBean.getName()%>" required>
                             <div class="error error1"></div>
                         </div>
 
                         <div class="col-12">
                             <label for="description">Mô tả</label>
-                            <textarea name="description" id="description"><%=productBean.getDescription()%>
+                            <textarea name="description" id="description" placeholder="Mô tả"><%=productBean.getDescription()%>
                             </textarea>
                             <div class="error" id="error1"></div>
                         </div>
 
                         <div class="col-3">
-                            <label for="categoryTypeID">Mã phân loại sản phẩm</label>
-                            <input type="text" id="categoryTypeID" name="categoryTypeID" value="<%=productBean.getCategoryTypeId()%>" required>
+                            <label for="categoryTypeId">Mã phân loại sản phẩm</label>
+                            <input type="text" id="categoryTypeId" name="categoryTypeId" value="<%=productBean.getCategoryTypeId()%>" required>
                             <div class="error" id="error2"></div>
                         </div>
 
                         <div class="col-3">
                             <label for="originalPrice">Giá gốc</label>
-                            <input type="text" id="originalPrice" name="originalPrice" value="<fmt:formatNumber value="<%=productBean.getOriginalPrice()%>" pattern="#,##0.##"/>" required>
+                            <input type="text" id="originalPrice" name="originalPrice" placeholder="(Có thể thêm chấm hoặc không)" value="<fmt:formatNumber value="<%=productBean.getOriginalPrice()%>" pattern="#,##0.##"/>" required>
                             <div class="error" id="error3"></div>
+                            <div class="error" id="oPrError"></div>
                         </div>
 
                         <div class="col-3">
                             <label for="discountPrice">Giá giảm</label>
-                            <input type="text" id="discountPrice" name="discountPrice" value="<fmt:formatNumber value="<%=productBean.getDiscountPrice()%>" pattern="#,##0.##"/>">
+                            <input type="text" id="discountPrice" name="discountPrice" placeholder="(Có thể thêm chấm hoặc không)" value="<fmt:formatNumber value="<%=productBean.getDiscountPrice()%>" pattern="#,##0.##"/>">
                             <div class="error" id="error4"></div>
+                            <div class="error" id="dPrError"></div>
                         </div>
 
                         <div class="col-3">
                             <label for="discountPercent">Phần trăm giảm</label>
-                            <input type="text" id="discountPercent" name="discountPercent" value="<fmt:formatNumber value="<%=productBean.getDiscountPercent()%>" pattern="#,##0.##"/>" required>
+                            <input type="text" id="discountPercent" name="discountPercent" placeholder="Phần trăm giảm" value="<fmt:formatNumber value="<%=productBean.getDiscountPercent()%>" pattern="#,##0.##"/>" required>
                             <div class="error" id="error5"></div>
+                            <div class="error" id="dPeError"></div>
                         </div>
 
                         <div class="col-3">
                             <label for="quantity">Số lượng còn</label>
-                            <input type="text" id="quantity" name="quantity" value="<%=productBean.getQuantity()%>">
+                            <input type="text" id="quantity" name="quantity" placeholder="(Có thể thêm dấu chấm hoặc không)" value="<%=productBean.getQuantity()%>">
                             <div class="error" id="error6"></div>
+                            <div class="error" id="qError"></div>
                         </div>
 
                         <div class="col-3">
                             <label for="size">Size</label>
-                            <input type="text" id="size" name="size" value="<%=productBean.getSize()%>">
+                            <input type="text" id="size" name="size" value="<%=productBean.getSize()%>" required>
                             <div class="error" id="error7"></div>
                         </div>
 
@@ -155,7 +159,7 @@
 
                         <div class="col-3">
                             <label for="status">Trạng thái</label>
-                            <input type="text" id="status" name="status" value="<%=productBean.getStatus()%>">
+                            <input type="text" id="status" name="status" value="<%=productBean.getStatus()%>" required>
                             <div class="error" id="error9"></div>
                         </div>
 
@@ -171,6 +175,8 @@
                             <div class="error" id="error11"></div>
                         </div>
                     </div>
+
+                    <input type="hidden" name="id" value="<%=productBean.getId()%>">
 
                     <input type="submit" value="Chỉnh sửa sản phẩm" class="adding button">
                     <a href="<c:url value="/admin/product-management"/>">Quay về trang quản lý</a>

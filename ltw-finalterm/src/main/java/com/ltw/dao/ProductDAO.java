@@ -105,4 +105,62 @@ public class ProductDAO {
         }
         return product;
     }
+
+    public void updateProduct(ProductBean productBean) {
+        String sql = "UPDATE products " +
+                "SET name = ?, description = ?, categoryTypeId = ?, originalPrice = ?, discountPrice = ?, " +
+                "discountPercent = ?, quantity = ?, size = ?, otherSpec = ?, status = ?, keyword = ? " +
+                "WHERE id = ?";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            connection.setAutoCommit(false);
+            preparedStatement = connection.prepareStatement(sql);
+            SetParameterUtil.setParameter(preparedStatement, productBean.getName(), productBean.getDescription(), productBean.getCategoryTypeId(),
+                    productBean.getOriginalPrice(), productBean.getDiscountPrice(), productBean.getDiscountPercent(), productBean.getQuantity(),
+                    productBean.getSize(), productBean.getOtherSpec(), productBean.getStatus(), productBean.getKeyword(), productBean.getId());
+            preparedStatement.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        } finally {
+            CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
+        }
+    }
+
+    public void createProduct(ProductBean productBean) {
+        String sql = "INSERT INTO product name, description, categoryTypeId, originalPrice, discountPrice, " +
+                "discountPercent, quantity, size, otherSpec, status, keyword, " +
+                "FROM products " +
+                "WHERE id = ?";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            connection.setAutoCommit(false);
+            preparedStatement = connection.prepareStatement(sql);
+            SetParameterUtil.setParameter(preparedStatement, productBean.getName(), productBean.getDescription(), productBean.getCategoryTypeId(),
+                    productBean.getOriginalPrice(), productBean.getDiscountPrice(), productBean.getDiscountPercent(), productBean.getQuantity(),
+                    productBean.getSize(), productBean.getOtherSpec(), productBean.getStatus(), productBean.getKeyword());
+            preparedStatement.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        } finally {
+            CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
+        }
+    }
 }

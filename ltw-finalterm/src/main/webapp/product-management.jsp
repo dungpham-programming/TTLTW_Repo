@@ -173,8 +173,8 @@
                                 <td>
                                     <a href="<c:url value="/admin/product-management">
                                                 <c:param name="id" value="<%=idStr%>"/>
-                                                <c:param name="action" value="editing"/>
-                                            </c:url>" 
+                                                <c:param name="action" value="go-to-edit"/>
+                                            </c:url>"
                                        data-bs-toggle="tooltip" title="Chỉnh sửa sản phẩm" class="edit"><i
                                             class="fa-regular fa-pen-to-square" style="color: #e3bd74;"></i></a>
                                     <a href="#" data-bs-toggle="tooltip" title="Xóa sản phẩm" class="delete"><i

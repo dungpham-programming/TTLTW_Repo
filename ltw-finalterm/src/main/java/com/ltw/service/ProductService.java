@@ -15,4 +15,12 @@ public class ProductService {
     public ProductBean findProductById(int id) {
         return productDAO.findProductById(id);
     }
+
+    public void updateProduct(ProductBean productBean) {
+        productDAO.updateProduct(productBean);
+    }
+
+    public void createProduct(ProductBean productBean) {
+        productDAO.createProduct(productBean);
+    }
 }
