@@ -93,6 +93,16 @@
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item active">DDD. Administrator</li>
                 </ol>
+                <%
+                    String success = (String) request.getAttribute("success");
+                    String error = (String) request.getAttribute("error");
+                %>
+                <% if (success != null) { %>
+                <div class="alert alert-success"><%=success%></div>
+                <% } %>
+                <% if (error != null) { %>
+                <div class="alert alert-error"><%=error%></div>
+                <% } %>
                 <div class="card mb-4 mt-4">
                     <div class="card-header">
                         <i class="fas fa-table me-1"></i>
@@ -175,7 +185,9 @@
                                              </c:url>"
                                        data-bs-toggle="tooltip" title="Chỉnh sửa sản phẩm" class="edit"><i
                                             class="fa-regular fa-pen-to-square" style="color: #e3bd74;"></i></a>
-                                    <a href="#" data-bs-toggle="tooltip" title="Xóa sản phẩm" class="delete"><i
+                                    <a href="<c:url value="/admin/product-management/delete">
+                                                <c:param name="id" value="<%=idStr%>"/>
+                                             </c:url>" data-bs-toggle="tooltip" title="Xóa sản phẩm" class="delete"><i
                                             class="fa-solid fa-trash" style="color: #e3bd74;"></i></a>
                                 </td>
                             </tr>
