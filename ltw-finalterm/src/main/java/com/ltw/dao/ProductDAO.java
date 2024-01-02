@@ -1,7 +1,5 @@
 package com.ltw.dao;
 
-import com.ltw.bean.CategoryBean;
-import com.ltw.bean.ImageBean;
 import com.ltw.bean.ProductBean;
 import com.ltw.util.CloseResourceUtil;
 import com.ltw.util.OpenConnectionUtil;
@@ -136,10 +134,9 @@ public class ProductDAO {
     }
 
     public void createProduct(ProductBean productBean) {
-        String sql = "INSERT INTO product name, description, categoryTypeId, originalPrice, discountPrice, " +
-                "discountPercent, quantity, size, otherSpec, status, keyword, " +
-                "FROM products " +
-                "WHERE id = ?";
+        String sql = "INSERT INTO products (name, description, categoryTypeId, originalPrice, discountPrice, " +
+                "discountPercent, quantity, size, otherSpec, status, keyword) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;

@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
 :root {
     --primary-color-darkyellow: #e3bd74;
     --primary-color-gray: #f0f0f0;
@@ -231,4 +232,13 @@ td img {
 
 form .error {
     color: red;
+}
+
+form textarea {
+    white-space: pre-wrap;
+}
+
+select {
+    width: 100%;
+    height: 30px;
 }

@@ -1,3 +1,4 @@
+<%@ page import="java.util.ArrayList" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
@@ -90,70 +91,124 @@
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item active">DDD. Administrator</li>
                 </ol>
-                <form action="#" method="post">
+                <%
+                    ArrayList<String> errors = (ArrayList<String>) request.getAttribute("errors");
+                    String success = request.getParameter("success");
+                    String oPrErr = request.getParameter("oPrErr");
+                    String dPrErr = request.getParameter("dPrErr");
+                    String dPeErr = request.getParameter("dPeErr");
+                %>
+                <% if (success != null) { %>
+                <div class="alert alert-success">
+                    Thêm sản phẩm thành công!
+                </div>
+                <% } %>
+                <form action="<c:url value="/admin/product-management/adding"/>" method="post">
                     <div class="row">
                         <div class="col-12">
-                            <label for="productName">Tên sản phẩm</label>
-                            <input type="text" id="productName" name="productName" value="" required>
+                            <label for="name">Tên sản phẩm</label>
+                            <input type="text" id="name" name="name" placeholder="Tên sản phẩm" required>
+                            <% if (errors != null && errors.get(0) != null) { %>
+                            <div class="error" id="error1">Không được để trống!</div>
+                            <% } %>
                         </div>
 
                         <div class="col-12">
                             <label for="description">Mô tả</label>
-                            <textarea name="description" id="description">Làm từ chất liệu cỏ bàng tự nhiên, túi này là biểu tượng của sự bền vững và sáng tạo.
-Thiết kế đơn giản nhưng tinh tế, túi cỏ bàng mang lại không gian rộng rãi và thoải mái cho đồ đạc cá nhân.
-Dây đeo êm ái, làn da tự nhiên, và hoa văn tự nhiên tạo nên sự duyên dáng.
-Sự giao thoa giữa thiên nhiên và thời trang, túi cỏ bàng là sự lựa chọn độc đáo cho những ai yêu thích phong cách eco-friendly
-                            </textarea>
+                            <textarea name="description" id="description" placeholder="Mô tả"></textarea>
+                            <% if (errors != null && errors.get(1) != null) { %>
+                            <div class="error" id="error2">Không được để trống!</div>
+                            <% } %>
                         </div>
 
                         <div class="col-3">
-                            <label for="categoryTypeID">Mã phân loại sản phẩm</label>
-                            <input type="text" id="categoryTypeID" name="categoryTypeID" value="00003" required>
+                            <label for="categoryTypeId">Mã phân loại sản phẩm</label>
+                            <input type="text" id="categoryTypeId" placeholder="Mã phân loại" name="categoryTypeId" required>
+                            <% if (errors != null && errors.get(2) != null) { %>
+                            <div class="error" id="error3">Không được để trống!</div>
+                            <% } %>
                         </div>
 
                         <div class="col-3">
                             <label for="originalPrice">Giá gốc</label>
-                            <input type="text" id="originalPrice" name="originalPrice" value="" required>
+                            <input type="text" id="originalPrice" placeholder="Chia phần nghìn (.) hoặc không" name="originalPrice" required>
+                            <% if (errors != null && errors.get(3) != null) { %>
+                            <div class="error" id="error4">Không được để trống!</div>
+                            <% } %>
+                            <% if (oPrErr != null) { %>
+                            <div class="error" id="oPrError">Phải là số và lớn hơn 0!</div>
+                            <% } %>
                         </div>
 
                         <div class="col-3">
                             <label for="discountPrice">Giá giảm</label>
-                            <input type="text" id="discountPrice" name="discountPrice" value="450.000">
+                            <input type="text" id="discountPrice" placeholder="Chia phần nghìn (.) hoặc không" name="discountPrice" required>
+                            <% if (errors != null && errors.get(4) != null) { %>
+                            <div class="error" id="error5">Không được để trống!</div>
+                            <% } %>
+                            <% if (dPrErr != null) { %>
+                            <div class="error" id="dPrError">Phải là số và lớn hơn 0!</div>
+                            <% } %>
                         </div>
 
                         <div class="col-3">
                             <label for="discountPercent">Phần trăm giảm</label>
-                            <input type="text" id="discountPercent" name="discountPercent" value="" required>
+                            <input type="text" id="discountPercent" placeholder="Không chứa thập phân" name="discountPercent" required>
+                            <% if (errors != null && errors.get(5) != null) { %>
+                            <div class="error" id="error6">Không được để trống!</div>
+                            <% } %>
+                            <div class="error" id="dPeError"></div>
                         </div>
 
                         <div class="col-3">
                             <label for="quantity">Số lượng còn</label>
-                            <input type="text" id="quantity" name="quantity" value="150">
+                            <input type="text" id="quantity" placeholder="Chia phần nghìn (.) hoặc không" name="quantity" required>
+                            <% if (errors != null && errors.get(6) != null) { %>
+                            <div class="error" id="error7">Không được để trống!</div>
+                            <% } %>
+                            <div class="error" id="qError"></div>
                         </div>
 
                         <div class="col-3">
                             <label for="size">Size</label>
-                            <input type="text" id="size" name="size" value="150">
+                            <input type="text" id="size" placeholder="Kích thước" name="size" required>
+                            <% if (errors != null && errors.get(7) != null) { %>
+                            <div class="error" id="error8">Không được để trống!</div>
+                            <% } %>
                         </div>
 
                         <div class="col-3">
                             <label for="otherSpec">Thông số khác</label>
-                            <input type="text" id="otherSpec" name="otherSpec" value="150">
+                            <input type="text" id="otherSpec" name="otherSpec" placeholder="Thông số khác" required>
+                            <% if (errors != null && errors.get(8) != null) { %>
+                            <div class="error" id="error9">Không được để trống!</div>
+                            <% } %>
                         </div>
 
                         <div class="col-3">
                             <label for="status">Trạng thái</label>
-                            <input type="text" id="status" name="status" value="150">
+                            <select id="status" name="status">
+                                <option value="1">Còn hàng</option>
+                                <option value="2">Hết hàng</option>
+                                <option value="3">Vô hiệu hóa</option>
+                            </select>
+                            <% if (errors != null && errors.get(9) != null) { %>
+                            <div class="error" id="error10">Không được để trống!</div>
+                            <% } %>
                         </div>
 
                         <div class="col-12">
                             <label for="keyword">Từ khóa tìm kiếm</label>
-                            <input type="text" id="keyword" name="keyword" value="" required>
+                            <input type="text" id="keyword" name="keyword" placeholder="Phân cách từ khóa bằng dấu phẩy" required>
+                            <% if (errors != null && errors.get(10) != null) { %>
+                            <div class="error" id="error11">Không được để trống!</div>
+                            <% } %>
                         </div>
 
                         <div class="col-12">
                             <label for="images">Các ảnh của sản phẩm</label>
                             <input type="file" name="images" id="images" multiple>
+                            <div class="error" id="error12"></div>
                         </div>
                     </div>
 

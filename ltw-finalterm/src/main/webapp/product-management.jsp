@@ -1,6 +1,5 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.ltw.bean.ProductBean" %>
-<%@ page import="com.ltw.service.ProductService" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>

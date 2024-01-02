@@ -18,6 +18,10 @@ public class NumberValidateUtil {
         return Double.parseDouble(replaceDot(input));
     }
 
+    public static boolean isValidPrice(String input) {
+        return toDouble(input) <= 0;
+    }
+
     private static String replaceDot(String input) {
         return input.replace(".", "");
     }

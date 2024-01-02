@@ -1,7 +1,7 @@
 package com.ltw.controller.admin.product;
 
 import com.ltw.bean.ProductBean;
-import com.ltw.service.ProductService;
+import com.ltw.dao.ProductDAO;
 import com.ltw.util.BlankInputUtil;
 import com.ltw.util.NumberValidateUtil;
 
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 @WebServlet(value = {"/admin/product-management/adding"})
 public class ProductAddingController extends HttpServlet {
-    private final ProductService productService = new ProductService();
+    private final ProductDAO productDAO = new ProductDAO();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -25,12 +25,12 @@ public class ProductAddingController extends HttpServlet {
     // TODO: Xử lý trường hợp không nhập discount price hoặc nhập số âm
     // TODO: Gom các util validate làm 1 (Sau khi sửa xong)
     // TODO: Thêm thông báo thành công
+    // TODO: Sticky cho nút add và thẻ td trong table
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
         // Sử dụng vòng lặp để set lỗi để trống theo index,
         // tuy nhiên cần phải giữ đúng thứ tự của input theo form và theo database (Vì sử dụng vòng lặp theo i để set lỗi)
-        int id = Integer.parseInt(req.getParameter("id"));
         String name = req.getParameter("name");
         String description = req.getParameter("description");
         String categoryTypeId = req.getParameter("categoryTypeId");
@@ -43,7 +43,8 @@ public class ProductAddingController extends HttpServlet {
         String status = req.getParameter("status");
         String keyword = req.getParameter("keyword");
 
-        // Các biến lưu giữ lỗi về giá
+        // Các biến lưu giữ lỗi về giá (Tên biến là viết tắt của
+        // originalPriceErr, discountPriceErr, discountPercentErr)
         String oPrErr = "e", dPrErr = "e", dPeErr = "e";
 
         // Biến thông báo thành công
@@ -71,18 +72,20 @@ public class ProductAddingController extends HttpServlet {
 
         // Kiểm tra các lỗi nhập liệu khác
         // Lỗi nhập liệu cho giá và phần trăm (Là phần số)
-        if (!NumberValidateUtil.isNumeric(originalPrice)) {
+        if (!NumberValidateUtil.isNumeric(originalPrice) || NumberValidateUtil.isValidPrice(originalPrice)) {
             if (isValid) {
                 isValid = false;
             }
             req.setAttribute("oPrErr", oPrErr);
         }
-        if (!NumberValidateUtil.isNumeric(discountPrice)) {
+
+        if (!NumberValidateUtil.isNumeric(discountPrice) || NumberValidateUtil.isValidPrice(discountPrice)) {
             if (isValid) {
                 isValid = false;
             }
-            req.setAttribute("dPrErr", dPrErr);
+            req.setAttribute("oPrErr", dPrErr);
         }
+
         if (!NumberValidateUtil.isNumeric(discountPercent)) {
             if (isValid) {
                 isValid = false;
@@ -114,7 +117,7 @@ public class ProductAddingController extends HttpServlet {
             productBean.setStatus(statusInt);
             productBean.setKeyword(keyword);
 
-            productService.createProduct((productBean));
+            productDAO.createProduct(productBean);
             resp.sendRedirect(req.getContextPath() + "/admin/product-management/adding?success=" + success);
         } else {
             req.getRequestDispatcher("/adding-product.jsp").forward(req, resp);

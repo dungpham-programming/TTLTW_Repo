@@ -1,7 +1,7 @@
 package com.ltw.controller.admin.product;
 
 import com.ltw.bean.ProductBean;
-import com.ltw.service.ProductService;
+import com.ltw.dao.ProductDAO;
 import com.ltw.util.BlankInputUtil;
 import com.ltw.util.NumberValidateUtil;
 
@@ -15,11 +15,11 @@ import java.util.ArrayList;
 
 @WebServlet(value = {"/admin/product-management/editing"})
 public class ProductEditingController extends HttpServlet {
-    private final ProductService productService = new ProductService();
+    private final ProductDAO productDAO = new ProductDAO();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
-        ProductBean productBean = productService.findProductById(id);
+        ProductBean productBean = productDAO.findProductById(id);
         req.setAttribute("productBean", productBean);
         req.getRequestDispatcher("/editing-product.jsp").forward(req, resp);
     }
@@ -116,10 +116,10 @@ public class ProductEditingController extends HttpServlet {
             productBean.setStatus(statusInt);
             productBean.setKeyword(keyword);
 
-            productService.updateProduct(productBean);
+            productDAO.updateProduct(productBean);
             resp.sendRedirect(req.getContextPath() + "/admin/product-management/editing?id=" + productBean.getId() + "&success=" + success);
         } else {
-            ProductBean productBean = productService.findProductById(id);
+            ProductBean productBean = productDAO.findProductById(id);
             req.setAttribute("productBean", productBean);
             req.getRequestDispatcher("/editing-product.jsp").forward(req, resp);
         }
