@@ -2,22 +2,25 @@ package com.ltw.bean;
 
 import java.sql.Timestamp;
 
-public class ProductDetailBean {
+public class ProductBean {
     private int id;
-    private  String productName;
+    private String name;
     private String description;
-    private int categoryTypeID;
+    private int categoryTypeId;
     private double originalPrice;
     private double discountPrice;
-    private int quatity;
-    private  int status;
+    private double discountPercent;
+    private int quantity;
+    private String size;
+    private String otherSpec;
+    private int status;
+    private String keyword;
     private Timestamp createdDate;
-    private String cratedBy;
+    private String createdBy;
     private Timestamp modifiedDate;
     private String modifiedBy;
-    private String size;
 
-    public ProductDetailBean() {
+    public ProductBean() {
     }
 
     public int getId() {
@@ -28,12 +31,12 @@ public class ProductDetailBean {
         this.id = id;
     }
 
-    public String getProductName() {
-        return productName;
+    public String getName() {
+        return name;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
@@ -44,12 +47,12 @@ public class ProductDetailBean {
         this.description = description;
     }
 
-    public int getCategoryTypeID() {
-        return categoryTypeID;
+    public int getCategoryTypeId() {
+        return categoryTypeId;
     }
 
-    public void setCategoryTypeID(int categoryTypeID) {
-        this.categoryTypeID = categoryTypeID;
+    public void setCategoryTypeId(int categoryTypeId) {
+        this.categoryTypeId = categoryTypeId;
     }
 
     public double getOriginalPrice() {
@@ -68,12 +71,20 @@ public class ProductDetailBean {
         this.discountPrice = discountPrice;
     }
 
-    public int getQuatity() {
-        return quatity;
+    public double getDiscountPercent() {
+        return discountPercent;
     }
 
-    public void setQuatity(int quatity) {
-        this.quatity = quatity;
+    public void setDiscountPercent(double discountPercent) {
+        this.discountPercent = discountPercent;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public int getStatus() {
@@ -84,6 +95,30 @@ public class ProductDetailBean {
         this.status = status;
     }
 
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public String getOtherSpec() {
+        return otherSpec;
+    }
+
+    public void setOtherSpec(String otherSpec) {
+        this.otherSpec = otherSpec;
+    }
+
+    public String getKeyword() {
+        return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
+
     public Timestamp getCreatedDate() {
         return createdDate;
     }
@@ -92,12 +127,12 @@ public class ProductDetailBean {
         this.createdDate = createdDate;
     }
 
-    public String getCratedBy() {
-        return cratedBy;
+    public String getCreatedBy() {
+        return createdBy;
     }
 
-    public void setCratedBy(String cratedBy) {
-        this.cratedBy = cratedBy;
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
     }
 
     public Timestamp getModifiedDate() {
@@ -114,13 +149,5 @@ public class ProductDetailBean {
 
     public void setModifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
-    }
-
-    public String getSize() {
-        return size;
-    }
-
-    public void setSize(String size) {
-        this.size = size;
     }
 }

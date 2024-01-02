@@ -1,8 +1,8 @@
 package com.ltw.controller.client;
 
 import com.ltw.bean.ImageBean;
-import com.ltw.bean.ProductDetailBean;
-import com.ltw.dao.ProductDetailDAO;
+import com.ltw.bean.ProductBean;
+import com.ltw.dao.ProductDAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,12 +14,12 @@ import java.util.List;
 
 @WebServlet(value = {"/product-detail"})
 public class ProductDetailController extends HttpServlet {
-    private final ProductDetailDAO productDetailDAO = new ProductDetailDAO();
+    private final ProductDAO productDetailDAO = new ProductDAO();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int productId = Integer.parseInt(req.getParameter("id"));
 
-        ProductDetailBean productDetailBean = productDetailDAO.findProductById(productId);
+        ProductBean productDetailBean = productDetailDAO.findProductById(productId);
         List<ImageBean> imageBeans = productDetailDAO.findImagesByProductId(productId);
 
         req.setAttribute("productDetails", productDetailBean);

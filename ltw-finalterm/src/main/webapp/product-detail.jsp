@@ -1,5 +1,5 @@
 <%@ page import="java.util.List" %>
-<%@ page import="com.ltw.bean.ProductDetailBean" %>
+<%@ page import="com.ltw.bean.ProductBean" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -70,7 +70,7 @@
     <div class="container">
         <div class="product-content product-wrap clearfix product-detail">
             <div class="row">
-                <% ProductDetailBean productDetails= (ProductDetailBean) request.getAttribute("productDetail");
+                <% ProductBean productDetails= (ProductBean) request.getAttribute("productDetail");
 
                   %>
                 <div class="col-md-4 col-sm-12 col-xs-12">
