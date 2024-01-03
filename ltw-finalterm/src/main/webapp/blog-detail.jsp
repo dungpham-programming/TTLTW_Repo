@@ -1,5 +1,5 @@
 <%@ page import="java.util.List" %>
-<%@ page import="com.ltw.bean.BlogDetailBean" %>
+<%@ page import="com.ltw.bean.BlogBean" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %><!doctype html>
@@ -19,7 +19,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
     <link href="<c:url value="/templates/client/css/tiny-slider.css" />"rel="stylesheet">
     <link href="<c:url value="/templates/client/css/style.css" />"rel="stylesheet">
-
     <title>DDD. - Nghệ thuật mỹ nghệ</title>
 </head>
 
@@ -84,21 +83,33 @@
         <div class="row justify-content-center">
             <div class="col-8">
                 <div class="author-n-date">
-                    <h5><%= request.getAttribute("blogDetail").getAuthor() %></h5>
-                    <h6><%= request.getAttribute("blogDetail").getCreatedDate() %></h6>
+                    <h5>Kristin Watson</h5>
+                    <h6>25/4/2023</h6>
                 </div>
 
                 <div class="title">
-                    <h2><%= request.getAttribute("blogDetail").getTitle() %></h2>
+                    <h2>First Time Home Owner Ideas</h2>
                 </div>
 
+
                 <div class="blog-img">
-                    <img src="<%= request.getAttribute("blogDetail").getProfilePic() %>" alt="" class="img-fluid">
+                    <img src="../images/blog/post-1.jpg" alt="" class="img-fluid">
                 </div>
 
                 <div class="news-content">
-                    <p><%= request.getAttribute("blogDetail").getContent() %></p>
-                    <!-- Tương tự với các thuộc tính khác của đối tượng BlogDetailBean -->
+                    <p>Lorem ipsum dolor sit amet. A temporibus harum non doloribus dolores et consequatur ducimus. Est accusamus nesciunt et voluptates alias qui saepe porro et veniam nostrum est blanditiis voluptatem.
+                        Ex perferendis explicabo in dolores fugit est corporis enim et voluptate quas.
+                    </p>
+
+                    <p>Id eligendi repudiandae ut laborum suscipit et repudiandae quasi aut perspiciatis corrupti sed galisum eaque aut voluptate voluptatum nam exercitationem exercitationem!
+                        Aut eaque dolorem ad voluptas vero aut quia galisum ut rerum autem et quia iure. Qui dolor omnis in quas facilis sed laudantium internos qui quia assumenda aut beatae blanditiis est omnis eveniet in error quidem?
+                    </p>
+
+                    <p>Id quasi excepturi eos error dolore qui eaque tenetur non nostrum tenetur sed itaque quibusdam et rerum magni qui nobis consequatur. Eum officiis doloremque aut saepe nisi ex sunt velit. Est dolor repellendus eum quia nihil sit ullam voluptatum ut galisum enim. Sit deserunt repellat et quod aperiam et deleniti consequuntur.
+                    </p>
+
+                    <p>Sit aliquam eius et voluptatem exercitationem non sunt ratione sit dolorem accusamus qui officiis magnam.
+                        Vel dolorem ipsum eos illo voluptas et placeat voluptatibus qui accusamus quia et corrupti nostrum. </p>
                 </div>
             </div>
         </div>
@@ -162,8 +173,9 @@
 
 <button id="scroll-to-top"><i class="fa-solid fa-chevron-up" style="color: #e3bd74;"></i></button>
 
-<script src="../js/bootstrap.bundle.min.js"></script>
-<script src="../js/tiny-slider.js"></script>
-<script src="../js/custom.js"></script>
+<script src="<c:url value="/templates/client/js/bootstrap.bundle.min.js"/>"></script>
+<script src="<c:url value="/templates/client/js/tiny-slider.js"/>"> </script>
+<script src="<c:url value="/templates/client/js/custom.js"/>"></script>
+
 </body>
 </html>
