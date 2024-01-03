@@ -1,6 +1,6 @@
 package com.ltw.controller.upload;
 
-import com.ltw.bean.ImageBean;
+import com.ltw.bean.ProductImageBean;
 import com.ltw.service.UploadService;
 import com.ltw.util.CloudStorageUtil;
 
@@ -46,7 +46,7 @@ public class UploadController extends HttpServlet {
                 // Kiểm tra xem đây có là ảnh hay là các loại file còn lại
                 InputStream fileContent = part.getInputStream();
                 String link = CloudStorageUtil.uploadtoCloudStorage(fileName, fileContent);
-                ImageBean image = new ImageBean();
+                ProductImageBean image = new ProductImageBean();
                 image.setName(fileName);
                 image.setLink(link);
                 int id = uploadService.insertProductImage(image);
@@ -55,8 +55,8 @@ public class UploadController extends HttpServlet {
                 throw new RuntimeException(e);
             }
         }
-        ImageBean imageBean = uploadService.findImageById(ids.get(0));
-        req.setAttribute("imageBean", imageBean);
+        ProductImageBean productImageBean = uploadService.findImageById(ids.get(0));
+        req.setAttribute("imageBean", productImageBean);
         req.getRequestDispatcher("image.jsp").forward(req, resp);
     }
 }

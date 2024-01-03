@@ -2,7 +2,7 @@ package com.ltw.bean;
 
 import java.sql.Timestamp;
 
-public class ImageBean {
+public class ProductImageBean {
     private int id;
     private String name;
     private String link;
@@ -12,7 +12,7 @@ public class ImageBean {
     private Timestamp modifiedDate;
     private String modifiedBy;
 
-    public ImageBean() {
+    public ProductImageBean() {
     }
 
     public int getId() {
