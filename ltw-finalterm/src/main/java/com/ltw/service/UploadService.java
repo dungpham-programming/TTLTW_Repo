@@ -1,6 +1,6 @@
 package com.ltw.service;
 
-import com.ltw.bean.ImageBean;
+import com.ltw.bean.ProductImageBean;
 import com.ltw.dao.ImageDAO;
 
 import javax.servlet.http.Part;
@@ -14,12 +14,12 @@ public class UploadService {
     }
 
     // Service upload file xuống Database
-    public int insertProductImage(ImageBean image) {
+    public int insertProductImage(ProductImageBean image) {
         return imageDAO.insertProductImage(image);
     }
 
     // Service lấy lên ảnh theo id
-    public ImageBean findImageById(int id) {
+    public ProductImageBean findImageById(int id) {
         return imageDAO.findImageById(id);
     }
 }

@@ -1,4 +1,5 @@
-<%@ page import="com.ltw.bean.ImageBean" %><%--
+<%@ page import="com.ltw.bean.ProductImageBean" %>
+<%@ page import="com.ltw.bean.ProductImageBean" %><%--
   Created by IntelliJ IDEA.
   User: Dũng Phạm
   Date: 29/12/2023
@@ -12,17 +13,17 @@
 </head>
 <body>
 <%
-    ImageBean imageBean = (ImageBean) request.getAttribute("imageBean");
+    ProductImageBean productImageBean = (ProductImageBean) request.getAttribute("productImageBean");
 
-    if (imageBean != null) {
+    if (productImageBean != null) {
 %>
 <div class="image">
     <div class="name">
-        <p><%=imageBean.getName()%></p>
+        <p><%=productImageBean.getName()%></p>
     </div>
 
     <div class="present-image">
-        <img src="<%=imageBean.getLink()%>" alt="">
+        <img src="<%=productImageBean.getLink()%>" alt="">
     </div>
 </div>
 <% } %>
