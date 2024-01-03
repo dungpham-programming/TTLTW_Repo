@@ -81,14 +81,16 @@
 <div class="blog-content position-relative-top-84px">
     <div class="container">
         <div class="row justify-content-center">
+            <% BlogBean blogdetails = (BlogBean)
+                    request.getAttribute("blogdetail");
+            %>
             <div class="col-8">
                 <div class="author-n-date">
-                    <h5>Kristin Watson</h5>
-                    <h6>25/4/2023</h6>
+                    <h5> <% ((BlogBean) request.getAttribute("blogdetail")).getAuthor();%></h5>
                 </div>
 
                 <div class="title">
-                    <h2>First Time Home Owner Ideas</h2>
+                    <h2><% ((BlogBean) request.getAttribute("blogdetail")).getTitle();%></h2>
                 </div>
 
 
@@ -97,19 +99,7 @@
                 </div>
 
                 <div class="news-content">
-                    <p>Lorem ipsum dolor sit amet. A temporibus harum non doloribus dolores et consequatur ducimus. Est accusamus nesciunt et voluptates alias qui saepe porro et veniam nostrum est blanditiis voluptatem.
-                        Ex perferendis explicabo in dolores fugit est corporis enim et voluptate quas.
-                    </p>
-
-                    <p>Id eligendi repudiandae ut laborum suscipit et repudiandae quasi aut perspiciatis corrupti sed galisum eaque aut voluptate voluptatum nam exercitationem exercitationem!
-                        Aut eaque dolorem ad voluptas vero aut quia galisum ut rerum autem et quia iure. Qui dolor omnis in quas facilis sed laudantium internos qui quia assumenda aut beatae blanditiis est omnis eveniet in error quidem?
-                    </p>
-
-                    <p>Id quasi excepturi eos error dolore qui eaque tenetur non nostrum tenetur sed itaque quibusdam et rerum magni qui nobis consequatur. Eum officiis doloremque aut saepe nisi ex sunt velit. Est dolor repellendus eum quia nihil sit ullam voluptatum ut galisum enim. Sit deserunt repellat et quod aperiam et deleniti consequuntur.
-                    </p>
-
-                    <p>Sit aliquam eius et voluptatem exercitationem non sunt ratione sit dolorem accusamus qui officiis magnam.
-                        Vel dolorem ipsum eos illo voluptas et placeat voluptatibus qui accusamus quia et corrupti nostrum. </p>
+                    <p> <% ((BlogBean) request.getAttribute("blogdetail")).getContent();%></p>
                 </div>
             </div>
         </div>
