@@ -1,6 +1,6 @@
 package com.ltw.dao;
 
-import com.ltw.bean.ImageBean;
+import com.ltw.bean.ProductImageBean;
 import com.ltw.util.CloseResourceUtil;
 import com.ltw.util.OpenConnectionUtil;
 import com.ltw.util.SetParameterUtil;
@@ -9,8 +9,8 @@ import java.sql.*;
 
 public class ImageDAO {
     // TODO: Cần thêm status cho ảnh (Sẽ làm sau)
-    public ImageBean findImageById(int id) {
-        ImageBean imageBean = null;
+    public ProductImageBean findImageById(int id) {
+        ProductImageBean productImageBean = null;
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT id, name, link, productId ")
                 .append("FROM images ");
@@ -25,20 +25,20 @@ public class ImageDAO {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                imageBean = new ImageBean();
-                imageBean.setName(resultSet.getString("name"));
-                imageBean.setLink(resultSet.getString("link"));
-                imageBean.setProductId(resultSet.getInt("productId"));
+                productImageBean = new ProductImageBean();
+                productImageBean.setName(resultSet.getString("name"));
+                productImageBean.setLink(resultSet.getString("link"));
+                productImageBean.setProductId(resultSet.getInt("productId"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
         }
-        return imageBean;
+        return productImageBean;
     }
     // TODO: Ở đây ta lấy ví dụ productId = 1, sau này khi chạy thật sẽ thay thế
-    public int insertProductImage(ImageBean image) {
+    public int insertProductImage(ProductImageBean image) {
         int id = -1;
         StringBuilder sql = new StringBuilder();
         sql.append("INSERT INTO images ")
