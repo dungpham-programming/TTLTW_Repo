@@ -184,6 +184,19 @@ textarea {
     height: 200px
 }
 
+form#client-home-management textarea {
+    height: 100px;
+}
+
+form a.link {
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
+    background: none;
+    color: #0a53be;
+    transition: .15s ease-out color;
+}
+
 form .adding.button {
     margin: 24px 10px 24px 0;
     padding: 10px;
@@ -227,17 +240,4 @@ td img {
     width: 120px;
     height: 150px;
     margin-bottom: 5px;
-}
-
-form#client-home-management textarea#welcomeDes {
-    height: 50px;
-}
-
-form a.link {
-    text-decoration: none;
-    margin: 0;
-    padding: 0;
-    background: none;
-    color: #0a53be;
-    transition: none;
 }

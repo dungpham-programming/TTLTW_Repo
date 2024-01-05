@@ -44,9 +44,10 @@
                     Thêm sản phẩm thành công!
                 </div>
                 <% } %>
-                <form id="client-home-management" action="<c:url value="/admin/product-management/adding"/>" method="post" enctype="multipart/form-data">
+                <form id="client-home-management" action="<c:url value="/admin/client-home-management/editing"/>" method="post" enctype="multipart/form-data">
                     <div class="row">
-                        <p>Hiển thị riêng trên trang chủ</p>
+                        <hr>
+                        <h5>Hiển thị riêng trên trang chủ</h5>
                         <hr>
                         <div class="col-12">
                             <label for="welcomeTitle">Tiêu đề giới thiệu</label>
@@ -173,7 +174,8 @@
                             <img id="nowImg2" src="" alt="">
                         </div>
 
-                        <p>Hiển thị chung cho các trang client</p>
+                        <hr>
+                        <h5>Hiển thị chung cho các trang client</h5>
                         <hr>
 
                         <div class="col-4">
