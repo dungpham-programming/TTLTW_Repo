@@ -134,21 +134,21 @@ public class ClientHomeManagementController extends HttpServlet {
             customizeBean.setInstagramLink(instagramLink);
             customizeBean.setLinkedinLink(linkedinLink);
 
-//            int affectRows = customizeDAO.createCustomize(customizeBean);
-//            if (affectRows == -1) {
-//                String serverError = "e";
-//                req.setAttribute("customizeBean", customizeBean);
-//                req.setAttribute("serverError", serverError);
-//                req.getRequestDispatcher("/client-home-management.jsp").forward(req, resp);
-//            } else if (affectRows >= 0) {
+            int affectRows = customizeDAO.createCustomize(customizeBean);
+            if (affectRows == -1) {
+                String serverError = "e";
+                req.setAttribute("customizeBean", customizeBean);
+                req.setAttribute("serverError", serverError);
+                req.getRequestDispatcher("/client-home-management.jsp").forward(req, resp);
+            } else if (affectRows >= 0) {
                 String update = "success";
                 resp.sendRedirect(req.getContextPath() + "/admin/client-home-management?id=1&update=" + update);
             }
-//        } else {
-//            // Có lỗi thì gửi danh sách các ô bị lỗi lên
-//            req.setAttribute("blankErrors", blankErrors);
-//            req.setAttribute("imageErrors", imageErrors);
-//            req.getRequestDispatcher("/client-home-management.jsp").forward(req, resp);
-//        }
+        } else {
+            // Có lỗi thì gửi danh sách các ô bị lỗi lên
+            req.setAttribute("blankErrors", blankErrors);
+            req.setAttribute("imageErrors", imageErrors);
+            req.getRequestDispatcher("/client-home-management.jsp").forward(req, resp);
+        }
     }
 }
