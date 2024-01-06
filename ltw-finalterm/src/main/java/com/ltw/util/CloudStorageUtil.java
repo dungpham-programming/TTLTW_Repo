@@ -81,7 +81,7 @@ public class CloudStorageUtil {
 
         // Kiểm tra xem file trên có là ảnh không
         List<String> parentFolders = new ArrayList<>();
-        if (fileName.endsWith(".jpg") || fileName.endsWith(".png")) {
+        if (fileName.endsWith(".jpg") || fileName.endsWith(".png") || fileName.endsWith(".jpeg") || fileName.endsWith(".gif")) {
             // Chỉ định danh sách thư mục cha (thư mục muốn đặt file vào)
             // Ở đây ta đăt vào thư mục lưu trữ file ảnh trong Google Drive
             parentFolders.add(imagesId);

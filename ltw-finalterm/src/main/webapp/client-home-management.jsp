@@ -44,14 +44,15 @@
                     Thêm sản phẩm thành công!
                 </div>
                 <% } %>
-                <form id="client-home-management" action="<c:url value="/admin/client-home-management/editing"/>" method="post" enctype="multipart/form-data">
+                <form id="client-home-management" action="<c:url value="/admin/client-home-management"/>" method="post"
+                      enctype="multipart/form-data" accept-charset="UTF-8">
                     <div class="row">
                         <hr>
                         <h5>Hiển thị riêng trên trang chủ</h5>
                         <hr>
                         <div class="col-12">
                             <label for="welcomeTitle">Tiêu đề giới thiệu</label>
-                            <input type="text" id="welcomeTitle" name="welcomeTitle" placeholder="Tiêu đề" required>
+                            <input type="text" id="welcomeTitle" name="welcomeTitle" required>
                             <% if (errors != null && errors.get(0) != null) { %>
                             <div class="error" id="error1">Không được để trống!</div>
                             <% } %>
@@ -67,7 +68,7 @@
 
                         <div class="col-12">
                             <label for="productTitle">Tiêu đề khu vực sản phẩm</label>
-                            <input type="text" id="productTitle" placeholder="Tiêu đề" name="categoryTypeId"
+                            <input type="text" id="productTitle" placeholder="Tiêu đề" name="productTitle"
                                    required>
                             <% if (errors != null && errors.get(2) != null) { %>
                             <div class="error" id="error3">Không được để trống!</div>
@@ -110,8 +111,11 @@
                         </div>
 
                         <div class="col-6">
-                            <label for="prIcon1">Icon(Lấy icon ở <a class="link" href="https://fontawesome.com/search" target="_blank">đây</a>, xóa dấu xuống dòng)</label>
-                            <textarea name="prIcon1" id="prIcon1" placeholder="Mỗi icon cách nhau bởi dấu phẩy, 1 icon/nội dung" required></textarea>
+                            <label for="prIcon1">Icon(Lấy icon ở <a class="link" href="https://fontawesome.com/search"
+                                                                    target="_blank">đây</a>, xóa dấu xuống dòng)</label>
+                            <textarea name="prIcon1" id="prIcon1"
+                                      placeholder="Mỗi icon cách nhau bởi dấu phẩy, 1 icon/nội dung"
+                                      required></textarea>
                             <% if (errors != null && errors.get(7) != null) { %>
                             <div class="error" id="error8">Không được để trống!</div>
                             <% } %>
@@ -121,7 +125,7 @@
                             <label for="prLink1">Thay đổi ảnh</label>
                             <input type="file" name="prLink1" id="prLink1">
                         </div>
-                        
+
                         <div class="col-4">
                             <label for="updatingImg1">Ảnh bạn muốn đổi 1</label>
                             <img id="updatingImg1" src="" alt="">
@@ -195,7 +199,8 @@
 
                         <div class="col-12">
                             <label for="footerLeft">Miêu tả dưới logo footer</label>
-                            <textarea name="footerLeft" id="footerLeft" placeholder="Miêu tả bên trái cuối trang (Dưới logo)" required></textarea>
+                            <textarea name="footerLeft" id="footerLeft"
+                                      placeholder="Miêu tả bên trái cuối trang (Dưới logo)" required></textarea>
                             <% if (errors != null && errors.get(11) != null) { %>
                             <div class="error" id="error8">Không được để trống!</div>
                             <% } %>
@@ -203,7 +208,8 @@
 
                         <div class="col-12">
                             <label for="footerMiddle">Miêu tả giữa (Về chúng tôi)</label>
-                            <textarea name="footerMiddle" id="footerMiddle" placeholder="Miêu tả giữa của cuối trang (Về chúng tôi)" required></textarea>
+                            <textarea name="footerMiddle" id="footerMiddle"
+                                      placeholder="Miêu tả giữa của cuối trang (Về chúng tôi)" required></textarea>
                             <% if (errors != null && errors.get(12) != null) { %>
                             <div class="error" id="error8">Không được để trống!</div>
                             <% } %>
@@ -211,7 +217,8 @@
 
                         <div class="col-6">
                             <label for="facebookLink">Đường dẫn Facebook của trang</label>
-                            <input type="text" id="facebookLink" name="facebookLink" placeholder="Đường dẫn Facebook" required>
+                            <input type="text" id="facebookLink" name="facebookLink" placeholder="Đường dẫn Facebook"
+                                   required>
                             <% if (errors != null && errors.get(13) != null) { %>
                             <div class="error" id="error1">Không được để trống!</div>
                             <% } %>
@@ -219,7 +226,8 @@
 
                         <div class="col-6">
                             <label for="twitterLink">Đường dẫn Twitter của trang</label>
-                            <input type="text" id="twitterLink" name="twitterLink" placeholder="Đường dẫn Twitter" required>
+                            <input type="text" id="twitterLink" name="twitterLink" placeholder="Đường dẫn Twitter"
+                                   required>
                             <% if (errors != null && errors.get(14) != null) { %>
                             <div class="error" id="error1">Không được để trống!</div>
                             <% } %>
@@ -227,7 +235,8 @@
 
                         <div class="col-6">
                             <label for="instagramLink">Đường dẫn Instagram của trang</label>
-                            <input type="text" id="instagramLink" name="instagramLink" placeholder="Đường dẫn Instagram" required>
+                            <input type="text" id="instagramLink" name="instagramLink" placeholder="Đường dẫn Instagram"
+                                   required>
                             <% if (errors != null && errors.get(15) != null) { %>
                             <div class="error" id="error1">Không được để trống!</div>
                             <% } %>
@@ -235,7 +244,8 @@
 
                         <div class="col-6">
                             <label for="linkedinLink">Đường dẫn Linkedin của trang</label>
-                            <input type="text" id="linkedinLink" name="linkedinLink" placeholder="Đường dẫn Linkedin" required>
+                            <input type="text" id="linkedinLink" name="linkedinLink" placeholder="Đường dẫn Linkedin"
+                                   required>
                             <% if (errors != null && errors.get(16) != null) { %>
                             <div class="error" id="error1">Không được để trống!</div>
                             <% } %>
