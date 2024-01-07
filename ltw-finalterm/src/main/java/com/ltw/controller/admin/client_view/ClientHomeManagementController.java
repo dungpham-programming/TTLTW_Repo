@@ -5,6 +5,9 @@ import com.ltw.dao.CustomizeDAO;
 import com.ltw.util.BlankInputUtil;
 import com.ltw.util.CloudStorageUtil;
 import com.ltw.util.DetectTypeFileUtil;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -25,13 +28,14 @@ import java.util.List;
         maxRequestSize = 1024 * 1024 * 100
 )
 
-// TODO: Thay đổi cách phân tách các nội dung (Dùng dấu \ chẳng hạn)
+// TODO: Code JavaScript đếm số ký tự nhập vào ô (Nếu có thời gian)
 public class ClientHomeManagementController extends HttpServlet {
     private final CustomizeDAO customizeDAO = new CustomizeDAO();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        CustomizeBean customizeBean = customizeDAO.getCustomizeInfo();
+        CustomizeBean customizeBean = customizeDAO.getCustomizeInfo();
+        req.setAttribute("customizeBean", customizeBean);
         req.getRequestDispatcher("/client-home-management.jsp").forward(req, resp);
     }
 
@@ -42,13 +46,14 @@ public class ClientHomeManagementController extends HttpServlet {
         String productTitle = req.getParameter("productTitle");
         String productDes = req.getParameter("productDes");
         String prTitle1 = req.getParameter("prTitle1");
-        String prContent1 = req.getParameter("prContent1");
         String prDes1 = req.getParameter("prDes1");
         String prIcon1 = req.getParameter("prIcon1");
+        String prContentTitle1 = req.getParameter("prContentTitle1");
+        String prContentDes1 = req.getParameter("prContentDes1");
         Part prLink1 = req.getPart("prLink1");
         String prTitle2 = req.getParameter("prTitle2");
-        String prContent2 = req.getParameter("prContent2");
         String prDes2 = req.getParameter("prDes2");
+        String prContent2 = req.getParameter("prContent2");
         Part prLink2 = req.getPart("prLink2");
         Part background = req.getPart("background");
         String footerLeft = req.getParameter("footerLeft");
@@ -60,8 +65,8 @@ public class ClientHomeManagementController extends HttpServlet {
 
         // Mảng kiểm tra lỗi input
         String[] inputCheck = {welcomeTitle, welcomeDes, productTitle, productDes,
-                prTitle1, prContent1, prDes1, prIcon1,
-                prTitle2, prContent2, prDes2,
+                prTitle1, prDes1, prIcon1, prContentTitle1, prContentDes1,
+                prTitle2, prDes2, prContent2,
                 footerLeft, footerMiddle};
 
         // Mảng kiểm tra lỗi image
@@ -88,8 +93,12 @@ public class ClientHomeManagementController extends HttpServlet {
 
         // Kiểm tra lỗi không phải file ảnh
         for (Part part : partCheck) {
-            // Không là ảnh thì thêm lỗi
-            if (!DetectTypeFileUtil.isImage(part)) {
+            // Nếu không tải lên file (part.getSize <= 0) thì không lỗi (có thể sửa ảnh hoặc là không)
+            if (part.getSize() <= 0) {
+                imageErrors.add(null);
+            }
+            // Nếu có Part, và Part Không là ảnh thì thêm lỗi
+            else if (!DetectTypeFileUtil.isImage(part)) {
                 if (isValid) {
                     isValid = false;
                 }
@@ -99,42 +108,72 @@ public class ClientHomeManagementController extends HttpServlet {
             }
         }
 
+        CustomizeBean customizeBean = new CustomizeBean();
         // Nếu không có lỗi thì lưu vào database
         if (isValid) {
-            String linkImage1;
-            String linkImage2;
-            String backgroundImage;
+            String linkImage1 = null;
+            String linkImage2 = null;
+            String backgroundImage = null;
             try {
-                linkImage1 = CloudStorageUtil.uploadtoCloudStorage(prLink1.getSubmittedFileName(), prLink1.getInputStream());
-                linkImage2 = CloudStorageUtil.uploadtoCloudStorage(prLink2.getSubmittedFileName(), prLink2.getInputStream());
-                backgroundImage = CloudStorageUtil.uploadtoCloudStorage(background.getSubmittedFileName(), background.getInputStream());
+                if (prLink1.getSize() > 0) {
+                    linkImage1 = CloudStorageUtil.uploadtoCloudStorage(prLink1.getSubmittedFileName(), prLink1.getInputStream());
+                }
+                if (prLink2.getSize() > 0) {
+                    linkImage2 = CloudStorageUtil.uploadtoCloudStorage(prLink2.getSubmittedFileName(), prLink2.getInputStream());
+                }
+                if (background.getSize() > 0) {
+                    backgroundImage = CloudStorageUtil.uploadtoCloudStorage(background.getSubmittedFileName(), background.getInputStream());
+                }
             } catch (GeneralSecurityException e) {
                 throw new RuntimeException(e);
             }
 
-            CustomizeBean customizeBean = new CustomizeBean();
-            customizeBean.setWelcomeTitle(welcomeTitle);
+            // Thực hiện xóa các khoảng trắng ở đầu và cuối chuỗi cho content và icon
+            String clearSpaceIcon1 = clearSpaceHeaderAndFooter(prIcon1);
+            String clearSpaceContentTitle1 = clearSpaceHeaderAndFooter(prContentTitle1);
+            String clearSpaceContentDes1 = clearSpaceHeaderAndFooter(prContentDes1);
+            String clearSpaceContent2 = clearSpaceHeaderAndFooter(prContent2);
+
+            // Thêm màu chủ đạo của icon
+            String colorIconList = colorIconList(clearSpaceIcon1);
+
+            customizeBean.setWelcomeTitle(welcomeTitle.trim());
             customizeBean.setWelcomeDes(welcomeDes);
-            customizeBean.setProductTitle(productTitle);
-            customizeBean.setProductDes(productDes);
-            customizeBean.setPrTitle1(prTitle1);
-            customizeBean.setPrContent1(prContent1);
-            customizeBean.setPrDes1(prDes1);
-            customizeBean.setPrIcon1(prIcon1);
-            customizeBean.setPrLink1(linkImage1);
-            customizeBean.setPrTitle2(prTitle2);
-            customizeBean.setPrContent2(prContent2);
+            customizeBean.setProductTitle(productTitle.trim());
+            customizeBean.setProductDes(productDes.trim());
+            customizeBean.setPrTitle1(prTitle1.trim());
+            customizeBean.setPrDes1(prDes1.trim());
+            customizeBean.setPrIcon1(colorIconList);
+            customizeBean.setPrContentTitle1(clearSpaceContentTitle1);
+            customizeBean.setPrContentDes1(clearSpaceContentDes1);
+            if (linkImage1 != null) {
+                customizeBean.setPrLink1(linkImage1);
+            } else {
+                customizeBean.setPrLink1(findOldImage1Link());
+            }
+            customizeBean.setPrTitle2(prTitle2.trim());
             customizeBean.setPrDes2(prDes2);
-            customizeBean.setPrLink2(linkImage2);
-            customizeBean.setBackground(backgroundImage);
+            customizeBean.setPrContent2(clearSpaceContent2);
+            if (linkImage2 != null) {
+                customizeBean.setPrLink2(linkImage2);
+            } else {
+                customizeBean.setPrLink2(findOldImage2Link());
+            }
+            if (backgroundImage != null) {
+                customizeBean.setBackground(backgroundImage);
+            } else {
+                customizeBean.setBackground(findOldBackgroundLink());
+            }
             customizeBean.setFooterLeft(footerLeft);
             customizeBean.setFooterMiddle(footerMiddle);
-            customizeBean.setFacebookLink(facebookLink);
-            customizeBean.setTwitterLink(twitterLink);
-            customizeBean.setInstagramLink(instagramLink);
-            customizeBean.setLinkedinLink(linkedinLink);
 
-            int affectRows = customizeDAO.createCustomize(customizeBean);
+            // Link thì nên bỏ khoảng trống ở đầu và cuối
+            customizeBean.setFacebookLink(facebookLink.trim());
+            customizeBean.setTwitterLink(twitterLink.trim());
+            customizeBean.setInstagramLink(instagramLink.trim());
+            customizeBean.setLinkedinLink(linkedinLink.trim());
+
+            int affectRows = customizeDAO.updateCustomize(customizeBean);
             if (affectRows == -1) {
                 String serverError = "e";
                 req.setAttribute("customizeBean", customizeBean);
@@ -142,13 +181,59 @@ public class ClientHomeManagementController extends HttpServlet {
                 req.getRequestDispatcher("/client-home-management.jsp").forward(req, resp);
             } else if (affectRows >= 0) {
                 String update = "success";
-                resp.sendRedirect(req.getContextPath() + "/admin/client-home-management?id=1&update=" + update);
+                resp.sendRedirect(req.getContextPath() + "/admin/client-home-management?update=" + update);
             }
         } else {
             // Có lỗi thì gửi danh sách các ô bị lỗi lên
             req.setAttribute("blankErrors", blankErrors);
             req.setAttribute("imageErrors", imageErrors);
+            req.setAttribute("customizeBean", customizeBean);
             req.getRequestDispatcher("/client-home-management.jsp").forward(req, resp);
         }
+    }
+
+    private String clearSpaceHeaderAndFooter(String input) {
+        return input.trim();
+    }
+
+    private String findOldImage1Link() {
+        return customizeDAO.findOldImage1Link();
+    }
+
+    private String findOldImage2Link() {
+        return customizeDAO.findOldImage2Link();
+    }
+
+    private String findOldBackgroundLink() {
+        return customizeDAO.findOldBackgroundLink();
+    }
+
+    private String colorIconList(String iconListInput) {
+        StringBuilder sb = new StringBuilder();
+        String[] listIcon = iconListInput.split(",\\s+");
+        for (int i = 0; i < listIcon.length; i++) {
+            sb.append(addWebColorForIcon(listIcon[i]));
+            if (i != listIcon.length - 1) {
+                sb.append(",");
+            }
+        }
+        return sb.toString();
+    }
+
+    private String addWebColorForIcon(String icon) {
+        String result;
+        // Sử dụng thư viện Jsoup
+        // Chuyển đổi chuỗi HTML thành một đối tượng Document của Jsoup
+        Document doc = Jsoup.parse(icon);
+
+        // Lấy phần tử <i> từ Document
+        Element iconElement = doc.select("i").first();
+
+        // Thêm thuộc tính style vào phần tử <i>
+        iconElement.attr("style", "color: #e3bd74;");
+
+        // In ra chuỗi HTML đã được sửa đổi
+        result = iconElement.outerHtml();
+        return result;
     }
 }

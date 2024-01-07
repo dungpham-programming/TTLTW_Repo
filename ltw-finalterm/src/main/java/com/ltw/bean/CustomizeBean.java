@@ -5,12 +5,10 @@ public class CustomizeBean {
     private int id;
     private String welcomeTitle, welcomeDes,
             productTitle, productDes,
-            prTitle1, prContent1, prDes1, prIcon1, prLink1,
-            prTitle2, prContent2, prDes2, prLink2,
+            prTitle1, prContentTitle1, prContentDes1, prDes1, prIcon1, prLink1,
+            prTitle2, prDes2, prContent2, prLink2,
             background, footerLeft, footerMiddle, facebookLink,
             twitterLink, instagramLink, linkedinLink;
-
-    private int numberBlog;
 
     public CustomizeBean() {
     }
@@ -71,14 +69,6 @@ public class CustomizeBean {
         this.prDes1 = prDes1;
     }
 
-    public String getPrContent1() {
-        return prContent1;
-    }
-
-    public void setPrContent1(String prContent1) {
-        this.prContent1 = prContent1;
-    }
-
     public String getPrIcon1() {
         return prIcon1;
     }
@@ -109,14 +99,6 @@ public class CustomizeBean {
 
     public void setPrDes2(String prDes2) {
         this.prDes2 = prDes2;
-    }
-
-    public String getPrContent2() {
-        return prContent2;
-    }
-
-    public void setPrContent2(String prContent2) {
-        this.prContent2 = prContent2;
     }
 
     public String getPrLink2() {
@@ -183,11 +165,27 @@ public class CustomizeBean {
         this.linkedinLink = linkedinLink;
     }
 
-    public int getNumberBlog() {
-        return numberBlog;
+    public String getPrContentTitle1() {
+        return prContentTitle1;
     }
 
-    public void setNumberBlog(int numberBlog) {
-        this.numberBlog = numberBlog;
+    public void setPrContentTitle1(String prContentTitle1) {
+        this.prContentTitle1 = prContentTitle1;
+    }
+
+    public String getPrContentDes1() {
+        return prContentDes1;
+    }
+
+    public void setPrContentDes1(String prContentDes1) {
+        this.prContentDes1 = prContentDes1;
+    }
+
+    public String getPrContent2() {
+        return prContent2;
+    }
+
+    public void setPrContent2(String prContent2) {
+        this.prContent2 = prContent2;
     }
 }
