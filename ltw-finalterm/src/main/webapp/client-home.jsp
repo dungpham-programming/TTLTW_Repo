@@ -1,6 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.ltw.bean.CategoryBean" %>
 <%@ page import="com.ltw.bean.BlogBean" %>
+<%@ page import="com.ltw.bean.CustomizeBean" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -35,7 +36,7 @@
         <div class="row justify-content-between">
             <div class="col-12">
                 <div class="intro-excerpt">
-                    <h1>Nghệ thuật <span class="d-block">từ mỹ nghệ</span></h1>
+                    <h1>Nghệ thuật từ mỹ nghệ</h1>
                     <p class="mb-4 darkred_alpha">Mỗi một sản phẩm mỹ nghệ là một kiệt tác. Thưởng thức tinh túy của
                         nghệ thuật thông qua các sản phẩm mỹ nghệ tuyệt vời của chúng tôi.</p>
                     <p><a href="shop.html" class="btn-main btn-secondary me-2">Khám phá ngay</a>

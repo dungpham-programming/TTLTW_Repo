@@ -6,7 +6,7 @@ public class CustomizeBean {
     private String welcomeTitle, welcomeDes,
             productTitle, productDes,
             prTitle1, prDes1, prContent1, prIcon1, prLink1,
-            prTitle2, prDes2, prContent2, prIcon2, prLink2,
+            prTitle2, prDes2, prContent2, prLink2,
             background, footerLeft, footerMiddle, facebookLink,
             twitterLink, instagramLink, linkedinLink;
 
@@ -117,14 +117,6 @@ public class CustomizeBean {
 
     public void setPrContent2(String prContent2) {
         this.prContent2 = prContent2;
-    }
-
-    public String getPrIcon2() {
-        return prIcon2;
-    }
-
-    public void setPrIcon2(String prIcon2) {
-        this.prIcon2 = prIcon2;
     }
 
     public String getPrLink2() {

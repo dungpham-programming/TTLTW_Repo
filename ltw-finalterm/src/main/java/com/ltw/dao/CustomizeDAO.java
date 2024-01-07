@@ -18,7 +18,7 @@ public class CustomizeDAO {
         CustomizeBean customizeBean = null;
         String sql = "SELECT id, welcomeTitle, welcomeDes, productTitle, productDes, " +
                         "prTitle1, prDes1, prContent1, prIcon1, prLink1, " +
-                        "prTitle2, prDes2, prContent2, prIcon2, prLink2, " +
+                        "prTitle2, prDes2, prContent2, prLink2, " +
                         "background, footerLeft, footerMiddle, facebookLink, " +
                         "twitterLink, instagramLink, linkedinLink " +
                      "FROM customize_pages";
@@ -46,7 +46,6 @@ public class CustomizeDAO {
                 customizeBean.setPrTitle2(resultSet.getString("prTitle2"));
                 customizeBean.setPrDes2(resultSet.getString("prDes2"));
                 customizeBean.setPrContent2(resultSet.getString("prContent2"));
-                customizeBean.setPrIcon2(resultSet.getString("prIcon2"));
                 customizeBean.setPrLink2(resultSet.getString("prLink2"));
                 customizeBean.setBackground(resultSet.getString("background"));
                 customizeBean.setFooterLeft(resultSet.getString("footerLeft"));
