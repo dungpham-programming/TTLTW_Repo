@@ -75,6 +75,7 @@ public class ClientHomeManagementController extends HttpServlet {
         // Mảng giữ lỗi
         List<String> blankErrors = new ArrayList<>();
         List<String> imageErrors = new ArrayList<>();
+        String notEqualError = null;
 
         // Biến bắt lỗi
         boolean isValid = true;
@@ -106,6 +107,16 @@ public class ClientHomeManagementController extends HttpServlet {
             } else {
                 imageErrors.add(null);
             }
+        }
+
+        // Kiểm tra lỗi khi 2 trong 3 (tiêu đề nội dung 1/icon1/nội dung 1) không bằng nhau về số lượng
+        if (splitByComma(prIcon1).length != splitByTilde(prContentTitle1).length ||
+                splitByComma(prIcon1).length != splitByTilde(prContentDes1).length ||
+                splitByTilde(prContentTitle1).length != splitByTilde(prContentDes1).length) {
+            if (isValid) {
+                isValid = false;
+            }
+            notEqualError = "e";
         }
 
         CustomizeBean customizeBean = new CustomizeBean();
@@ -184,9 +195,11 @@ public class ClientHomeManagementController extends HttpServlet {
                 resp.sendRedirect(req.getContextPath() + "/admin/client-home-management?update=" + update);
             }
         } else {
+            customizeBean = customizeDAO.getCustomizeInfo();
             // Có lỗi thì gửi danh sách các ô bị lỗi lên
             req.setAttribute("blankErrors", blankErrors);
             req.setAttribute("imageErrors", imageErrors);
+            req.setAttribute("notEqualError", notEqualError);
             req.setAttribute("customizeBean", customizeBean);
             req.getRequestDispatcher("/client-home-management.jsp").forward(req, resp);
         }
@@ -235,5 +248,19 @@ public class ClientHomeManagementController extends HttpServlet {
         // In ra chuỗi HTML đã được sửa đổi
         result = iconElement.outerHtml();
         return result;
+    }
+
+    // Hàm lấy ra danh sách văn bản phân cách bằng dấu "~" (Content)
+    private String[] splitByTilde(String input) {
+        // Trước tiên cần loại bỏ khoảng trắng ở đầu và cuối chuỗi
+        String inputClearSpace = clearSpaceHeaderAndFooter(input);
+        return inputClearSpace.split("~\\s*");
+    }
+
+    // Hàm lấy ra danh sách văn bản phân cách bằng dấu "," (Icon)
+    private String[] splitByComma(String input) {
+        // Trước tiên cần loại bỏ khoảng trắng ở đầu và cuối chuỗi
+        String inputClearSpace = clearSpaceHeaderAndFooter(input);
+        return inputClearSpace.split(",\\s*");
     }
 }

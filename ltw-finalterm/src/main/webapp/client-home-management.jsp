@@ -40,6 +40,12 @@
                     <li class="breadcrumb-item active">DDD. Administrator</li>
                 </ol>
                 <%
+                    String notEqualError = (String) request.getAttribute("notEqualError");
+                    if (notEqualError != null) {
+                %>
+                <div class="alert alert-danger">Số lượng icon, tiêu đề nội dung và nội dung phải bằng nhau!</div>
+                <% } %>
+                <%
                     ArrayList<String> errors = (ArrayList<String>) request.getAttribute("errors");
                     String success = request.getParameter("success");
                 %>
