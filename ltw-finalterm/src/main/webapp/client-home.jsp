@@ -2,6 +2,7 @@
 <%@ page import="com.ltw.bean.CategoryBean" %>
 <%@ page import="com.ltw.bean.BlogBean" %>
 <%@ page import="com.ltw.bean.CustomizeBean" %>
+<%@ page import="com.ltw.bean.Content1Bean" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -87,29 +88,38 @@
 </div>
 <!-- End Product Section -->
 
+<%
+    CustomizeBean customizeInfo = (CustomizeBean) request.getAttribute("customizeInfo");
+    List<Content1Bean> listContent1 = (List<Content1Bean>) request.getAttribute("listContent1");
+    String[] prContent2List = (String[]) request.getAttribute("prContent2List");
+
+    if (customizeInfo != null) {
+%>
 <!-- Start Why Choose Us Section -->
 <div class="why-choose-section position-relative-top-84px">
     <div class="container">
         <div class="row justify-content-between">
             <div class="col-lg-6">
-                <h2 class="section-title">Vì sao chọn chúng tôi</h2>
-                <p class="light-text">Mang trong mình suy nghĩ "mỗi một sản phẩm là một tác phẩm nghệ thuật", chúng tôi
-                    luôn đảm bảo được sự nâng niu, chỉn chu trong từng sản phẩm cũng như sự tiện lợi, dễ dàng trong quá
-                    trình mua hàng của bạn. </p>
+                <h2 class="section-title"><% if (customizeInfo.getPrTitle1() != null) {%><%=customizeInfo.getPrTitle1()%><% } %></h2>
+                <p class="light-text"></p>
 
                 <div class="row my-5">
+                    <%  if (listContent1 != null) {
+                            for (Content1Bean content : listContent1) {
+                    %>
                     <div class="col-6 col-md-6">
                         <div class="feature">
                             <div class="icon">
-                                <i class="fa-thin fa-truck-fast fa-2xl" style="color: #e3bd74;"></i>
+                                <%=content.getPrIcon1()%>
                             </div>
-                            <h3 class="yellow-text">Giao hàng nhanh chóng</h3>
-                            <p class="light-text">Đảm bảo giao hàng tận tay bạn một cách nhanh chóng. Miễn phí giao hàng
-                                cho các đơn hàng giá trị cao.</p>
+                            <h3 class="yellow-text"><%=content.getPrContentTitle1()%></h3>
+                            <p class="light-text"><%=content.getPrContentDes1()%></p>
                         </div>
                     </div>
+                        <% } %>
+                    <% } %>
 
-                    <div class="col-6 col-md-6">
+<%--                    <div class="col-6 col-md-6">
                         <div class="feature">
                             <div class="icon">
                                 <i class="fa-thin fa-bag-shopping fa-2xl" style="color: #e3bd74;"></i>
@@ -140,14 +150,14 @@
                             <p class="light-text">Đối với các đơn hàng bị lỗi do nhà sản xuất, chúng tôi sẵn sàng đổi
                                 trả sản phẩm mới cho bạn.</p>
                         </div>
-                    </div>
+                    </div>--%>
 
                 </div>
             </div>
 
             <div class="col-lg-5">
                 <div class="img-wrap">
-                    <img src="../images/client_home/crafting.png" alt="Image" class="img-fluid">
+                    <img src="<% if (customizeInfo.getPrLink1() != null) {%><%=customizeInfo.getPrLink1()%><% } %>" alt="Image" class="img-fluid">
                 </div>
             </div>
 
@@ -164,18 +174,20 @@
                 <div><img class="img-wrap" src="<c:url value="/templates/client/images/client_home/checking_wooden.jpg"/>" alt="DDD."></div>
             </div>
             <div class="col-lg-7 ps-lg-5">
-                <h2 class="section-title mb-4">Dễ dàng mua sắm. <span class="d-block">Hỗ trợ tận tâm.</span> Nghệ thuật
-                    trong tay bạn.</h2>
-                <p class="darkred-text">Dễ dàng mua sắm thông qua website của chúng tôi.
-                    Truy cập vào danh mục hàng mà bạn quan tâm, thêm vào giỏ hàng những sản phẩm mà bạn muốn mua, vào
-                    giỏ hàng và thanh toán.
-                    Dễ dàng sở hữu sản phẩm mỹ nghệ mà bạn yêu thích.</p>
+                <h2 class="section-title mb-4"><% if (customizeInfo.getPrTitle2() != null) {%><%=customizeInfo.getPrTitle2()%><% } %></h2>
+                <p class="darkred-text"><% if (customizeInfo.getPrDes2() != null) {%><%=customizeInfo.getPrDes2()%><% } %></p>
 
                 <ul class="list-unstyled custom-list my-4">
-                    <li class="darkred-text">Truy cập vào mục sản phẩm</li>
-                    <li class="darkred-text">Chọn loại hàng bạn quan tâm</li>
+                    <%
+                        if (prContent2List != null) {
+                            for (String content : prContent2List) {
+                    %>
+                    <li class="darkred-text"><%=content%></li>
+<%--                    <li class="darkred-text">Chọn loại hàng bạn quan tâm</li>
                     <li class="darkred-text">Thêm sản phẩm vào giỏ hàng</li>
-                    <li class="darkred-text">Vào giỏ hàng và thanh toán</li>
+                    <li class="darkred-text">Vào giỏ hàng và thanh toán</li>--%>
+                        <% } %>
+                    <% } %>
                 </ul>
             </div>
         </div>
@@ -218,6 +230,7 @@
     </div>
 </div>
 <!-- End Blog Section -->
+<% } %>
 
 <%-- Start Footer Session --%>
 <jsp:include page="/common/client/footer.jsp"/>

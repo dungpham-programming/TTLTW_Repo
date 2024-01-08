@@ -2,6 +2,7 @@ package com.ltw.controller.client;
 
 import com.ltw.bean.BlogBean;
 import com.ltw.bean.CategoryBean;
+import com.ltw.bean.Content1Bean;
 import com.ltw.bean.CustomizeBean;
 import com.ltw.dao.BlogDAO;
 import com.ltw.dao.CategoryDAO;
@@ -24,15 +25,20 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         CustomizeBean customizeInfo = customizeDAO.getCustomizeInfo();
-        String prContent1 = customizeInfo.getPrContent1();
-        String prContent2 = customizeInfo.getPrContent2();
         String prIcon1 = customizeInfo.getPrIcon1();
+        String prContentTitle1 = customizeInfo.getPrContentTitle1();
+        String prContentDes1 = customizeInfo.getPrContentDes1();
+        String prContent2 = customizeInfo.getPrContent2();
 
         // Xử lý các thành phần phân tách bằng dấu ("~" hoặc ",") để lấy ra mảng content
         // Đã xử lý trước khi lưu vào database, nhưng vẫn nên xử lý lại
-        String[] prContent1List = splitByTilde(prContent1);
-        String[] prContent2List = splitByTilde(prContent2);
+        // Lưu ý là số lượng icon = số lương title = số lượng nội dung (Đã xử lý trong admin)
         String[] prIcon1List = splitByComma(prIcon1);
+        String[] prContentTitle1List = splitByTilde(prContentTitle1);
+        String[] prContentDes1List = splitByTilde(prContentDes1);
+        List<Content1Bean> listContent1 = putContentIntoList(prIcon1List, prContentTitle1List, prContentDes1List);
+
+        String[] prContent2List = splitByTilde(prContent2);
 
         List<CategoryBean> listCategories = categoryDAO.findAllCategories();
         List<BlogBean> listThreeBlogs = blogDAO.findThreeBlogs();
@@ -40,16 +46,10 @@ public class HomeController extends HttpServlet {
         req.setAttribute("customizeInfo", customizeInfo);
         req.setAttribute("listCategories", listCategories);
         req.setAttribute("listBlogs", listThreeBlogs);
-        req.setAttribute("prContent1List", prContent1List);
-        req.setAttribute("prContent2List", prContent2List);
+        req.setAttribute("listContent1", listContent1);
         req.setAttribute("prIcon1List", prIcon1List);
 
         req.getRequestDispatcher("client-home.jsp").forward(req, resp);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
     }
 
     // Hàm lấy ra danh sách văn bản phân cách bằng dấu "~" (Content)
@@ -68,5 +68,19 @@ public class HomeController extends HttpServlet {
 
     private String clearSpaceHeaderAndFooter(String input) {
         return input.replace("^\\s+|\\s+$", "");
+    }
+
+    private List<Content1Bean> putContentIntoList(String[] iconArray, String[] contentTitleArray, String[] contentDesArray) {
+        List<Content1Bean> content1List = new ArrayList<>();
+        // 3 array phải có length bằng nhau (Đã xử lý khi thêm trong admin)
+        for (int i = 0; i < iconArray.length; i++) {
+            Content1Bean content1Bean = new Content1Bean();
+            content1Bean.setPrIcon1(iconArray[i]);
+            content1Bean.setPrContentTitle1(contentTitleArray[i]);
+            content1Bean.setPrContentDes1(contentDesArray[i]);
+
+            content1List.add(content1Bean);
+        }
+        return content1List;
     }
 }

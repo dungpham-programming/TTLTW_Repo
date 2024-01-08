@@ -1,21 +1,29 @@
+<%@ page import="com.ltw.bean.CustomizeBean" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!-- Start Footer Section -->
 <footer class="footer-section position-relative-top-84px">
     <div class="container relative">
         <div class="row g-5 mb-5">
             <div class="col-4">
+                <%
+                    CustomizeBean customizeInfo = (CustomizeBean) request.getAttribute("customizeInfo");
+                    String facebookLink = (customizeInfo.getFacebookLink().isEmpty()) ? "#" : customizeInfo.getFacebookLink();
+                    String twitterLink = (customizeInfo.getTwitterLink().isEmpty()) ? "#" : customizeInfo.getTwitterLink();
+                    String instagramLink = (customizeInfo.getInstagramLink().isEmpty()) ? "#" : customizeInfo.getInstagramLink();
+                    String linkedinLink = (customizeInfo.getLinkedinLink().isEmpty()) ? "#" : customizeInfo.getLinkedinLink();
+                %>
                 <div class="mb-4"><p href="#" class="footer-head">DDD<span>.</span></p></div>
-                <p class="mb-4 light-text footer-content">Với chúng tôi, mỗi một sản phẩm mỹ nghệ đều là một kiệt tác, là một tác phẩm nghệ thuật. Cảm ơn bạn đã ghé thăm DDD. - Nghệ thuật mỹ nghệ. Mua sắm với chúng tôi trong mục sản phẩm, hoặc bấm vào nút Khám phá trên trang chủ.</p>
+                <p class="mb-4 light-text footer-content"><%=customizeInfo.getFooterLeft()%></p>
             </div>
 
             <div class="col-4 center-text">
                 <div class="mb-4"><p id="mxh-changing" class="footer-head">Mạng xã hội</p></div>
-                <p class="mb-4 light-text footer-content">Đừng quên theo dõi chúng tôi qua các kênh mạng xã hội sau để không bỏ lỡ nhưng thông tin mới nhất của DDD. - Nghệ thuật mỹ nghệ</p>
+                <p class="mb-4 light-text footer-content"><%=customizeInfo.getFooterMiddle()%>></p>
                 <ul class="list-unstyled custom-social">
-                    <li><a href="#"><span class="fa fa-brands fa-facebook-f footer-content"></span></a></li>
-                    <li><a href="#"><span class="fa fa-brands fa-twitter footer-content"></span></a></li>
-                    <li><a href="#"><span class="fa fa-brands fa-instagram footer-content"></span></a></li>
-                    <li><a href="#"><span class="fa fa-brands fa-linkedin footer-content"></span></a></li>
+                    <li><a href="<%=facebookLink%>"><span class="fa fa-brands fa-facebook-f footer-content"></span></a></li>
+                    <li><a href="<%=twitterLink%>"><span class="fa fa-brands fa-twitter footer-content"></span></a></li>
+                    <li><a href="<%=instagramLink%>"><span class="fa fa-brands fa-instagram footer-content"></span></a></li>
+                    <li><a href="<%=linkedinLink%>"><span class="fa fa-brands fa-linkedin footer-content"></span></a></li>
                 </ul>
             </div>
 
