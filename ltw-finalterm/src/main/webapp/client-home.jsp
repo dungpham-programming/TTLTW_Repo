@@ -101,7 +101,7 @@
         <div class="row justify-content-between">
             <div class="col-lg-6">
                 <h2 class="section-title"><% if (customizeInfo.getPrTitle1() != null) {%><%=customizeInfo.getPrTitle1()%><% } %></h2>
-                <p class="light-text"></p>
+                <p class="light-text"><% if (customizeInfo.getPrDes1() != null) {%><%=customizeInfo.getPrDes1()%><% } %></p>
 
                 <div class="row my-5">
                     <%  if (listContent1 != null) {

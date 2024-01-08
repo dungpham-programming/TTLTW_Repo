@@ -48,6 +48,7 @@ public class HomeController extends HttpServlet {
         req.setAttribute("listBlogs", listThreeBlogs);
         req.setAttribute("listContent1", listContent1);
         req.setAttribute("prIcon1List", prIcon1List);
+        req.setAttribute("prContent2List", prContent2List);
 
         req.getRequestDispatcher("client-home.jsp").forward(req, resp);
     }

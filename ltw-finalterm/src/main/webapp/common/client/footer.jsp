@@ -18,7 +18,7 @@
 
             <div class="col-4 center-text">
                 <div class="mb-4"><p id="mxh-changing" class="footer-head">Mạng xã hội</p></div>
-                <p class="mb-4 light-text footer-content"><%=customizeInfo.getFooterMiddle()%>></p>
+                <p class="mb-4 light-text footer-content"><%=customizeInfo.getFooterMiddle()%></p>
                 <ul class="list-unstyled custom-social">
                     <li><a href="<%=facebookLink%>"><span class="fa fa-brands fa-facebook-f footer-content"></span></a></li>
                     <li><a href="<%=twitterLink%>"><span class="fa fa-brands fa-twitter footer-content"></span></a></li>
