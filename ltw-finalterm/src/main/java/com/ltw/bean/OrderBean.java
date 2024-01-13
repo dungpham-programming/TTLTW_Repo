@@ -5,10 +5,10 @@ import java.sql.Timestamp;
 
 public class OrderBean {
     private int id;
-    private  int userID;
+    private int userId;
     private double total;
-    private  int status;
-    private  Timestamp shipToDate;
+    private int status;
+    private Timestamp shipToDate;
     private Blob profilePic;
     private Timestamp createdDate;
     private String createdBy;
@@ -26,12 +26,12 @@ public class OrderBean {
         this.id = id;
     }
 
-    public int getUserID() {
-        return userID;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public double getTotal() {

@@ -134,7 +134,7 @@
               <tbody>
               <tr>
                 <td><%=order.getId()%>></td>
-                <td><%=order.getUserID()%>></td>
+                <td><%=order.getUserId()%>></td>
                 <td>13/11/2022</td>
                 <td><%=order.getShipToDate()%>></td>
                 <td><%=order.getTotal()%>></td>

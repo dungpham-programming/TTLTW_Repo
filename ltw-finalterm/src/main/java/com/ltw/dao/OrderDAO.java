@@ -1,7 +1,6 @@
 package com.ltw.dao;
 
 import com.ltw.bean.OrderBean;
-import com.ltw.bean.ProductBean;
 import com.ltw.util.CloseResourceUtil;
 import com.ltw.util.OpenConnectionUtil;
 import com.ltw.util.SetParameterUtil;
@@ -69,7 +68,7 @@ public class OrderDAO {
             while (resultSet.next()) {
                 order = new OrderBean();
                 order.setId(resultSet.getInt("id"));
-                order.setUserID(resultSet.getInt("userID"));
+                order.setUserId(resultSet.getInt("userID"));
                 order.setTotal(resultSet.getDouble("total"));
                 order.setShipToDate(resultSet.getTimestamp("setShipToDate"));
                 order.setStatus(resultSet.getInt("status"));

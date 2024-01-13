@@ -1,9 +1,7 @@
 package com.ltw.controller.admin.order;
 
 import com.ltw.bean.OrderBean;
-import com.ltw.bean.ProductBean;
 import com.ltw.dao.OrderDAO;
-import com.ltw.dao.ProductDAO;
 import com.ltw.util.BlankInputUtil;
 import com.ltw.util.NumberValidateUtil;
 
@@ -33,7 +31,7 @@ public class OrderEditingController extends HttpServlet {
         String idStr = req.getParameter("id");
         // Lấy id kiểu int ra để lưu vào database
         int id = Integer.parseInt(idStr);
-        String userID = req.getParameter("userID");
+        String userID = req.getParameter("userId");
         String total = req.getParameter("total");
         String status = req.getParameter("status");
         String shipToDate = req.getParameter("shipToDate");
@@ -82,7 +80,7 @@ public class OrderEditingController extends HttpServlet {
             // Set thuộc tính vào bean
             OrderBean orderBean = new OrderBean();
             orderBean.setId(id);
-            orderBean.setUserID(userIDInt);
+            orderBean.setUserId(userIDInt);
             orderBean.setTotal(totalDouble);
             orderBean.setStatus(statusInt);
 
