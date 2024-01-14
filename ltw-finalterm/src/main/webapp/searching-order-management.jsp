@@ -29,7 +29,7 @@
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item active">DDD. Administrator</li>
                 </ol>
-                <form id="searching-order-detail" action="<c:url value="/admin/order-detail-management"/>" method="post">
+                <form id="searching-order-detail" action="<c:url value="/admin/order-detail-search"/>" method="post">
                     <div class="row">
                         <!-- Thêm input nhớ xóa mb-4 -->
                         <div class="col-12 mb-4">

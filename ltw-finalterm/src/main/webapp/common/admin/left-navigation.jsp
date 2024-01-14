@@ -41,7 +41,7 @@
           <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
           Quản lý ảnh sản phẩm
         </a>
-        <a class="nav-link light-text pt-3 pb-3 <%if (link.equals("")) {%><%="yellow-active"%><% } %>" href="order-detail.html">
+        <a class="nav-link light-text pt-3 pb-3 <%if (link.equals("/searching-order-detail.jsp")) {%><%="yellow-active"%><% } %>" href="<c:url value="/admin/order-detail-search"/>">
           <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
           Kiểm tra chi tiết đơn hàng
         </a>

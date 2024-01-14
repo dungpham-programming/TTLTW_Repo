@@ -37,12 +37,11 @@ public class OrderDetailSearchController extends HttpServlet {
         }
 
         if (isValid) {
-
+            resp.sendRedirect(req.getContextPath() + "/admin/order-detail-management?orderId=" + orderId);
         } else {
             req.setAttribute("error", error);
             req.getRequestDispatcher("/searching-order-management.jsp").forward(req, resp);
         }
-
     }
 
     private static boolean isNumeric(String input) {
