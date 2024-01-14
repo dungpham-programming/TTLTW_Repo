@@ -95,7 +95,7 @@
 
 
                 <div class="blog-img">
-                    <img src="../images/blog/post-1.jpg" alt="" class="img-fluid">
+                    <% ((BlogBean) request.getAttribute("blogdetail")).getProfilePic();%>
                 </div>
 
                 <div class="news-content">
