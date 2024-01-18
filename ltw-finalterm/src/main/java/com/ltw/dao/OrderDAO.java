@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDAO {
-    public static List<OrderBean> findAllOrders() {
-        String sql = "SELECT userID, total, status, shipToDate, createdDate,createdBy, modifiedDate, modifiedBy " +
+    public List<OrderBean> findAllOrders() {
+        String sql = "SELECT id, userId, total, status, shipToDate, createdDate, createdBy, modifiedDate, modifiedBy " +
                 "FROM orders";
 
 
@@ -31,10 +31,11 @@ public class OrderDAO {
 
             while (resultSet.next()) {
                 OrderBean orderBean = new OrderBean();
-                orderBean.setId(resultSet.getInt("userID"));
+                orderBean.setId(resultSet.getInt("id"));
+                orderBean.setUserId(resultSet.getInt("userId"));
                 orderBean.setTotal(resultSet.getDouble("total"));
                 orderBean.setStatus(resultSet.getInt("status"));
-                orderBean.setShipToDate(resultSet.getTimestamp("setShipToDate"));
+                orderBean.setShipToDate(resultSet.getTimestamp("shipToDate"));
                 orderBean.setCreatedDate(resultSet.getTimestamp("createdDate"));
                 orderBean.setCreatedBy(resultSet.getString("createdBy"));
                 orderBean.setModifiedDate(resultSet.getTimestamp("modifiedDate"));
@@ -49,10 +50,11 @@ public class OrderDAO {
         }
         return orderList;
     }
+
     public OrderBean findOrderById(int id) {
         OrderBean order = null;
-        String sql = "SELECT userID, total, status, shipToDate, createdDate,createdBy, modifiedDate, modifiedBy,profilrPic " +
-                "FROM orders"+
+        String sql = "SELECT userId, total, status, shipToDate, createdDate, createdBy, modifiedDate, modifiedBy " +
+                "FROM orders " +
                 "WHERE id = ?";
 
         Connection connection = null;
@@ -68,9 +70,9 @@ public class OrderDAO {
             while (resultSet.next()) {
                 order = new OrderBean();
                 order.setId(resultSet.getInt("id"));
-                order.setUserId(resultSet.getInt("userID"));
+                order.setUserId(resultSet.getInt("userId"));
                 order.setTotal(resultSet.getDouble("total"));
-                order.setShipToDate(resultSet.getTimestamp("setShipToDate"));
+                order.setShipToDate(resultSet.getTimestamp("shipToDate"));
                 order.setStatus(resultSet.getInt("status"));
                 order.setCreatedDate(resultSet.getTimestamp("createdDate"));
                 order.setCreatedBy(resultSet.getString("createdBy"));
@@ -86,8 +88,8 @@ public class OrderDAO {
     }
 
     public void updateOrder(OrderBean orderBean) {
-        String sql = "UPDATE order "+
-                "SET  status = ? "+
+        String sql = "UPDATE orders " +
+                "SET status = ? " +
                 "WHERE id = ?";
 
         Connection connection = null;
@@ -97,7 +99,7 @@ public class OrderDAO {
             connection = OpenConnectionUtil.openConnection();
             connection.setAutoCommit(false);
             preparedStatement = connection.prepareStatement(sql);
-            SetParameterUtil.setParameter(preparedStatement, orderBean.getStatus(),  orderBean.getId());
+            SetParameterUtil.setParameter(preparedStatement, orderBean.getStatus(), orderBean.getId());
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
@@ -110,5 +112,4 @@ public class OrderDAO {
             CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
         }
     }
-
 }

@@ -9,7 +9,6 @@ public class OrderBean {
     private double total;
     private int status;
     private Timestamp shipToDate;
-    private Blob profilePic;
     private Timestamp createdDate;
     private String createdBy;
     private Timestamp modifiedDate;
@@ -56,14 +55,6 @@ public class OrderBean {
 
     public void setShipToDate(Timestamp shipToDate) {
         this.shipToDate = shipToDate;
-    }
-
-    public Blob getProfilePic() {
-        return profilePic;
-    }
-
-    public void setProfilePic(Blob profilePic) {
-        this.profilePic = profilePic;
     }
 
     public Timestamp getCreatedDate() {

@@ -41,14 +41,11 @@ public class OrderEditingController extends HttpServlet {
         String modifiedBy = req.getParameter("modifiedBy");
         String profilePic = req.getParameter("profilePic");
 
-
-
-
         // Biến thông báo thành công
         String success = "success";
 
         // Đặt các thuộc tính đúng thứ tự
-        String[] inputsForm = new String[]{ userID, shipToDate, total, status, createdDate, createdBy, modifiedDate, modifiedBy};
+        String[] inputsForm = new String[]{ userID, shipToDate, total, status, profilePic, createdDate, createdBy, modifiedDate, modifiedBy};
         // Mảng lưu trữ lỗi
         ArrayList<String> errors = new ArrayList<>();
 
@@ -73,7 +70,6 @@ public class OrderEditingController extends HttpServlet {
         if (isValid) {
             // Đổi String về số
             int userIDInt = NumberValidateUtil.toInt(userID);
-            double totalDouble = NumberValidateUtil.toDouble(total);
             int statusInt = NumberValidateUtil.toInt(status);
 
 
@@ -81,10 +77,7 @@ public class OrderEditingController extends HttpServlet {
             OrderBean orderBean = new OrderBean();
             orderBean.setId(id);
             orderBean.setUserId(userIDInt);
-            orderBean.setTotal(totalDouble);
             orderBean.setStatus(statusInt);
-
-
 
             orderDAO.updateOrder(orderBean);
             resp.sendRedirect(req.getContextPath() + "/admin/order-management/editing?id=" + orderBean.getId() + "&success=" + success);
