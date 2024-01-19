@@ -165,11 +165,17 @@ form .submit-button {
 }
 
 .sec-2 {
-    position: absolute;
+    position: relative;
 }
 
 .sec-2 .eye {
     position: absolute;
     right: 10px;
+    font-size: 14px;
+}
+
+.error-message {
+    width: 100%;
+    color: red;
     font-size: 14px;
 }

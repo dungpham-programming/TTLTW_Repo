@@ -1,7 +1,7 @@
 function checking() {
     // Lấy giá trị của email và password
-    let email = document.getElementById("emailInput").value;
-    let password = document.getElementById("passwordInput").value;
+    let email = document.getElementById("email").value;
+    let password = document.getElementById("password").value;
 
     // Xóa bất kỳ thông báo lỗi cũ nào
     document.getElementById("emailError").textContent = "";

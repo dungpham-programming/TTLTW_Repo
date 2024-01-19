@@ -327,8 +327,7 @@ public class UserDAO {
         return userBean;
     }
 
-    public boolean activeAccount(String email) {
-        boolean result = false;
+    public void activeAccount(String email) {
         StringBuilder sql = new StringBuilder();
         sql.append("UPDATE users ")
                 .append("SET status = 1 ")
@@ -345,10 +344,7 @@ public class UserDAO {
 
             SetParameterUtil.setParameter(preparedStatement, email);
 
-            int affectRow = preparedStatement.executeUpdate();
-            if (affectRow > 0) {
-                result = true;
-            }
+            preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
             try {
@@ -360,6 +356,5 @@ public class UserDAO {
         } finally {
             CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
         }
-        return result;
     }
 }

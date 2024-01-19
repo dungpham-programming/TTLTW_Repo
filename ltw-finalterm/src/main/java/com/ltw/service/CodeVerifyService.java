@@ -90,8 +90,8 @@ public class CodeVerifyService {
     }
 
     // Service active tài khoản
-    public boolean activeAccount(String email) {
-        return userDAO.activeAccount(email);
+    public void activeAccount(String email) {
+        userDAO.activeAccount(email);
     }
 
     // Service kiểm tra xem có khoảng trống trong password không

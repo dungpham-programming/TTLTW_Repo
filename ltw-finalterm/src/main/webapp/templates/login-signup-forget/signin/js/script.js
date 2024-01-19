@@ -1,7 +1,7 @@
 function checking() {
     // Lấy giá trị của email và password
-    let email = document.getElementById("emailInput").value;
-    let password = document.getElementById("passwordInput").value;
+    let email = document.getElementById("email").value;
+    let password = document.getElementById("password").value;
 
     // Xóa bất kỳ thông báo lỗi cũ nào
     document.getElementById("emailError").textContent = "";
@@ -22,11 +22,27 @@ function checking() {
 // Hàm kiểm tra tính hợp lệ của email
 function isValidEmail(email) {
     // Sử dụng biểu thức chính quy để kiểm tra tính hợp lệ
-    let emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+$/;
+    let emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+(\.[a-zA-Z]+)+$/;
     return emailPattern.test(email);
 }
 
 // Hàm kiểm tra tính hợp lệ của password
 function isValidPassword(password) {
     return password.length >= 6;
+}
+
+// Ẩn/hiện password
+function togglePassword(inputId) {
+    const passwordInput = document.getElementById(inputId);
+    const toggleButton = document.getElementById(`toggle_${inputId}`);
+
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleButton.classList.remove('fa-eye');
+        toggleButton.classList.add('fa-eye-slash');
+    } else {
+        passwordInput.type = 'password';
+        toggleButton.classList.remove('fa-eye-slash');
+        toggleButton.classList.add('fa-eye');
+    }
 }
