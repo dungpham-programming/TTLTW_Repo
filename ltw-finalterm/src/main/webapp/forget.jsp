@@ -39,14 +39,18 @@
     %>
     <form action="<c:url value="/forget"/> " method="post" accept-charset="UTF-8">
         <div class="email">
-            <label for="emailInput">Địa chỉ Email</label>
+            <label for="email">Địa chỉ Email</label>
             <div class="sec-2">
                 <ion-icon name="mail-outline" role="img" class="md hydrated" aria-label="mail outline"></ion-icon>
-                <input type="email" name="email" id="emailInput" placeholder="Nhập địa chỉ email"
+                <input type="email" name="email" id="email" placeholder="Nhập địa chỉ email"
                        oninput="checkEmail()">
-                <% if (emailError != null) { %>
-                <div id="emailError" class="error-message"><%=emailError%></div>
-                <% } %>
+
+                <div id="emailError" class="error-message">
+                    <% if (emailError != null) { %>
+                    <%=emailError%>
+                    <% } %>
+                </div>
+
             </div>
         </div>
 

@@ -357,4 +357,97 @@ public class UserDAO {
             CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
         }
     }
+
+    // Lưu key đối chiếu vào database
+    public void saveKeyByEmail(String email, String key) {
+        StringBuilder sql = new StringBuilder();
+        sql.append("UPDATE users ")
+                .append("SET changePwHash = ? ")
+                .append("WHERE email = ?");
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            connection.setAutoCommit(false);
+            preparedStatement = connection.prepareStatement(sql.toString());
+
+            SetParameterUtil.setParameter(preparedStatement, key, email);
+            preparedStatement.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        } finally {
+            CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
+        }
+    }
+
+    // Kiểm tra key
+    public boolean isCorrectKey(String email, String key) {
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT checkPwHash FROM users ")
+                .append("WHERE email = ?");
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            preparedStatement = connection.prepareStatement(sql.toString());
+
+            // Set the email parameter
+            SetParameterUtil.setParameter(preparedStatement, email);
+
+            // Execute the query
+            resultSet = preparedStatement.executeQuery();
+
+            // Check if the result set has a row
+            if (resultSet.next()) {
+                String keyInDB = resultSet.getString("checkPwHash");
+                return (keyInDB != null && !keyInDB.isEmpty());
+            }
+        } catch (SQLException e) {
+            // Handle the exception (log it or throw a custom exception)
+            e.printStackTrace(); // Example, you should handle this appropriately in your application
+        } finally {
+            // Close resources in the finally block
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return false;
+    }
+
+    // Set empty cho key
+    public void setEmptyKey(String email) {
+        StringBuilder sql = new StringBuilder();
+        sql.append("UPDATE users ")
+                .append("SET changePwHash = '' ")
+                .append("WHERE email = ?");
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            connection.setAutoCommit(false);
+            preparedStatement = connection.prepareStatement(sql.toString());
+
+            SetParameterUtil.setParameter(preparedStatement, email);
+
+            preparedStatement.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        } finally {
+            CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
+        }
+    }
 }

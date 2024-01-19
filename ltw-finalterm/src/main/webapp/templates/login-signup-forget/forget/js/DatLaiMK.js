@@ -12,23 +12,19 @@ function inputingCheck() {
     // Kiểm tra xem trong mật khẩu có chứa khoảng trắng không
     if (newPassword.includes(" ")) {
         document.getElementById("newPasswordSpaceErr").textContent = "Mật khẩu không được chứa khoảng trắng"
-        document.getElementById("newPasswordSpaceErr").style.borderColor = "red";
     }
     if (retypePassword.includes(" ")) {
         document.getElementById("retypePasswordSpaceErr").textContent = "Mật khẩu không được chứa khoảng trắng"
-        document.getElementById("retypePasswordSpaceErr").style.borderColor = "red";
     }
 
     // Kiểm tra tính hợp lệ của mật khẩu mới
     if (!isValidPassword(newPassword) && newPassword !== "") {
         document.getElementById("newPasswordInputErr").textContent = "Mật khẩu mới phải có ít nhất 6 kí tự.";
-        document.getElementById("newPasswordInputErr").style.borderColor = "red";
     }
 
     // Kiểm tra xem mật khẩu mới có trùng với nhập lại mật khẩu mới hay không
     if (newPassword !== retypePassword && newPassword !== "" && retypePassword !== "") {
         document.getElementById("retypePasswordInputErr").textContent = "Mật khẩu mới và nhập lại mật khẩu không trùng khớp.";
-        document.getElementById("retypePasswordInputErr").style.borderColor = "red";
     }
 }
 

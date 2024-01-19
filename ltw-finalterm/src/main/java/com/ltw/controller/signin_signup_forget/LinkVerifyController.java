@@ -23,9 +23,10 @@ public class LinkVerifyController extends HttpServlet {
             if (action.equals("verify")) {
                 String email = req.getParameter("email");
                 String verifyCode = req.getParameter("verifyCode");
-                if (linkVerifyService.isCorrectVerifiedCode(email, verifyCode)) {
+                String key = req.getParameter("key");
+                if (linkVerifyService.isCorrectVerifiedCode(email, verifyCode) && linkVerifyService.isCorrectKey(email, key)) {
                     linkVerifyService.setEmptyCode(email);
-                    resp.sendRedirect("change-password.jsp?email=" + email);
+                    resp.sendRedirect("change-password.jsp?email=" + email + "&key=" + key);
                 }
                 else {
                     resp.sendRedirect("error-verify.jsp");

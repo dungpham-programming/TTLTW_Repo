@@ -52,9 +52,12 @@ public class ForgetController extends HttpServlet {
                     // sau đó tạo 1 verify link và gửi về mail cho người dùng
                     if (linkVerifyService.isActiveAccount(email)) {
                         UUID uuid = UUID.randomUUID();
+                        UUID keyUUID = UUID.randomUUID();
                         String verifiedCode = uuid.toString();
+                        String key = keyUUID.toString();
                         linkVerifyService.saveNewCodeByEmail(email, verifiedCode);
-                        String verifiedLink = "http://" + req.getServerName() + ":" + req.getLocalPort() + req.getContextPath() + "/link-verification?email=" + email + "&verifyCode=" + verifiedCode + "&action=verify";
+                        linkVerifyService.saveKeyByEmail(email, key);
+                        String verifiedLink = "http://" + req.getServerName() + ":" + req.getLocalPort() + req.getContextPath() + "/link-verification?email=" + email + "&verifyCode=" + verifiedCode + "&key=" + key + "&action=verify";
                         SendEmailUtil.sendVerificationLink(email, verifiedLink);
                         resp.sendRedirect(req.getContextPath() + "/link-verify.jsp?email=" + email);
                     } else {

@@ -33,34 +33,44 @@
 
                 <div class="form-group">
                     <i class="fa-solid fa-envelope"></i>
-                    <input type="text" name="email" class="form-input" placeholder="Địa chỉ email">
+                    <input type="text" id="email" name="email" class="form-input" oninput="checking()"
+                           placeholder="Địa chỉ email">
                 </div>
-                <% if (emailError != null) { %>
-                <div id="email_error" class="error-message">
-                    <%= emailError %>
+
+                <div id="emailError" class="error-message">
+                    <% if (emailError != null) { %>
+                        <%= emailError %>
+                    <% } %>
                 </div>
-                <% } %>
+
                 <div class="form-group">
                     <i class="fa-solid fa-key"></i>
-                    <input type="password" id="password" name="password" class="form-input" placeholder="Mật khẩu">
+                    <input type="password" id="password" name="password" class="form-input" oninput="checking()"
+                           placeholder="Mật khẩu">
                     <i id="toggle_password" class="fa-light fa-eye eye" onclick="togglePassword('password')"></i>
                 </div>
-                <% if (passwordError != null) { %>
-                <div id="password_error" class="error-message">
+
+                <div id="passwordError" class="error-message">
+                    <% if (passwordError != null) { %>
                     <%= passwordError %>
+                    <% } %>
                 </div>
-                <% } %>
+
 
                 <div class="form-group">
                     <i class="fa-solid fa-lock"></i>
-                    <input type="password" id="retypePassword" name="retypePassword" class="form-input" placeholder="Nhập lại mật khẩu">
-                    <i id="toggle_retypePassword" class="fa-light fa-eye eye" onclick="togglePassword('retypePassword')"></i>
+                    <input type="password" id="retypePassword" name="retypePassword" class="form-input"
+                           placeholder="Nhập lại mật khẩu" oninput="checking()">
+                    <i id="toggle_retypePassword" class="fa-light fa-eye eye"
+                       onclick="togglePassword('retypePassword')"></i>
                 </div>
-                <% if (passwordError != null) { %>
-                <div id="password_error" class="error-message">
+
+                <div id="retypePasswordError" class="error-message">
+                    <% if (passwordError != null) { %>
                     <%= passwordError %>
+                    <% } %>
                 </div>
-                <% } %>
+
 
                 <input type="hidden" name="type" value="sendRegister">
                 <div class="form-group">

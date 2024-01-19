@@ -20,6 +20,7 @@ public class ChangePwController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
         String email = req.getParameter("email");
+        String key = req.getParameter("key");
         String newPassword = req.getParameter("newPassword");
         String retypePassword = req.getParameter("retypePassword");
 
@@ -27,6 +28,7 @@ public class ChangePwController extends HttpServlet {
         String retypePasswordInputErr = null;
         String newPasswordSpaceErr = null;
         String retypePasswordSpaceErr = null;
+        String linkError = null;
 
         boolean isValid = true;
 
@@ -73,8 +75,17 @@ public class ChangePwController extends HttpServlet {
         if (!isValid) {
             req.getRequestDispatcher("change-password.jsp").forward(req, resp);
         } else {
-            // Xử lý hashing password trong Service
-            linkVerifyService.saveRenewPasswordByEmail(email, newPassword);
+            // TODO: Xử lý link error
+            // Kiểm tra xem key có khớp không, nếu key null, rỗng hoặc không khớp thì báo lỗi link
+            if (key == null || key.isEmpty() || !linkVerifyService.isCorrectKey(email, key)) {
+                linkError = "e";
+                req.setAttribute("linkError", linkError);
+                req.getRequestDispatcher("change-password.jsp").forward(req, resp);
+            } else {
+                // Xử lý hashing password trong Service
+                linkVerifyService.saveRenewPasswordByEmail(email, newPassword);
+                resp.sendRedirect(req.getContextPath() + "/change-success.jsp");
+            }
         }
     }
 }

@@ -70,4 +70,18 @@ public class LinkVerifyService {
         String hashedPassword = EncryptPasswordUtil.encryptPassword(password);
         userDAO.saveRenewPasswordByEmail(email, hashedPassword);
     }
+
+    // Lưu key vào user
+    public void saveKeyByEmail(String email, String key) {
+        userDAO.saveKeyByEmail(email, key);
+    }
+
+    // Kiểm tra key
+    public boolean isCorrectKey(String email, String key) {
+        return userDAO.isCorrectKey(email, key);
+    }
+
+    public void setEmptyKey(String email) {
+        userDAO.setEmptyKey(email);
+    }
 }

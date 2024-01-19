@@ -35,6 +35,7 @@
     </div>
     <%
         String email = request.getParameter("email");
+        String key = request.getParameter("key");
     %>
     <form action="<c:url value="/change-password"/>" method="post">
         <div class="password2">
@@ -44,7 +45,6 @@
                           aria-label="lock closed outline"></ion-icon>
                 <input class="pas" type="password" name="newPassword" id="newPassword" placeholder="············"
                        oninput="inputingCheck()">
-                <!--            <ion-icon class="show-hide md hydrated" name="eye-outline" role="img" aria-label="eye outline"></ion-icon>-->
                 <div id="newPasswordSpaceErr" class="error-message"></div>
                 <div id="newPasswordInputErr" class="error-message"></div>
             </div>
@@ -56,12 +56,12 @@
                           aria-label="lock closed outline"></ion-icon>
                 <input class="pas" type="password" name="retypePassword" id="retypePassword" placeholder="············"
                        oninput="inputingCheck()">
-                <!--            <ion-icon class="show-hide md hydrated" name="eye-outline" role="img" aria-label="eye outline"></ion-icon>-->
                 <div id="retypePasswordSpaceErr" class="error-message"></div>
                 <div id="retypePasswordInputErr" class="error-message"></div>
             </div>
         </div>
 
+        <input type="hidden" name="key" value="<%=key%>">
         <input type="hidden" name="email" value="<%=email%>">
         <button type="submit" class="sending">Cập nhật mật khẩu</button>
     </form>

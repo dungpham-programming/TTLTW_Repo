@@ -11,6 +11,7 @@ public class UserBean {
     private int roleId;
     private int status;
     private String verifiedCode;
+    private String key;
     private String addressLine;
     private String addressWard;
     private String addressDistrict;
@@ -85,6 +86,14 @@ public class UserBean {
 
     public void setVerifiedCode(String verifiedCode) {
         this.verifiedCode = verifiedCode;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getAddressLine() {

@@ -2,20 +2,33 @@ function checking() {
     // Lấy giá trị của email và password
     let email = document.getElementById("email").value;
     let password = document.getElementById("password").value;
+    let retypePassword = document.getElementById("retypePassword").value;
 
     // Xóa bất kỳ thông báo lỗi cũ nào
     document.getElementById("emailError").textContent = "";
     document.getElementById("passwordError").textContent = "";
+    document.getElementById("retypePasswordError").textContent = "";
 
     // Kiểm tra tính hợp lệ của email và password
     if (!isValidEmail(email) && email !== "") {
         document.getElementById("emailError").textContent = "Email không hợp lệ.";
-        document.getElementById("emailInput").style.borderColor = "red";
+        isValid = false;
     }
 
     if (!isValidPassword(password) && password !== "") {
         document.getElementById("passwordError").textContent = "Mật khẩu có ít nhất 6 ký tự.";
-        document.getElementById("passwordInput").style.borderColor = "red";
+        isValid = false;
+    }
+
+    if (!isValidPassword(retypePassword) && retypePassword !== "") {
+        document.getElementById("retypePasswordError").textContent = "Mật khẩu có ít nhất 6 ký tự.";
+        isValid = false;
+    }
+
+    if (password !== retypePassword && password !== "" && retypePassword !== "") {
+        document.getElementById("passwordError").textContent = "Mật khẩu và Nhập lại mật khẩu không trùng khớp."
+        document.getElementById("retypePasswordError").textContent = "Mật khẩu và Nhập lại mật khẩu không trùng khớp."
+        isValid = false;
     }
 }
 
@@ -45,4 +58,6 @@ function togglePassword(inputId) {
         toggleButton.classList.add('fa-eye');
     }
 }
+
+
 
