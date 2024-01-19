@@ -13,10 +13,12 @@ import java.io.IOException;
 @WebServlet(value = {"/code-verification"})
 public class CodeVerifyController extends HttpServlet {
     private final CodeVerifyService codeVerifyService = new CodeVerifyService();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String type = req.getParameter("type");
         String email = req.getParameter("email");
+        String sendBy = req.getParameter("sendBy");
         int id = Integer.parseInt(req.getParameter("id"));
         if (type != null) {
             if (type.equals("resendCode")) {
@@ -25,11 +27,11 @@ public class CodeVerifyController extends HttpServlet {
                 // Gửi vào email cho người dùng
                 SendEmailUtil.sendVerificationCode(email, verifiedCode);
                 // Set vào database
-                codeVerifyService.setNewVerifiedCode(email, verifiedCode);
+                codeVerifyService.setNewCodeByEmail(email, verifiedCode);
                 // Thông báo cho người dùng đẫ gửi code mới thông qua 1 String
                 String confirm = "confirm";
                 // Chuyển hướng người dùng
-                resp.sendRedirect(req.getContextPath() + "/verified.jsp?id=" + id +"&email=" + email + "&confirm=" + confirm);
+                resp.sendRedirect(req.getContextPath() + "/code-verify.jsp?id=" + id + "&email=" + email + "&confirm=" + confirm);
             }
         }
     }
@@ -38,6 +40,7 @@ public class CodeVerifyController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String type = req.getParameter("type");
         String email = req.getParameter("email");
+        String sendBy = req.getParameter("sendBy");
         String codeError;
 
         if (type != null) {
@@ -51,29 +54,30 @@ public class CodeVerifyController extends HttpServlet {
                         // Nếu đủ, kiểm tra xem có khớp verify code không
                         if (codeVerifyService.isCorrectVerifiedCode(email, verifyInput)) {
                             // Nếu khớp, chuyển hướng về trang home và không thực hiện các bước phía dưới nữa (return;)
+                            codeVerifyService.activeAccount(email);
                             codeVerifyService.setEmptyCode(email);
                             resp.sendRedirect(req.getContextPath() + "/verify-success.jsp");
                             return;
                         }
                         // Nếu không khớp verified code, trả về lỗi
                         else {
-                            codeError = "VerifiedCode không tồn tại";
+                            codeError = "VerifiedCode không tồn tại!";
                             req.setAttribute("codeError", codeError);
                         }
                     }
                     // Nếu khác số lượng ký tự, trả vè lỗi
                     else {
-                        codeError = "VerifiedCode không hợp lệ, phải có 8 ký tự";
+                        codeError = "VerifiedCode không hợp lệ, phải có 8 ký tự!";
                         req.setAttribute("codeError", codeError);
                     }
                 }
                 // Nếu để trống, trả về lỗi
                 else {
-                    codeError = "VerifiedCode không được để trống";
+                    codeError = "VerifiedCode không được để trống!";
                     req.setAttribute("codeError", codeError);
                 }
                 // Trong request đã có id và email của input hidden
-                req.getRequestDispatcher("/verified.jsp").forward(req, resp);
+                req.getRequestDispatcher("/code-verify.jsp").forward(req, resp);
             }
         }
     }

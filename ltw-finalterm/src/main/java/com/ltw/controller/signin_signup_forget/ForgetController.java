@@ -1,5 +1,6 @@
 package com.ltw.controller.signin_signup_forget;
 
+import com.ltw.service.CodeVerifyService;
 import com.ltw.service.LinkVerifyService;
 import com.ltw.util.SendEmailUtil;
 
@@ -15,6 +16,7 @@ import java.util.UUID;
 @WebServlet(value = {"/forget"})
 public class ForgetController extends HttpServlet {
     private final LinkVerifyService linkVerifyService = new LinkVerifyService();
+    private final CodeVerifyService codeVerifyService = new CodeVerifyService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -28,7 +30,7 @@ public class ForgetController extends HttpServlet {
                 linkVerifyService.saveNewCodeByEmail(email, verifiedCode);
                 String verifiedLink = "http://" + req.getServerName() + ":" + req.getLocalPort() + req.getContextPath() + "/link-verification?email=" + email + "&verifyCode=" + verifiedCode + "&action=verify";
                 SendEmailUtil.sendVerificationLink(email, verifiedLink);
-                resp.sendRedirect(req.getContextPath() + "/checking-forget.jsp?email=" + email);
+                resp.sendRedirect(req.getContextPath() + "/link-verify.jsp?email=" + email);
             }
         }
     }
@@ -52,13 +54,16 @@ public class ForgetController extends HttpServlet {
                         UUID uuid = UUID.randomUUID();
                         String verifiedCode = uuid.toString();
                         linkVerifyService.saveNewCodeByEmail(email, verifiedCode);
-                        String verifiedLink = "http://" + req.getServerName() + ":" + req.getLocalPort() + req.getContextPath() + "//link-verification?email=" + email + "&verifyCode=" + verifiedCode + "&action=verify";
+                        String verifiedLink = "http://" + req.getServerName() + ":" + req.getLocalPort() + req.getContextPath() + "/link-verification?email=" + email + "&verifyCode=" + verifiedCode + "&action=verify";
                         SendEmailUtil.sendVerificationLink(email, verifiedLink);
-                        resp.sendRedirect(req.getContextPath() + "/checking-forget.jsp?email=" + email);
+                        resp.sendRedirect(req.getContextPath() + "/link-verify.jsp?email=" + email);
                     } else {
-                        // Nếu tài khoản chưa active thì lấy email truyền vào URL rồi sendRedirect
-                        // sang trang verified.jsp
-                        resp.sendRedirect(req.getContextPath() + "/verified.jsp?email=" + email);
+                        // Nếu tài khoản chưa active thì gửi verify code về email lấy email truyền vào URL rồi sendRedirect
+                        // sang trang code-verify.jsp
+                        String verifyCode = codeVerifyService.generateVerifiedCode();
+                        SendEmailUtil.sendVerificationCode(email, verifyCode);
+                        codeVerifyService.setNewCodeByEmail(email, verifyCode);
+                        resp.sendRedirect(req.getContextPath() + "/code-verify.jsp?email=" + email);
                     }
                 } else {
                     // Nếu email không tồn tại, trả về lỗi

@@ -52,6 +52,7 @@
 }
 
 .form-group {
+    position: relative;
     margin: 20px 0;
     display: flex;
     align-items: center;
@@ -98,4 +99,16 @@ button {
     cursor: pointer;
     margin: 10px auto; /* Đưa nút button vào giữa */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Thêm hiệu ứng bóng */
+}
+
+.error-message {
+    width: 100%;
+    color: red;
+    font-size: 14px;
+}
+
+.form-group .eye {
+    position: absolute;
+    right: 10px;
+    font-size: 14px;
 }

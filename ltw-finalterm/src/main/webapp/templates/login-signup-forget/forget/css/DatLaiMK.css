@@ -196,3 +196,8 @@ h1{
 .link:hover {
     color: #e3bd74;
 }
+.error-message {
+    width: 100%;
+    color: red;
+    font-size: 14px;
+}

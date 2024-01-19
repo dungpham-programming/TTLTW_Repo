@@ -1,6 +1,8 @@
 package com.ltw.controller.signin_signup_forget;
 
 import com.ltw.service.LinkVerifyService;
+import com.ltw.util.EncryptPasswordUtil;
+import org.mindrot.jbcrypt.BCrypt;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -70,6 +72,9 @@ public class ChangePwController extends HttpServlet {
 
         if (!isValid) {
             req.getRequestDispatcher("change-password.jsp").forward(req, resp);
+        } else {
+            // Xử lý hashing password trong Service
+            linkVerifyService.saveRenewPasswordByEmail(email, newPassword);
         }
     }
 }

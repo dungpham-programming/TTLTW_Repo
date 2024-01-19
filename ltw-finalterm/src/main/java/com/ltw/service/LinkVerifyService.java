@@ -1,6 +1,7 @@
 package com.ltw.service;
 
 import com.ltw.dao.UserDAO;
+import com.ltw.util.EncryptPasswordUtil;
 
 public class LinkVerifyService {
     private final UserDAO userDAO = new UserDAO();
@@ -65,6 +66,8 @@ public class LinkVerifyService {
 
     // Service lưu mật khẩu mới vào trong database
     public void saveRenewPasswordByEmail(String email, String password) {
-        userDAO.saveRenewPasswordByEmail(email, password);
+        // Hashing mật khẩu trước khi lưu
+        String hashedPassword = EncryptPasswordUtil.encryptPassword(password);
+        userDAO.saveRenewPasswordByEmail(email, hashedPassword);
     }
 }

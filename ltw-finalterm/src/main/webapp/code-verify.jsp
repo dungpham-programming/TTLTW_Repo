@@ -4,9 +4,13 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Form Dang Ky Tai Khoan</title>
+    <title>DDD. - Xác thực tài khoản</title>
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/all.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/sharp-solid.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/sharp-regular.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/sharp-light.css">
 
-    <link rel="stylesheet" href="<c:url value="/templates/login-signup-forget/signup/css/DangKicss.css"/>">
+    <link rel="stylesheet" href="<c:url value="/templates/login-signup-forget/signup/css/signup.css"/>">
     <link rel="stylesheet" href="<c:url value="/templates/login-signup-forget/signin/css/login-custom.css"/>">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -32,22 +36,20 @@
             <p class="alert alert-success">Mã xác thực mới đã gửi về email của bạn!</p>
             <% } %>
 
-            <form action="<c:url value="/verification"/>" method="post" accept-charset="UTF-8">
-                <div class="form-group">
+            <form action="<c:url value="/code-verification"/>" method="post" accept-charset="UTF-8">
+                <div class="input-place d-flex flex-row align-items-center">
                     <i class="fa-solid fa-envelope"></i>
                     <input type="text" name="verifyInput" class="form-input" placeholder="Mã xác minh">
-                    <% if (codeError != null) { %>
-                    <div id="email_error" class="error-message">
-                        <%= codeError %>
-                    </div>
-                    <% } %>
                 </div>
+                <% if (codeError != null) { %>
+                <div id="email_error" class="error error-message">
+                    <%= codeError %>
+                </div>
+                <% } %>
 
                 <input type="hidden" name="type" value="verified">
                 <input type="hidden" name="email" value="<%= email %>">
-                <div class="form-group">
-                    <input type="submit"/>
-                </div>
+                <input type="submit"/>
 
             </form>
             <div>
@@ -61,6 +63,6 @@
         </div>
     </div>
 </div>
-<script src="<c:url value="/templates/login-signup-forget/signin/js/signin.js"/>"></script>
+<script src="<c:url value="/templates/login-signup-forget/signin/js/script.js"/>"></script>
 </body>
 </html>

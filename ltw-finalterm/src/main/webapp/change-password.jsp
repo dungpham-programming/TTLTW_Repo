@@ -63,7 +63,7 @@
         </div>
 
         <input type="hidden" name="email" value="<%=email%>">
-        <button type="submit" onclick="return submitingCheck()" class="sending">Cập nhật mật khẩu</button>
+        <button type="submit" class="sending">Cập nhật mật khẩu</button>
     </form>
     <!-- Thêm sau nút cập nhật mật khẩu -->
 </div>

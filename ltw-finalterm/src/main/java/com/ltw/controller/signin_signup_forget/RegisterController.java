@@ -2,6 +2,7 @@ package com.ltw.controller.signin_signup_forget;
 
 import com.ltw.bean.UserBean;
 import com.ltw.service.CodeVerifyService;
+import com.ltw.util.EncryptPasswordUtil;
 import com.ltw.util.SendEmailUtil;
 
 import javax.servlet.ServletException;
@@ -102,14 +103,16 @@ public class RegisterController extends HttpServlet {
                 // Nếu thành công thì binding dữ liệu vào Bean rồi gửi về Service, sau đó gọi phương thức tạo mã ngẫu nhiên và set vào verifiedCode
                 if (isValid) {
                     UserBean user = new UserBean();
+                    String hashedPassword = EncryptPasswordUtil.encryptPassword(password);
                     String verifiedCode = codeVerifyService.generateVerifiedCode();
                     user.setEmail(email);
-                    user.setPassword(password);
+                    user.setPassword(hashedPassword);
                     user.setVerifiedCode(verifiedCode);
 
+                    codeVerifyService.register(user);
                     // Gửi verifiedCode về Email
                     SendEmailUtil.sendVerificationCode(email, verifiedCode);
-                    resp.sendRedirect(req.getContextPath() + "/verified.jsp?email=" + email);
+                    resp.sendRedirect(req.getContextPath() + "/code-verify.jsp?email=" + email);
                 } else {
                     // Nếu không thành công, link sẽ được redirect cùng với lỗi
                     req.getRequestDispatcher("signup.jsp").forward(req, resp);

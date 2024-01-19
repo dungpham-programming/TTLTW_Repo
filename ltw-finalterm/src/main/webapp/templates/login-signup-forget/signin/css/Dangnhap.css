@@ -82,6 +82,7 @@ body {
 .screen-1 .password input {
     outline: none;
     border: none;
+    width: 90%;
 }
 .screen-1 .password input::-moz-placeholder {
     color: black;
@@ -163,3 +164,12 @@ form .submit-button {
     cursor: pointer;
 }
 
+.sec-2 {
+    position: absolute;
+}
+
+.sec-2 .eye {
+    position: absolute;
+    right: 10px;
+    font-size: 14px;
+}

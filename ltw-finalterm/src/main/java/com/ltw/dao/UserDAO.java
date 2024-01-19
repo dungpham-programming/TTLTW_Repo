@@ -70,7 +70,7 @@ public class UserDAO {
             // Close resources in the finally block
             CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
         }
-        // Check if the status indicates email verification
+        // Check if the status indicates email verification (you can adjust this condition)
         return status == 1;
     }
 
@@ -117,7 +117,7 @@ public class UserDAO {
 
     // Lấy lên email dựa vào verifiedCode (Để kiểm tra tính hợp lệ của code)
     public String checkVerifiedCode(String verifiedCode) {
-        String email = null;
+        String email = "";
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT email FROM users ")
                 .append("WHERE verifiedCode = ?");
@@ -128,13 +128,12 @@ public class UserDAO {
 
         try {
             connection = OpenConnectionUtil.openConnection();
-            connection.setAutoCommit(false);
             preparedStatement = connection.prepareStatement(sql.toString());
 
             SetParameterUtil.setParameter(preparedStatement, verifiedCode);
             resultSet = preparedStatement.executeQuery();
 
-            if (resultSet.next()) {
+            while (resultSet.next()) {
                 email = resultSet.getString("email");
             }
         } catch (SQLException e) {
@@ -143,35 +142,6 @@ public class UserDAO {
             CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
         }
         return email;
-    }
-
-    // Set verifiedCode mới khi người dùng yêu cầu
-    public void setNewVerifiedCode(String email, String verifiedCode) {
-        StringBuilder sql = new StringBuilder();
-        sql.append("UPDATE users ")
-                .append("SET verifiedCode = ? ")
-                .append("WHERE email = ?");
-
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-
-        try {
-            connection = OpenConnectionUtil.openConnection();
-            connection.setAutoCommit(false);
-            preparedStatement = connection.prepareStatement(sql.toString());
-
-            SetParameterUtil.setParameter(preparedStatement, verifiedCode, email);
-            preparedStatement.executeUpdate();
-            connection.commit();
-        } catch (SQLException e) {
-            try {
-                connection.rollback();
-            } catch (SQLException ex) {
-                throw new RuntimeException(ex);
-            }
-        } finally {
-            CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
-        }
     }
 
     // Set code bằng chuỗi rỗng (Sau khi đã xác thực thành công)
@@ -263,11 +233,11 @@ public class UserDAO {
     }
 
     // Kiểm tra xem tài khoản và mật khẩu có hợp lệ không
-    public boolean isValidCredentials(String email, String password) {
-        int id = -1;
+    public String getHashedPasswordByEmail(String email) {
+        String hashedPassword = "";
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT id FROM users ")
-                .append("WHERE email = ? AND password = ?");
+        sql.append("SELECT password FROM users ")
+                .append("WHERE email = ?");
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -277,18 +247,18 @@ public class UserDAO {
             connection = OpenConnectionUtil.openConnection();
             preparedStatement = connection.prepareStatement(sql.toString());
 
-            SetParameterUtil.setParameter(preparedStatement, email, password);
+            SetParameterUtil.setParameter(preparedStatement, email);
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                id = resultSet.getInt(1);
+                hashedPassword = resultSet.getString("password");
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
         }
-        return id != -1;
+        return hashedPassword;
     }
 
     // Lấy lên id đã active theo email
@@ -355,5 +325,41 @@ public class UserDAO {
             CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
         }
         return userBean;
+    }
+
+    public boolean activeAccount(String email) {
+        boolean result = false;
+        StringBuilder sql = new StringBuilder();
+        sql.append("UPDATE users ")
+                .append("SET status = 1 ")
+                .append("WHERE email = ?");
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            connection.setAutoCommit(false);
+            preparedStatement = connection.prepareStatement(sql.toString());
+
+            SetParameterUtil.setParameter(preparedStatement, email);
+
+            int affectRow = preparedStatement.executeUpdate();
+            if (affectRow > 0) {
+                result = true;
+            }
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+                e.printStackTrace();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        } finally {
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return result;
     }
 }

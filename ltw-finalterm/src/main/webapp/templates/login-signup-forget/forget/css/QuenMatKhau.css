@@ -128,3 +128,14 @@ h1{
 .checking {
     text-align: center;
 }
+
+.error-message {
+    width: 100%;
+    color: red;
+    font-size: 14px;
+    margin: 10px 0;
+}
+
+.back-to-login a {
+    text-decoration: none;
+}

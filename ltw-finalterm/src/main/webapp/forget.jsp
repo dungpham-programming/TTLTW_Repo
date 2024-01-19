@@ -51,6 +51,9 @@
         </div>
 
         <button class="sending" type="submit">Gửi</button>
+        <div class="back-to-login d-flex justify-content-center mt-3">
+            <a href="<c:url value="signin.jsp"/>">Quay về trang đăng nhập</a>
+        </div>
     </form>
 </div>
 <script src="<c:url value="/templates/login-signup-forget/forget/js/QuenMatKhau.js"/>"></script>

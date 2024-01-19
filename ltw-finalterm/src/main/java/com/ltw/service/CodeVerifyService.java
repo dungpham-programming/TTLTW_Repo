@@ -2,8 +2,11 @@ package com.ltw.service;
 
 import com.ltw.bean.UserBean;
 import com.ltw.dao.UserDAO;
+import com.ltw.util.EncryptPasswordUtil;
 
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CodeVerifyService {
     private final UserDAO userDAO = new UserDAO();
@@ -13,10 +16,6 @@ public class CodeVerifyService {
         return userDAO.createInRegister(user);
     }
 
-    public void setNewVerifiedCode(String email, String verifiedCode) {
-        userDAO.setNewVerifiedCode(email, verifiedCode);
-    }
-
     // Service kiểm tra xem Email có để trống không
     public boolean isBlankEmail(String email) {
         return email == null || email.isEmpty();
@@ -24,7 +23,12 @@ public class CodeVerifyService {
 
     // Service Kiểm tra tính hợp lệ của email
     public boolean isValidEmail(String email) {
-        return true;
+        // Regex để kiểm tra email
+        // ?: Không ghi nhớ kết quả
+        String emailRegex = "^[a-zA-Z0-9_-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]+$";
+        Pattern pattern = Pattern.compile(emailRegex);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
     }
 
     // Service kiểm tra xem trong database đã tồn tại email được truyền vào hay chưa
@@ -62,6 +66,10 @@ public class CodeVerifyService {
         return verifiedCode.toString();
     }
 
+    public void setNewCodeByEmail(String email, String verifiedCode) {
+        userDAO.saveNewCodeByEmail(email, verifiedCode);
+    }
+
     // Service kiểm tra xem verify input có để trống không
     public boolean isBlankVerification(String verifyInput) {
         return (verifyInput == null || verifyInput.isEmpty());
@@ -81,6 +89,11 @@ public class CodeVerifyService {
         return emailQuery.equals(email);
     }
 
+    // Service active tài khoản
+    public boolean activeAccount(String email) {
+        return userDAO.activeAccount(email);
+    }
+
     // Service kiểm tra xem có khoảng trống trong password không
     public boolean containsSpace(String password) {
         return password.contains(" ");
@@ -98,7 +111,8 @@ public class CodeVerifyService {
 
     // Service kiểm tra xem email và password có hợp lệ không
     public boolean isValidLogin(String email, String password) {
-        return userDAO.isValidCredentials(email, password);
+       String hashedPassword = userDAO.getHashedPasswordByEmail(email);
+       return EncryptPasswordUtil.checkPassword(password, hashedPassword);
     }
 
     // Service kiểm tra xem tài khoản đã active chưa
