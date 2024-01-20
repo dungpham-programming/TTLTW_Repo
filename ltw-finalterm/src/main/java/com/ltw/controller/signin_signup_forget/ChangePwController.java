@@ -81,6 +81,7 @@ public class ChangePwController extends HttpServlet {
             } else {
                 // Xử lý hashing password trong Service
                 linkVerifyService.saveRenewPasswordByEmail(email, newPassword);
+                linkVerifyService.setEmptyKey(email);
                 resp.sendRedirect(req.getContextPath() + "/change-success.jsp");
             }
         }
