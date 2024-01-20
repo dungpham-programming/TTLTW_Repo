@@ -8,8 +8,8 @@ import javax.mail.internet.MimeMessage;
 import java.util.Date;
 import java.util.Properties;
 import java.util.ResourceBundle;
-import java.util.UUID;
 
+import java.util.UUID;
 
 public class SendEmailUtil {
     private static final ResourceBundle fromEmailInfo = ResourceBundle.getBundle("fromEmail");

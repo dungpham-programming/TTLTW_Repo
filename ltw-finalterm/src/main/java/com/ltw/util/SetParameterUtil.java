@@ -21,7 +21,7 @@ public class SetParameterUtil {
                     statement.setTimestamp(index, (Timestamp) parameter);
                 }
             } catch (SQLException e) {
-                //  TODO: handle exception
+                // TODO: handle exception
                 e.printStackTrace();
             }
         }
