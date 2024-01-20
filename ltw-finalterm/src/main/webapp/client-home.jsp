@@ -241,5 +241,3 @@
 <script src="<c:url value="/templates/client/js/custom.js"/>"></script>
 </body>
 </html>
-
-
