@@ -35,10 +35,7 @@ public class ChangePwController extends HttpServlet {
         if (!linkVerifyService.isBlankInput(newPassword) || !linkVerifyService.isBlankInput(retypePassword)) {
             if (!linkVerifyService.containsSpace(newPassword) || !linkVerifyService.containsSpace(retypePassword)) {
                 if (linkVerifyService.isLengthEnough(newPassword)) {
-                    if (newPassword.equals(retypePassword)) {
-                        linkVerifyService.saveRenewPasswordByEmail(email, newPassword);
-                        resp.sendRedirect(req.getContextPath() + "/change-success.jsp");
-                    } else {
+                    if (!newPassword.equals(retypePassword)) {
                         newPasswordInputErr = "Mật khẩu và Nhập lại mật khẩu không đúng!";
                         retypePasswordInputErr = "Mật khẩu và Nhập lại mật khẩu không đúng!";
                         req.setAttribute("newPasswordInputErr", newPasswordInputErr);

@@ -32,6 +32,11 @@
                 String email = request.getParameter("email");
                 String confirm = request.getParameter("confirm");
             %>
+
+            <% if (confirm == null) { %>
+            <p class="alert alert-success">Bạn cần xác thực tài khoản. Mã xác thực mới đã gửi về email của bạn!</p>
+            <% } %>
+
             <% if (confirm != null) { %>
             <p class="alert alert-success">Mã xác thực mới đã gửi về email của bạn!</p>
             <% } %>

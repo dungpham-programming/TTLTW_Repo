@@ -36,7 +36,18 @@
     <%
         String email = request.getParameter("email");
         String key = request.getParameter("key");
+        String linkError = (String) request.getAttribute("linkError");
+
+        String newPasswordInputErr = (String) request.getAttribute("newPasswordInputErr");
+        String retypePasswordInputErr = (String) request.getAttribute("retypePasswordInputErr");
+        String newPasswordSpaceErr = (String) request.getAttribute("newPasswordSpaceErr");
+        String retypePasswordSpaceErr = (String) request.getAttribute("retypePasswordSpaceErr");
     %>
+    <% if (linkError != null) {%>
+    <div class="error-message">
+        Lỗi đường dẫn xác thực!
+    </div>
+    <%}%>
     <form action="<c:url value="/change-password"/>" method="post">
         <div class="password2">
             <label for="newPassword">Mật khẩu mới</label>
@@ -45,8 +56,16 @@
                           aria-label="lock closed outline"></ion-icon>
                 <input class="pas" type="password" name="newPassword" id="newPassword" placeholder="············"
                        oninput="inputingCheck()">
-                <div id="newPasswordSpaceErr" class="error-message"></div>
-                <div id="newPasswordInputErr" class="error-message"></div>
+                <div id="newPasswordInputErr" class="error-message">
+                    <% if (newPasswordInputErr != null) {%>
+                        <%=newPasswordInputErr%>
+                    <%}%>
+                </div>
+                <div id="newPasswordSpaceErr" class="error-message">
+                    <% if (newPasswordSpaceErr != null) {%>
+                        <%=newPasswordSpaceErr%>
+                    <%}%>
+                </div>
             </div>
         </div>
         <div class="password3">
@@ -56,8 +75,16 @@
                           aria-label="lock closed outline"></ion-icon>
                 <input class="pas" type="password" name="retypePassword" id="retypePassword" placeholder="············"
                        oninput="inputingCheck()">
-                <div id="retypePasswordSpaceErr" class="error-message"></div>
-                <div id="retypePasswordInputErr" class="error-message"></div>
+                <div id="retypePasswordInputErr" class="error-message">
+                    <% if (retypePasswordInputErr != null) {%>
+                        <%=retypePasswordSpaceErr%>
+                    <%}%>
+                </div>
+                <div id="retypePasswordSpaceErr" class="error-message">
+                    <% if (retypePasswordSpaceErr != null) {%>
+                        <%=retypePasswordSpaceErr%>
+                    <%}%>
+                </div>
             </div>
         </div>
 

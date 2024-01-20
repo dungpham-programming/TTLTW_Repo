@@ -390,7 +390,7 @@ public class UserDAO {
     // Kiểm tra key
     public boolean isCorrectKey(String email, String key) {
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT checkPwHash FROM users ")
+        sql.append("SELECT changePwHash FROM users ")
                 .append("WHERE email = ?");
 
         Connection connection = null;
@@ -408,7 +408,7 @@ public class UserDAO {
 
             // Check if the result set has a row
             if (resultSet.next()) {
-                String keyInDB = resultSet.getString("checkPwHash");
+                String keyInDB = resultSet.getString("changePwHash");
                 return (keyInDB != null && !keyInDB.isEmpty());
             }
         } catch (SQLException e) {

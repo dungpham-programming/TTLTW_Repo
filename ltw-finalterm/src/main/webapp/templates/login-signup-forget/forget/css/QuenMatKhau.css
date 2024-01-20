@@ -32,7 +32,6 @@ body {
 }
 .header{
     align-self: center;
-    margin-bottom: 30px;
 }
 
 .screen-1 .email {
@@ -44,8 +43,8 @@ body {
     gap: 0.5em;
     border-radius: 20px;
     color: #4d4d4d;
-    margin-top: -3em;
     width: 100%;
+    margin-bottom: 20px;
 }
 .screen-1 .email input {
     outline: none;
@@ -72,7 +71,6 @@ body {
 
 .screen-1 .sending {
     width: 100%;
-    margin-top: 20px;
     text-decoration: none;
     text-align: center;
     padding: .5em;
