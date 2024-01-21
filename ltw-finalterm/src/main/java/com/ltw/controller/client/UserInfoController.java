@@ -2,7 +2,6 @@ package com.ltw.controller.client;
 
 import com.ltw.bean.UserBean;
 import com.ltw.dao.UserDAO;
-import com.ltw.service.UserInfoService;
 import com.ltw.util.BlankInputUtil;
 
 import javax.servlet.ServletException;
@@ -14,7 +13,7 @@ import java.io.IOException;
 
 @WebServlet(value = {"/userinfo"})
 public class UserInfoController extends HttpServlet {
-    private final UserInfoService userInfoService = new UserInfoService();
+    private final UserDAO userDAO = new UserDAO();
     private int id;
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -22,7 +21,7 @@ public class UserInfoController extends HttpServlet {
         if (action != null) {
             if (action.equals("view")) {
                 id = Integer.parseInt(req.getParameter("id"));
-                UserBean userBean = userInfoService.infoAccount(id);
+                UserBean userBean = userDAO.findUserById(id);
                 req.setAttribute("userInfo", userBean);
                 req.getRequestDispatcher("client-userinfo.jsp").forward(req, resp);
             }
@@ -102,23 +101,12 @@ public class UserInfoController extends HttpServlet {
                     req.setAttribute("apErr", apError);
                 }
 
-                // Kiểm tra trường hợp không trùng email
-                // Nếu email update không trùng với email trước khi update và đã tồn tại email
-                // Các trường hợp còn lại đều đúng
-                if (!userInfoService.isSameWithOriginal(originalEmail, email)) {
-                    if(userInfoService.isExistEmail(email)) {
-                        error = "error";
-                        existEmail = email;
-                        req.setAttribute("existEmail", existEmail);
-                    }
-                }
-
                 // Nếu không lỗi thì set thành công và lưu vào database
                 if (!error.equals("error")) {
                     // Set thuộc tính vào bean
                     userBean.setFirstName(firstName);
                     userBean.setLastName(lastName);
-                    userBean.setEmail(email);
+                    userBean.setEmail(originalEmail);
                     userBean.setAddressLine(addressLine);
                     userBean.setAddressWard(addressWard);
                     userBean.setAddressDistrict(addressDistrict);
@@ -126,7 +114,7 @@ public class UserInfoController extends HttpServlet {
                     userBean.setId(id);
 
                     // Đưa bean xuống Database
-                    userInfoService.updateAccount(userBean);
+                    userDAO.updateAccount(userBean);
 
                     // Thông báo thành công lên JSP và truyền thông tin mới update lên
                     notify = "success";
@@ -134,7 +122,7 @@ public class UserInfoController extends HttpServlet {
                 }
 
                 // Cuối cùng lấy thông tin từ db để hiển thị cho người dùng
-                userBean = userInfoService.infoAccount(id);
+                userBean = userDAO.findUserById(id);
                 req.setAttribute("userInfo", userBean);
                 req.getRequestDispatcher("client-userinfo.jsp").forward(req, resp);
             }

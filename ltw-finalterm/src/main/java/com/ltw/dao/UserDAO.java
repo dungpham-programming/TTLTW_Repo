@@ -39,6 +39,42 @@ public class UserDAO {
         return id;
     }
 
+    public UserBean findUserById(int id) {
+        UserBean userBean = new UserBean();
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT id FROM users ")
+                .append("WHERE email = ?");
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            preparedStatement = connection.prepareStatement(sql.toString());
+
+            SetParameterUtil.setParameter(preparedStatement, id);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                userBean.setId(resultSet.getInt("id"));
+                userBean.setEmail(resultSet.getString("email"));
+                userBean.setRoleId(resultSet.getInt("roleId"));
+                userBean.setFirstName(resultSet.getString("firstName"));
+                userBean.setLastName(resultSet.getString("lastName"));
+                userBean.setAddressLine(resultSet.getString("addressLine"));
+                userBean.setAddressWard(resultSet.getString("addressWard"));
+                userBean.setAddressDistrict(resultSet.getString("addressDistrict"));
+                userBean.setAddressProvince(resultSet.getString("addressProvince"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return userBean;
+    }
+
     // Kiểm tra xem tài khoản đã được active chưa
     public boolean isActiveAccount(String email) {
         int status = -1;
@@ -148,7 +184,7 @@ public class UserDAO {
     public void setEmptyCode(String email) {
         StringBuilder sql = new StringBuilder();
         sql.append("UPDATE users ")
-                .append("SET verifiedCode = '' ")
+                .append("SET verifiedCode = '' ");
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;

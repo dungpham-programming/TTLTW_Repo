@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO: Xem lại cách chèn link
 @WebServlet(value = {"/home"})
 public class HomeController extends HttpServlet {
     private final CustomizeDAO customizeDAO = new CustomizeDAO();
