@@ -132,7 +132,7 @@ public class UserDAO {
 
             SetParameterUtil.setParameter(preparedStatement, verifiedCode);
             resultSet = preparedStatement.executeQuery();
-
+          
             while (resultSet.next()) {
                 email = resultSet.getString("email");
             }
@@ -149,7 +149,6 @@ public class UserDAO {
         StringBuilder sql = new StringBuilder();
         sql.append("UPDATE users ")
                 .append("SET verifiedCode = '' ")
-                .append("WHERE email = ?");
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -158,9 +157,8 @@ public class UserDAO {
             connection = OpenConnectionUtil.openConnection();
             connection.setAutoCommit(false);
             preparedStatement = connection.prepareStatement(sql.toString());
-
             SetParameterUtil.setParameter(preparedStatement, email);
-          
+
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
@@ -203,6 +201,37 @@ public class UserDAO {
         }
     }
 
+    // Cập nhật lại thông tin tài khoản
+    public void updateAccount(UserBean user) {
+        StringBuilder sql = new StringBuilder();
+        sql.append("UPDATE users ")
+                .append("SET firstName = ?, lastName = ?, email = ?, addressLine = ?, ")
+                .append("addressWard = ?, addressDistrict = ?, addressProvince = ? ")
+                .append("WHERE id = ?");
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            connection.setAutoCommit(false);
+            preparedStatement = connection.prepareStatement(sql.toString());
+            SetParameterUtil.setParameter(preparedStatement, user.getFirstName(), user.getLastName(), user.getEmail(),
+                                            user.getAddressLine(), user.getAddressWard(), user.getAddressDistrict(),
+                                            user.getAddressProvince(), user.getId());
+            preparedStatement.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        } finally {
+            CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
+        }
+    }
+
     // Lưu mật khẩu mới cho tài khoản
     public void saveRenewPasswordByEmail(String email, String password) {
         StringBuilder sql = new StringBuilder();
@@ -212,7 +241,7 @@ public class UserDAO {
           
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-         
+
         try {
             connection = OpenConnectionUtil.openConnection();
             connection.setAutoCommit(false);
@@ -305,7 +334,6 @@ public class UserDAO {
         try {
             connection = OpenConnectionUtil.openConnection();
             preparedStatement = connection.prepareStatement(sql.toString());
-
             SetParameterUtil.setParameter(preparedStatement, email);
             resultSet = preparedStatement.executeQuery();
 
@@ -314,6 +342,8 @@ public class UserDAO {
                 userBean.setId(resultSet.getInt("id"));
                 userBean.setEmail(resultSet.getString("email"));
                 userBean.setRoleId(resultSet.getInt("roleId"));
+                userBean.setFirstName(resultSet.getString("firstName"));
+                userBean.setLastName(resultSet.getString("lastName"));
                 userBean.setAddressLine(resultSet.getString("addressLine"));
                 userBean.setAddressWard(resultSet.getString("addressWard"));
                 userBean.setAddressDistrict(resultSet.getString("addressDistrict"));
@@ -326,7 +356,8 @@ public class UserDAO {
         }
         return userBean;
     }
-
+    
+    // Active tài khoản
     public void activeAccount(String email) {
         StringBuilder sql = new StringBuilder();
         sql.append("UPDATE users ")

@@ -95,7 +95,7 @@ public class UserBean {
     public void setKey(String key) {
         this.key = key;
     }
-
+  
     public String getAddressLine() {
         return addressLine;
     }
@@ -160,4 +160,3 @@ public class UserBean {
         this.modifiedBy = modifiedBy;
     }
 }
-
