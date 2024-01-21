@@ -11,8 +11,8 @@ import java.util.List;
 
 public class UserDAO {
     // Tìm danh sách người dùng theo email
-    public List<Integer> findIdByEmail(String email) {
-        List<Integer> result = new ArrayList<>();
+    public int findIdByEmail(String email) {
+        int id = -1;
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT id FROM users ")
                 .append("WHERE email = ?");
@@ -29,24 +29,60 @@ public class UserDAO {
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                result.add(resultSet.getInt(1));
+                id = resultSet.getInt("id");
             }
-            return result;
         } catch (SQLException e) {
-            return null;
+            e.printStackTrace();
         } finally {
             CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
         }
+        return id;
+    }
+
+    // Kiểm tra xem tài khoản đã được active chưa
+    public boolean isActiveAccount(String email) {
+        int status = -1;
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT status FROM users ")
+                .append("WHERE email = ?");
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            preparedStatement = connection.prepareStatement(sql.toString());
+
+            // Set the email parameter
+            SetParameterUtil.setParameter(preparedStatement, email);
+
+            // Execute the query
+            resultSet = preparedStatement.executeQuery();
+
+            // Check if the result set has a row
+            if (resultSet.next()) {
+                status = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            // Handle the exception (log it or throw a custom exception)
+            e.printStackTrace(); // Example, you should handle this appropriately in your application
+        } finally {
+            // Close resources in the finally block
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        // Check if the status indicates email verification (you can adjust this condition)
+        return status == 1;
     }
 
     // Tạo tài khoản mới (Thông qua đăng ký của client)
+    // Role mặc định của client là 1 và status là 2 (Chưa active)
     public int createInRegister(UserBean user) {
-        int id = 0;
+        int id = -1;
         StringBuilder sql = new StringBuilder();
         sql.append("INSERT INTO users ")
                 .append("(email, password, roleId, status, verifiedCode)")
                 .append(" VALUES ")
-                .append("(?, ?, 2, 2, ?)");
+                .append("(?, ?, 1, 2, ?)");
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -66,24 +102,24 @@ public class UserDAO {
                 id = resultSet.getInt(1);
             }
             connection.commit();
-            return id;
         } catch (SQLException e) {
             try {
                 connection.rollback();
+                e.printStackTrace();
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
-            return 0;
         } finally {
             CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
         }
+        return id;
     }
 
-    // Lấy lên id dựa vào verifiedCode (Để kiểm tra tính hợp lệ của code)
-    public int checkVerifiedCode(String verifiedCode) {
-        int result = 0;
+    // Lấy lên email dựa vào verifiedCode (Để kiểm tra tính hợp lệ của code)
+    public String checkVerifiedCode(String verifiedCode) {
+        String email = "";
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT id FROM users ")
+        sql.append("SELECT email FROM users ")
                 .append("WHERE verifiedCode = ?");
 
         Connection connection = null;
@@ -92,29 +128,27 @@ public class UserDAO {
 
         try {
             connection = OpenConnectionUtil.openConnection();
-            connection.setAutoCommit(false);
             preparedStatement = connection.prepareStatement(sql.toString());
 
             SetParameterUtil.setParameter(preparedStatement, verifiedCode);
             resultSet = preparedStatement.executeQuery();
-
-            if (resultSet.next()) {
-                result = resultSet.getInt(1);
+          
+            while (resultSet.next()) {
+                email = resultSet.getString("email");
             }
-            return result;
         } catch (SQLException e) {
-            return 0;
+            throw new RuntimeException(e);
         } finally {
             CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
         }
+        return email;
     }
 
-    // Set verifiedCode mới khi người dùng yêu cầu
-    public void setNewVerifiedCode(int id, String verifiedCode) {
+    // Set code bằng chuỗi rỗng (Sau khi đã xác thực thành công)
+    public void setEmptyCode(String email) {
         StringBuilder sql = new StringBuilder();
         sql.append("UPDATE users ")
-                .append("SET verifiedCode = ? ")
-                .append("WHERE id = ?");
+                .append("SET verifiedCode = '' ")
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -123,8 +157,8 @@ public class UserDAO {
             connection = OpenConnectionUtil.openConnection();
             connection.setAutoCommit(false);
             preparedStatement = connection.prepareStatement(sql.toString());
+            SetParameterUtil.setParameter(preparedStatement, email);
 
-            SetParameterUtil.setParameter(preparedStatement, verifiedCode, id);
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
@@ -138,12 +172,12 @@ public class UserDAO {
         }
     }
 
-    // Set code bằng chuỗi rỗng và set status bằng active (Sau khi đã xác thực thành công)
-    public void setEmptyCodeAndActive(int id) {
+    // Lưu verifiedCode vào tài khoản có email tương ứng
+    public void saveNewCodeByEmail(String email, String verifiedCode) {
         StringBuilder sql = new StringBuilder();
         sql.append("UPDATE users ")
-                .append("SET verifiedCode = '', status = 1 ")
-                .append("WHERE id = ?");
+                .append("SET verifiedCode = ? ")
+                .append("WHERE email = ?");
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -153,7 +187,7 @@ public class UserDAO {
             connection.setAutoCommit(false);
             preparedStatement = connection.prepareStatement(sql.toString());
 
-            SetParameterUtil.setParameter(preparedStatement, id);
+            SetParameterUtil.setParameter(preparedStatement, verifiedCode, email);
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
@@ -177,12 +211,11 @@ public class UserDAO {
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-
+        
         try {
             connection = OpenConnectionUtil.openConnection();
             connection.setAutoCommit(false);
             preparedStatement = connection.prepareStatement(sql.toString());
-
             SetParameterUtil.setParameter(preparedStatement, user.getFirstName(), user.getLastName(), user.getEmail(),
                                             user.getAddressLine(), user.getAddressWard(), user.getAddressDistrict(),
                                             user.getAddressProvince(), user.getId());
@@ -199,14 +232,41 @@ public class UserDAO {
         }
     }
 
-    // Tìm user theo id
-    public UserBean findUserByid(int id) {
-        UserBean userBean = new UserBean();
+    // Lưu mật khẩu mới cho tài khoản
+    public void saveRenewPasswordByEmail(String email, String password) {
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT firstName, lastName, email, addressLine, addressWard, ")
-                .append("addressDistrict, addressProvince ")
-                .append("FROM users ")
-                .append("WHERE id = ?");
+        sql.append("UPDATE users ")
+                .append("SET password = ? ")
+                .append("WHERE email = ?");
+          
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            connection.setAutoCommit(false);
+            preparedStatement = connection.prepareStatement(sql.toString());
+
+            SetParameterUtil.setParameter(preparedStatement, password, email);
+            preparedStatement.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        } finally {
+            CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
+        }
+    }
+
+    // Kiểm tra xem tài khoản và mật khẩu có hợp lệ không
+    public String getHashedPasswordByEmail(String email) {
+        String hashedPassword = "";
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT password FROM users ")
+                .append("WHERE email = ?");
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -216,32 +276,93 @@ public class UserDAO {
             connection = OpenConnectionUtil.openConnection();
             preparedStatement = connection.prepareStatement(sql.toString());
 
-            SetParameterUtil.setParameter(preparedStatement, id);
+            SetParameterUtil.setParameter(preparedStatement, email);
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
+                hashedPassword = resultSet.getString("password");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return hashedPassword;
+    }
+
+    // Lấy lên id đã active theo email
+    public int findActiveAccountByEmail(String email) {
+        int id = -1;
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT id FROM users ")
+                .append("WHERE email = ? AND status = 1");
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            preparedStatement = connection.prepareStatement(sql.toString());
+
+            SetParameterUtil.setParameter(preparedStatement, email);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                id = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return id;
+    }
+
+    // Lấy lên thông tin của User và gán vào UserBean
+    public UserBean findUserByEmail(String email) {
+        UserBean userBean = null;
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT id, email, roleId, firstName, lastName, addressLine, addressWard, addressDistrict, addressProvince, createdDate ")
+                .append("FROM users ")
+                .append("WHERE email = ?");
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            preparedStatement = connection.prepareStatement(sql.toString());
+            SetParameterUtil.setParameter(preparedStatement, email);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                userBean = new UserBean();
+                userBean.setId(resultSet.getInt("id"));
+                userBean.setEmail(resultSet.getString("email"));
+                userBean.setRoleId(resultSet.getInt("roleId"));
                 userBean.setFirstName(resultSet.getString("firstName"));
                 userBean.setLastName(resultSet.getString("lastName"));
-                userBean.setEmail(resultSet.getString("email"));
                 userBean.setAddressLine(resultSet.getString("addressLine"));
                 userBean.setAddressWard(resultSet.getString("addressWard"));
                 userBean.setAddressDistrict(resultSet.getString("addressDistrict"));
                 userBean.setAddressProvince(resultSet.getString("addressProvince"));
             }
-            return userBean;
         } catch (SQLException e) {
-            return null;
+            e.printStackTrace();
         } finally {
             CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
         }
+        return userBean;
     }
-
-    public int checkSameEmail(String originalEmail, String updateEmail) {
-        int id = -1;
+    
+    // Active tài khoản
+    public void activeAccount(String email) {
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT id ")
-                .append("FROM users ")
-                .append("WHERE email = ? AND email <> ?");
+        sql.append("UPDATE users ")
+                .append("SET status = 1 ")
+                .append("WHERE email = ?");
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -249,19 +370,115 @@ public class UserDAO {
 
         try {
             connection = OpenConnectionUtil.openConnection();
+            connection.setAutoCommit(false);
             preparedStatement = connection.prepareStatement(sql.toString());
 
-            SetParameterUtil.setParameter(preparedStatement, updateEmail, originalEmail);
-            resultSet = preparedStatement.executeQuery();
+            SetParameterUtil.setParameter(preparedStatement, email);
 
-            if (resultSet.next()) {
-                id = resultSet.getInt("id");
-            }
-            return id;
+            preparedStatement.executeUpdate();
+            connection.commit();
         } catch (SQLException e) {
-            return -1;
+            try {
+                connection.rollback();
+                e.printStackTrace();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
         } finally {
             CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+    }
+
+    // Lưu key đối chiếu vào database
+    public void saveKeyByEmail(String email, String key) {
+        StringBuilder sql = new StringBuilder();
+        sql.append("UPDATE users ")
+                .append("SET changePwHash = ? ")
+                .append("WHERE email = ?");
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            connection.setAutoCommit(false);
+            preparedStatement = connection.prepareStatement(sql.toString());
+
+            SetParameterUtil.setParameter(preparedStatement, key, email);
+            preparedStatement.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        } finally {
+            CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
+        }
+    }
+
+    // Kiểm tra key
+    public boolean isCorrectKey(String email, String key) {
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT changePwHash FROM users ")
+                .append("WHERE email = ?");
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            preparedStatement = connection.prepareStatement(sql.toString());
+
+            // Set the email parameter
+            SetParameterUtil.setParameter(preparedStatement, email);
+
+            // Execute the query
+            resultSet = preparedStatement.executeQuery();
+
+            // Check if the result set has a row
+            if (resultSet.next()) {
+                String keyInDB = resultSet.getString("changePwHash");
+                return (keyInDB != null && !keyInDB.isEmpty());
+            }
+        } catch (SQLException e) {
+            // Handle the exception (log it or throw a custom exception)
+            e.printStackTrace(); // Example, you should handle this appropriately in your application
+        } finally {
+            // Close resources in the finally block
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return false;
+    }
+
+    // Set empty cho key
+    public void setEmptyKey(String email) {
+        StringBuilder sql = new StringBuilder();
+        sql.append("UPDATE users ")
+                .append("SET changePwHash = '' ")
+                .append("WHERE email = ?");
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            connection.setAutoCommit(false);
+            preparedStatement = connection.prepareStatement(sql.toString());
+
+            SetParameterUtil.setParameter(preparedStatement, email);
+
+            preparedStatement.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        } finally {
+            CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
         }
     }
 }

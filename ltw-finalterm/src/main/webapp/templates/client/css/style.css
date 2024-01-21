@@ -183,10 +183,14 @@ hr {
     font-size: 22px;
 }
 
-/*.custom-navbar .custom-navbar-cta .nav-link.yellow {*/
-/*    transition: color .15s ease-out !important;*/
-/*    display: flex;*/
-/*}*/
+.custom-navbar .custom-navbar-cta .nav-link.yellow.ss-btn {
+    color: var(--primary-color-darkyellow);
+    transition: 0.15s color ease-out;
+}
+
+.custom-navbar .custom-navbar-cta .nav-link.yellow.ss-btn:hover {
+    color: white;
+}
 
 .custom-navbar .custom-navbar-cta .ul-drop-menu {
     visibility: hidden;
@@ -768,7 +772,8 @@ hr {
     z-index: -1;
 }
 
-.why-choose-section .img-wrap img {
+.why-choose-section .img-wrap img,
+.we-help-section img {
     height: 600px;
     border-radius: 20px;
 }
