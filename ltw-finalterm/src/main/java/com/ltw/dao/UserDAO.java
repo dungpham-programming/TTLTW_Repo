@@ -42,8 +42,9 @@ public class UserDAO {
     public UserBean findUserById(int id) {
         UserBean userBean = new UserBean();
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT id FROM users ")
-                .append("WHERE email = ?");
+        sql.append("SELECT id, email, roleId, firstName, lastName, addressLine, addressWard, addressDistrict, addressProvince, createdDate " )
+                .append("FROM users ")
+                .append("WHERE id = ?");
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -66,6 +67,7 @@ public class UserDAO {
                 userBean.setAddressWard(resultSet.getString("addressWard"));
                 userBean.setAddressDistrict(resultSet.getString("addressDistrict"));
                 userBean.setAddressProvince(resultSet.getString("addressProvince"));
+                userBean.setCreatedDate(resultSet.getTimestamp("createdDate"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -384,6 +386,7 @@ public class UserDAO {
                 userBean.setAddressWard(resultSet.getString("addressWard"));
                 userBean.setAddressDistrict(resultSet.getString("addressDistrict"));
                 userBean.setAddressProvince(resultSet.getString("addressProvince"));
+                userBean.setCreatedDate(resultSet.getTimestamp("createdDate"));
             }
         } catch (SQLException e) {
             e.printStackTrace();

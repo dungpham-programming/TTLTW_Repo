@@ -41,10 +41,16 @@
 
     <%
         String emailError = (String) request.getAttribute("emailError");
+        String message = (String) request.getAttribute("message");
         if (emailError != null) {
     %>
     <div id="staticError" class="error-message"><%= emailError %></div>
     <% } %>
+
+    <% if (message != null) {%>
+    <div id="staticError" class="error-message"><%= message %></div>
+    <% } %>
+
     <form action="<c:url value="/signin"/> " method="post" accept-charset="UTF-8">
         <div class="email">
             <label for="email">Địa chỉ Email</label>

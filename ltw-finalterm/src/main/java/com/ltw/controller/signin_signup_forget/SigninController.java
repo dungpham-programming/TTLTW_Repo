@@ -11,14 +11,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 @WebServlet(value = {"/signin"})
 public class SigninController extends HttpServlet {
     private final CodeVerifyService codeVerifyService = new CodeVerifyService();
-
+    ResourceBundle notifyBundle = ResourceBundle.getBundle("notify-message");
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        // Nhận message khi bắt lỗi Authorization từ Filter
+        String message = req.getParameter("message");
+        if (message != null) {
+            req.setAttribute("message", notifyBundle.getString(message));
+        }
+        req.getRequestDispatcher("/signin.jsp").forward(req, resp);
     }
 
     // TODO: Hashing password + Hiển thị lỗi lên JSP
@@ -66,7 +72,13 @@ public class SigninController extends HttpServlet {
                 UserBean user = codeVerifyService.findUserByEmail(email);
                 if (user != null) {
                     SessionUtil.getInstance().putValue(req, "user", user);
-                    resp.sendRedirect(req.getContextPath() + "/home");
+                    // Authentication
+                    // Kiểm tra role khi đăng nhập để redirect (1 là client, 2 là admin, 3 là mod)
+                    if (user.getRoleId() == 1) {
+                        resp.sendRedirect(req.getContextPath() + "/home");
+                    } else if (user.getRoleId() == 2 || user.getRoleId() == 3) {
+                        resp.sendRedirect(req.getContextPath() + "/admin-home");
+                    }
                 }
             } else {
                 // Nếu chưa active thì tạo ra verifiedCode mới, gửi về email người dùng và redirect sang trang verified

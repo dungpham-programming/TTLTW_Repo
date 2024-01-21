@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(value = {"/userinfo"})
+@WebServlet(value = {"/user-info"})
 public class UserInfoController extends HttpServlet {
     private final UserDAO userDAO = new UserDAO();
     private int id;

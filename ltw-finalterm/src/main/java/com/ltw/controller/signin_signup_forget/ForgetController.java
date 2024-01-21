@@ -32,6 +32,8 @@ public class ForgetController extends HttpServlet {
                 SendEmailUtil.sendVerificationLink(email, verifiedLink);
                 resp.sendRedirect(req.getContextPath() + "/link-verify.jsp?email=" + email);
             }
+        } else {
+            req.getRequestDispatcher("/forget.jsp").forward(req, resp);
         }
     }
 

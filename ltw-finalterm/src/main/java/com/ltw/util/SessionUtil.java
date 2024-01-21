@@ -1,6 +1,7 @@
 package com.ltw.util;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 public class SessionUtil {
     private static SessionUtil session;
@@ -10,6 +11,10 @@ public class SessionUtil {
             session = new SessionUtil();
         }
         return session;
+    }
+
+    public HttpSession getSession(HttpServletRequest req) {
+        return req.getSession();
     }
 
     public void putValue(HttpServletRequest req, String key, Object value) {

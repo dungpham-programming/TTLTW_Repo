@@ -118,40 +118,6 @@
                     </div>
                         <% } %>
                     <% } %>
-
-<%--                    <div class="col-6 col-md-6">
-                        <div class="feature">
-                            <div class="icon">
-                                <i class="fa-thin fa-bag-shopping fa-2xl" style="color: #e3bd74;"></i>
-                            </div>
-                            <h3 class="yellow-text">Dễ dàng mua sắm</h3>
-                            <p class="light-text">Dễ dàng chọn lựa thông qua trang web cũng như tại cửa hàng trực tiếp.
-                                Sản phẩm được cập nhật thường xuyên.</p>
-                        </div>
-                    </div>
-
-                    <div class="col-6 col-md-6">
-                        <div class="feature">
-                            <div class="icon">
-                                <i class="fa-thin fa-question fa-2xl" style="color: #e3bd74;"></i>
-                            </div>
-                            <h3 class="yellow-text">Hỗ trợ 24/7</h3>
-                            <p class="light-text">Chúng tôi luôn sẵn sàng tư vấn và giải đáp cho bạn về việc mua hàng
-                                trực tuyến và các sản phẩm mỹ nghệ.</p>
-                        </div>
-                    </div>
-
-                    <div class="col-6 col-md-6">
-                        <div class="feature">
-                            <div class="icon">
-                                <i class="fa-thin fa-arrows-repeat fa-2xl" style="color: #e3bd74;"></i>
-                            </div>
-                            <h3 class="yellow-text">Đổi trả miễn phí</h3>
-                            <p class="light-text">Đối với các đơn hàng bị lỗi do nhà sản xuất, chúng tôi sẵn sàng đổi
-                                trả sản phẩm mới cho bạn.</p>
-                        </div>
-                    </div>--%>
-
                 </div>
             </div>
 
@@ -171,7 +137,7 @@
     <div class="container">
         <div class="row justify-content-between">
             <div class="col-lg-5 mb-5 mb-lg-0">
-                <div><img class="img-wrap" src="<c:url value="/templates/client/images/client_home/checking_wooden.jpg"/>" alt="DDD."></div>
+                <div><img class="img-wrap" src="<% if (customizeInfo.getPrLink2() != null) {%><%=customizeInfo.getPrLink2()%><% } %>" alt="DDD."></div>
             </div>
             <div class="col-lg-7 ps-lg-5">
                 <h2 class="section-title mb-4"><% if (customizeInfo.getPrTitle2() != null) {%><%=customizeInfo.getPrTitle2()%><% } %></h2>

@@ -24,10 +24,16 @@
 
             <%
                 UserBean user = (UserBean) request.getSession().getAttribute("user");
+                String id;
+                if (user != null) {
+                    id = String.valueOf(user.getId());
+                } else {
+                    id ="0";
+                }
             %>
             <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
                 <% if (user == null) {%>
-                <li class="hv-li"><a class="nav-link yellow ss-btn" href="<c:url value="/signin.jsp"/>">Đăng nhập</a></li>
+                <li class="hv-li"><a class="nav-link yellow ss-btn" href="<c:url value="/signin"/>">Đăng nhập</a></li>
                 <li class="hv-li"><a class="nav-link yellow ss-btn" href="<c:url value="/register"/>">Đăng ký</a></li>
                 <% } %>
 
@@ -35,7 +41,10 @@
                 <li class="hv-li"><a class="nav-link yellow" href="#"><i class="fa-regular fa-user"></i></a>
                     <ul class="ul-drop-menu">
                         <li class="drop-menu hello-user">Xin chào, <%= (user.getFirstName() == null || user.getFirstName().isEmpty() || user.getLastName() == null || user.getLastName().isEmpty()) ? user.getEmail() : user.getFirstName() + " " + user.getLastName() %>!</li>
-                        <li class="drop-menu hv-gray"><a href="update_user_info.html" class="">Thông tin tài khoản</a></li>
+                        <li class="drop-menu hv-gray"><a href="<c:url value="user-info">
+                                                                  <c:param name="action" value="view"/>
+                                                                  <c:param name="id" value="<%=id%>"/>
+                                                               </c:url>">Thông tin tài khoản</a></li>
                         <li class="drop-menu hv-gray"><a href="order-history.html" class="">Lịch sử đơn hàng</a></li>
                         <li class="drop-menu hv-gray"><a href="<c:url value="/signout"/>">Đăng xuất</a></li>
                     </ul>

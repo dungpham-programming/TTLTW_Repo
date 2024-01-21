@@ -25,45 +25,7 @@
 <body>
 
 <!-- Start Header/Navigation -->
-<nav id="navigation" class="custom-navbar navbar navbar-fixed navbar-expand-md navbar-dark bg-dark"
-     aria-label="DDD Navigation Bar">
-
-    <div class="container" id="container-nav">
-        <a class="navbar-brand" href="index.html">DDD<span>.</span></a>
-
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni"
-                aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarsFurni">
-            <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-                <li class="nav-item active">
-                    <a class="nav-link" href="index.html">Trang chủ</a>
-                </li>
-                <li><a class="nav-link" href="shop.html">Sản phẩm</a></li>
-                <li><a class="nav-link" href="blog.html">Tin tức</a></li>
-                <li><a class="nav-link" href="contact.html">Liên hệ</a></li>
-                <li><a class="nav-link" href="about.html">Về chúng tôi</a></li>
-            </ul>
-
-            <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-                <li class="hv-li"><a class="nav-link yellow" href="#"><i class="fa-regular fa-user"></i></a>
-                    <ul class="ul-drop-menu">
-                        <li class="drop-menu hello-user">Xin chào, User!</li>
-                        <li class="drop-menu hv-gray"><a href="<c:url value="/userinfo?action=view"/>" class="">Thông
-                            tin tài khoản</a></li>
-                        <li class="drop-menu hv-gray"><a href="order-history.html" class="">Lịch sử đơn hàng</a></li>
-                        <li class="drop-menu hv-gray"><a href="#">Đăng xuất</a></li>
-                    </ul>
-                </li>
-                <li class="hv-li"><a class="nav-link yellow" href="cart.html"><i class="fa-light fa-cart-shopping"></i></a>
-                </li>
-            </ul>
-        </div>
-    </div>
-
-</nav>
+<jsp:include page="/common/client/header.jsp"/>
 <!-- End Header/Navigation -->
 
 <!-- Start Hero Section -->
@@ -91,12 +53,10 @@
                 <%
                     String firstNameErr = (String) request.getAttribute("fnErr");
                     String lastNameErr = (String) request.getAttribute("lnErr");
-                    String emailErr = (String) request.getAttribute("emailErr");
                     String addressLineErr = (String) request.getAttribute("alErr");
                     String addressWardErr = (String) request.getAttribute("awErr");
                     String addressDistrictErr = (String) request.getAttribute("adErr");
                     String addressProvinceErr = (String) request.getAttribute("apErr");
-                    String existEmail = (String) request.getAttribute("existEmail");
 
                     String notify = (String) request.getAttribute("notify");
 
@@ -132,14 +92,8 @@
                     <!--  cập nhật email-->
                     <div class="email">
                         <label for="newEmaill">Email </label>
-                        <input type="email" name="email" id="newEmaill" value="<%%><%=userInfo.getEmail()%><%  %>">
+                        <input type="email" name="email" id="newEmaill" value="<%=userInfo.getEmail()%>" readonly>
                     </div>
-                    <% if (emailErr != null && emailErr.equals("e")) { %>
-                    <div><p class="error">Không được để trống!</p></div>
-                    <% } %>
-                    <% if (existEmail != null) { %>
-                    <div><p class="error">Email bạn vừa nhập đã tồn tại! Email vừa nhập: <%=existEmail%></p></div>
-                    <% } %>
 
                     <!--                    Cập nhật AddressLine-->
                     <div class="addressLine">

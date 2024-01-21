@@ -34,7 +34,7 @@ public class Authorization implements Filter {
                 }
             } else {
                 // Nếu chưa tồn tại Session, điều hướng sang trang login
-                response.sendRedirect(request.getContextPath() + "/signin.jsp?message=must_login");
+                response.sendRedirect(request.getContextPath() + "/signin?message=must_login");
             }
         } else {
             // Nếu không chứa gì liên quan đến admin thì cho qua
