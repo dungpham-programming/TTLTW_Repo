@@ -6,6 +6,8 @@ import com.ltw.util.OpenConnectionUtil;
 import com.ltw.util.SetParameterUtil;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ImageDAO {
     // TODO: Cần thêm status cho ảnh (Sẽ làm sau)
@@ -71,5 +73,36 @@ public class ImageDAO {
             CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
         }
         return id;
+    }
+
+    public List<ProductImageBean> findAllImages() {
+        List<ProductImageBean> allImages = null;
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT id, name, link, productId ")
+                .append("FROM images ");
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            preparedStatement = connection.prepareStatement(sql.toString());
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                ProductImageBean productImageBean = new ProductImageBean();
+                productImageBean.setName(resultSet.getString("name"));
+                productImageBean.setLink(resultSet.getString("link"));
+                productImageBean.setProductId(resultSet.getInt("productId"));
+
+                allImages.add(productImageBean);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return allImages;
     }
 }

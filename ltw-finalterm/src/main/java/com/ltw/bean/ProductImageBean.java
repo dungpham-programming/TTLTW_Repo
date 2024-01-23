@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 public class ProductImageBean {
     private int id;
     private String name;
+    private String nameInStorage;
     private String link;
     private int productId;
     private Timestamp createdDate;
@@ -29,6 +30,14 @@ public class ProductImageBean {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getNameInStorage() {
+        return nameInStorage;
+    }
+
+    public void setNameInStorage(String nameInStorage) {
+        this.nameInStorage = nameInStorage;
     }
 
     public String getLink() {
