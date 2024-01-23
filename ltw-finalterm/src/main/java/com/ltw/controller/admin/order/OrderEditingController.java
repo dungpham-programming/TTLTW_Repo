@@ -20,7 +20,7 @@ public class OrderEditingController extends HttpServlet {
         int id = Integer.parseInt(req.getParameter("id"));
         OrderBean orderBean = orderDAO.findOrderById(id);
         req.setAttribute("orderBean", orderBean);
-        req.getRequestDispatcher("/editing-product.jsp").forward(req, resp);
+        req.getRequestDispatcher("/editing-order.jsp").forward(req, resp);
     }
 
     @Override
