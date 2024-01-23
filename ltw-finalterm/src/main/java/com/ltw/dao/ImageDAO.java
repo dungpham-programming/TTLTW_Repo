@@ -28,6 +28,7 @@ public class ImageDAO {
 
             while (resultSet.next()) {
                 productImageBean = new ProductImageBean();
+                productImageBean.setId(resultSet.getInt("id"));
                 productImageBean.setName(resultSet.getString("name"));
                 productImageBean.setLink(resultSet.getString("link"));
                 productImageBean.setProductId(resultSet.getInt("productId"));
@@ -39,14 +40,14 @@ public class ImageDAO {
         }
         return productImageBean;
     }
-    // TODO: Ở đây ta lấy ví dụ productId = 1, sau này khi chạy thật sẽ thay thế
+
     public int insertProductImage(ProductImageBean image) {
         int id = -1;
         StringBuilder sql = new StringBuilder();
         sql.append("INSERT INTO images ")
-                .append("(name, link, productId)")
+                .append("(name, link, productId, nameInStorage, createdDate, createdBy, modifiedDate, modifiedBy )")
                 .append(" VALUES ")
-                .append("(?, ?, 1)");
+                .append("(?, ?, ?, ?, ?, ?, ?, ?)");
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -57,7 +58,9 @@ public class ImageDAO {
             connection.setAutoCommit(false);
             preparedStatement = connection.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
 
-            SetParameterUtil.setParameter(preparedStatement, image.getName(), image.getLink());
+            SetParameterUtil.setParameter(preparedStatement, image.getName(), image.getLink(), image.getProductId(),
+                                                image.getNameInStorage(), image.getCreatedDate(), image.getCreatedBy(),
+                                                image.getModifiedDate(), image.getModifiedBy());
             id = preparedStatement.executeUpdate();
 
             // ... và commit ở đây...
@@ -76,9 +79,10 @@ public class ImageDAO {
     }
 
     public List<ProductImageBean> findAllImages() {
-        List<ProductImageBean> allImages = null;
+        List<ProductImageBean> allImages = new ArrayList<>();
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT id, name, link, productId ")
+        sql.append("SELECT id, name, link, productId, nameInStorage, createdDate, ")
+                .append("createdBy, modifiedDate, modifiedBy ")
                 .append("FROM images ");
 
         Connection connection = null;
@@ -92,9 +96,15 @@ public class ImageDAO {
 
             while (resultSet.next()) {
                 ProductImageBean productImageBean = new ProductImageBean();
+                productImageBean.setId(resultSet.getInt("id"));
                 productImageBean.setName(resultSet.getString("name"));
                 productImageBean.setLink(resultSet.getString("link"));
                 productImageBean.setProductId(resultSet.getInt("productId"));
+                productImageBean.setNameInStorage(resultSet.getString("nameInStorage"));
+                productImageBean.setCreatedDate(resultSet.getTimestamp("createdDate"));
+                productImageBean.setCreatedBy(resultSet.getString("createdBy"));
+                productImageBean.setModifiedDate(resultSet.getTimestamp("modifiedDate"));
+                productImageBean.setModifiedBy(resultSet.getString("modifiedBy"));
 
                 allImages.add(productImageBean);
             }
@@ -104,5 +114,114 @@ public class ImageDAO {
             CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
         }
         return allImages;
+    }
+
+
+    public void updateImage(ProductImageBean image) {
+        String sql = "UPDATE images SET name = ?, link = ?, productId = ?, nameInStorage = ?, modifiedDate = ?, modifiedBy = ? " +
+                     "WHERE id = ?";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            connection.setAutoCommit(false);
+            preparedStatement = connection.prepareStatement(sql);
+
+            SetParameterUtil.setParameter(preparedStatement, image.getName(), image.getLink(), image.getProductId(),
+                                                    image.getNameInStorage(), image.getModifiedDate(), image.getModifiedBy(),
+                                                    image.getId());
+            preparedStatement.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        } finally {
+            CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
+        }
+    }
+
+    public void updateImageNotPart(ProductImageBean image) {
+        String sql = "UPDATE images SET name = ?, link = ?, productId = ?, modifiedDate = ?, modifiedBy = ? " +
+                "WHERE id = ?";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            connection.setAutoCommit(false);
+            preparedStatement = connection.prepareStatement(sql);
+
+            SetParameterUtil.setParameter(preparedStatement, image.getName(), image.getLink(), image.getProductId(),
+                                                    image.getModifiedDate(), image.getModifiedBy(),
+                                                    image.getId());
+            preparedStatement.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        } finally {
+            CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
+        }
+    }
+
+    public String findNameInStorageById(int id) {
+        String sql = "SELECT nameInStorage FROM images WHERE id = ?";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            SetParameterUtil.setParameter(preparedStatement, id);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getString("nameInStorage");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return null;
+    }
+
+    public int deleteImage(int id) {
+        int affectRows = -1;
+        String sql = "DELETE FROM images WHERE id = ?";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            connection.setAutoCommit(false);
+            preparedStatement = connection.prepareStatement(sql);
+            SetParameterUtil.setParameter(preparedStatement, id);
+            affectRows = preparedStatement.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+                return -1;
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                return -1;
+            }
+        } finally {
+            CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
+        }
+        return affectRows;
     }
 }

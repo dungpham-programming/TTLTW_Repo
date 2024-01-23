@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(value = {"/all-image-management"})
+@WebServlet(value = {"/admin/all-image-management"})
 public class AllImageManagementController extends HttpServlet {
     private final ImageDAO imageDAO = new ImageDAO();
 

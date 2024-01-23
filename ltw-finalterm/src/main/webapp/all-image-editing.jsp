@@ -23,14 +23,6 @@
 <jsp:include page="/common/admin/top-header.jsp"/>
 <div id="layoutSidenav">
     <jsp:include page="/common/admin/left-navigation.jsp"/>
-    <%
-        String success = (String) request.getAttribute("success");
-        if (success != null || success.isEmpty()) {
-    %>
-    <div class="alert alert-success">
-        Chỉnh sửa ảnh thành công!
-    </div>
-    <% } %>
     <div id="layoutSidenav_content" class="gray-bg">
         <main>
             <div class="container-fluid px-4">
@@ -39,11 +31,19 @@
                     <li class="breadcrumb-item active">DDD. Administrator</li>
                 </ol>
                 <%
+                    String success = (String) request.getAttribute("success");
+                    if (success != null) {
+                %>
+                <div class="alert alert-success">
+                    Chỉnh sửa ảnh thành công!
+                </div>
+                <% } %>
+                <%
                     ProductImageBean image = (ProductImageBean) request.getAttribute("image");
                     ArrayList<String> errors = (ArrayList<String>) request.getAttribute("errors");
                     if (image != null) {
                 %>
-                <form action="<c:url value="/all-image-editing"/>" method="post" enctype="multipart/form-data">
+                <form action="<c:url value="/admin/all-image-editing"><c:param name="id" value="<%=String.valueOf(image.getId())%>"/></c:url>" method="post" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-12">
                             <label for="name">Tên ảnh</label>
@@ -54,8 +54,8 @@
                         </div>
 
                         <div class="col-12">
-                            <label for="productID">Mã sản phẩm</label>
-                            <input type="text" id="productID" name="productID" value="<%=image.getProductId()%>" required>
+                            <label for="productId">Mã sản phẩm</label>
+                            <input type="text" id="productId" name="productId" value="<%=image.getProductId()%>" required>
                             <% if (errors != null && errors.get(1) != null) { %>
                             <div class="error" id="error2">Không được để trống!</div>
                             <% } %>
@@ -76,8 +76,8 @@
 
                     <input type="submit" value="Thêm ảnh" class="adding button">
                     <input type="reset" value="Đặt lại biểu mẫu" class="adding button">
-                    <a href="management-blog.html">Quay về trang quản lý</a>
-                    <a href="index.html">Quay về trang chủ</a>
+                    <a href="<c:url value="admin/all-image-management"/>">Quay về trang quản lý</a>
+                    <a href="<c:url value="/admin/home"/>">Quay về trang chủ</a>
                 </form>
                 <% } %>
             </div>

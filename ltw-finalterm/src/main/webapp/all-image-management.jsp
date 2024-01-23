@@ -36,7 +36,7 @@
                         Quản lý ảnh
                     </div>
                     <div class="list-button">
-                        <a href="<c:url value="/all-image-adding"/>" data-bs-toggle="tooltip" title="Thêm ảnh" class="add"><i
+                        <a href="<c:url value="/admin/all-image-adding"/>" data-bs-toggle="tooltip" title="Thêm ảnh" class="add"><i
                                 class="fa-solid fa-plus" style="color: #e3bd74;"></i>Thêm ảnh</a>
                     </div>
                     <div class="table-responsive">
@@ -66,20 +66,20 @@
                                 <td><img class="img-fluid" src="<%=image.getLink()%>" alt="image"></td>
                                 <td><%=image.getProductId()%></td>
                                 <td><%=image.getCreatedDate()%></td>
-                                <td><%=image.getCreatedBy()%>></td>
+                                <td><%=image.getCreatedBy()%></td>
                                 <td><%=image.getModifiedDate()%></td>
                                 <td><%=image.getModifiedBy()%></td>
                                 <td>
-                                    <a href="<c:url value="/all-image-editing"><c:param name="id" value="<%=String.valueOf(image.getId())%>"/></c:url>" data-bs-toggle="tooltip" title="Chỉnh sửa ảnh"
+                                    <a href="<c:url value="/admin/all-image-editing"><c:param name="id" value="<%=String.valueOf(image.getId())%>"/></c:url>" data-bs-toggle="tooltip" title="Chỉnh sửa ảnh"
                                        class="edit"><i class="fa-regular fa-pen-to-square" style="color: #e3bd74;"></i></a>
-                                    <a href="#" data-bs-toggle="tooltip" title="Xóa ảnh" class="delete"><i
+                                    <a href="<c:url value="/admin/all-image-delete"><c:param name="id" value="<%=String.valueOf(image.getId())%>"/></c:url>" data-bs-toggle="tooltip" title="Xóa ảnh" class="delete"><i
                                             class="fa-solid fa-trash" style="color: #e3bd74;"></i></a>
                                 </td>
                             </tr>
                             </tbody>
-                        </table>
                             <% } %>
                         <% } %>
+                        </table>
                     </div>
                 </div>
             </div>

@@ -18,7 +18,7 @@ import java.util.ResourceBundle;
 // dl=1: Cho phép download ảnh khi ấn vào link
 // raw=1: Hiển thị ảnh dưới dạng raw (Có thế thêm vào src của img)
 public class CloudStorageUtil {
-    private static final ResourceBundle accessTokenBundle = ResourceBundle.getBundle("dropbox-api");
+    private static final ResourceBundle accessTokenBundle = ResourceBundle.getBundle("storage-token");
 
     public static ProductImageBean uploadOneImageToCloudStorage(Part part) throws IOException {
         ProductImageBean image = new ProductImageBean();
@@ -32,7 +32,8 @@ public class CloudStorageUtil {
                 String imageRawLink = convertToRawLink(imageBaseLink);
                 if (imageRawLink != null) {
                     image = new ProductImageBean();
-                    image.setName(imageName);
+                    // Set nameInStorage cho link tại đây luôn
+                    image.setNameInStorage(imageName);
                     image.setLink(imageRawLink);
                 }
             }
@@ -75,7 +76,7 @@ public class CloudStorageUtil {
         return null;
     }
 
-    private static boolean delete(String imageNameContainExtension) {
+    public static boolean delete(String imageNameContainExtension) {
         DbxRequestConfig config = DbxRequestConfig.newBuilder("LTW_Group33").build();
         DbxClientV2 client = new DbxClientV2(config, accessTokenBundle.getString("access-token"));
         try {
