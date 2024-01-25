@@ -20,11 +20,11 @@ public class CartAddingController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // Đăng nhập mới cho phép thêm vào cart (Đã có trong filter)
-        String id = req.getParameter("id");
-        // 3 action: Từ product, từ product-detail và từ search
-        String action = req.getParameter("action");
+        String productId = req.getParameter("productId");
+        // 3 requestBy: Từ shop, từ product-detail và từ search
+        String requestBy = req.getParameter("requestBy");
 
-        ProductBean product = productDAO.findProductById(Integer.parseInt(id));
+        ProductBean product = productDAO.findProductById(Integer.parseInt(productId));
 
         Cart cart = null;
         Object o = SessionUtil.getInstance().getValue(req, "cart");
@@ -41,9 +41,10 @@ public class CartAddingController extends HttpServlet {
         cart.addItem(item);
         SessionUtil.getInstance().putValue(req, "cart", cart);
 
-        if (action != null) {
-            if (action.equals("product")) {
-                req.getRequestDispatcher("/cart.jsp").forward(req, resp);
+        if (requestBy != null) {
+            if (requestBy.equals("shop")) {
+                req.setAttribute("success", "s");
+                req.getRequestDispatcher("/shop").forward(req, resp);
             }
         }
     }

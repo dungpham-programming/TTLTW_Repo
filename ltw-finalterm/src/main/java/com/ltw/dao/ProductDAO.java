@@ -188,5 +188,48 @@ public class ProductDAO {
         }
         return affectRows;
     }
+
+    public List<ProductBean> findThreeProductByCategoryId(int categoryId) {
+        List<ProductBean> products = new ArrayList<>();
+        String sql = "SELECT products.id, products.name, products.categoryTypeId, products.originalPrice, products.discountPrice, products.discountPercent " +
+                "FROM products INNER JOIN category_types ON products.categoryTypeId = category_types.id " +
+                "INNER JOIN categories ON category_types.categoryId = categories.id " +
+                "WHERE categories.id = ? AND products.status = 1 " +
+                "ORDER BY products.modifiedDate DESC "+
+                "LIMIT 3";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            SetParameterUtil.setParameter(preparedStatement, categoryId);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                ProductBean productBean = new ProductBean();
+                productBean.setId(resultSet.getInt("id"));
+                productBean.setName(resultSet.getString("name"));
+                productBean.setCategoryTypeId(resultSet.getInt("categoryTypeId"));
+                productBean.setOriginalPrice(resultSet.getDouble("originalPrice"));
+                productBean.setDiscountPrice(resultSet.getDouble("discountPrice"));
+                productBean.setDiscountPercent(resultSet.getDouble("discountPercent"));
+
+                products.add(productBean);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return products;
+    }
+
+    public static void main(String[] args) {
+        ProductDAO productDAO = new ProductDAO();
+        System.out.println(productDAO.findThreeProductByCategoryId(1));
+    }
 }
 

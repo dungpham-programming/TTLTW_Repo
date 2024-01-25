@@ -186,7 +186,8 @@ public class UserDAO {
     public void setEmptyCode(String email) {
         StringBuilder sql = new StringBuilder();
         sql.append("UPDATE users ")
-                .append("SET verifiedCode = '' ");
+                .append("SET verifiedCode = '' ")
+                .append("WHERE email = ?");
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;

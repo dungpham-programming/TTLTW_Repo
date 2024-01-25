@@ -12,6 +12,6 @@
     <title>Title</title>
 </head>
 <body>
-<div><a href="<c:url value="/cart-adding?id=1&action=product"/>">Thêm vào giỏ</a></div>
+<div><a href="<c:url value="/cart-adding?id=1&requestBy=shop"/>">Thêm vào giỏ</a></div>
 </body>
 </html>
