@@ -97,6 +97,12 @@
             <version>1.17.2</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.dropbox.core/dropbox-core-sdk -->
+        <dependency>
+            <groupId>com.dropbox.core</groupId>
+            <artifactId>dropbox-core-sdk</artifactId>
+            <version>6.0.0</version>
+        </dependency>
     </dependencies>
     <build>
         <finalName>ltw-finalterm</finalName>

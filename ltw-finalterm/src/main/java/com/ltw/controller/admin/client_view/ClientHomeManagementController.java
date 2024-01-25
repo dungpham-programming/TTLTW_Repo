@@ -51,11 +51,14 @@ public class ClientHomeManagementController extends HttpServlet {
         String prContentTitle1 = req.getParameter("prContentTitle1");
         String prContentDes1 = req.getParameter("prContentDes1");
         Part prLink1 = req.getPart("prLink1");
+        String prLink1InStorage = req.getParameter("prLink1InStorage");
         String prTitle2 = req.getParameter("prTitle2");
         String prDes2 = req.getParameter("prDes2");
         String prContent2 = req.getParameter("prContent2");
         Part prLink2 = req.getPart("prLink2");
+        String prLink2InStorage = req.getParameter("prLink2InStorage");
         Part background = req.getPart("background");
+        String backgroundInStorage = req.getParameter("backgroundInStorage");
         String footerLeft = req.getParameter("footerLeft");
         String footerMiddle = req.getParameter("footerMiddle");
         String facebookLink = req.getParameter("facebookLink");
@@ -125,18 +128,14 @@ public class ClientHomeManagementController extends HttpServlet {
             String linkImage1 = null;
             String linkImage2 = null;
             String backgroundImage = null;
-            try {
-                if (prLink1.getSize() > 0) {
-                    linkImage1 = CloudStorageUtil.uploadtoCloudStorage(prLink1.getSubmittedFileName(), prLink1.getInputStream());
-                }
-                if (prLink2.getSize() > 0) {
-                    linkImage2 = CloudStorageUtil.uploadtoCloudStorage(prLink2.getSubmittedFileName(), prLink2.getInputStream());
-                }
-                if (background.getSize() > 0) {
-                    backgroundImage = CloudStorageUtil.uploadtoCloudStorage(background.getSubmittedFileName(), background.getInputStream());
-                }
-            } catch (GeneralSecurityException e) {
-                throw new RuntimeException(e);
+            if (prLink1.getSize() > 0 && prLink1.getContentType().startsWith("image")) {
+                linkImage1 = CloudStorageUtil.uploadCustomizeImageToStorage(prLink1.getSubmittedFileName(), prLink1.getInputStream());
+            }
+            if (prLink2.getSize() > 0 && prLink1.getContentType().startsWith("image")) {
+                linkImage2 = CloudStorageUtil.uploadCustomizeImageToStorage(prLink2.getSubmittedFileName(), prLink2.getInputStream());
+            }
+            if (background.getSize() > 0 && prLink1.getContentType().startsWith("image")) {
+                backgroundImage = CloudStorageUtil.uploadCustomizeImageToStorage(background.getSubmittedFileName(), background.getInputStream());
             }
 
             // Thực hiện xóa các khoảng trắng ở đầu và cuối chuỗi cho content và icon
@@ -158,22 +157,38 @@ public class ClientHomeManagementController extends HttpServlet {
             customizeBean.setPrContentTitle1(clearSpaceContentTitle1);
             customizeBean.setPrContentDes1(clearSpaceContentDes1);
             if (linkImage1 != null) {
+                // Xóa ảnh cũ trong Cloud Storage
+                CloudStorageUtil.deleteCustomize(prLink1InStorage);
+                // Cập nhật ảnh mới
                 customizeBean.setPrLink1(linkImage1);
+                customizeBean.setPrLink1InStorage(prLink1.getSubmittedFileName());
             } else {
+                // Set lại link cũ gửi từ request về
                 customizeBean.setPrLink1(findOldImage1Link());
+                customizeBean.setPrLink1InStorage(prLink1InStorage);
             }
             customizeBean.setPrTitle2(prTitle2.trim());
             customizeBean.setPrDes2(prDes2);
             customizeBean.setPrContent2(clearSpaceContent2);
             if (linkImage2 != null) {
+                // Xóa ảnh cũ trong Cloud Storage
+                CloudStorageUtil.deleteCustomize(prLink2InStorage);
+                // Cập nhật ảnh mới
                 customizeBean.setPrLink2(linkImage2);
+                customizeBean.setPrLink1InStorage(prLink2.getSubmittedFileName());
             } else {
                 customizeBean.setPrLink2(findOldImage2Link());
+                customizeBean.setPrLink2InStorage(prLink2InStorage);
             }
             if (backgroundImage != null) {
+                // Xóa ảnh cũ trong Cloud Storage
+                CloudStorageUtil.deleteCustomize(backgroundInStorage);
+                // Cập nhật ảnh mới
                 customizeBean.setBackground(backgroundImage);
+                customizeBean.setBackgroundInStorage(background.getSubmittedFileName());
             } else {
                 customizeBean.setBackground(findOldBackgroundLink());
+                customizeBean.setBackgroundInStorage(backgroundInStorage);
             }
             customizeBean.setFooterLeft(footerLeft);
             customizeBean.setFooterMiddle(footerMiddle);

@@ -11,9 +11,9 @@ public class CustomizeDAO {
     public CustomizeBean getCustomizeInfo() {
         CustomizeBean customizeBean = null;
         String sql = "SELECT id, welcomeTitle, welcomeDes, productTitle, productDes, " +
-                "prTitle1, prDes1, prContentTitle1, prContentDes1, prIcon1, prLink1, " +
-                "prTitle2, prDes2, prContent2, prLink2, " +
-                "background, footerLeft, footerMiddle, facebookLink, " +
+                "prTitle1, prDes1, prContentTitle1, prContentDes1, prIcon1, prLink1, prLink1InStorage, " +
+                "prTitle2, prDes2, prContent2, prLink2, prLink2InStorage, " +
+                "background, backgroundInStorage, footerLeft, footerMiddle, facebookLink, " +
                 "twitterLink, instagramLink, linkedinLink " +
                 "FROM customize_pages WHERE id = 1";
 
@@ -39,11 +39,14 @@ public class CustomizeDAO {
                 customizeBean.setPrDes1(resultSet.getString("prDes1"));
                 customizeBean.setPrIcon1(resultSet.getString("prIcon1"));
                 customizeBean.setPrLink1(resultSet.getString("prLink1"));
+                customizeBean.setPrLink1InStorage(resultSet.getString("prLink1InStorage"));
                 customizeBean.setPrTitle2(resultSet.getString("prTitle2"));
                 customizeBean.setPrDes2(resultSet.getString("prDes2"));
                 customizeBean.setPrContent2(resultSet.getString("prContent2"));
                 customizeBean.setPrLink2(resultSet.getString("prLink2"));
+                customizeBean.setPrLink2InStorage(resultSet.getString("prLink2InStorage"));
                 customizeBean.setBackground(resultSet.getString("background"));
+                customizeBean.setBackgroundInStorage(resultSet.getString("backgroundInStorage"));
                 customizeBean.setFooterLeft(resultSet.getString("footerLeft"));
                 customizeBean.setFooterMiddle(resultSet.getString("footerMiddle"));
                 customizeBean.setFacebookLink(resultSet.getString("facebookLink"));
@@ -63,9 +66,9 @@ public class CustomizeDAO {
         int afffectRows = -1;
         String sql = "UPDATE customize_pages SET welcomeTitle = ?, welcomeDes = ?, " +
                 "productTitle = ?, productDes = ?, " +
-                "prTitle1 = ?, prDes1 = ?, prIcon1 = ?,  prContentTitle1 = ?, prContentDes1 = ?, prLink1 = ?, " +
-                "prTitle2 = ?, prDes2 = ?, prContent2 = ?, prLink2 = ?, " +
-                "background = ?, footerLeft = ?, footerMiddle = ?, facebookLink = ?, " +
+                "prTitle1 = ?, prDes1 = ?, prIcon1 = ?,  prContentTitle1 = ?, prContentDes1 = ?, prLink1 = ?, prLink1InStorage = ?, " +
+                "prTitle2 = ?, prDes2 = ?, prContent2 = ?, prLink2 = ?, prLink2InStorage = ?, " +
+                "background = ?, backgroundInStorage = ?, footerLeft = ?, footerMiddle = ?, facebookLink = ?, " +
                 "twitterLink = ?, instagramLink = ?, linkedinLink = ? " +
                 "WHERE id = 1";
 
@@ -80,9 +83,9 @@ public class CustomizeDAO {
             SetParameterUtil.setParameter(preparedStatement, customizeBean.getWelcomeTitle(), customizeBean.getWelcomeDes(),
                     customizeBean.getProductTitle(), customizeBean.getProductDes(),
                     customizeBean.getPrTitle1(), customizeBean.getPrDes1(), customizeBean.getPrIcon1(), customizeBean.getPrContentTitle1(),
-                    customizeBean.getPrContentDes1(), customizeBean.getPrLink1(),
-                    customizeBean.getPrTitle2(), customizeBean.getPrDes2(), customizeBean.getPrContent2(), customizeBean.getPrLink2(),
-                    customizeBean.getBackground(), customizeBean.getFooterLeft(), customizeBean.getFooterMiddle(), customizeBean.getFacebookLink(),
+                    customizeBean.getPrContentDes1(), customizeBean.getPrLink1(), customizeBean.getPrLink1InStorage(),
+                    customizeBean.getPrTitle2(), customizeBean.getPrDes2(), customizeBean.getPrContent2(), customizeBean.getPrLink2(), customizeBean.getPrLink2InStorage(),
+                    customizeBean.getBackground(), customizeBean.getBackgroundInStorage(), customizeBean.getFooterLeft(), customizeBean.getFooterMiddle(), customizeBean.getFacebookLink(),
                     customizeBean.getTwitterLink(), customizeBean.getInstagramLink(), customizeBean.getLinkedinLink());
 
             afffectRows = preparedStatement.executeUpdate();
@@ -104,9 +107,9 @@ public class CustomizeDAO {
     public int createCustomize(CustomizeBean customizeBean) {
         int afffectRows = -1;
         String sql = "INSERT INTO customize_pages (welcomeTitle, welcomeDes, productTitle, productDes, " +
-                "prTitle1, prDes1, prIcon1, prContentTitle1, prContentDes1, prLink1, prTitle2, prDes2, prContent2, prLink2, " +
-                "background, footerLeft, footerMiddle, facebookLink, twitterLink, instagramLink, linkedinLink) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "prTitle1, prDes1, prIcon1, prContentTitle1, prContentDes1, prLink1, prLink1InStorage, prTitle2, prDes2, prContent2, prLink2, " +
+                "prLink2InStorage, background, backgroundInStorage, footerLeft, footerMiddle, facebookLink, twitterLink, instagramLink, linkedinLink) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 
         Connection connection = null;
@@ -120,8 +123,8 @@ public class CustomizeDAO {
             SetParameterUtil.setParameter(preparedStatement, customizeBean.getWelcomeTitle(), customizeBean.getWelcomeDes(),
                     customizeBean.getProductTitle(), customizeBean.getProductDes(),
                     customizeBean.getPrTitle1(), customizeBean.getPrContentTitle1(), customizeBean.getPrContentDes1(), customizeBean.getPrDes1(), customizeBean.getPrIcon1(), customizeBean.getPrLink1(),
-                    customizeBean.getPrTitle2(), customizeBean.getPrDes2(), customizeBean.getPrContent2(), customizeBean.getPrLink2(),
-                    customizeBean.getBackground(), customizeBean.getFooterLeft(), customizeBean.getFooterMiddle(), customizeBean.getFacebookLink(),
+                    customizeBean.getPrLink1InStorage(), customizeBean.getPrTitle2(), customizeBean.getPrDes2(), customizeBean.getPrContent2(), customizeBean.getPrLink2(), customizeBean.getPrLink2InStorage(),
+                    customizeBean.getBackground(), customizeBean.getBackgroundInStorage(), customizeBean.getFooterLeft(), customizeBean.getFooterMiddle(), customizeBean.getFacebookLink(),
                     customizeBean.getTwitterLink(), customizeBean.getInstagramLink(), customizeBean.getLinkedinLink());
 
             afffectRows = preparedStatement.executeUpdate();
