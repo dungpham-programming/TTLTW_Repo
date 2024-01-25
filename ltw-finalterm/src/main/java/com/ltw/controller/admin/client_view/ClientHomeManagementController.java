@@ -175,7 +175,7 @@ public class ClientHomeManagementController extends HttpServlet {
                 CloudStorageUtil.deleteCustomize(prLink2InStorage);
                 // Cập nhật ảnh mới
                 customizeBean.setPrLink2(linkImage2);
-                customizeBean.setPrLink1InStorage(prLink2.getSubmittedFileName());
+                customizeBean.setPrLink2InStorage(prLink2.getSubmittedFileName());
             } else {
                 customizeBean.setPrLink2(findOldImage2Link());
                 customizeBean.setPrLink2InStorage(prLink2InStorage);
@@ -215,7 +215,7 @@ public class ClientHomeManagementController extends HttpServlet {
             req.setAttribute("blankErrors", blankErrors);
             req.setAttribute("imageErrors", imageErrors);
             req.setAttribute("notEqualError", notEqualError);
-            req.setAttribute("customizeBean", customizeBean);
+            req.setAttribute("customizeBean", customizeDAO.getCustomizeInfo());
             req.getRequestDispatcher("/client-home-management.jsp").forward(req, resp);
         }
     }

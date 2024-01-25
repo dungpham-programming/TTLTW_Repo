@@ -258,6 +258,9 @@
                                    value="<%if (customizeBean != null && customizeBean.getLinkedinLink() != null) {%><%=customizeBean.getLinkedinLink()%><%}%>">
                         </div>
                     </div>
+                    <input type="hidden" name="prLink1InStorage" value="<%=customizeBean.getPrLink1InStorage()%>">
+                    <input type="hidden" name="prLink2InStorage" value="<%=customizeBean.getPrLink2InStorage()%>">
+                    <input type="hidden" name="backgroundInStorage" value="<%=customizeBean.getBackgroundInStorage()%>">
 
                     <input type="submit" value="Cập nhật thay đổi" class="adding button">
                     <input type="reset" value="Đặt lại biểu mẫu" class="adding button">
