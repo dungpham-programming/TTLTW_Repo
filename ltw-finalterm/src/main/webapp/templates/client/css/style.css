@@ -29,8 +29,13 @@ a {
     text-decoration: none;
 }
 
+a.text-cyan:hover {
+    color: #e3bd74;
+    text-decoration: none;
+}
+
 a:hover {
-    color: white;
+    color: #2f2f2f;
     text-decoration: none;
 }
 

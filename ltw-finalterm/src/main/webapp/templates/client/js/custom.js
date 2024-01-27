@@ -143,11 +143,11 @@ let maxWidth = 768;
 function checkScreen() {
     if (window.innerWidth <= maxWidth) {
         p_tag.textContent = "MXH";
-    } else {
+    }
+    else {
         p_tag.textContent = "Mạng xã hội";
     }
 }
-
 checkScreen();
 window.addEventListener("resize", checkScreen);
 
