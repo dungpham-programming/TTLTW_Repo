@@ -1,6 +1,7 @@
 package com.ltw.dao;
 
 import com.ltw.bean.ProductImageBean;
+
 import com.ltw.bean.ProductBean;
 import com.ltw.util.CloseResourceUtil;
 import com.ltw.util.OpenConnectionUtil;
@@ -433,7 +434,7 @@ public class ProductDAO {
     private String modifiedQueryByTypeId(double[] range, String sort) {
         StringBuilder sb = new StringBuilder();
         sb.append("SELECT id, name, categoryTypeId, originalPrice, discountPrice, discountPercent ")
-                .append("FROM products WHERE categoryTypeId = ? AND status = 1 ");
+           .append("FROM products WHERE categoryTypeId = ? AND status = 1 ");
 
         if (range != null) {
             sb.append(" AND (discountPrice BETWEEN ? AND ?) ");
