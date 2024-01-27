@@ -1,13 +1,7 @@
-package com.ltw.controller.client;
+package com.ltw.controller.client.shop;
 
-import com.ltw.bean.CategoryBean;
-import com.ltw.bean.CategoryTypeBean;
-import com.ltw.bean.ProductBean;
-import com.ltw.bean.ProductImageBean;
-import com.ltw.dao.CategoryDAO;
-import com.ltw.dao.CategoryTypeDAO;
-import com.ltw.dao.ImageDAO;
-import com.ltw.dao.ProductDAO;
+import com.ltw.bean.*;
+import com.ltw.dao.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,6 +15,7 @@ import java.util.Map;
 
 @WebServlet(value = {"/shop"})
 public class ShopController extends HttpServlet {
+    private final CustomizeDAO customizeDAO = new CustomizeDAO();
     private final CategoryDAO categoryDAO = new CategoryDAO();
     private final CategoryTypeDAO categoryTypeDAO = new CategoryTypeDAO();
     private final ProductDAO productDAO = new ProductDAO();
@@ -28,8 +23,12 @@ public class ShopController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // Lấy ra customize web
+        CustomizeBean customizeInfo = customizeDAO.getCustomizeInfo();
+        // Sử dụng cho navigation bên trái
         List<CategoryBean> categories = categoryDAO.findAllCategories();
         Map<Integer, List<CategoryTypeBean>> categoryTypeMap = new HashMap<>();
+        // Hiển thị nội dung ở giữa
         Map<Integer, List<ProductBean>> productMap = new HashMap<>();
         Map<Integer, ProductImageBean> imageMap = new HashMap<>();
 
@@ -37,20 +36,21 @@ public class ShopController extends HttpServlet {
         for (CategoryBean category : categories) {
             int categoryId = category.getId();
             List<ProductBean> products = productDAO.findThreeProductByCategoryId(categoryId);
-            productMap.put(categoryId, products);
             // Đưa ảnh tương ứng với productId vào map của ảnh
             for (ProductBean product : products) {
                 imageMap.put(product.getId(), imageDAO.findOneByProductId(product.getId()));
             }
+            productMap.put(categoryId, products);
         }
 
-        // Đưa phân loại sản phẩm tương ứng với categoryId vào map
+        // // Đưa phân loại sản phẩm tương ứng với categoryId vào map (navigation bên trái)
         for (CategoryBean category : categories) {
             int categoryId = category.getId();
             List<CategoryTypeBean> categoryTypes = categoryTypeDAO.findCategoryTypeByCategoryId(categoryId);
             categoryTypeMap.put(categoryId, categoryTypes);
         }
 
+        req.setAttribute("customizeInfo", customizeInfo);
         req.setAttribute("categories", categories);
         req.setAttribute("categoryTypeMap", categoryTypeMap);
         req.setAttribute("productMap", productMap);

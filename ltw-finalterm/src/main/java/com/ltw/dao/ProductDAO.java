@@ -227,9 +227,159 @@ public class ProductDAO {
         return products;
     }
 
-    public static void main(String[] args) {
-        ProductDAO productDAO = new ProductDAO();
-        System.out.println(productDAO.findThreeProductByCategoryId(1));
+    public List<ProductBean> findFourProductByTypeId(int categoryTypeId) {
+        List<ProductBean> products = new ArrayList<>();
+        String sql = "SELECT id, name, categoryTypeId, originalPrice, discountPrice, discountPercent " +
+                "FROM products WHERE categoryTypeId = ? AND status = 1 " +
+                "ORDER BY modifiedDate DESC "+
+                "LIMIT 4";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            SetParameterUtil.setParameter(preparedStatement, categoryTypeId);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                ProductBean productBean = new ProductBean();
+                productBean.setId(resultSet.getInt("id"));
+                productBean.setName(resultSet.getString("name"));
+                productBean.setCategoryTypeId(resultSet.getInt("categoryTypeId"));
+                productBean.setOriginalPrice(resultSet.getDouble("originalPrice"));
+                productBean.setDiscountPrice(resultSet.getDouble("discountPrice"));
+                productBean.setDiscountPercent(resultSet.getDouble("discountPercent"));
+
+                products.add(productBean);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return products;
+    }
+
+
+    // TODO: Chưa có offset và limit
+    public List<ProductBean> findProductByTypeId(String categoryTypeId) {
+        List<ProductBean> products = new ArrayList<>();
+        String sql = "SELECT id, name, categoryTypeId, originalPrice, discountPrice, discountPercent " +
+                "FROM products WHERE categoryTypeId = ? AND status = 1 " +
+                "ORDER BY name ASC";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            SetParameterUtil.setParameter(preparedStatement, categoryTypeId);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                ProductBean productBean = new ProductBean();
+                productBean.setId(resultSet.getInt("id"));
+                productBean.setName(resultSet.getString("name"));
+                productBean.setCategoryTypeId(resultSet.getInt("categoryTypeId"));
+                productBean.setOriginalPrice(resultSet.getDouble("originalPrice"));
+                productBean.setDiscountPrice(resultSet.getDouble("discountPrice"));
+                productBean.setDiscountPercent(resultSet.getDouble("discountPercent"));
+
+                products.add(productBean);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return products;
+    }
+
+    public List<ProductBean> findByTypeIdAndLimit(int categoryTypeId, double[] range, String sort, int start, int offset) {
+        List<ProductBean> products = new ArrayList<>();
+        String sql = modifiedQuery(range, sort);
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            // Set điều kiện để setParameter (sort đã xử lý riêng trong modifiedQuery)
+            if (range == null) {
+                SetParameterUtil.setParameter(preparedStatement, categoryTypeId, start, offset);
+            } else {
+                SetParameterUtil.setParameter(preparedStatement, categoryTypeId, range[0], range[1], start, offset);
+            }
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                ProductBean productBean = new ProductBean();
+                productBean.setId(resultSet.getInt("id"));
+                productBean.setName(resultSet.getString("name"));
+                productBean.setCategoryTypeId(resultSet.getInt("categoryTypeId"));
+                productBean.setOriginalPrice(resultSet.getDouble("originalPrice"));
+                productBean.setDiscountPrice(resultSet.getDouble("discountPrice"));
+                productBean.setDiscountPercent(resultSet.getDouble("discountPercent"));
+
+                products.add(productBean);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return products;
+    }
+
+    public int getTotalItems() {
+        String sql = "SELECT COUNT(id) AS tongsanpham FROM products";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getInt("tongsanpham");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return -1;
+    }
+
+    public String modifiedQuery(double[] range, String sort) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("SELECT id, name, categoryTypeId, originalPrice, discountPrice, discountPercent ")
+           .append("FROM products WHERE categoryTypeId = ? AND status = 1 ");
+
+        if (range != null) {
+            sb.append(" AND (discountPrice BETWEEN ? AND ?) ");
+        }
+
+        if (!sort.equals("none")) {
+            if (sort.equals("asc")) {
+                sb.append("ORDER BY discountPrice ASC ");
+            } else if (sort.equals("desc")) {
+                sb.append("ORDER BY discountPrice DESC ");
+            }
+        }
+        sb.append("LIMIT ?, ?");
+        return sb.toString();
     }
 }
 

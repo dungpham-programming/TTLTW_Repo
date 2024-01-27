@@ -1,6 +1,5 @@
 package com.ltw.dao;
 
-import com.ltw.bean.CategoryBean;
 import com.ltw.bean.CategoryTypeBean;
 import com.ltw.util.CloseResourceUtil;
 import com.ltw.util.OpenConnectionUtil;
@@ -43,5 +42,41 @@ public class CategoryTypeDAO {
             CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
         }
         return categoryTypes;
+    }
+
+    public CategoryTypeBean findTypeById(int id) {
+        CategoryTypeBean categoryTypeBean = new CategoryTypeBean();
+        String sql = "SELECT id, name, description, categoryId, idOnBrowser, status, createdDate, createdBy, modifiedDate, modifiedBy " +
+                "FROM category_types " +
+                "WHERE id = ? AND status = 1";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            SetParameterUtil.setParameter(preparedStatement, id);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                categoryTypeBean.setId(resultSet.getInt("id"));
+                categoryTypeBean.setName(resultSet.getString("name"));
+                categoryTypeBean.setDescription(resultSet.getString("description"));
+                categoryTypeBean.setCategoryId(resultSet.getInt("categoryId"));
+                categoryTypeBean.setIdOnBrowser(resultSet.getString("idOnBrowser"));
+                categoryTypeBean.setStatus(resultSet.getInt("status"));
+                categoryTypeBean.setCreatedDate(resultSet.getTimestamp("createdDate"));
+                categoryTypeBean.setCreatedBy(resultSet.getString("createdBy"));
+                categoryTypeBean.setModifiedDate(resultSet.getTimestamp("modifiedDate"));
+                categoryTypeBean.setModifiedBy(resultSet.getString("modifiedBy"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return categoryTypeBean;
     }
 }

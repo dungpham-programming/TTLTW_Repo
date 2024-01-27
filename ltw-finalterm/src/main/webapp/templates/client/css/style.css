@@ -2066,3 +2066,15 @@ a.check {
     font-weight: 700;
     color: green;
 }
+
+.more {
+    color: var(--primary-color-darkyellow);
+    background-color: var(--primary-color-darkred);
+    transition: color .15s ease-out;
+    padding: .75rem 1.5rem;
+    border-radius: 12px;
+}
+
+.more:hover {
+    color: white;
+}
