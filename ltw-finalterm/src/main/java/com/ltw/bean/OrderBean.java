@@ -7,6 +7,7 @@ public class OrderBean {
     private int id;
     private int userId;
     private double total;
+    private String paymentMethod;
     private int status;
     private Timestamp shipToDate;
     private Timestamp createdDate;
@@ -39,6 +40,14 @@ public class OrderBean {
 
     public void setTotal(double total) {
         this.total = total;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
     public int getStatus() {

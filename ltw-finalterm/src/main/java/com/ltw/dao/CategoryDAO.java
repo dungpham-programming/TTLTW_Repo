@@ -27,9 +27,9 @@ public class CategoryDAO {
 
                 result.add(categoryBean);
             }
-            return result;
         } catch (SQLException e) {
-            return null;
+            e.printStackTrace();
         }
+        return result;
     }
 }

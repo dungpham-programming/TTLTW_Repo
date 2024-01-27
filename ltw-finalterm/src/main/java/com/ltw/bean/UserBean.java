@@ -1,29 +1,29 @@
 package com.ltw.bean;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 
 public class UserBean {
     private int id;
-    private String userName;
+    private String email;
     private String password;
     private String firstName;
     private String lastName;
     private int roleId;
-    private String email;
+    private int status;
+    private String verifiedCode;
+    private String key;
     private String addressLine;
     private String addressWard;
     private String addressDistrict;
     private String addressProvince;
-    private String modifiedBy;
-    private String verifiedCode;
-    private int status;
     private Timestamp createdDate;
     private String createdBy;
     private Timestamp modifiedDate;
+    private String modifiedBy;
 
-    public  UserBean(){
-
+    public UserBean() {
     }
+
     public int getId() {
         return id;
     }
@@ -32,12 +32,12 @@ public class UserBean {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -72,12 +72,28 @@ public class UserBean {
         this.roleId = roleId;
     }
 
-    public String getEmail() {
-        return email;
+    public int getStatus() {
+        return status;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public String getVerifiedCode() {
+        return verifiedCode;
+    }
+
+    public void setVerifiedCode(String verifiedCode) {
+        this.verifiedCode = verifiedCode;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getAddressLine() {
@@ -112,30 +128,6 @@ public class UserBean {
         this.addressProvince = addressProvince;
     }
 
-    public String getModifiedBy() {
-        return modifiedBy;
-    }
-
-    public void setModifiedBy(String modifiedBy) {
-        this.modifiedBy = modifiedBy;
-    }
-
-    public String getVerifiedCode() {
-        return verifiedCode;
-    }
-
-    public void setVerifiedCode(String verifiedCode) {
-        this.verifiedCode = verifiedCode;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
     public Timestamp getCreatedDate() {
         return createdDate;
     }
@@ -158,5 +150,13 @@ public class UserBean {
 
     public void setModifiedDate(Timestamp modifiedDate) {
         this.modifiedDate = modifiedDate;
+    }
+
+    public String getModifiedBy() {
+        return modifiedBy;
+    }
+
+    public void setModifiedBy(String modifiedBy) {
+        this.modifiedBy = modifiedBy;
     }
 }
