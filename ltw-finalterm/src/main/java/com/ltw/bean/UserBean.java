@@ -95,7 +95,7 @@ public class UserBean {
     public void setKey(String key) {
         this.key = key;
     }
-  
+
     public String getAddressLine() {
         return addressLine;
     }
