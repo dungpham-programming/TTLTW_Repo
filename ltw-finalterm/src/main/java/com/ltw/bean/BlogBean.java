@@ -5,10 +5,12 @@ import java.sql.Timestamp;
 public class BlogBean {
     private int id;
     private String title;
+    private String author;
     private String description;
     private String content;
     private int categoryId;
     private int status;
+    private String profilePic;
     private Timestamp createdDate;
     private String cratedBy;
     private Timestamp modifiedDate;
@@ -31,6 +33,14 @@ public class BlogBean {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public String getDescription() {
@@ -95,5 +105,13 @@ public class BlogBean {
 
     public void setModifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
+    }
+
+    public String getProfilePic() {
+        return profilePic;
+    }
+
+    public void setProfilePic(String profilePic) {
+        this.profilePic = profilePic;
     }
 }

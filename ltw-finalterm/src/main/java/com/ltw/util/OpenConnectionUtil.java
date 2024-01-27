@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 public class OpenConnectionUtil {
     static ResourceBundle bundle = ResourceBundle.getBundle("db");
+
     public static Connection openConnection() {
         try {
             Class.forName(bundle.getString("driverName"));
