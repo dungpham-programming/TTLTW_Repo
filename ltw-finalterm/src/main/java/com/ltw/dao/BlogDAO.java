@@ -1,5 +1,4 @@
 package com.ltw.dao;
-import com.ltw.bean.BlogBean;
 import com.ltw.util.CloseResourceUtil;
 import com.ltw.util.OpenConnectionUtil;
 import com.ltw.util.SetParameterUtil;

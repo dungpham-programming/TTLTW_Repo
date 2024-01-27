@@ -1,6 +1,5 @@
 package com.ltw.controller.client;
 
-import com.ltw.bean.BlogBean;
 import com.ltw.dao.BlogDAO;
 
 import javax.servlet.ServletException;
