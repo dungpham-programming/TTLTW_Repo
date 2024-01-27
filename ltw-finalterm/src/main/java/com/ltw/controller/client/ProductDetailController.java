@@ -1,6 +1,6 @@
 package com.ltw.controller.client;
 
-import com.ltw.bean.ImageBean;
+import com.ltw.bean.ProductImageBean;
 import com.ltw.bean.ProductBean;
 import com.ltw.dao.ProductDAO;
 
@@ -20,11 +20,11 @@ public class ProductDetailController extends HttpServlet {
         int productId = Integer.parseInt(req.getParameter("id"));
 
         ProductBean productDetailBean = productDetailDAO.findProductById(productId);
-        List<ImageBean> imageBeans = productDetailDAO.findImagesByProductId(productId);
+        List<ProductImageBean> productImageBeans = productDetailDAO.findImagesByProductId(productId);
 
         req.setAttribute("productDetails", productDetailBean);
-        req.setAttribute("imageList", imageBeans);
+        req.setAttribute("imageList", productImageBeans);
 
-        req.getRequestDispatcher("product-detail.jsp").forward(req, resp);
+        req.getRequestDispatcher("/product-detail.jsp").forward(req, resp);
     }
 }

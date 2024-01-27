@@ -2,7 +2,6 @@
 <%@ page import="com.ltw.bean.ProductBean" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,10 +15,10 @@
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/sharp-light.css">
 
     <!-- Bootstrap CSS -->
-    <link href="<c:url value="/templates/client/css/bootstrap.min.css" /> "rel="stylesheet">
+    <link href="<c:url value="/templates/client/css/bootstrap.min.css"/>" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
-    <link href="<c:url value="/templates/client/css/tiny-slider.css" />"rel="stylesheet">
-    <link href="<c:url value="/templates/client/css/style.css" />"rel="stylesheet">
+    <link href="<c:url value="/templates/client/css/tiny-slider.css"/>" rel="stylesheet">
+    <link href="<c:url value="/templates/client/css/style.css"/>" rel="stylesheet">
 
     <title>DDD. - Nghệ thuật mỹ nghệ</title>
 </head>

@@ -2,17 +2,19 @@ package com.ltw.bean;
 
 import java.sql.Timestamp;
 
-public class ImageBean {
+public class ProductImageBean {
     private int id;
     private String name;
+    private String nameInStorage;
     private String link;
-    private int productID;
+    private int productId;
     private Timestamp createdDate;
-    private String cratedBy;
+    private String createdBy;
     private Timestamp modifiedDate;
     private String modifiedBy;
 
-
+    public ProductImageBean() {
+    }
 
     public int getId() {
         return id;
@@ -30,6 +32,14 @@ public class ImageBean {
         this.name = name;
     }
 
+    public String getNameInStorage() {
+        return nameInStorage;
+    }
+
+    public void setNameInStorage(String nameInStorage) {
+        this.nameInStorage = nameInStorage;
+    }
+
     public String getLink() {
         return link;
     }
@@ -38,12 +48,12 @@ public class ImageBean {
         this.link = link;
     }
 
-    public int getProductID() {
-        return productID;
+    public int getProductId() {
+        return productId;
     }
 
-    public void setProductID(int productID) {
-        this.productID = productID;
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
     public Timestamp getCreatedDate() {
@@ -54,12 +64,12 @@ public class ImageBean {
         this.createdDate = createdDate;
     }
 
-    public String getCratedBy() {
-        return cratedBy;
+    public String getCreatedBy() {
+        return createdBy;
     }
 
-    public void setCratedBy(String cratedBy) {
-        this.cratedBy = cratedBy;
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
     }
 
     public Timestamp getModifiedDate() {
