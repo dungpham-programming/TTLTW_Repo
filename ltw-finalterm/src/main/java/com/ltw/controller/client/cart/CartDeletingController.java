@@ -2,6 +2,7 @@ package com.ltw.controller.client.cart;
 
 import com.ltw.bean.Cart;
 import com.ltw.bean.Item;
+import com.ltw.dao.CustomizeDAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,6 +14,8 @@ import java.util.List;
 
 @WebServlet(value = {"/cart-deleting"})
 public class CartDeletingController extends HttpServlet {
+    private final CustomizeDAO customizeDAO = new CustomizeDAO();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int productId = Integer.parseInt(req.getParameter("productId"));

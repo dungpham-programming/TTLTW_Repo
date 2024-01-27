@@ -75,12 +75,35 @@ public class Cart {
         this.items = items;
     }
 
+    public void setTotalItem(int totalItem) {
+        this.totalItem = totalItem;
+    }
+
+    public double getOriginalPriceTotal() {
+        return originalPriceTotal;
+    }
+
+    public void setOriginalPriceTotal(double originalPriceTotal) {
+        this.originalPriceTotal = originalPriceTotal;
+    }
+
+    public double getDiscountPriceTotal() {
+        return discountPriceTotal;
+    }
+
+    public void setDiscountPriceTotal(double discountPriceTotal) {
+        this.discountPriceTotal = discountPriceTotal;
+    }
+
     public int getTotalItem() {
         this.totalItem = items.size();
         return totalItem;
     }
 
     private void setTotalPurcharseAndDiscount() {
+        // Trả về 0 trước mỗi lần set
+        this.originalPriceTotal = 0;
+        this.discountPriceTotal = 0;
         // Set tổng vào cart
         for (Item i : items) {
             this.originalPriceTotal += i.getProduct().getOriginalPrice() * i.getQuantity();

@@ -151,9 +151,8 @@
 
                         <div class="row">
                             <div class="col-md-12">
-                                <button class="cart-btn"
-                                        onclick="window.location='checkout.html'">Đi đến kiểm tra
-                                </button>
+                                <a href="<c:url value="/checkout"/>" class="cart-btn">Đi đến kiểm tra
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -163,7 +162,7 @@
     </div>
 </div>
 
-<%--<jsp:include page="/common/client/footer.jsp"/>--%>
+<jsp:include page="/common/client/footer.jsp"/>
 
 <script src="<c:url value="/templates/client/js/bootstrap.bundle.min.js"/>"></script>
 <script src="<c:url value="/templates/client/js/tiny-slider.js"/>"></script>

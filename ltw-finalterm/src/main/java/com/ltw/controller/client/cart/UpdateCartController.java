@@ -1,7 +1,9 @@
 package com.ltw.controller.client.cart;
 
 import com.ltw.bean.Cart;
+import com.ltw.bean.CustomizeBean;
 import com.ltw.bean.Item;
+import com.ltw.dao.CustomizeDAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,8 +15,11 @@ import java.util.List;
 
 @WebServlet(value = {"/cart-updating"})
 public class UpdateCartController extends HttpServlet {
+    private final CustomizeDAO customizeDAO = new CustomizeDAO();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        CustomizeBean customizeInfo = customizeDAO.getCustomizeInfo();
         Cart cart = (Cart) req.getSession().getAttribute("cart");
         List<Item> items = cart.getItems();
 
@@ -31,6 +36,7 @@ public class UpdateCartController extends HttpServlet {
                 }
             }
         }
+        req.setAttribute("customizeInfo", customizeInfo);
         req.getRequestDispatcher("/cart.jsp").forward(req, resp);
     }
 }
