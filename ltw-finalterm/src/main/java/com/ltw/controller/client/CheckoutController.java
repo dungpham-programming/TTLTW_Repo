@@ -65,6 +65,7 @@ public class CheckoutController extends HttpServlet {
         if (isValid) {
             // Lưu thông tin của người dùng đã nhập
             UserBean userBean = new UserBean();
+            userBean.setId(user.getId());
             userBean.setFirstName(firstName.trim());
             userBean.setLastName(lastName.trim());
             userBean.setAddressLine(addressLine.trim());
@@ -91,7 +92,9 @@ public class CheckoutController extends HttpServlet {
             int orderId = orderDAO.createOrder(orderBean);
             if (orderId == -1) {
                 req.setAttribute("insertError", "ie");
-                req.getRequestDispatcher("/checkout").forward(req, resp);
+                CustomizeBean customizeInfo = customizeDAO.getCustomizeInfo();
+                req.setAttribute("customizeInfo", customizeInfo);
+                req.getRequestDispatcher("/checkout.jsp").forward(req, resp);
             } else {
                 for (Item item : cart.getItems()) {
                     OrderDetailBean orderDetailBean = new OrderDetailBean();

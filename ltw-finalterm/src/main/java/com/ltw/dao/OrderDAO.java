@@ -1,6 +1,7 @@
 package com.ltw.dao;
 
 import com.ltw.bean.OrderBean;
+import com.ltw.bean.OrderDetailBean;
 import com.ltw.util.CloseResourceUtil;
 import com.ltw.util.OpenConnectionUtil;
 import com.ltw.util.SetParameterUtil;
@@ -15,7 +16,7 @@ public class OrderDAO {
     public List<OrderDetailBean> findOrderDetailByOrderId(int orderId) {
         List<OrderDetailBean> result = new ArrayList<>();
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT order_details.productId, products.name, products.originalPrice, products.discountPrice, order_details.quantity ")
+        sql.append("SELECT order_details.orderId, order_details.productId, products.name, products.originalPrice, products.discountPrice, order_details.quantity ")
                 .append("FROM order_details ")
                 .append("INNER JOIN products ON order_details.productId = products.id ")
                 .append("WHERE order_details.orderId = ?");
@@ -25,11 +26,13 @@ public class OrderDAO {
 
         try {
             connection = OpenConnectionUtil.openConnection();
-            preparedStatement.setInt(1, orderId);
-            resultSet = preparedStatement.executeQuery();
             preparedStatement = connection.prepareStatement(sql.toString());
+            SetParameterUtil.setParameter(preparedStatement, orderId);
+            resultSet = preparedStatement.executeQuery();
+
             while (resultSet.next()) {
                 OrderDetailBean orderDetail = new OrderDetailBean();
+                orderDetail.setOrderId(resultSet.getInt("orderId"));
                 orderDetail.setProductId(resultSet.getInt("productId"));
                 orderDetail.setProductName(resultSet.getString("name"));
                 orderDetail.setOriginalPrice(resultSet.getDouble("originalPrice"));
@@ -62,6 +65,7 @@ public class OrderDAO {
         try {
             connection = OpenConnectionUtil.openConnection();
             preparedStatement = connection.prepareStatement(sql.toString());
+            SetParameterUtil.setParameter(preparedStatement, userId);
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
@@ -85,7 +89,6 @@ public class OrderDAO {
     public List<OrderBean> findAllOrders() {
         String sql = "SELECT id, userId, total, paymentMethod, status, shipToDate, createdDate, createdBy, modifiedDate, modifiedBy " +
                 "FROM orders";
-
 
         List<OrderBean> orderList = new ArrayList<>();
 
@@ -192,6 +195,7 @@ public class OrderDAO {
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
 
         try {
             connection = OpenConnectionUtil.openConnection();
@@ -200,7 +204,17 @@ public class OrderDAO {
             SetParameterUtil.setParameter(preparedStatement, orderBean.getUserId(), orderBean.getCreatedDate(), orderBean.getShipToDate(),
                                                             orderBean.getTotal(), orderBean.getPaymentMethod(), orderBean.getCreatedBy(),
                                                             orderBean.getModifiedDate(), orderBean.getModifiedBy());
-            id = preparedStatement.executeUpdate();
+            int affectedRows = preparedStatement.executeUpdate();
+
+            if (affectedRows > 0) {
+                // Retrieve the generated keys
+                resultSet = preparedStatement.getGeneratedKeys();
+
+                if (resultSet.next()) {
+                    // Get the generated ID
+                    id = resultSet.getInt(1);
+                }
+            }
             connection.commit();
         } catch (SQLException e) {
             try {
@@ -212,5 +226,33 @@ public class OrderDAO {
             CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
         }
         return id;
+    }
+
+    public int cancelOrder(String orderId) {
+        int affected = -1;
+        String sql = "UPDATE orders " +
+                "SET status = 0 " +
+                "WHERE id = ? AND status NOT IN (0, 3, 4)";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            connection.setAutoCommit(false);
+            preparedStatement = connection.prepareStatement(sql);
+            SetParameterUtil.setParameter(preparedStatement, orderId);
+            affected = preparedStatement.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        } finally {
+            CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
+        }
+        return affected;
     }
 }

@@ -244,7 +244,7 @@ public class UserDAO {
     public void updateAccount(UserBean user) {
         StringBuilder sql = new StringBuilder();
         sql.append("UPDATE users ")
-                .append("SET firstName = ?, lastName = ?, email = ?, addressLine = ?, ")
+                .append("SET firstName = ?, lastName = ?, addressLine = ?, ")
                 .append("addressWard = ?, addressDistrict = ?, addressProvince = ? ")
                 .append("WHERE id = ?");
 
@@ -255,7 +255,7 @@ public class UserDAO {
             connection = OpenConnectionUtil.openConnection();
             connection.setAutoCommit(false);
             preparedStatement = connection.prepareStatement(sql.toString());
-            SetParameterUtil.setParameter(preparedStatement, user.getFirstName(), user.getLastName(), user.getEmail(),
+            SetParameterUtil.setParameter(preparedStatement, user.getFirstName(), user.getLastName(),
                                             user.getAddressLine(), user.getAddressWard(), user.getAddressDistrict(),
                                             user.getAddressProvince(), user.getId());
             preparedStatement.executeUpdate();

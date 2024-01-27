@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/sharp-light.css">
 
     <!-- Bootstrap CSS -->
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="<c:url value="templates/client/css/bootstrap.min.css"/>" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
     <link href="<c:url value="/templates/client/css/tiny-slider.css"/>" rel="stylesheet">
     <link href="<c:url value="/templates/client/css/style.css"/>" rel="stylesheet">
@@ -25,44 +25,7 @@
 </head>
 
 <body>
-
-<!-- Start Header/Navigation -->
-<nav id="navigation" class="custom-navbar navbar navbar-fixed navbar-expand-md navbar-dark bg-dark" aria-label="DDD Navigation Bar">
-
-    <div class="container" id="container-nav">
-        <a class="navbar-brand" href="index.html">DDD<span>.</span></a>
-
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni" aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarsFurni">
-            <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-                <li class="nav-item active">
-                    <a class="nav-link" href="index.html">Trang chủ</a>
-                </li>
-                <li><a class="nav-link" href="shop.html">Sản phẩm</a></li>
-                <li><a class="nav-link" href="blog.html">Tin tức</a></li>
-                <li><a class="nav-link" href="contact.html">Liên hệ</a></li>
-                <li><a class="nav-link" href="about.html">Về chúng tôi</a></li>
-            </ul>
-
-            <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-                <li class="hv-li"><a class="nav-link yellow" href="#"><i class="fa-regular fa-user"></i></a>
-                    <ul class="ul-drop-menu">
-                        <li class="drop-menu hello-user">Xin chào, User!</li>
-                        <li class="drop-menu hv-gray"><a href="update_user_info.html" class="">Thông tin tài khoản</a></li>
-                        <li class="drop-menu hv-gray"><a href="order-history.html" class="">Lịch sử đơn hàng</a></li>
-                        <li class="drop-menu hv-gray"><a href="#">Đăng xuất</a></li>
-                    </ul>
-                </li>
-                <li class="hv-li"><a class="nav-link yellow" href="cart.html"><i class="fa-light fa-cart-shopping"></i></a></li>
-            </ul>
-        </div>
-    </div>
-
-</nav>
-<!-- End Header/Navigation -->
+<jsp:include page="/common/client/header.jsp"/>
 
 <!-- Start Hero Section -->
 <div class="hero home position-relative-top-84px">
@@ -80,6 +43,12 @@
 
 <!-- Start Renew Password -->
 <div class="renew-password position-relative-top-84px">
+    <%
+        String error = request.getParameter("error");
+        if (error != null) {
+    %>
+    <div class="alert alert-danger">Lỗi hệ thống</div>
+    <%}%>
     <div class="container">
         <div class="table-responsive">
             <table id="orderHistory">
@@ -96,43 +65,34 @@
                 </tr>
                 </thead>
                 <%
-                    List<OrderBean> listOrder = (List<OrderBean>) request.getAttribute("listOrder");
+                    List<OrderBean> listOrder = (List<OrderBean>) request.getAttribute("orderList");
                     for (OrderBean order : listOrder){
                         String idStr = String.valueOf(order.getUserId());
                 %>
                 <tbody>
                 <tr>
-                    <td><%=order.getId()%>></td>
-                    <td><%=order.getCreatedDate()%>></td>
-                    <td><%=order.getShipToDate()%>></td>
-                    <td><%=order.getTotal()%>></td>
+                    <td><%=order.getId()%></td>
+                    <td><fmt:formatDate value="<%= order.getCreatedDate() %>" pattern="dd/MM/yyyy" /></td>
+                    <td><fmt:formatDate value="<%= order.getShipToDate() %>" pattern="dd/MM/yyyy" /></td>
+                    <td><fmt:formatNumber value="<%=order.getTotal()%>" pattern="#,##0.##"/></td>
                     <% if (order.getStatus() == 1) { %>
-                    <td>Còn hàng</td>
+                    <td>Chờ xác nhận</td>
                     <% } else if (order.getStatus() == 2) { %>
-                    <td>Vô hiệu hóa</td>
+                    <td>Đã xác nhận</td>
+                    <% } else if (order.getStatus() == 3) { %>
+                    <td>Đang vận chuyển</td>
+                    <% } else if (order.getStatus() == 4) { %>
+                    <td>Thành công</td>
                     <% } else if (order.getStatus() == 0) { %>
-                    <td>Hết hàng</td>
+                    <td>Đã hủy</td>
                     <% } %>
                     <td>
-                        <a href="orderdetail-history.html" data-bs-toggle="tooltip" title="Chi tiết đơn hàng"
+                        <a href="<c:url value="/order-detail-history"><c:param name="orderId" value="<%=String.valueOf(order.getId())%>"/></c:url>" data-bs-toggle="tooltip" title="Chi tiết đơn hàng"
                            class="edit"><i class="fa-solid fa-info fa-xl" style="color: #e3bd74;"></i></a>
-                        <a href="#" data-bs-toggle="tooltip" title="Hủy đơn hàng" class="delete"><i
-                                class="fa-solid fa-trash" style="color: #e3bd74;"></i></a>
-                    </td>
-                </tr>
-                </tbody>
-
-                <tbody>
-                <tr>
-                    <td>10002</td>
-                    <td>17/11/2023</td>
-                    <td>23/11/2023</td>
-                    <td>750000</td>
-                    <td>Chờ xác nhận</td>
-                    <td>
-                        <a href="orderdetail-history.html" data-bs-toggle="tooltip" title="Chi tiết đơn hàng"
-                           class="edit"><i class="fa-solid fa-info fa-xl" style="color: #e3bd74;"></i></a>
-                        <a href="#" data-bs-toggle="tooltip" title="Hủy đơn hàng" class="delete"><i
+                        <a href="<c:url value="/order-history">
+                                    <c:param name="action" value="cancel"/>
+                                    <c:param name="orderId" value="<%=String.valueOf(order.getId())%>"/>
+                                 </c:url>" data-bs-toggle="tooltip" title="Hủy đơn hàng" class="delete"><i
                                 class="fa-solid fa-trash" style="color: #e3bd74;"></i></a>
                     </td>
                 </tr>
@@ -141,68 +101,13 @@
             </table>
         </div>
         <div class="return-btn">
-            <a href="index.html" class="checking-order-detail">Quay về trang chủ</a>
+            <a href="<c:url value="/home"/>" class="checking-order-detail">Quay về trang chủ</a>
         </div>
     </div>
 </div>
 <!-- End Renew Password -->
 
-<!-- Start Footer Section -->
-<footer class="footer-section position-relative-top-84px">
-    <div class="container relative">
-        <div class="row g-5 mb-5">
-            <div class="col-4">
-                <div class="mb-4"><p href="#" class="footer-head">DDD<span>.</span></p></div>
-                <p class="mb-4 light-text footer-content">Với chúng tôi, mỗi một sản phẩm mỹ nghệ đều là một kiệt tác, là một tác phẩm nghệ thuật. Cảm ơn bạn đã ghé thăm DDD. - Nghệ thuật mỹ nghệ. Mua sắm với chúng tôi trong mục sản phẩm, hoặc bấm vào nút Khám phá trên trang chủ.</p>
-            </div>
-
-            <div class="col-4 center-text">
-                <div class="mb-4"><p id="mxh-changing" class="footer-head">Mạng xã hội</p></div>
-                <p class="mb-4 light-text footer-content">Đừng quên theo dõi chúng tôi qua các kênh mạng xã hội sau để không bỏ lỡ nhưng thông tin mới nhất của DDD. - Nghệ thuật mỹ nghệ</p>
-                <ul class="list-unstyled custom-social">
-                    <li><a href="#"><span class="fa fa-brands fa-facebook-f footer-content"></span></a></li>
-                    <li><a href="#"><span class="fa fa-brands fa-twitter footer-content"></span></a></li>
-                    <li><a href="#"><span class="fa fa-brands fa-instagram footer-content"></span></a></li>
-                    <li><a href="#"><span class="fa fa-brands fa-linkedin footer-content"></span></a></li>
-                </ul>
-            </div>
-
-            <div class="col-4">
-                <div class="row links-wrap">
-                    <div class="right-text">
-                        <div class="mb-4"><p class="footer-head">Nội dung</p></div>
-                        <ul class="list-unstyled ">
-                            <li><a class="light-text footer-content" href="#">Sản phẩm</a></li>
-                            <li><a class="light-text footer-content" href="#">Tin tức</a></li>
-                            <li><a class="light-text footer-content" href="#">Liên hệ</a></li>
-                            <li><a class="light-text footer-content" href="#">Về chúng tôi</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="border-top copyright">
-            <div class="row pt-4">
-                <div class="col-lg-6">
-                    <p class="mb-2 text-center text-lg-start light-text footer-content">Copyright &copy;<script>document.write(new Date().getFullYear());</script>. All Rights Reserved.</p>
-                    <!-- License information: https://untree.co/license/ -->
-                </div>
-
-                <div class="col-lg-6 text-center text-lg-end light-text">
-                    <ul class="list-unstyled d-inline-flex ms-auto">
-                        <li class="me-4 footer-content"><a  href="#">Terms &amp; Conditions</a></li>
-                        <li><a href="#" class="footer-content">Privacy Policy</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</footer>
-<!-- End Footer Section -->
-
-<button id="scroll-to-top"><i class="fa-solid fa-chevron-up" style="color: #e3bd74;"></i></button>
+<jsp:include page="/common/client/footer.jsp"/>
 
 <script src="<c:url value="/templates/client/js/bootstrap.bundle.min.js"/>"></script>
 <script src="<c:url value="/templates/client/js/tiny-slider.js"/>"></script>

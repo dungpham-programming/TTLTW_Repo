@@ -111,12 +111,11 @@ public class BlogDAO {
 
                 result.add(blogBean);
             }
-            return result;
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
         } finally {
             CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
         }
+        return result;
     }
 }

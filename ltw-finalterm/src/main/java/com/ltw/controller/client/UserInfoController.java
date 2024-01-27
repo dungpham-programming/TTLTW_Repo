@@ -1,6 +1,8 @@
 package com.ltw.controller.client;
 
+import com.ltw.bean.CustomizeBean;
 import com.ltw.bean.UserBean;
+import com.ltw.dao.CustomizeDAO;
 import com.ltw.dao.UserDAO;
 import com.ltw.util.BlankInputUtil;
 
@@ -13,10 +15,14 @@ import java.io.IOException;
 
 @WebServlet(value = {"/user-info"})
 public class UserInfoController extends HttpServlet {
+    private final CustomizeDAO customizeDAO = new CustomizeDAO();
     private final UserDAO userDAO = new UserDAO();
     private int id;
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        CustomizeBean customizeInfo = customizeDAO.getCustomizeInfo();
+        req.setAttribute("customizeInfo", customizeInfo);
+
         String action = req.getParameter("action");
         if (action != null) {
             if (action.equals("view")) {
@@ -38,7 +44,6 @@ public class UserInfoController extends HttpServlet {
                 // Nhận vào các dữ liệu từ JSP
                 String firstName = req.getParameter("firstName");
                 String lastName = req.getParameter("lastName");
-                String email = req.getParameter("email");
                 String addressLine = req.getParameter("addressLine");
                 String addressWard = req.getParameter("addressWard");
                 String addressDistrict = req.getParameter("addressDistrict");
@@ -49,7 +54,6 @@ public class UserInfoController extends HttpServlet {
                 String error = "";
                 String fnError = null;
                 String lnError = null;
-                String emailError = null;
                 String alError = null;
                 String awError = null;
                 String adError = null;
@@ -74,11 +78,6 @@ public class UserInfoController extends HttpServlet {
                     error = "error";
                     lnError = "e";
                     req.setAttribute("lnErr", lnError);
-                }
-                if (BlankInputUtil.isBlank(email)) {
-                    error = "error";
-                    emailError = "e";
-                    req.setAttribute("emailErr", emailError);
                 }
                 if (BlankInputUtil.isBlank(addressLine)) {
                     error = "error";
@@ -106,7 +105,6 @@ public class UserInfoController extends HttpServlet {
                     // Set thuộc tính vào bean
                     userBean.setFirstName(firstName);
                     userBean.setLastName(lastName);
-                    userBean.setEmail(originalEmail);
                     userBean.setAddressLine(addressLine);
                     userBean.setAddressWard(addressWard);
                     userBean.setAddressDistrict(addressDistrict);

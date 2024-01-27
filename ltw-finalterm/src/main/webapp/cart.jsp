@@ -137,7 +137,7 @@
                                 <span class="text-black">Tổng giá gốc</span>
                             </div>
                             <div class="col-md-6 text-right">
-                                <del class="text-black original-total">7.000.000đ</del>
+                                <del class="text-black original-total"><f:formatNumber value="<%=cart.getOriginalPriceTotal()%>" pattern="#,##0.##"/>đ</del>
                             </div>
                         </div>
                         <div class="row mb-5">
@@ -145,7 +145,7 @@
                                 <span class="text-black">Tổng giá sau giảm</span>
                             </div>
                             <div class="col-md-6 text-right">
-                                <strong class="text-black discount-total">5.000.000đ</strong>
+                                <strong class="text-black discount-total"><f:formatNumber value="<%=cart.getDiscountPriceTotal()%>" pattern="#,##0.##"/>đ</strong>
                             </div>
                         </div>
 

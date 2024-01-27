@@ -13,7 +13,7 @@ import java.io.IOException;
 
 @WebServlet(value = {"/contact"})
 public class ContactController extends HttpServlet {
-    private final ContactDAO contactDAO =new ContactDAO();
+    private final ContactDAO contactDAO = new ContactDAO();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("contact.jsp").forward(req, resp);

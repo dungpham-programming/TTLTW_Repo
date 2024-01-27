@@ -5,6 +5,7 @@
 <%@ page import="com.ltw.bean.Content1Bean" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!doctype html>
 <html lang="en">
@@ -40,7 +41,7 @@
                     <h1>Nghệ thuật từ mỹ nghệ</h1>
                     <p class="mb-4 darkred_alpha">Mỗi một sản phẩm mỹ nghệ là một kiệt tác. Thưởng thức tinh túy của
                         nghệ thuật thông qua các sản phẩm mỹ nghệ tuyệt vời của chúng tôi.</p>
-                    <p><a href="shop.html" class="btn-main btn-secondary me-2">Khám phá ngay</a>
+                    <p><a href="<c:url value="/shop"/>" class="btn-main btn-secondary me-2">Khám phá ngay</a>
                     </p>
                 </div>
             </div>
@@ -59,7 +60,7 @@
                 <h2 class="mb-4 section-title">Sản phẩm mỹ nghệ với chất lượng tuyệt vời.</h2>
                 <p class="mb-4 darkred_alpha">Khám phá, lựa chọn và trải nghiệm sản phẩm mỹ nghệ với chất lượng hàng
                     đầu. Thưởng thức theo cách của bạn</p>
-                <p><a href="shop.html" class="btn-main">Khám phá ngay</a></p>
+                <p><a href="<c:url value="/shop"/>" class="btn-main">Khám phá ngay</a></p>
             </div>
             <!-- End Column 1 -->
 
@@ -69,7 +70,9 @@
                 for (CategoryBean category : listCategories) {
             %>
             <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-                <a class="product-item center-text" href="wood.html">
+                <a class="product-item center-text" href="<c:url value="/shop-detail-by-category">
+                                                              <c:param name="categoryId" value="<%=String.valueOf(category.getId())%>"/>
+                                                          </c:url>">
                     <img src="../images/wooden/binh_go_cam_2_1.jpg"
                          class="img-fluid product-thumbnail fix-size-thumbnail">
                     <h3 class="center-text">Các sản phẩm làm từ</h3>
@@ -169,7 +172,7 @@
                 <h2 class="section-title">Tin tức</h2>
             </div>
             <div class="col-md-6 text-start text-md-end">
-                <a href="blog.html" class="more">Xem tất cả bài viết</a>
+                <a href="<c:url value="/blog"/>" class="more">Xem tất cả bài viết</a>
             </div>
         </div>
 
@@ -180,13 +183,17 @@
             %>
             <div class="col-12 col-sm-6 col-md-4 mb-4 mb-md-0">
                 <div class="post-entry">
-                    <a href="blog-content.html" class="post-thumbnail"><img src="../images/blog/post-1.jpg" alt="Image"
+                    <a href="<c:url value="/blog-detail">
+                                <c:param name="id" value="<%=String.valueOf(blog.getId())%>"/>
+                             </c:url>" class="post-thumbnail"><img src="../images/blog/post-1.jpg" alt="Image"
                                                                             class="img-fluid"></a>
                     <div class="post-content-entry">
-                        <h3><a href="blog-content.html"><%= blog.getTitle() %>
+                        <h3><a href="<c:url value="/blog-detail">
+                                        <c:param name="id" value="<%=String.valueOf(blog.getId())%>"/>
+                                     </c:url>"><%= blog.getTitle() %>
                         </a></h3>
                         <div class="meta">
-                            <span>by <a href="#">Kristin Watson</a></span> <span>on <a href="#">Dec 19, 2021</a></span>
+                            <span>by <a href="#"><%=blog.getAuthor()%></a></span><span> on <a href="#"><fmt:formatDate value="<%= blog.getCreatedDate() %>" pattern="dd/MM/yyyy" /></a></span>
                         </div>
                     </div>
                 </div>

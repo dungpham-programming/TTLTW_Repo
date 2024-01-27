@@ -1,6 +1,8 @@
 package com.ltw.controller.client;
 
+import com.ltw.bean.CustomizeBean;
 import com.ltw.bean.OrderDetailBean;
+import com.ltw.dao.CustomizeDAO;
 import com.ltw.dao.OrderDAO;
 
 import javax.servlet.RequestDispatcher;
@@ -15,9 +17,12 @@ import java.util.List;
 @WebServlet(value = {"/order-detail-history"})
 
 public class OrderDetailHistoryController extends HttpServlet {
-   private final OrderDAO orderDAO = new OrderDAO();
+    private final CustomizeDAO customizeDAO = new CustomizeDAO();
+    private final OrderDAO orderDAO = new OrderDAO();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        CustomizeBean customizeInfo = customizeDAO.getCustomizeInfo();
+        request.setAttribute("customizeInfo", customizeInfo);
         // Lấy orderId từ URL
         int orderId = Integer.parseInt(request.getParameter("orderId"));
 

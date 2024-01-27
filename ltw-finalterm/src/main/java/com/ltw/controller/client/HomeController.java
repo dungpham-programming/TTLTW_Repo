@@ -51,7 +51,7 @@ public class HomeController extends HttpServlet {
         req.setAttribute("prIcon1List", prIcon1List);
         req.setAttribute("prContent2List", prContent2List);
 
-        req.getRequestDispatcher("client-home.jsp").forward(req, resp);
+        req.getRequestDispatcher("/client-home.jsp").forward(req, resp);
     }
 
     // Hàm lấy ra danh sách văn bản phân cách bằng dấu "~" (Content)

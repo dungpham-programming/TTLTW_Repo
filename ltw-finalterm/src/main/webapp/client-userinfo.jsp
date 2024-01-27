@@ -65,7 +65,7 @@
                     // Lấy ra email gốc khi cập nhật info vào blank
                     String originalEmail = userInfo.getEmail();
                 %>
-                <form action="<c:url value="/userinfo?action=update"/>" method="post" id="updateInfoForm" accept-charset="UTF-8">
+                <form action="<c:url value="/user-info?action=update"/>" method="post" id="updateInfoForm" accept-charset="UTF-8">
                     <% if (notify != null && notify.equals("success")) { %>
                     <div><p class="success">Cập nhật tài khoản thành công!</p></div>
                     <% } %>
@@ -74,7 +74,7 @@
 
                     <div class="firsttname">
                         <label for="newFirsttname">Họ </label>
-                        <input type="text" name="firstName" id="newFirsttname" value="<%%><%=userInfo.getFirstName()%><%  %>">
+                        <input type="text" name="firstName" id="newFirsttname" value="<%=(userInfo.getFirstName() == null) ? "" : userInfo.getFirstName()%>">
                     </div>
                     <% if (firstNameErr != null && firstNameErr.equals("e")) { %>
                     <div><p class="error">Không được để trống!</p></div>
@@ -83,7 +83,7 @@
                     <!--                    cập nhật lastname-->
                     <div class="lastname">
                         <label for="newLastname">Tên </label>
-                        <input type="text" name="lastName" id="newLastname" value="<%%><%=userInfo.getLastName()%><%  %>">
+                        <input type="text" name="lastName" id="newLastname" value="<%=(userInfo.getLastName() == null) ? "" : userInfo.getLastName()%>">
                     </div>
                     <% if (lastNameErr != null && lastNameErr.equals("e")) { %>
                     <div><p class="error">Không được để trống!</p></div>
@@ -98,7 +98,7 @@
                     <!--                    Cập nhật AddressLine-->
                     <div class="addressLine">
                         <label for="newAddressLine">Đường/Số nhà </label>
-                        <input type="text" name="addressLine" id="newAddressLine" value="<%%><%=userInfo.getAddressLine()%><%  %>">
+                        <input type="text" name="addressLine" id="newAddressLine" value="<%=(userInfo.getAddressLine() == null) ? "" : userInfo.getAddressLine()%>">
                     </div>
                     <% if (addressLineErr != null && addressLineErr.equals("e")) { %>
                     <div><p class="error">Không được để trống!</p></div>
@@ -107,7 +107,7 @@
                     <!--                    Cập nhật AddressWard-->
                     <div class="addressWard">
                         <label for="newAddressWard">Phường </label>
-                        <input type="text" name="addressWard" id="newAddressWard" value="<%%><%=userInfo.getAddressWard()%><%  %>">
+                        <input type="text" name="addressWard" id="newAddressWard" value="<%=(userInfo.getAddressWard() == null) ? "" : userInfo.getAddressWard()%>">
                     </div>
                     <% if (addressWardErr != null && addressWardErr.equals("e")) { %>
                     <div><p class="error">Không được để trống!</p></div>
@@ -116,7 +116,7 @@
                     <!--                    Cập nhật AddressDistrict-->
                     <div class="addressDistrict">
                         <label for="newAddressDistrict">Quận/huyện </label>
-                        <input type="text" name="addressDistrict" id="newAddressDistrict" value="<%%><%=userInfo.getAddressDistrict()%><%  %>">
+                        <input type="text" name="addressDistrict" id="newAddressDistrict" value="<%=(userInfo.getAddressDistrict() == null) ? "" : userInfo.getAddressDistrict()%>">
                     </div>
                     <% if (addressDistrictErr != null && addressDistrictErr.equals("e")) { %>
                     <div><p class="error">Không được để trống!</p></div>
@@ -125,7 +125,7 @@
                     <!--                    Cập nhật AddressProvince-->
                     <div class="addressProvince">
                         <label for="newAddressProvince">Tỉnh </label>
-                        <input type="text" name="addressProvince" id="newAddressProvince" value="<%%><%=userInfo.getAddressProvince()%><%  %>">
+                        <input type="text" name="addressProvince" id="newAddressProvince" value="<%=(userInfo.getAddressLine() == null) ? "" : userInfo.getAddressProvince()%>">
                     </div>
                     <% if (addressProvinceErr != null && addressProvinceErr.equals("e")) { %>
                     <div><p class="error">Không được để trống!</p></div>
@@ -144,65 +144,7 @@
 </div>
 <!-- End Renew Password -->
 
-<!-- Start Footer Section -->
-<footer class="footer-section position-relative-top-84px">
-    <div class="container relative">
-        <div class="row g-5 mb-5">
-            <div class="col-4">
-                <div class="mb-4"><p href="#" class="footer-head">DDD<span>.</span></p></div>
-                <p class="mb-4 light-text footer-content">Với chúng tôi, mỗi một sản phẩm mỹ nghệ đều là một kiệt tác,
-                    là một tác phẩm nghệ thuật. Cảm ơn bạn đã ghé thăm DDD. - Nghệ thuật mỹ nghệ. Mua sắm với chúng tôi
-                    trong mục sản phẩm, hoặc bấm vào nút Khám phá trên trang chủ.</p>
-            </div>
-
-            <div class="col-4 center-text">
-                <div class="mb-4"><p id="mxh-changing" class="footer-head">Mạng xã hội</p></div>
-                <p class="mb-4 light-text footer-content">Đừng quên theo dõi chúng tôi qua các kênh mạng xã hội sau để
-                    không bỏ lỡ nhưng thông tin mới nhất của DDD. - Nghệ thuật mỹ nghệ</p>
-                <ul class="list-unstyled custom-social">
-                    <li><a href="#"><span class="fa fa-brands fa-facebook-f footer-content"></span></a></li>
-                    <li><a href="#"><span class="fa fa-brands fa-twitter footer-content"></span></a></li>
-                    <li><a href="#"><span class="fa fa-brands fa-instagram footer-content"></span></a></li>
-                    <li><a href="#"><span class="fa fa-brands fa-linkedin footer-content"></span></a></li>
-                </ul>
-            </div>
-
-            <div class="col-4">
-                <div class="row links-wrap">
-                    <div class="right-text">
-                        <div class="mb-4"><p class="footer-head">Nội dung</p></div>
-                        <ul class="list-unstyled ">
-                            <li><a class="light-text footer-content" href="#">Sản phẩm</a></li>
-                            <li><a class="light-text footer-content" href="#">Tin tức</a></li>
-                            <li><a class="light-text footer-content" href="#">Liên hệ</a></li>
-                            <li><a class="light-text footer-content" href="#">Về chúng tôi</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="border-top copyright">
-            <div class="row pt-4">
-                <div class="col-lg-6">
-                    <p class="mb-2 text-center text-lg-start light-text footer-content">Copyright &copy;<script>document.write(new Date().getFullYear());</script>
-                        . All Rights Reserved.
-                    </p>
-                    <!-- License information: https://untree.co/license/ -->
-                </div>
-
-                <div class="col-lg-6 text-center text-lg-end light-text">
-                    <ul class="list-unstyled d-inline-flex ms-auto">
-                        <li class="me-4 footer-content"><a href="#">Terms &amp; Conditions</a></li>
-                        <li><a href="#" class="footer-content">Privacy Policy</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</footer>
-<!-- End Footer Section -->
+<jsp:include page="/common/client/footer.jsp"/>
 
 <button id="scroll-to-top"><i class="fa-solid fa-chevron-up" style="color: #e3bd74;"></i></button>
 
