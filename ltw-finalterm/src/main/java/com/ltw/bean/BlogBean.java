@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 public class BlogBean {
     private int id;
     private String title;
+    private String author;
     private String description;
     private String content;
     private int categoryId;
@@ -32,6 +33,14 @@ public class BlogBean {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public String getDescription() {
