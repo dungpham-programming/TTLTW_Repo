@@ -32,7 +32,7 @@
 <%-- End Header Session --%>
 
 <!-- Start Hero Section -->
-<div class="hero home position-relative-top-84px">
+<div class="hero home position-relative-top-84px" >
     <div class="container">
         <div class="row justify-content-between">
             <div class="col-12">
