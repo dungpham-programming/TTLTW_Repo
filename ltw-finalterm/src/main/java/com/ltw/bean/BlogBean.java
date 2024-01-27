@@ -9,6 +9,7 @@ public class BlogBean {
     private String content;
     private int categoryId;
     private int status;
+    private String profilePic;
     private Timestamp createdDate;
     private String cratedBy;
     private Timestamp modifiedDate;
@@ -95,5 +96,13 @@ public class BlogBean {
 
     public void setModifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
+    }
+
+    public String getProfilePic() {
+        return profilePic;
+    }
+
+    public void setProfilePic(String profilePic) {
+        this.profilePic = profilePic;
     }
 }
