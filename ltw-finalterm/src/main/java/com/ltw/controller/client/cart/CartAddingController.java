@@ -43,8 +43,9 @@ public class CartAddingController extends HttpServlet {
 
         if (requestBy != null) {
             if (requestBy.equals("shop")) {
-                req.setAttribute("success", "s");
-                req.getRequestDispatcher("/shop").forward(req, resp);
+                resp.sendRedirect(req.getContextPath() + "/shop?success=s");
+            } else if (requestBy.equals("product-detail")) {
+                resp.sendRedirect(req.getContextPath() + "/product-detail?id=" + productId + "&success=s");
             }
         }
     }

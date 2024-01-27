@@ -112,7 +112,7 @@
                             <a href="<c:url value="/cart-adding"><c:param name="productId" value="<%=String.valueOf(product.getId())%>"/><c:param name="requestBy" value="shop-detail-by-category"/></c:url>" class="btn-pop-mini left">
                                 <i class="fa-solid fa-cart-plus fa-xl" style="color: #2a1710"></i><p class="content-btn-mini">Thêm vào giỏ hàng</p>
                             </a>
-                            <a href="product-detail-go1.html" class="btn-pop-mini right">
+                            <a href="<c:url value="/product-detail"><c:param name="id" value="<%=String.valueOf(product.getId())%>"/></c:url>" class="btn-pop-mini right">
                                 <i class="fa-solid fa-info fa-xl" style="color: #2a1710"></i><p class="content-btn-mini">Chi tiết sản phẩm</p>
                             </a>
                         </div>

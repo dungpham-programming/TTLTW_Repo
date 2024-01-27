@@ -26,6 +26,7 @@ public class ProductDAO {
         try {
             connection = OpenConnectionUtil.openConnection();
             preparedStatement = connection.prepareStatement(query);
+            SetParameterUtil.setParameter(preparedStatement, productId);
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
@@ -95,7 +96,7 @@ public class ProductDAO {
                 "discountPercent, quantity, size, otherSpec, status, keyword, " +
                 "createdDate, createdBy, modifiedDate, modifiedBy " +
                 "FROM products " +
-                "WHERE id = ?";
+                "WHERE id = ? AND status <> 0";
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;

@@ -46,7 +46,7 @@
 <div class="product-section product-section before-footer-section position-relative-top-84px">
     <div class="container">
         <%
-            String success = (String) request.getAttribute("success");
+            String success = request.getParameter("success");
             if (success != null) {
         %>
         <div class="alert alert-success alert-dismissible fade show" role="alert" id="autoDismissAlert">
@@ -75,7 +75,6 @@
                                     List<CategoryTypeBean> categoryTypes = categoryTypeMap.get(categoryId);
                                     for (CategoryTypeBean categoryType : categoryTypes) {
                                 %>
-                                <% if (category.getId() == 1) {%>
                                 <li class="pop-right-item"><a
                                         href="<c:url value="/shop-detail-by-type">
                                                 <c:param name="categoryTypeId" value="<%=String.valueOf(categoryType.getId())%>"/>
@@ -84,19 +83,6 @@
                                                 <c:param name="range" value="none"/>
                                               </c:url>" class="pop-right-link"><%=categoryType.getName()%>
                                 </a></li>
-                                <% } %>
-                                <% if (category.getId() == 2) {%>
-                                <li class="pop-right-item"><a
-                                        href="<c:url value="/shop-knitting"><c:param name="idOnBrowser" value="<%=categoryType.getIdOnBrowser()%>"/></c:url>"
-                                        class="pop-right-link"><%=categoryType.getName()%>
-                                </a></li>
-                                <% } %>
-                                <% if (category.getId() == 3) {%>
-                                <li class="pop-right-item"><a
-                                        href="<c:url value="/shop-porcelain"><c:param name="idOnBrowser" value="<%=categoryType.getIdOnBrowser()%>"/></c:url>"
-                                        class="pop-right-link"><%=categoryType.getName()%>
-                                </a></li>
-                                <% } %>
                                 <% } %>
                             </ul>
                         </li>
@@ -146,7 +132,7 @@
                                 <i class="fa-solid fa-cart-plus fa-xl" style="color: #2a1710"></i>
                                 <p class="content-btn-mini">Thêm vào giỏ hàng</p>
                             </a>
-                            <a href="product-detail-go1.html" class="btn-pop-mini right">
+                            <a href="<c:url value="/product-detail"><c:param name="id" value="<%=String.valueOf(product.getId())%>"/></c:url>" class="btn-pop-mini right">
                                 <i class="fa-solid fa-info fa-xl" style="color: #2a1710"></i>
                                 <p class="content-btn-mini">Chi tiết sản phẩm</p>
                             </a>
