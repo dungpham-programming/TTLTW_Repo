@@ -12,8 +12,8 @@ import java.sql.SQLException;
 public class BlogDAO {
     public BlogBean findBlogById(int id) {
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT title, profilePic, content, categoryId, createdDate")
-                .append("FROM blogs")
+        sql.append("SELECT id, author, title, profilePic, content, categoryId, createdDate ")
+                .append("FROM blogs ")
                 .append("WHERE id = ?");
 
         Connection connection = null;
@@ -32,7 +32,7 @@ public class BlogDAO {
                 blogBean.setId(resultSet.getInt("id"));
                 blogBean.setAuthor(resultSet.getString("author"));
                 blogBean.setTitle(resultSet.getString("title"));
-                blogBean.getProfilePic(resultSet.getBlob("profilePic"));
+                blogBean.setProfilePic(resultSet.getString("profilePic"));
                 blogBean.setContent(resultSet.getString("content"));
                 blogBean.setCategoryId(resultSet.getInt("categoryId"));
                 blogBean.setCreatedDate(resultSet.getTimestamp("createdDate"));

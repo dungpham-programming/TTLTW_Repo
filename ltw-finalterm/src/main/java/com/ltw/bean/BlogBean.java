@@ -1,5 +1,4 @@
 package com.ltw.bean;
-import com.mysql.cj.jdbc.Blob;
 
 import java.sql.Timestamp;
 
@@ -11,11 +10,11 @@ public class BlogBean {
     private String content;
     private int categoryId;
     private int status;
+    private String profilePic;
     private Timestamp createdDate;
     private String cratedBy;
     private Timestamp modifiedDate;
     private String modifiedBy;
-    private Blob profilePic;
 
     public BlogBean() {
     }
@@ -104,15 +103,15 @@ public class BlogBean {
         return modifiedBy;
     }
 
-
     public void setModifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
-    public Blob getProfilePic(java.sql.Blob profilePic) {
-        return this.profilePic;
-    }
-    public void setProfilePic(Blob profilePic) {
-        this.profilePic = profilePic;
+
+    public String getProfilePic() {
+        return profilePic;
     }
 
+    public void setProfilePic(String profilePic) {
+        this.profilePic = profilePic;
+    }
 }
