@@ -30,6 +30,7 @@
 
     <title>DDD. - Nghệ thuật mỹ nghệ</title>
 </head>
+
 <body>
 <jsp:include page="/common/client/header.jsp"/>
 
@@ -53,6 +54,7 @@
         <%
             String sort = (String) request.getAttribute("sort");
             String range = (String) request.getAttribute("range");
+            String key = (String) request.getAttribute("key");
         %>
         <div class="row mb-3">
             <form action="<c:url value="/search"/>" method="get">
@@ -60,7 +62,7 @@
                 <input type="hidden" name="range" value="<%=range%>">
                 <input type="hidden" name="page" value="1">
                 <div class="input-group">
-                    <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" name="key"/>
+                    <input type="text" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" name="key"/>
                     <button type="submit" class="btn btn-outline-primary" data-mdb-ripple-init>search</button>
                 </div>
             </form>
@@ -92,20 +94,19 @@
                                                                             <c:param name="page" value="1"/>
                                                                             <c:param name="sort" value="none"/>
                                                                             <c:param name="range" value="none"/>
-                                                                        </c:url>" class="pop-right-link"><%=categoryType.getName()%></a>
-                                    </li>
+                                                                        </c:url>" class="pop-right-link"><%=categoryType.getName()%>
+                                    </a></li>
                                     <% } %>
                                 </ul>
                             </li>
                             <% } %>
                         </ul>
                     </div>
-                    <%
-                        CategoryTypeBean categoryType = (CategoryTypeBean) request.getAttribute("categoryType");
-                    %>
 
                     <div class="sorting px-1">
-                        <form action="<c:url value="/shop-detail-by-type"/>" method="get">
+                        <form action="<c:url value="/search"/>" method="get">
+                            <input type="hidden" name="page" value="1">
+                            <input type="hidden" name="key" value="<%=key%>">
                             <div><h5>Sắp xếp theo giá</h5></div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="sort" id="option1" value="none" <%if (sort.equals("none")) {%>checked<%}%>>
@@ -147,8 +148,6 @@
                                 <input class="form-check-input" type="radio" name="range" id="option8" value="up-to-10000" <%if (range.equals("up-to-10000")) {%>checked<%}%>>
                                 <label class="form-check-label" for="option8">10.000.000đ trở lên</label>
                             </div>
-                            <input type="hidden" name="categoryTypeId" value="<%=String.valueOf(categoryType.getId())%>">
-                            <input type="hidden" name="page" value="1">
 
                             <button class="btn btn-primary" type="submit">Gửi</button>
                         </form>
@@ -159,7 +158,7 @@
             <div class="col-9">
                 <div class="row">
                     <div class="col-12" id="luc-binh-go">
-                        <h1 class="product-type-title"><%=categoryType.getName()%>
+                        <h1 class="product-type-title">Kết quả cho "<%=key%>"
                         </h1>
                         <hr size="4">
                     </div>
@@ -198,11 +197,10 @@
                     <% } %>
                 </div>
                 <div class="row justify-content-center">
-                    <form action="<c:url value="/shop-detail-by-type"/>" id="paginationForm" method="get">
+                    <form action="<c:url value="/search"/>" id="paginationForm" method="get">
                         <ul class="pagination justify-content-center" id="pagination"></ul>
                         <!-- Có input nhưng hidden (ẩn) đi -->
-                        <input type="hidden" value="<%=categoryType.getId()%>" id="categoryTypeId"
-                               name="categoryTypeId"/>
+                        <input type="hidden" name="key" value="<%=key%>">
                         <input type="hidden" value="" id="page" name="page"/>
                         <input type="hidden" name="sort" value="<%=sort%>">
                         <input type="hidden" name="range" value="<%=range%>">

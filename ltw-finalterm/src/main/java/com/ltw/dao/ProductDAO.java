@@ -302,7 +302,7 @@ public class ProductDAO {
 
     public List<ProductBean> findByTypeIdAndLimit(int categoryTypeId, double[] range, String sort, int start, int offset) {
         List<ProductBean> products = new ArrayList<>();
-        String sql = modifiedQuery(range, sort);
+        String sql = modifiedQueryByTypeId(range, sort);
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -339,6 +339,45 @@ public class ProductDAO {
         return products;
     }
 
+    public List<ProductBean> findByKeyAndLimit(String key, double[] range, String sort, int start, int offset) {
+        List<ProductBean> products = new ArrayList<>();
+        String sql = modifiedQueryByKey(key, range, sort);
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            // Set điều kiện để setParameter (sort đã xử lý riêng trong modifiedQuery)
+            if (range == null) {
+                SetParameterUtil.setParameter(preparedStatement, start, offset);
+            } else {
+                SetParameterUtil.setParameter(preparedStatement, range[0], range[1], start, offset);
+            }
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                ProductBean productBean = new ProductBean();
+                productBean.setId(resultSet.getInt("id"));
+                productBean.setName(resultSet.getString("name"));
+                productBean.setCategoryTypeId(resultSet.getInt("categoryTypeId"));
+                productBean.setOriginalPrice(resultSet.getDouble("originalPrice"));
+                productBean.setDiscountPrice(resultSet.getDouble("discountPrice"));
+                productBean.setDiscountPercent(resultSet.getDouble("discountPercent"));
+
+                products.add(productBean);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return products;
+    }
+
+
     public int getTotalItems() {
         String sql = "SELECT COUNT(id) AS tongsanpham FROM products";
 
@@ -362,10 +401,34 @@ public class ProductDAO {
         return -1;
     }
 
-    public String modifiedQuery(double[] range, String sort) {
+    private String modifiedQueryByTypeId(double[] range, String sort) {
         StringBuilder sb = new StringBuilder();
         sb.append("SELECT id, name, categoryTypeId, originalPrice, discountPrice, discountPercent ")
            .append("FROM products WHERE categoryTypeId = ? AND status = 1 ");
+
+        if (range != null) {
+            sb.append(" AND (discountPrice BETWEEN ? AND ?) ");
+        }
+
+        if (!sort.equals("none")) {
+            if (sort.equals("asc")) {
+                sb.append("ORDER BY discountPrice ASC ");
+            } else if (sort.equals("desc")) {
+                sb.append("ORDER BY discountPrice DESC ");
+            }
+        }
+        sb.append("LIMIT ?, ?");
+        return sb.toString();
+    }
+
+    private String modifiedQueryByKey(String key, double[] range, String sort) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("SELECT id, name, categoryTypeId, originalPrice, discountPrice, discountPercent, keyword ")
+                .append("FROM products WHERE (name LIKE \"%")
+                .append(key)
+                .append("%\" OR keyword LIKE \"%")
+                .append(key)
+                .append("%\") AND status = 1 ");
 
         if (range != null) {
             sb.append(" AND (discountPrice BETWEEN ? AND ?) ");

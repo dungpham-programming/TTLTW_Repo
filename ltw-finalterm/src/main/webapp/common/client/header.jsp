@@ -14,10 +14,10 @@
         <div class="collapse navbar-collapse" id="navbarsFurni">
             <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
                 <li class="nav-item active">
-                    <a class="nav-link" href="index.html">Trang chủ</a>
+                    <a class="nav-link" href="<c:url value="/home"/>">Trang chủ</a>
                 </li>
-                <li><a class="nav-link" href="shop.html">Sản phẩm</a></li>
-                <li><a class="nav-link" href="blog.html">Tin tức</a></li>
+                <li><a class="nav-link" href="<c:url value="/shop"/>">Sản phẩm</a></li>
+                <li><a class="nav-link" href="<c:url value="/blog"/>">Tin tức</a></li>
                 <li><a class="nav-link" href="contact.html">Liên hệ</a></li>
                 <li><a class="nav-link" href="about.html">Về chúng tôi</a></li>
             </ul>

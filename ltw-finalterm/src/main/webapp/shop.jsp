@@ -77,8 +77,12 @@
                                 %>
                                 <% if (category.getId() == 1) {%>
                                 <li class="pop-right-item"><a
-                                        href="<c:url value="/shop-wood"><c:param name="idOnBrowser" value="<%=categoryType.getIdOnBrowser()%>"/></c:url>"
-                                        class="pop-right-link"><%=categoryType.getName()%>
+                                        href="<c:url value="/shop-detail-by-type">
+                                                <c:param name="categoryTypeId" value="<%=String.valueOf(categoryType.getId())%>"/>
+                                                <c:param name="page" value="1"/>
+                                                <c:param name="sort" value="none"/>
+                                                <c:param name="range" value="none"/>
+                                              </c:url>" class="pop-right-link"><%=categoryType.getName()%>
                                 </a></li>
                                 <% } %>
                                 <% if (category.getId() == 2) {%>
@@ -149,6 +153,12 @@
                         </div>
                     </div>
                     <% } %>
+                </div>
+                <div class="row">
+                    <div class="d-flex justify-content-center mb-5"><a href="<c:url value="/shop-detail-by-category">
+                                                                                <c:param name="categoryId" value="<%=String.valueOf(category.getId())%>"/>
+                                                                            </c:url>" class="more">Xem thêm -></a>
+                    </div>
                 </div>
                 <% } %>
             </div>
