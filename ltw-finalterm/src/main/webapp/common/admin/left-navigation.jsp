@@ -17,7 +17,7 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Quản lý giao diện người dùng
                 </a>
-                <a class="nav-link light-text pt-3 pb-3 <%if (link.equals("")) {%><%="yellow-active"%><% } %>" href="manage-account.html">
+                <a class="nav-link light-text pt-3 pb-3 <%if (link.equals("")) {%><%="yellow-active"%><% } %>" href="<c:url value="/admin/account-management"/>">
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Quản lý tài khoản
                 </a>
@@ -25,25 +25,21 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Quản lý sản phẩm
                 </a>
-                <a class="nav-link light-text pt-3 pb-3 <%if (link.equals("")) {%><%="yellow-active"%><% } %>" href="management-order.html">
+                <a class="nav-link light-text pt-3 pb-3 <%if (link.equals("/order-management.jsp")) {%><%="yellow-active"%><% } %>" href="<c:url value="/admin/order-management"/>">
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Quản lý đơn hàng
                 </a>
-                <a class="nav-link light-text pt-3 pb-3 <%if (link.equals("")) {%><%="yellow-active"%><% } %>" href="management-blog.html">
+                <a class="nav-link light-text pt-3 pb-3 <%if (link.equals("/blog-management.jsp")) {%><%="yellow-active"%><% } %>" href="<c:url value="/admin/blog"/>">
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Quản lý tin tức
                 </a>
-                <a class="nav-link light-text pt-3 pb-3 <%if (link.equals("")) {%><%="yellow-active"%><% } %>" href="management-contact.html">
+                <a class="nav-link light-text pt-3 pb-3 <%if (link.equals("/contact-management.jsp")) {%><%="yellow-active"%><% } %>" href="<c:url value="/admin/contact"/>">
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Quản lý liên hệ
                 </a>
-                <a class="nav-link light-text pt-3 pb-3<%if (link.equals("")) {%><%="yellow-active"%><% } %>" href="manage-image.html">
+                <a class="nav-link light-text pt-3 pb-3<%if (link.equals("/all-image-management.jsp")) {%><%="yellow-active"%><% } %>" href="<c:url value="/admin/all-image-management"/>">
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Quản lý ảnh sản phẩm
-                </a>
-                <a class="nav-link light-text pt-3 pb-3 <%if (link.equals("")) {%><%="yellow-active"%><% } %>" href="order-detail.html">
-                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                    Kiểm tra chi tiết đơn hàng
                 </a>
             </div>
         </div>

@@ -11,10 +11,10 @@
             <a class="nav-link dropdown yellow-hv" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
                aria-expanded="false"><i class="fa-thin fa-user fa-lg" style="color: #f0f0f0;"></i></a>
             <ul class="dropdown-menu dropdown-menu-end navbar-darkred" aria-labelledby="navbarDropdown">
-                <li class="hi-admin light-text">Xin chào, <a class="highlight-admin" href="admin-info.html">quản trị viên!</a></li>
+                <li class="hi-admin light-text">Xin chào, <a class="highlight-admin" href="<c:url value="/admin/info"/>">quản trị viên!</a></li>
                 <li><hr class="dropdown-divider" /></li>
-                <li><a class="dropdown-item light-text" href="admin-info.html">Tài khoản hiện tại</a></li>
-                <li><a class="dropdown-item light-text" href="#">Đăng xuất</a></li>
+                <li><a class="dropdown-item light-text" href="<c:url value="/admin/info"/>">Tài khoản hiện tại</a></li>
+                <li><a class="dropdown-item light-text" href="<c:url value="/signout"/>">Đăng xuất</a></li>
             </ul>
         </li>
     </ul>

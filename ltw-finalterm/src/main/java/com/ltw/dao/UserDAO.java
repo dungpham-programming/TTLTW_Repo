@@ -11,9 +11,9 @@ import java.util.List;
 
 public class UserDAO {
     public List<UserBean> findAllAccounts() {
-        String sql = "SELECT password, firstName, lastName, roleId, " +
+        String sql = "SELECT id, firstName, lastName, roleId, " +
                 "email, addressLine, addressWard, addressDistrict, status, " +
-                "createdDate, createdBy, modifiedDate, modifiedBy " +
+                "createdDate, modifiedDate " +
                 "FROM users";
 
         List<UserBean> accountList = new ArrayList<>();
@@ -29,7 +29,7 @@ public class UserDAO {
 
             while (resultSet.next()) {
                 UserBean userBean = new UserBean();
-                userBean.setPassword(resultSet.getString("password"));
+                userBean.setId(resultSet.getInt("id"));
                 userBean.setFirstName(resultSet.getString("firstName"));
                 userBean.setLastName(resultSet.getString("lastName"));
                 userBean.setRoleId(resultSet.getInt("roleId"));
@@ -39,9 +39,7 @@ public class UserDAO {
                 userBean.setAddressDistrict(resultSet.getString("addressDistrict"));
                 userBean.setStatus(resultSet.getInt("status"));
                 userBean.setCreatedDate(resultSet.getTimestamp("createdDate"));
-                userBean.setCreatedBy(resultSet.getString("createdBy"));
                 userBean.setModifiedDate(resultSet.getTimestamp("modifiedDate"));
-                userBean.setModifiedBy(resultSet.getString("modifiedBy"));
 
                 accountList.add(userBean);
             }
@@ -56,7 +54,7 @@ public class UserDAO {
     public void createAccount(UserBean userBean) {
         String sql = "INSERT INTO users (password, firstName, lastName, roleId, " +
                 "email, addressLine, addressWard, addressDistrict, status) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -67,7 +65,7 @@ public class UserDAO {
             preparedStatement = connection.prepareStatement(sql);
             SetParameterUtil.setParameter(preparedStatement, userBean.getPassword(), userBean.getFirstName(),
                     userBean.getLastName(), userBean.getRoleId(), userBean.getEmail(), userBean.getAddressLine(),
-                    userBean.getAddressWard(), userBean.getAddressDistrict(), userBean.getVerifiedCode(), userBean.getStatus());
+                    userBean.getAddressWard(), userBean.getAddressDistrict(), userBean.getStatus());
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
@@ -607,6 +605,34 @@ public class UserDAO {
 
             SetParameterUtil.setParameter(preparedStatement, email);
 
+            preparedStatement.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        } finally {
+            CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
+        }
+    }
+
+    // Cập nhật lại thông tin tài khoản
+    public void updateAccountForAdmin(UserBean user) {
+        StringBuilder sql = new StringBuilder();
+        sql.append("UPDATE users ")
+                .append("SET roleId = ?, status = ? ")
+                .append("WHERE id = ?");
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            connection.setAutoCommit(false);
+            preparedStatement = connection.prepareStatement(sql.toString());
+            SetParameterUtil.setParameter(preparedStatement, user.getRoleId(), user.getStatus(), user.getId());
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {

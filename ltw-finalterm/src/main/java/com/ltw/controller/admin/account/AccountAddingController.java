@@ -8,22 +8,21 @@ import com.ltw.util.NumberValidateUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 
 @WebServlet("/admin/account-management/adding")
-
-public class AccountAddingController {
+public class AccountAddingController extends HttpServlet {
     private final UserDAO userDAO = new UserDAO();
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/admin/add-account.jsp").forward(req, resp);
+        req.getRequestDispatcher("/adding-account.jsp").forward(req, resp);
     }
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
 
-        String userName = req.getParameter("userName");
         String password = req.getParameter("password");
         String firstName = req.getParameter("firstName");
         String lastName = req.getParameter("lastName");
@@ -32,11 +31,11 @@ public class AccountAddingController {
         String addressLine = req.getParameter("addressLine");
         String addressWard = req.getParameter("addressWard");
         String addressDistrict = req.getParameter("addressDistrict");
-        String verifiedCode = req.getParameter("verifiedCode");
+        String addressProvince = req.getParameter("addressProvince");
         String status = req.getParameter("status");
 
         String success = "success";
-        String[] inputsForm = new String[]{userName, password, firstName, lastName, roleId, email, addressLine, addressWard, addressDistrict, verifiedCode, status};
+        String[] inputsForm = new String[] {email, password, firstName, lastName, roleId, status, addressLine, addressWard, addressDistrict, addressProvince};
         ArrayList<String> errors = new ArrayList<>();
         // Biến bắt lỗi
         boolean isValid = true;
@@ -61,15 +60,16 @@ public class AccountAddingController {
 
             // Set thuộc tính vào bean
             UserBean userBean = new UserBean();
+            userBean.setEmail(email);
             userBean.setPassword(EncryptPasswordUtil.encryptPassword(password));
             userBean.setFirstName(firstName);
             userBean.setLastName(lastName);
             userBean.setRoleId(roleIdInt);
-            userBean.setEmail(email);
+            userBean.setStatus(statusInt);
             userBean.setAddressLine(addressLine);
             userBean.setAddressWard(addressWard);
             userBean.setAddressDistrict(addressDistrict);
-            userBean.setStatus(statusInt);
+            userBean.setAddressProvince(addressProvince);
 
             userDAO.createAccount(userBean);
             resp.sendRedirect(req.getContextPath() + "/admin/account-management/adding?success=" + success);

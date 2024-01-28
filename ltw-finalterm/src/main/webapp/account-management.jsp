@@ -21,71 +21,9 @@
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 <body class="sb-nav-fixed">
-<nav class="sb-topnav navbar navbar-expand navbar-darkred">
-    <!-- Navbar Brand-->
-    <a class="navbar-brand ps-3 logo fs-4" href="<c:url value="/home"/>">DDD. Admin</a>
-    <!-- Sidebar Toggle-->
-    <button class="btn btn-lg yellow-hv gray order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
-            class="fas fa-bars"></i></button>
-    <ul class="navbar-nav ms-auto me-3 me-lg-4">
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown yellow-hv" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
-               aria-expanded="false"><i class="fa-thin fa-user fa-lg" style="color: #f0f0f0;"></i></a>
-            <ul class="dropdown-menu dropdown-menu-end navbar-darkred" aria-labelledby="navbarDropdown">
-                <li class="hi-admin light-text">Xin chào, <a class="highlight-admin" href="admin-info.html">quản trị viên!</a></li>
-                <li><hr class="dropdown-divider" /></li>
-                <li><a class="dropdown-item light-text" href="admin-info.html">Tài khoản hiện tại</a></li>
-                <li><a class="dropdown-item light-text" href="#">Đăng xuất</a></li>
-            </ul>
-        </li>
-    </ul>
-</nav>
+<jsp:include page="/common/admin/top-header.jsp"/>
 <div id="layoutSidenav">
-    <div id="layoutSidenav_nav">
-        <nav class="sb-sidenav accordion sb-sidenav-dark navbar-darkred mt-3" id="sidenavAccordion">
-            <div class="sb-sidenav-menu">
-                <div class="nav">
-                    <div class="sb-sidenav-menu-heading gray">Quản trị viên</div>
-                    <a class="nav-link pt-3 pb-3" href="index.html">
-                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                        Trang chủ
-                    </a>
-                    <a class="nav-link light-text pt-3 pb-3 yellow-active" href="<c:url value="/admin/account-management"/>">
-                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                        Quản lý tài khoản
-                    </a>
-                    <a class="nav-link light-text pt-3 pb-3" href="management-product.html">
-                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                        Quản lý sản phẩm
-                    </a>
-                    <a class="nav-link light-text pt-3 pb-3" href="management-order.html">
-                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                        Quản lý đơn hàng
-                    </a>
-                    <a class="nav-link light-text pt-3 pb-3" href="management-blog.html">
-                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                        Quản lý tin tức
-                    </a>
-                    <a class="nav-link light-text pt-3 pb-3" href="management-contact.html">
-                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                        Quản lý liên hệ
-                    </a>
-                    <a class="nav-link light-text pt-3 pb-3" href="manage-image.html">
-                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                        Quản lý ảnh sản phẩm
-                    </a>
-                    <a class="nav-link light-text pt-3 pb-3" href="order-detail.html">
-                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                        Kiểm tra chi tiết đơn hàng
-                    </a>
-                </div>
-            </div>
-            <div class="sb-sidenav-footer mb-3">
-                <div class="small">Logged in as:</div>
-                Admin3
-            </div>
-        </nav>
-    </div>
+    <jsp:include page="/common/admin/left-navigation.jsp"/>
     <div id="layoutSidenav_content" class="gray-bg">
         <main>
             <div class="container-fluid px-4">
@@ -125,9 +63,7 @@
                                 <th>Địa chỉ đầy đủ</th>
                                 <th>Trạng thái</th>
                                 <th>Tạo ngày</th>
-                                <th>Tạo bởi</th>
                                 <th>Sửa ngày</th>
-                                <th>Sửa bởi</th>
                                 <th>Chức năng</th>
                             </tr>
                             </thead>
@@ -154,18 +90,16 @@
                                 <td>
                                     <%if (account.getRoleId() == 1) {%>Người dùng<%} else if (account.getRoleId() == 2) { %>Quản trị viên<%}%>
                                 </td>
-                                <td><%=account.getAddressLine() + account.getAddressWard() + account.getAddressDistrict()%></td>
+                                <td><%=account.getAddressLine() + ", " + account.getAddressWard() + ", " + account.getAddressDistrict() + ", " + account.getAddressProvince()%></td>
                                 <% if (account.getStatus() == 1) { %>
-                                <td>Đã tạo</td>
+                                <td>Đã active</td>
                                 <% } else if (account.getStatus() == 2) { %>
-                                <td>Vô hiệu hóa</td>
+                                <td>Cần xác thực</td>
                                 <% } else if (account.getStatus() == 0) { %>
-                                <td>Chưa tạo</td>
+                                <td>Vô hiệu hóa</td>
                                 <% } %>
                                 <td><%=account.getCreatedDate()%></td>
-                                <td><%=account.getCreatedBy()%></td>
                                 <td><%=account.getModifiedDate()%></td>
-                                <td><%=account.getModifiedBy()%></td>
                                 <td>
                                     <a href="<c:url value="/admin/account-management/editing">
                                                 <c:param name="id" value="<%=idStr%>"/>
@@ -191,11 +125,5 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>
 <script src="<c:url value="/templates/admin/js/scripts.js"/>"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-<script src="../assets/demo/chart-area-demo.js"></script>
-<script src="../assets/demo/chart-bar-demo.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
-        crossorigin="anonymous"></script>
-<script src="../js/datatables-simple-demo.js"></script>
 </body>
 </html>
