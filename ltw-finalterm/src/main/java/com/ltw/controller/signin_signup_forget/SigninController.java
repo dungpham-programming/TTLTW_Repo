@@ -77,7 +77,7 @@ public class SigninController extends HttpServlet {
                     if (user.getRoleId() == 1) {
                         resp.sendRedirect(req.getContextPath() + "/home");
                     } else if (user.getRoleId() == 2 || user.getRoleId() == 3) {
-                        resp.sendRedirect(req.getContextPath() + "/admin-home");
+                        resp.sendRedirect(req.getContextPath() + "/admin/home");
                     }
                 }
             } else {

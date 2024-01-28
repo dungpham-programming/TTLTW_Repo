@@ -89,9 +89,6 @@ public class OrderDAO {
       return orderList;
     }
           
-    public List<OrderBean> findAllOrders() {
-        String sql = "SELECT id, userId, total, paymentMethod, status, shipToDate, createdDate, createdBy, modifiedDate, modifiedBy " +
-                "FROM orders";
 
     public List<OrderBean> findAllOrders() {
         String sql = "SELECT id, userId, total, status, shipToDate, createdDate, createdBy, modifiedDate, modifiedBy " +
