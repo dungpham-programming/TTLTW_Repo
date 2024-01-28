@@ -17,7 +17,7 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Quản lý giao diện người dùng
                 </a>
-                <a class="nav-link light-text pt-3 pb-3 <%if (link.equals("")) {%><%="yellow-active"%><% } %>" href="<c:url value="/admin/account-management"/>">
+                <a class="nav-link light-text pt-3 pb-3 <%if (link.equals("/admin-home.jsp")) {%><%="yellow-active"%><% } %>" href="<c:url value="/admin/account-management"/>">
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Quản lý tài khoản
                 </a>
