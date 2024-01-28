@@ -1,7 +1,9 @@
 package com.ltw.controller.client;
 
 import com.ltw.bean.ContactBean;
+import com.ltw.bean.CustomizeBean;
 import com.ltw.dao.ContactDAO;
+import com.ltw.dao.CustomizeDAO;
 import com.ltw.util.BlankInputUtil;
 
 import javax.servlet.ServletException;
@@ -13,14 +15,19 @@ import java.io.IOException;
 
 @WebServlet(value = {"/contact"})
 public class ContactController extends HttpServlet {
+    private final CustomizeDAO customizeDAO = new CustomizeDAO();
     private final ContactDAO contactDAO = new ContactDAO();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        CustomizeBean customizeInfo = customizeDAO.getCustomizeInfo();
+        req.setAttribute("customizeInfo", customizeInfo);
         req.getRequestDispatcher("contact.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
+        CustomizeBean customizeInfo = customizeDAO.getCustomizeInfo();
         String email = req.getParameter("email");
         String firstName = req.getParameter("firstName");
         String lastName = req.getParameter("lastName");
@@ -64,8 +71,8 @@ public class ContactController extends HttpServlet {
             contactDAO.createContact(contactBean);
 
             req.setAttribute("success", success);
+            req.setAttribute("customizeInfo", customizeInfo);
             req.getRequestDispatcher("contact.jsp").forward(req, resp);
-
         }
     }
 }

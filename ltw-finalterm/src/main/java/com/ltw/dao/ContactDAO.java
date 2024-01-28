@@ -12,7 +12,7 @@ import java.sql.SQLException;
 public class ContactDAO {
     public void createContact(ContactBean contactBean) {
         StringBuilder sql = new StringBuilder();
-        sql.append("INSERT INTO users ")
+        sql.append("INSERT INTO contacts ")
                 .append("(email, firstName, lastName, message, status)")
                 .append(" VALUES ")
                 .append("(?, ?, ?, ?, 1)");
