@@ -3,21 +3,21 @@
 <div id="layoutSidenav_nav">
     <nav class="sb-sidenav accordion sb-sidenav-dark navbar-darkred mt-3" id="sidenavAccordion">
         <div class="sb-sidenav-menu">
+            <%
+                String link = request.getServletPath();
+                // Nếu servlet trùng với file jsp trong getRequestDispatcher thì thêm class yellow-active
+            %>
             <div class="nav">
                 <div class="sb-sidenav-menu-heading gray">Quản trị viên</div>
-                <a class="nav-link pt-3 pb-3" href="<c:url value="/admin/home"/>">
+                <a class="nav-link pt-3 pb-3" <%if (link.equals("/admin-home.jsp")) {%><%="yellow-active"%><% } %> href="<c:url value="/admin/home"/>">
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Trang chủ
                 </a>
-                <%
-                    String link = request.getServletPath();
-                    // Nếu servlet trùng với file jsp trong getRequestDispatcher thì thêm class yellow-active
-                %>
                 <a class="nav-link light-text pt-3 pb-3 <%if (link.equals("/client-home-management.jsp")) {%><%="yellow-active"%><% } %>" href="<c:url value="/admin/client-home-management"/>">
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Quản lý giao diện người dùng
                 </a>
-                <a class="nav-link light-text pt-3 pb-3 <%if (link.equals("/admin-home.jsp")) {%><%="yellow-active"%><% } %>" href="<c:url value="/admin/account-management"/>">
+                <a class="nav-link light-text pt-3 pb-3 <%if (link.equals("/account-management.jsp")) {%><%="yellow-active"%><% } %>" href="<c:url value="/admin/account-management"/>">
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Quản lý tài khoản
                 </a>
