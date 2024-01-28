@@ -6,10 +6,8 @@ import com.ltw.util.CloseResourceUtil;
 import com.ltw.util.OpenConnectionUtil;
 import com.ltw.util.SetParameterUtil;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,5 +50,32 @@ public class OrderDetailDAO {
             CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
         }
         return orderDetailList;
+    }
+
+    public int createOrderDetail(OrderDetailBean orderDetailBean) {
+        int affected = -1;
+        String sql = "INSERT INTO order_details (orderId, productId, quantity) " +
+                "VALUES (?, ?, ?)";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            connection.setAutoCommit(false);
+            preparedStatement = connection.prepareStatement(sql);
+            SetParameterUtil.setParameter(preparedStatement, orderDetailBean.getOrderId(), orderDetailBean.getProductId(), orderDetailBean.getQuantity());
+            affected = preparedStatement.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        } finally {
+            CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
+        }
+        return affected;
     }
 }

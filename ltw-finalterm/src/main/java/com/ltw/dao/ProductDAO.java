@@ -1,5 +1,7 @@
 package com.ltw.dao;
 
+import com.ltw.bean.ProductImageBean;
+
 import com.ltw.bean.ProductBean;
 import com.ltw.util.CloseResourceUtil;
 import com.ltw.util.OpenConnectionUtil;
@@ -13,6 +15,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDAO {
+    public List<ProductImageBean> findImagesByProductId(int productId) {
+        List<ProductImageBean> productImageBeans = new ArrayList<>();
+        String query = "SELECT id, link FROM images WHERE productId = ?";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            preparedStatement = connection.prepareStatement(query);
+            SetParameterUtil.setParameter(preparedStatement, productId);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                ProductImageBean productImageBean = new ProductImageBean();
+                productImageBean.setId(resultSet.getInt("id"));
+                productImageBean.setLink(resultSet.getString("link"));
+                productImageBeans.add(productImageBean);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+
+        return productImageBeans;
+    }
+
     public List<ProductBean> findAllProducts() {
         String sql = "SELECT id, name, description, categoryTypeId, originalPrice, discountPrice, " +
                 "discountPercent, quantity, size, otherSpec, keyword, status, " +
@@ -65,7 +96,7 @@ public class ProductDAO {
                 "discountPercent, quantity, size, otherSpec, status, keyword, " +
                 "createdDate, createdBy, modifiedDate, modifiedBy " +
                 "FROM products " +
-                "WHERE id = ?";
+                "WHERE id = ? AND status <> 0";
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -187,5 +218,285 @@ public class ProductDAO {
             CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
         }
         return affectRows;
+    }
+
+    public List<ProductBean> findThreeProductByCategoryId(int categoryId) {
+        List<ProductBean> products = new ArrayList<>();
+        String sql = "SELECT products.id, products.name, products.categoryTypeId, products.originalPrice, products.discountPrice, products.discountPercent " +
+                "FROM products INNER JOIN category_types ON products.categoryTypeId = category_types.id " +
+                "INNER JOIN categories ON category_types.categoryId = categories.id " +
+                "WHERE categories.id = ? AND products.status = 1 " +
+                "ORDER BY products.modifiedDate DESC "+
+                "LIMIT 3";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            SetParameterUtil.setParameter(preparedStatement, categoryId);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                ProductBean productBean = new ProductBean();
+                productBean.setId(resultSet.getInt("id"));
+                productBean.setName(resultSet.getString("name"));
+                productBean.setCategoryTypeId(resultSet.getInt("categoryTypeId"));
+                productBean.setOriginalPrice(resultSet.getDouble("originalPrice"));
+                productBean.setDiscountPrice(resultSet.getDouble("discountPrice"));
+                productBean.setDiscountPercent(resultSet.getDouble("discountPercent"));
+
+                products.add(productBean);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return products;
+    }
+
+    public List<ProductBean> findFourProductByTypeId(int categoryTypeId) {
+        List<ProductBean> products = new ArrayList<>();
+        String sql = "SELECT id, name, categoryTypeId, originalPrice, discountPrice, discountPercent " +
+                "FROM products WHERE categoryTypeId = ? AND status = 1 " +
+                "ORDER BY modifiedDate DESC "+
+                "LIMIT 4";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            SetParameterUtil.setParameter(preparedStatement, categoryTypeId);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                ProductBean productBean = new ProductBean();
+                productBean.setId(resultSet.getInt("id"));
+                productBean.setName(resultSet.getString("name"));
+                productBean.setCategoryTypeId(resultSet.getInt("categoryTypeId"));
+                productBean.setOriginalPrice(resultSet.getDouble("originalPrice"));
+                productBean.setDiscountPrice(resultSet.getDouble("discountPrice"));
+                productBean.setDiscountPercent(resultSet.getDouble("discountPercent"));
+
+                products.add(productBean);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return products;
+    }
+
+
+    // TODO: Chưa có offset và limit
+    public List<ProductBean> findProductByTypeId(String categoryTypeId) {
+        List<ProductBean> products = new ArrayList<>();
+        String sql = "SELECT id, name, categoryTypeId, originalPrice, discountPrice, discountPercent " +
+                "FROM products WHERE categoryTypeId = ? AND status = 1 " +
+                "ORDER BY name ASC";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            SetParameterUtil.setParameter(preparedStatement, categoryTypeId);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                ProductBean productBean = new ProductBean();
+                productBean.setId(resultSet.getInt("id"));
+                productBean.setName(resultSet.getString("name"));
+                productBean.setCategoryTypeId(resultSet.getInt("categoryTypeId"));
+                productBean.setOriginalPrice(resultSet.getDouble("originalPrice"));
+                productBean.setDiscountPrice(resultSet.getDouble("discountPrice"));
+                productBean.setDiscountPercent(resultSet.getDouble("discountPercent"));
+
+                products.add(productBean);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return products;
+    }
+
+    public List<ProductBean> findByTypeIdAndLimit(int categoryTypeId, double[] range, String sort, int start, int offset) {
+        List<ProductBean> products = new ArrayList<>();
+        String sql = modifiedQueryByTypeId(range, sort);
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            // Set điều kiện để setParameter (sort đã xử lý riêng trong modifiedQuery)
+            if (range == null) {
+                SetParameterUtil.setParameter(preparedStatement, categoryTypeId, start, offset);
+            } else {
+                SetParameterUtil.setParameter(preparedStatement, categoryTypeId, range[0], range[1], start, offset);
+            }
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                ProductBean productBean = new ProductBean();
+                productBean.setId(resultSet.getInt("id"));
+                productBean.setName(resultSet.getString("name"));
+                productBean.setCategoryTypeId(resultSet.getInt("categoryTypeId"));
+                productBean.setOriginalPrice(resultSet.getDouble("originalPrice"));
+                productBean.setDiscountPrice(resultSet.getDouble("discountPrice"));
+                productBean.setDiscountPercent(resultSet.getDouble("discountPercent"));
+
+                products.add(productBean);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return products;
+    }
+
+    public List<ProductBean> findByKeyAndLimit(String key, double[] range, String sort, int start, int offset) {
+        List<ProductBean> products = new ArrayList<>();
+        String sql = modifiedQueryByKey(key, range, sort);
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            // Set điều kiện để setParameter (sort đã xử lý riêng trong modifiedQuery)
+            if (range == null) {
+                SetParameterUtil.setParameter(preparedStatement, start, offset);
+            } else {
+                SetParameterUtil.setParameter(preparedStatement, range[0], range[1], start, offset);
+            }
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                ProductBean productBean = new ProductBean();
+                productBean.setId(resultSet.getInt("id"));
+                productBean.setName(resultSet.getString("name"));
+                productBean.setCategoryTypeId(resultSet.getInt("categoryTypeId"));
+                productBean.setOriginalPrice(resultSet.getDouble("originalPrice"));
+                productBean.setDiscountPrice(resultSet.getDouble("discountPrice"));
+                productBean.setDiscountPercent(resultSet.getDouble("discountPercent"));
+
+                products.add(productBean);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return products;
+    }
+
+
+    public int getTotalItems() {
+        String sql = "SELECT COUNT(id) AS tongsanpham FROM products";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getInt("tongsanpham");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return -1;
+    }
+
+    private String modifiedQueryByTypeId(double[] range, String sort) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("SELECT id, name, categoryTypeId, originalPrice, discountPrice, discountPercent ")
+           .append("FROM products WHERE categoryTypeId = ? AND status = 1 ");
+
+        if (range != null) {
+            sb.append(" AND (discountPrice BETWEEN ? AND ?) ");
+        }
+
+        if (!sort.equals("none")) {
+            if (sort.equals("asc")) {
+                sb.append("ORDER BY discountPrice ASC ");
+            } else if (sort.equals("desc")) {
+                sb.append("ORDER BY discountPrice DESC ");
+            }
+        }
+        sb.append("LIMIT ?, ?");
+        return sb.toString();
+    }
+
+    private String modifiedQueryByKey(String key, double[] range, String sort) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("SELECT id, name, categoryTypeId, originalPrice, discountPrice, discountPercent, keyword ")
+                .append("FROM products WHERE (name LIKE \"%")
+                .append(key)
+                .append("%\" OR keyword LIKE \"%")
+                .append(key)
+                .append("%\") AND status = 1 ");
+
+        if (range != null) {
+            sb.append(" AND (discountPrice BETWEEN ? AND ?) ");
+        }
+
+        if (!sort.equals("none")) {
+            if (sort.equals("asc")) {
+                sb.append("ORDER BY discountPrice ASC ");
+            } else if (sort.equals("desc")) {
+                sb.append("ORDER BY discountPrice DESC ");
+            }
+        }
+        sb.append("LIMIT ?, ?");
+        return sb.toString();
+    }
+
+    public void updateQuantity(int quantity, int id) {
+        String sql = "UPDATE products SET quantity = ? WHERE id = ?";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            connection.setAutoCommit(false);
+            preparedStatement = connection.prepareStatement(sql);
+
+            SetParameterUtil.setParameter(preparedStatement, quantity, id);
+            preparedStatement.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        } finally {
+            CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
+        }
     }
 }

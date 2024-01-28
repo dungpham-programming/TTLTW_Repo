@@ -224,4 +224,34 @@ public class ImageDAO {
         }
         return affectRows;
     }
+
+    public ProductImageBean findOneByProductId(int productId) {
+        ProductImageBean productImageBean = new ProductImageBean();
+        String sql = "SELECT id, name, link, productId FROM images " +
+                "WHERE productId = ? " +
+                "LiMIT 1";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            SetParameterUtil.setParameter(preparedStatement, productId);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                productImageBean.setId(resultSet.getInt("id"));
+                productImageBean.setName(resultSet.getString("name"));
+                productImageBean.setLink(resultSet.getString("link"));
+                productImageBean.setProductId(resultSet.getInt("productId"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return productImageBean;
+    }
 }

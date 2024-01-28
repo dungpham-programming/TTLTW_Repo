@@ -1,5 +1,6 @@
 package com.ltw.dao;
 
+import com.ltw.bean.CategoryBean;
 import com.ltw.bean.CustomizeBean;
 import com.ltw.util.CloseResourceUtil;
 import com.ltw.util.OpenConnectionUtil;

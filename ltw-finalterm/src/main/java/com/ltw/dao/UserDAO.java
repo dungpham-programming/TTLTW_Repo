@@ -106,6 +106,7 @@ public class UserDAO {
         }
         return affectRows;
     }
+  
     // Tìm danh sách người dùng theo email
     public int findIdByEmail(String email) {
         int id = -1;
@@ -346,14 +347,14 @@ public class UserDAO {
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-
+      
         try {
             connection = OpenConnectionUtil.openConnection();
             connection.setAutoCommit(false);
             preparedStatement = connection.prepareStatement(sql.toString());
             SetParameterUtil.setParameter(preparedStatement, user.getFirstName(), user.getLastName(),
-                    user.getAddressLine(), user.getAddressWard(), user.getAddressDistrict(),
-                    user.getAddressProvince(), user.getId());
+                                            user.getAddressLine(), user.getAddressWard(), user.getAddressDistrict(),
+                                            user.getAddressProvince(), user.getId());
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
@@ -646,4 +647,3 @@ public class UserDAO {
         }
     }
 }
-
