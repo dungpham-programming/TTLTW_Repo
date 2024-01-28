@@ -1,5 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
-
 :root {
     --primary-color-darkyellow: #e3bd74;
     --primary-color-gray: #f0f0f0;
@@ -183,6 +182,19 @@ input {
 textarea {
     width: 100%;
     height: 200px
+}
+
+form#client-home-management textarea {
+    height: 100px;
+}
+
+form a.link {
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
+    background: none;
+    color: #0a53be;
+    transition: .15s ease-out color;
 }
 
 form .adding.button {

@@ -1,19 +1,20 @@
 package com.ltw.bean;
 
+import java.sql.Blob;
 import java.sql.Timestamp;
 
-public class ProductImageBean {
+public class OrderBean {
     private int id;
-    private String name;
-    private String nameInStorage;
-    private String link;
-    private int productId;
+    private int userId;
+    private double total;
+    private int status;
+    private Timestamp shipToDate;
     private Timestamp createdDate;
     private String createdBy;
     private Timestamp modifiedDate;
     private String modifiedBy;
 
-    public ProductImageBean() {
+    public OrderBean() {
     }
 
     public int getId() {
@@ -24,36 +25,36 @@ public class ProductImageBean {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public String getNameInStorage() {
-        return nameInStorage;
+    public double getTotal() {
+        return total;
     }
 
-    public void setNameInStorage(String nameInStorage) {
-        this.nameInStorage = nameInStorage;
+    public void setTotal(double total) {
+        this.total = total;
     }
 
-    public String getLink() {
-        return link;
+    public int getStatus() {
+        return status;
     }
 
-    public void setLink(String link) {
-        this.link = link;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
-    public int getProductId() {
-        return productId;
+    public Timestamp getShipToDate() {
+        return shipToDate;
     }
 
-    public void setProductId(int productId) {
-        this.productId = productId;
+    public void setShipToDate(Timestamp shipToDate) {
+        this.shipToDate = shipToDate;
     }
 
     public Timestamp getCreatedDate() {
