@@ -59,8 +59,8 @@ public class ImageDAO {
             preparedStatement = connection.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
 
             SetParameterUtil.setParameter(preparedStatement, image.getName(), image.getLink(), image.getProductId(),
-                    image.getNameInStorage(), image.getCreatedDate(), image.getCreatedBy(),
-                    image.getModifiedDate(), image.getModifiedBy());
+                                                image.getNameInStorage(), image.getCreatedDate(), image.getCreatedBy(),
+                                                image.getModifiedDate(), image.getModifiedBy());
             id = preparedStatement.executeUpdate();
 
             // ... và commit ở đây...
@@ -119,7 +119,7 @@ public class ImageDAO {
 
     public void updateImage(ProductImageBean image) {
         String sql = "UPDATE images SET name = ?, link = ?, productId = ?, nameInStorage = ?, modifiedDate = ?, modifiedBy = ? " +
-                "WHERE id = ?";
+                     "WHERE id = ?";
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -130,8 +130,8 @@ public class ImageDAO {
             preparedStatement = connection.prepareStatement(sql);
 
             SetParameterUtil.setParameter(preparedStatement, image.getName(), image.getLink(), image.getProductId(),
-                    image.getNameInStorage(), image.getModifiedDate(), image.getModifiedBy(),
-                    image.getId());
+                                                    image.getNameInStorage(), image.getModifiedDate(), image.getModifiedBy(),
+                                                    image.getId());
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
@@ -158,8 +158,8 @@ public class ImageDAO {
             preparedStatement = connection.prepareStatement(sql);
 
             SetParameterUtil.setParameter(preparedStatement, image.getName(), image.getLink(), image.getProductId(),
-                    image.getModifiedDate(), image.getModifiedBy(),
-                    image.getId());
+                                                    image.getModifiedDate(), image.getModifiedBy(),
+                                                    image.getId());
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {

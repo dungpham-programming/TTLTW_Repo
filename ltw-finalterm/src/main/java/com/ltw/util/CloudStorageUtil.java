@@ -49,11 +49,6 @@ public class CloudStorageUtil {
         return imageList;
     }
 
-    public static String uploadCustomizeImageToStorage(String fileName, InputStream imageStream) {
-        String imageBaseLink = uploadAndGetBaseLink(imageStream, fileName);
-        return convertToRawLink(imageBaseLink);
-    }
-
     private static String convertToRawLink(String baseLink) {
         // Phòng trường hợp khi baseLink bị sai (Không chứa dl=0) thì trả về null để bắt lỗi
         // replace khi không tồn tại sẽ trả về link ban đầu
@@ -97,18 +92,5 @@ public class CloudStorageUtil {
     private static boolean isFormField(Part part) {
         String contentType = part.getHeader("content-type");
         return contentType == null;
-    }
-
-    public static boolean deleteCustomize(String prLink1InStorage) {
-        DbxRequestConfig config = DbxRequestConfig.newBuilder("LTW_Group33").build();
-        DbxClientV2 client = new DbxClientV2(config, accessTokenBundle.getString("access-token"));
-        try {
-            String pathLinkToDelete = "/LTW_Repository/" + prLink1InStorage;
-            DeleteResult deleteResult = client.files().deleteV2(pathLinkToDelete);
-            return deleteResult != null;
-        } catch (DbxException e) {
-            System.err.println("Error deleting file: " + e.getMessage());
-        }
-        return false;
     }
 }
