@@ -126,18 +126,18 @@
               </tr>
               </thead>
               <%
-                List<OrderBean> listOrder = (List<OrderBean>) request.getAttribute("listOrder");
+                List<OrderBean> listOrders = (List<OrderBean>) request.getAttribute("listOrders");
 
-                for (OrderBean order : listOrder) {
+                for (OrderBean order : listOrders) {
                   String idStr = String.valueOf(order.getId());
               %>
               <tbody>
               <tr>
-                <td><%=order.getId()%>></td>
-                <td><%=order.getUserId()%>></td>
+                <td><%=order.getId()%></td>
+                <td><%=order.getUserId()%></td>
                 <td>13/11/2022</td>
-                <td><%=order.getShipToDate()%>></td>
-                <td><%=order.getTotal()%>></td>
+                <td><%=order.getShipToDate()%></td>
+                <td><fmt:formatNumber value="<%=order.getTotal()%>" pattern="#,##0.#"/>đ</td>
                 <% if (order.getStatus() == 1) { %>
                 <td>Thành công</td>
                 <% } else if (order.getStatus() == 2) { %>
