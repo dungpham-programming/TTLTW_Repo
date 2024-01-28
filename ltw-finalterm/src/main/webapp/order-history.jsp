@@ -74,7 +74,7 @@
                     <td><%=order.getId()%></td>
                     <td><fmt:formatDate value="<%= order.getCreatedDate() %>" pattern="dd/MM/yyyy" /></td>
                     <td><fmt:formatDate value="<%= order.getShipToDate() %>" pattern="dd/MM/yyyy" /></td>
-                    <td><fmt:formatNumber value="<%=order.getTotal()%>" pattern="#,##0.##"/></td>
+                    <td><fmt:formatNumber value="<%=order.getTotal()%>" pattern="#,##0.##"/>đ</td>
                     <% if (order.getStatus() == 1) { %>
                     <td>Chờ xác nhận</td>
                     <% } else if (order.getStatus() == 2) { %>
