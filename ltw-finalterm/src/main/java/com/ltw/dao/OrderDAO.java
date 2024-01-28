@@ -8,11 +8,14 @@ import com.ltw.util.SetParameterUtil;
 
 import java.sql.*;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDAO {
-
     public List<OrderDetailBean> findOrderDetailByOrderId(int orderId) {
         List<OrderDetailBean> result = new ArrayList<>();
         StringBuilder sql = new StringBuilder();
@@ -90,6 +93,9 @@ public class OrderDAO {
         String sql = "SELECT id, userId, total, paymentMethod, status, shipToDate, createdDate, createdBy, modifiedDate, modifiedBy " +
                 "FROM orders";
 
+    public List<OrderBean> findAllOrders() {
+        String sql = "SELECT id, userId, total, status, shipToDate, createdDate, createdBy, modifiedDate, modifiedBy " +
+                "FROM orders";
         List<OrderBean> orderList = new ArrayList<>();
 
         Connection connection = null;
@@ -126,7 +132,7 @@ public class OrderDAO {
 
     public OrderBean findOrderById(int id) {
         OrderBean order = null;
-        String sql = "SELECT userId, total, paymentMethod, status, shipToDate, createdDate, createdBy, modifiedDate, modifiedBy " +
+        String sql = "SELECT id, userId, total, paymentMethod, status, shipToDate, createdDate, createdBy, modifiedDate, modifiedBy " +
                 "FROM orders " +
                 "WHERE id = ?";
 

@@ -1,11 +1,13 @@
 package com.ltw.dao;
 
 import com.ltw.bean.OrderDetailBean;
+import com.ltw.bean.ProductBean;
 import com.ltw.util.CloseResourceUtil;
 import com.ltw.util.OpenConnectionUtil;
 import com.ltw.util.SetParameterUtil;
 
 import java.sql.*;
+
 import java.util.ArrayList;
 import java.util.List;
 

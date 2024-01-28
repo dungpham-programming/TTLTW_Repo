@@ -10,6 +10,103 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAO {
+    public List<UserBean> findAllAccounts() {
+        String sql = "SELECT id, firstName, lastName, roleId, " +
+                "email, addressLine, addressWard, addressDistrict, status, " +
+                "createdDate, modifiedDate " +
+                "FROM users";
+
+        List<UserBean> accountList = new ArrayList<>();
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                UserBean userBean = new UserBean();
+                userBean.setId(resultSet.getInt("id"));
+                userBean.setFirstName(resultSet.getString("firstName"));
+                userBean.setLastName(resultSet.getString("lastName"));
+                userBean.setRoleId(resultSet.getInt("roleId"));
+                userBean.setEmail(resultSet.getString("email"));
+                userBean.setAddressLine(resultSet.getString("addressLine"));
+                userBean.setAddressWard(resultSet.getString("addressWard"));
+                userBean.setAddressDistrict(resultSet.getString("addressDistrict"));
+                userBean.setStatus(resultSet.getInt("status"));
+                userBean.setCreatedDate(resultSet.getTimestamp("createdDate"));
+                userBean.setModifiedDate(resultSet.getTimestamp("modifiedDate"));
+
+                accountList.add(userBean);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return accountList;
+    }
+
+    public void createAccount(UserBean userBean) {
+        String sql = "INSERT INTO users (password, firstName, lastName, roleId, " +
+                "email, addressLine, addressWard, addressDistrict, status) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            connection.setAutoCommit(false);
+            preparedStatement = connection.prepareStatement(sql);
+            SetParameterUtil.setParameter(preparedStatement, userBean.getPassword(), userBean.getFirstName(),
+                    userBean.getLastName(), userBean.getRoleId(), userBean.getEmail(), userBean.getAddressLine(),
+                    userBean.getAddressWard(), userBean.getAddressDistrict(), userBean.getStatus());
+            preparedStatement.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        } finally {
+            CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
+        }
+    }
+
+    public int deleteAccount(int id) {
+        int affectRows;
+        String sql = "DELETE FROM users WHERE id = ?";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            connection.setAutoCommit(false);
+            preparedStatement = connection.prepareStatement(sql);
+            SetParameterUtil.setParameter(preparedStatement, id);
+            affectRows = preparedStatement.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+                return -1;
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                return -1;
+            }
+        } finally {
+            CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
+        }
+        return affectRows;
+    }
+  
     // Tìm danh sách người dùng theo email
     public int findIdByEmail(String email) {
         int id = -1;
@@ -170,7 +267,7 @@ public class UserDAO {
 
             SetParameterUtil.setParameter(preparedStatement, verifiedCode);
             resultSet = preparedStatement.executeQuery();
-          
+
             while (resultSet.next()) {
                 email = resultSet.getString("email");
             }
@@ -250,7 +347,7 @@ public class UserDAO {
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        
+      
         try {
             connection = OpenConnectionUtil.openConnection();
             connection.setAutoCommit(false);
@@ -277,7 +374,7 @@ public class UserDAO {
         sql.append("UPDATE users ")
                 .append("SET password = ? ")
                 .append("WHERE email = ?");
-          
+
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
@@ -396,7 +493,7 @@ public class UserDAO {
         }
         return userBean;
     }
-    
+
     // Active tài khoản
     public void activeAccount(String email) {
         StringBuilder sql = new StringBuilder();
@@ -509,6 +606,34 @@ public class UserDAO {
 
             SetParameterUtil.setParameter(preparedStatement, email);
 
+            preparedStatement.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        } finally {
+            CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
+        }
+    }
+
+    // Cập nhật lại thông tin tài khoản
+    public void updateAccountForAdmin(UserBean user) {
+        StringBuilder sql = new StringBuilder();
+        sql.append("UPDATE users ")
+                .append("SET roleId = ?, status = ? ")
+                .append("WHERE id = ?");
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            connection.setAutoCommit(false);
+            preparedStatement = connection.prepareStatement(sql.toString());
+            SetParameterUtil.setParameter(preparedStatement, user.getRoleId(), user.getStatus(), user.getId());
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {

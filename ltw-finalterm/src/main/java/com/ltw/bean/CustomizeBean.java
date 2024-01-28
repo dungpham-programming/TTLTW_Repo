@@ -5,9 +5,9 @@ public class CustomizeBean {
     private int id;
     private String welcomeTitle, welcomeDes,
             productTitle, productDes,
-            prTitle1, prDes1, prIcon1, prContentTitle1, prContentDes1, prLink1,
-            prTitle2, prDes2, prContent2, prLink2,
-            background, footerLeft, footerMiddle, facebookLink,
+            prTitle1, prContentTitle1, prContentDes1, prDes1, prIcon1, prLink1, prLink1InStorage,
+            prTitle2, prDes2, prContent2, prLink2, prLink2InStorage,
+            background, backgroundInStorage, footerLeft, footerMiddle, facebookLink,
             twitterLink, instagramLink, linkedinLink;
 
     public CustomizeBean() {
@@ -187,5 +187,29 @@ public class CustomizeBean {
 
     public void setPrContent2(String prContent2) {
         this.prContent2 = prContent2;
+    }
+
+    public String getPrLink1InStorage() {
+        return prLink1InStorage;
+    }
+
+    public void setPrLink1InStorage(String prLink1InStorage) {
+        this.prLink1InStorage = prLink1InStorage;
+    }
+
+    public String getPrLink2InStorage() {
+        return prLink2InStorage;
+    }
+
+    public void setPrLink2InStorage(String prLink2InStorage) {
+        this.prLink2InStorage = prLink2InStorage;
+    }
+
+    public String getBackgroundInStorage() {
+        return backgroundInStorage;
+    }
+
+    public void setBackgroundInStorage(String backgroundInStorage) {
+        this.backgroundInStorage = backgroundInStorage;
     }
 }

@@ -23,6 +23,7 @@ public class HomeController extends HttpServlet {
     private final CustomizeDAO customizeDAO = new CustomizeDAO();
     private final CategoryDAO categoryDAO = new CategoryDAO();
     private final BlogDAO blogDAO = new BlogDAO();
+  
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         CustomizeBean customizeInfo = customizeDAO.getCustomizeInfo();

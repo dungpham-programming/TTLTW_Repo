@@ -151,4 +151,3 @@ public class ProductBean {
         this.modifiedBy = modifiedBy;
     }
 }
-
