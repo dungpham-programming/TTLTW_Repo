@@ -128,15 +128,15 @@ public class ClientHomeManagementController extends HttpServlet {
             String linkImage1 = null;
             String linkImage2 = null;
             String backgroundImage = null;
-            if (prLink1.getSize() > 0 && prLink1.getContentType().startsWith("image")) {
-                linkImage1 = CloudStorageUtil.uploadCustomizeImageToStorage(prLink1.getSubmittedFileName(), prLink1.getInputStream());
-            }
-            if (prLink2.getSize() > 0 && prLink1.getContentType().startsWith("image")) {
-                linkImage2 = CloudStorageUtil.uploadCustomizeImageToStorage(prLink2.getSubmittedFileName(), prLink2.getInputStream());
-            }
-            if (background.getSize() > 0 && prLink1.getContentType().startsWith("image")) {
-                backgroundImage = CloudStorageUtil.uploadCustomizeImageToStorage(background.getSubmittedFileName(), background.getInputStream());
-            }
+//            if (prLink1.getSize() > 0 && prLink1.getContentType().startsWith("image")) {
+//                linkImage1 = CloudStorageUtil.uploadCustomizeImageToStorage(prLink1.getSubmittedFileName(), prLink1.getInputStream());
+//            }
+//            if (prLink2.getSize() > 0 && prLink1.getContentType().startsWith("image")) {
+//                linkImage2 = CloudStorageUtil.uploadCustomizeImageToStorage(prLink2.getSubmittedFileName(), prLink2.getInputStream());
+//            }
+//            if (background.getSize() > 0 && prLink1.getContentType().startsWith("image")) {
+//                backgroundImage = CloudStorageUtil.uploadCustomizeImageToStorage(background.getSubmittedFileName(), background.getInputStream());
+//            }
 
             // Thực hiện xóa các khoảng trắng ở đầu và cuối chuỗi cho content và icon
             String clearSpaceIcon1 = clearSpaceHeaderAndFooter(prIcon1);
@@ -158,7 +158,7 @@ public class ClientHomeManagementController extends HttpServlet {
             customizeBean.setPrContentDes1(clearSpaceContentDes1);
             if (linkImage1 != null) {
                 // Xóa ảnh cũ trong Cloud Storage
-                CloudStorageUtil.deleteCustomize(prLink1InStorage);
+//                CloudStorageUtil.deleteCustomize(prLink1InStorage);
                 // Cập nhật ảnh mới
                 customizeBean.setPrLink1(linkImage1);
                 customizeBean.setPrLink1InStorage(prLink1.getSubmittedFileName());
@@ -172,7 +172,7 @@ public class ClientHomeManagementController extends HttpServlet {
             customizeBean.setPrContent2(clearSpaceContent2);
             if (linkImage2 != null) {
                 // Xóa ảnh cũ trong Cloud Storage
-                CloudStorageUtil.deleteCustomize(prLink2InStorage);
+//                CloudStorageUtil.deleteCustomize(prLink2InStorage);
                 // Cập nhật ảnh mới
                 customizeBean.setPrLink2(linkImage2);
                 customizeBean.setPrLink2InStorage(prLink2.getSubmittedFileName());
@@ -182,7 +182,7 @@ public class ClientHomeManagementController extends HttpServlet {
             }
             if (backgroundImage != null) {
                 // Xóa ảnh cũ trong Cloud Storage
-                CloudStorageUtil.deleteCustomize(backgroundInStorage);
+//                CloudStorageUtil.deleteCustomize(backgroundInStorage);
                 // Cập nhật ảnh mới
                 customizeBean.setBackground(backgroundImage);
                 customizeBean.setBackgroundInStorage(background.getSubmittedFileName());

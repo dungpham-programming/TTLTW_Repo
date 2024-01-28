@@ -23,6 +23,7 @@ public class OrderEditingController extends HttpServlet {
         req.getRequestDispatcher("/editing-order.jsp").forward(req, resp);
     }
 
+    // TODO: Sửa lại code
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");

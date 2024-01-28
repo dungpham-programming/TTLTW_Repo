@@ -53,7 +53,7 @@ public class OrderDAO {
 
     public OrderBean findOrderById(int id) {
         OrderBean order = null;
-        String sql = "SELECT userId, total, status, shipToDate, createdDate, createdBy, modifiedDate, modifiedBy " +
+        String sql = "SELECT id, userId, total, status, shipToDate, createdDate, createdBy, modifiedDate, modifiedBy " +
                 "FROM orders " +
                 "WHERE id = ?";
 
@@ -72,8 +72,8 @@ public class OrderDAO {
                 order.setId(resultSet.getInt("id"));
                 order.setUserId(resultSet.getInt("userId"));
                 order.setTotal(resultSet.getDouble("total"));
-                order.setShipToDate(resultSet.getTimestamp("shipToDate"));
                 order.setStatus(resultSet.getInt("status"));
+                order.setShipToDate(resultSet.getTimestamp("shipToDate"));
                 order.setCreatedDate(resultSet.getTimestamp("createdDate"));
                 order.setCreatedBy(resultSet.getString("createdBy"));
                 order.setModifiedDate(resultSet.getTimestamp("modifiedDate"));

@@ -137,13 +137,15 @@
                 <td><%=order.getUserId()%></td>
                 <td>13/11/2022</td>
                 <td><%=order.getShipToDate()%></td>
-                <td><fmt:formatNumber value="<%=order.getTotal()%>" pattern="#,##0.#"/>đ</td>
+                <td><fmt:formatNumber value="<%=order.getTotal()%>" pattern="#,##0.##"/>đ</td>
                 <% if (order.getStatus() == 1) { %>
-                <td>Thành công</td>
-                <% } else if (order.getStatus() == 2) { %>
                 <td>Chờ xác nhận</td>
+                <% } else if (order.getStatus() == 2) { %>
+                <td>Đã xác nhận</td>
                 <% } else if (order.getStatus() == 3) { %>
                 <td>Đang vận chuyển</td>
+                <% } else if (order.getStatus() == 4) { %>
+                <td>Thành công</td>
                 <% } else if (order.getStatus() == 0) { %>
                 <td>Hủy bỏ</td>
                 <% } %>

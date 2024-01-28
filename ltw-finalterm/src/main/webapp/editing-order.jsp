@@ -95,9 +95,7 @@
                 </ol>
                 <%
                     OrderBean orderBean = (OrderBean) request.getAttribute("orderBean");
-                    ArrayList<String> errors = (ArrayList<String>) request.getAttribute("errors");
                     String success = request.getParameter("success");
-
                 %>
                 <% if (success != null) { %>
                 <div class="alert alert-success">
@@ -107,39 +105,34 @@
                 <form action="<c:url value="/admin/order-management/editing"/>" method="post">
                     <div class="row">
                         <div class="col-6">
-                            <label for="email">Email</label>
-                            <input type="text" id="email" name="email" value="13001" disabled>
+                            <label for="email"></label>
+                            <input type="text" id="email" name="email" value="<%=orderBean.getId()%>" disabled>
                         </div>
 
                         <div class="col-3">
                             <label for="createdDate">Ngày đặt</label>
-                            <input type="text" id="createdDate" name="createdDate" value="<%=orderBean.getCreatedDate()%>>" disabled>
+                            <input type="text" id="createdDate" name="createdDate" value="<%=orderBean.getCreatedDate()%>" disabled>
                         </div>
 
                         <div class="col-3">
                             <label for="shipToDate">Ngày giao</label>
-                            <input type="text" id="shipToDate" name="shipToDate" value="<%=orderBean.getShipToDate()%>>" disabled>
+                            <input type="text" id="shipToDate" name="shipToDate" value="<%=orderBean.getShipToDate()%>" disabled>
                         </div>
 
                         <div class="col-6">
                             <label for="total">Tổng trị giá</label>
-                            <input type="email" id="total" name="total" value="<%=orderBean.getTotal()%>>" disabled>
-                            <% if (errors != null && errors.get(3) != null) { %>
-                            <div class="error" id="error4">Không được để trống!</div>
-                            <% } %>
+                            <input type="email" id="total" name="total" value="<fmt:formatNumber value="<%=orderBean.getTotal()%>" pattern="#.##0,0"/>đ" disabled>
                         </div>
 
                         <div class="col-6">
                             <label for="status">Trạng thái</label>
                             <select type="text" id="status" name="status">
-                            <option value="1" <%= (orderBean.getStatus() == 1) ? "selected" : "" %>>Thành công</option>
-                            <option value="2" <%= (orderBean.getStatus() == 2) ? "selected" : "" %>>Chờ xác nhận</option>
-                            <option value="3" <%= (orderBean.getStatus() == 3) ? "selected" : "" %>>Đang vận chuyển</option>
-                            <option value="3" <%= (orderBean.getStatus() == 4) ? "selected" : "" %>>Hủy bỏ</option>
+                                <option value="1" <%= (orderBean.getStatus() == 1) ? "selected" : "" %>>Chờ xác nhận</option>
+                                <option value="2" <%= (orderBean.getStatus() == 2) ? "selected" : "" %>>Đã xác nhận</option>
+                                <option value="3" <%= (orderBean.getStatus() == 3) ? "selected" : "" %>>Đang vận chuyển</option>
+                                <option value="4" <%= (orderBean.getStatus() == 4) ? "selected" : "" %>>Thành công</option>
+                                <option value="0" <%= (orderBean.getStatus() == 0) ? "selected" : "" %>>Hủy bỏ</option>
                             </select>
-                            <% if (errors != null && errors.get(9) != null) { %>
-                            <div class="error" id="error10">Không được để trống!</div>
-                            <% } %>
                         </div>
                     </div>
                     <input type="hidden" name="id" value="<%=orderBean.getId()%>">
