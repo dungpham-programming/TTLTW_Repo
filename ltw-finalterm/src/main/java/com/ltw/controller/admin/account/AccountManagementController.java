@@ -1,9 +1,8 @@
 package com.ltw.controller.admin.account;
 
-import com.ltw.bean.AccountBean;
-import com.ltw.dao.AccountDAO;
+import com.ltw.bean.UserBean;
+import com.ltw.dao.UserDAO;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,11 +13,11 @@ import java.util.List;
 
 @WebServlet("/admin/account-management")
 public class AccountManagementController extends HttpServlet {
-    private final AccountDAO accountDAO = new AccountDAO();
+    private final UserDAO userDAO = new UserDAO();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<AccountBean> accounts = AccountDAO.findAllAccounts();
+        List<UserBean> accounts = userDAO.findAllAccounts();
         request.setAttribute("accounts", accounts);
-        request.getRequestDispatcher("/admin/account-management.jsp").forward(request, response);
+        request.getRequestDispatcher("/account-management.jsp").forward(request, response);
     }
 }

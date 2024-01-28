@@ -1,9 +1,9 @@
 package com.ltw.controller.admin.account;
 
-import com.ltw.bean.AccountBean;
-import com.ltw.bean.ProductBean;
-import com.ltw.dao.AccountDAO;
+import com.ltw.bean.UserBean;
+import com.ltw.dao.UserDAO;
 import com.ltw.util.BlankInputUtil;
+import com.ltw.util.EncryptPasswordUtil;
 import com.ltw.util.NumberValidateUtil;
 
 import javax.servlet.ServletException;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 @WebServlet("/admin/account-management/adding")
 
 public class AccountAddingController {
-    private final AccountDAO accountDAO = new AccountDAO();
+    private final UserDAO userDAO = new UserDAO();
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("/admin/add-account.jsp").forward(req, resp);
     }
@@ -60,20 +60,18 @@ public class AccountAddingController {
             int statusInt = NumberValidateUtil.toInt(status);
 
             // Set thuộc tính vào bean
-            AccountBean accountBean = new AccountBean();
-            accountBean.setUserName(userName);
-            accountBean.setPassword(password);
-            accountBean.setFirstName(firstName);
-            accountBean.setLastName(lastName);
-            accountBean.setRoleId(roleIdInt);
-            accountBean.setEmail(email);
-            accountBean.setAddressLine(addressLine);
-            accountBean.setAddressWard(addressWard);
-            accountBean.setAddressDistrict(addressDistrict);
-            accountBean.setVerifiedCode(verifiedCode);
-            accountBean.setStatus(statusInt);
+            UserBean userBean = new UserBean();
+            userBean.setPassword(EncryptPasswordUtil.encryptPassword(password));
+            userBean.setFirstName(firstName);
+            userBean.setLastName(lastName);
+            userBean.setRoleId(roleIdInt);
+            userBean.setEmail(email);
+            userBean.setAddressLine(addressLine);
+            userBean.setAddressWard(addressWard);
+            userBean.setAddressDistrict(addressDistrict);
+            userBean.setStatus(statusInt);
 
-            accountDAO.createAccount(accountBean);
+            userDAO.createAccount(userBean);
             resp.sendRedirect(req.getContextPath() + "/admin/account-management/adding?success=" + success);
         } else {
             req.getRequestDispatcher("/adding-account.jsp").forward(req, resp);

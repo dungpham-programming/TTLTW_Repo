@@ -1,8 +1,7 @@
 package com.ltw.controller.admin.account;
 
-import com.ltw.bean.AccountBean;
-import com.ltw.dao.AccountDAO;
-import com.ltw.dao.ProductDAO;
+import com.ltw.bean.UserBean;
+import com.ltw.dao.UserDAO;
 import com.ltw.util.BlankInputUtil;
 import com.ltw.util.NumberValidateUtil;
 
@@ -15,13 +14,13 @@ import java.util.ArrayList;
 
 @WebServlet("/admin/account-management/editing")
 public class AccountEditingController {
-    private final AccountDAO accountDAO = new AccountDAO();
+    private final UserDAO userDAO = new UserDAO();
 
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        AccountBean accountBean = AccountDAO.findAccountById(id);
-        request.setAttribute("accountBean", accountBean);
+        UserBean userBean = userDAO.findUserById(id);
+        request.setAttribute("accountBean", userBean);
         request.getRequestDispatcher("/editing-account.jsp").forward(request, response);
     }
 
@@ -76,15 +75,15 @@ public class AccountEditingController {
 
 
             // Set thuộc tính vào bean
-            AccountBean accountBean = new AccountBean();
-            accountBean.setId(id);
-            accountBean.setStatus(statusInt);
+            UserBean userBean = new UserBean();
+            userBean.setId(id);
+            userBean.setStatus(statusInt);
 
-            accountDAO.updateAccount(accountBean);
-            resp.sendRedirect(req.getContextPath() + "/admin/account-management/editing?id=" + accountBean.getId() + "&success=" + success);
+            userDAO.updateAccount(userBean);
+            resp.sendRedirect(req.getContextPath() + "/admin/account-management/editing?id=" + userBean.getId() + "&success=" + success);
         } else {
-            AccountBean accountBean = AccountDAO.findAccountById(id);
-            req.setAttribute("findAccountByIdBean", accountBean);
+            UserBean userBean = userDAO.findUserById(id);
+            req.setAttribute("findAccountByIdBean", userBean);
             req.getRequestDispatcher("/editing-account.jsp").forward(req, resp);
         }
     }

@@ -1,5 +1,5 @@
 <%@ page import="java.util.List" %>
-<%@ page import="com.ltw.bean.AccountBean" %>
+<%@ page import="com.ltw.bean.UserBean" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -118,12 +118,10 @@
 
                             <tr>
                                 <th>ID Tài khoản</th>
-                                <th>Username</th>
-                                <th>Mật khẩu</th>
+                                <th>Email</th>
                                 <th>Họ</th>
                                 <th>Tên</th>
                                 <th>Phân quyền</th>
-                                <th>Email</th>
                                 <th>Địa chỉ đầy đủ</th>
                                 <th>Trạng thái</th>
                                 <th>Tạo ngày</th>
@@ -134,32 +132,28 @@
                             </tr>
                             </thead>
                             <%
-                                List<AccountBean> listAccount = (List<AccountBean>) request.getAttribute("listAccount");
+                                List<UserBean> listAccount = (List<UserBean>) request.getAttribute("accounts");
 
-                                for (AccountBean account : listAccount) {
+                                for (UserBean account : listAccount) {
                                     String idStr = String.valueOf(account.getId());
                             %>
                             <tbody>
                             <tr>
                                 <td><%=account.getId()%></td>
 
-                                <% if (account.getUserName() != null) { %>
-                                <td><%=account.getUserName()%></td>
-                                <% } %>
+                                <td><%=account.getEmail()%></td>
 
-                                <% if (account.getPassword() != null) { %>
-                                <td><%=account.getPassword()%></td>
+                                <% if (account.getFirstName() != null) { %>
+                                <td><%=account.getFirstName()%></td>
                                 <% } %>
 
                                 <% if (account.getLastName() != null) { %>
                                 <td><%=account.getLastName()%></td>
                                 <% } %>
 
-                                <% if (account.getFirstName() != null) { %>
-                                <td><%=account.getFirstName()%></td>
-                                <% } %>
-                                <td><%=account.getRoleId()%></td>
-                                <td><%=account.getEmail()%></td>
+                                <td>
+                                    <%if (account.getRoleId() == 1) {%>Người dùng<%} else if (account.getRoleId() == 2) { %>Quản trị viên<%}%>
+                                </td>
                                 <td><%=account.getAddressLine() + account.getAddressWard() + account.getAddressDistrict()%></td>
                                 <% if (account.getStatus() == 1) { %>
                                 <td>Đã tạo</td>
