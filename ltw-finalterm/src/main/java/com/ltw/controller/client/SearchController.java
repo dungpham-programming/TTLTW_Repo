@@ -1,4 +1,4 @@
-package com.ltw.controller;
+package com.ltw.controller.client;
 
 import com.ltw.bean.CategoryBean;
 import com.ltw.bean.CategoryTypeBean;

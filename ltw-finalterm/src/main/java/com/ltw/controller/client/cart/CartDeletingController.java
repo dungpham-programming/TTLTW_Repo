@@ -1,6 +1,7 @@
 package com.ltw.controller.client.cart;
 
 import com.ltw.bean.Cart;
+import com.ltw.bean.CustomizeBean;
 import com.ltw.bean.Item;
 import com.ltw.dao.CustomizeDAO;
 
@@ -18,6 +19,7 @@ public class CartDeletingController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        CustomizeBean customizeInfo = customizeDAO.getCustomizeInfo();
         int productId = Integer.parseInt(req.getParameter("productId"));
         Cart cart = (Cart) req.getSession().getAttribute("cart");
         List<Item> items = cart.getItems();
@@ -27,6 +29,7 @@ public class CartDeletingController extends HttpServlet {
                 cart.deleteItem(productId);
             }
         }
+        req.setAttribute("customizeInfo", customizeInfo);
         req.getRequestDispatcher("/cart.jsp").forward(req, resp);
     }
 }

@@ -22,7 +22,6 @@ public class CartAddingController extends HttpServlet {
         // Đăng nhập mới cho phép thêm vào cart (Đã có trong filter)
         String productId = req.getParameter("productId");
         // 3 requestBy: Từ shop, từ product-detail và từ search
-        String requestBy = req.getParameter("requestBy");
 
         ProductBean product = productDAO.findProductById(Integer.parseInt(productId));
 
@@ -41,12 +40,6 @@ public class CartAddingController extends HttpServlet {
         cart.addItem(item);
         SessionUtil.getInstance().putValue(req, "cart", cart);
 
-        if (requestBy != null) {
-            if (requestBy.equals("shop")) {
-                resp.sendRedirect(req.getContextPath() + "/shop?success=s");
-            } else if (requestBy.equals("product-detail")) {
-                resp.sendRedirect(req.getContextPath() + "/product-detail?id=" + productId + "&success=s");
-            }
-        }
+        resp.sendRedirect(req.getContextPath() + "/shop?success=s");
     }
 }

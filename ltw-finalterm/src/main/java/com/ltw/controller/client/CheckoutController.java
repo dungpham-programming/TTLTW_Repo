@@ -1,10 +1,7 @@
 package com.ltw.controller.client;
 
 import com.ltw.bean.*;
-import com.ltw.dao.CustomizeDAO;
-import com.ltw.dao.OrderDAO;
-import com.ltw.dao.OrderDetailDAO;
-import com.ltw.dao.UserDAO;
+import com.ltw.dao.*;
 import com.ltw.util.BlankInputUtil;
 import com.ltw.util.SessionUtil;
 
@@ -18,6 +15,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 @WebServlet(value = {"/checkout"})
 public class CheckoutController extends HttpServlet {
@@ -25,9 +23,21 @@ public class CheckoutController extends HttpServlet {
     private final UserDAO userDAO = new UserDAO();
     private final OrderDAO orderDAO = new OrderDAO();
     private final OrderDetailDAO orderDetailDAO = new OrderDetailDAO();
+    private final ProductDAO productDAO = new ProductDAO();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         CustomizeBean customizeInfo = customizeDAO.getCustomizeInfo();
+        // Kiểm tra só lượng trước khi cho phép checkout
+        Cart cart = (Cart) SessionUtil.getInstance().getValue(req, "cart");
+        List<Item> items = cart.getItems();
+
+        for (Item item : items) {
+            if (item.getQuantity() > item.getProduct().getQuantity()) {
+                resp.sendRedirect(req.getContextPath() + "/cart-management?error=e&productId=" + item.getProduct().getId() + "&quantity=" + item.getProduct().getQuantity());
+                return;
+            }
+        }
         req.setAttribute("customizeInfo", customizeInfo);
         req.getRequestDispatcher("/checkout.jsp").forward(req, resp);
     }
@@ -103,11 +113,15 @@ public class CheckoutController extends HttpServlet {
                     orderDetailBean.setQuantity(item.getQuantity());
 
                     orderDetailDAO.createOrderDetail(orderDetailBean);
+
+                    int quantityProductAfterOrder = productDAO.getTotalItems() - item.getQuantity();
+                    // Set lại số lượng product
+                    productDAO.updateQuantity(item.getProduct().getId(), quantityProductAfterOrder);
                 }
                 resp.sendRedirect(req.getContextPath() + "/thankyou");
             }
         } else {
-            req.getRequestDispatcher("/adding-product.jsp").forward(req, resp);
+            req.getRequestDispatcher("/checkout.jsp").forward(req, resp);
         }
     }
 

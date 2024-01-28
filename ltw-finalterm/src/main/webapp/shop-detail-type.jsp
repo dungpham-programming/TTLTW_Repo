@@ -56,8 +56,8 @@
         %>
         <div class="row mb-3">
             <form action="<c:url value="/search"/>" method="get">
-                <input type="hidden" name="sort" value="<%=sort%>">
-                <input type="hidden" name="range" value="<%=range%>">
+                <input type="hidden" name="sort" value="none">
+                <input type="hidden" name="range" value="none">
                 <input type="hidden" name="page" value="1">
                 <div class="input-group">
                     <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" name="key"/>

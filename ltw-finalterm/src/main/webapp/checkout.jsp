@@ -64,6 +64,7 @@
         <%
             UserBean user = (UserBean) request.getSession().getAttribute("user");
             Cart cart = (Cart) request.getSession().getAttribute("cart");
+            List<String> errors = (List<String>) request.getAttribute("errors");
         %>
         <form action="<c:url value="/checkout"/>" method="post">
             <div class="row">
@@ -75,10 +76,17 @@
                                 <label for="c_fname" class="text-black">Họ <span
                                         class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="c_fname" name="firstName" value="<%=(user.getFirstName() == null) ? "" : user.getFirstName()%>" required>
+                                <% if (errors != null && errors.get(0) != null) {%>
+                                <div class="error-message">Không được để trống!</div>
+                                <%}%>
                             </div>
+
                             <div class="col-md-6">
                                 <label for="c_lname" class="text-black">Tên <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="c_lname" name="lastName" value="<%=(user.getLastName() == null) ? "" : user.getLastName()%>" required>
+                                <% if (errors != null && errors.get(1) != null) {%>
+                                <div class="error-message">Không được để trống!</div>
+                                <%}%>
                             </div>
 
                             <div class="col-md-12">
@@ -94,24 +102,37 @@
                                 <label for="c_address" class="text-black">Số nhà/Tên đường <span
                                         class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="c_address" name="addressLine" value="<%=(user.getAddressLine() == null) ? "" : user.getAddressLine()%>" required>
+                                <% if (errors != null && errors.get(2) != null) {%>
+                                <div class="error-message">Không được để trống!</div>
+                                <%}%>
                             </div>
+
 
                             <div class="col-md-12">
                                 <label for="c_state_country" class="text-black">Phường/Xã <span
                                         class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="c_state_country" name="addressWard" value="<%=(user.getAddressWard() == null) ? "" : user.getAddressWard()%>" required>
                             </div>
+                            <% if (errors != null && errors.get(3) != null) {%>
+                            <div class="error-message">Không được để trống!</div>
+                            <%}%>
 
                             <div class="col-md-12">
                                 <label for="c_postal_zip" class="text-black">Quận/Huyện <span
                                         class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="c_postal_zip" name="addressDistrict" value="<%=(user.getAddressDistrict() == null) ? "" : user.getAddressDistrict()%>" required>
+                                <% if (errors != null && errors.get(4) != null) {%>
+                                <div class="error-message">Không được để trống!</div>
+                                <%}%>
                             </div>
 
                             <div class="col-md-12">
                                 <label for="province" class="text-black">Tỉnh/Thành phố <span
                                         class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="province" name="addressProvince" value="<%=(user.getAddressProvince() == null) ? "" : user.getAddressProvince()%>">
+                                <% if (errors != null && errors.get(5) != null) {%>
+                                <div class="error-message">Không được để trống!</div>
+                                <%}%>
                             </div>
                         </div>
                     </div>

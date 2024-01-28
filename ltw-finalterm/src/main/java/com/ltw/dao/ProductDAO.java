@@ -475,4 +475,28 @@ public class ProductDAO {
         sb.append("LIMIT ?, ?");
         return sb.toString();
     }
+
+    public void updateQuantity(int quantity, int id) {
+        String sql = "UPDATE products SET quantity = ? WHERE id = ?";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            connection.setAutoCommit(false);
+            preparedStatement = connection.prepareStatement(sql);
+
+            SetParameterUtil.setParameter(preparedStatement, quantity, id);
+            preparedStatement.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        } finally {
+            CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
+        }
+    }
 }

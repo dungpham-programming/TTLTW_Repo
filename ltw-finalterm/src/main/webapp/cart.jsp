@@ -46,7 +46,12 @@
 
 <div class="untree_co-section before-footer-section">
     <div class="container">
-        <div id="notify"></div>
+        <%
+            String error = request.getParameter("error");
+            String productId = request.getParameter("productId");
+            String quantity = request.getParameter("quantity");
+        %>
+        <div id="notify" class="alert alert-info"><% if (error != null) { %>Mặt hàng mã <%=productId%> chỉ còn <%=quantity%> sản phẩm!<%}%></div>
         <div class="row mb-5">
             <form action="<c:url value="/cart-updating"/>" class="col-md-12" method="post">
                 <div class="site-blocks-table">
