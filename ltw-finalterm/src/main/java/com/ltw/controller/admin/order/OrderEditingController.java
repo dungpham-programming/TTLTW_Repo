@@ -32,60 +32,23 @@ public class OrderEditingController extends HttpServlet {
         String idStr = req.getParameter("id");
         // Lấy id kiểu int ra để lưu vào database
         int id = Integer.parseInt(idStr);
-        String userID = req.getParameter("userId");
-        String total = req.getParameter("total");
         String status = req.getParameter("status");
-        String shipToDate = req.getParameter("shipToDate");
-        String createdDate = req.getParameter("createdDate");
-        String createdBy = req.getParameter("createdBy");
-        String modifiedDate = req.getParameter("modifiedDate");
-        String modifiedBy = req.getParameter("modifiedBy");
-        String profilePic = req.getParameter("profilePic");
 
         // Biến thông báo thành công
         String success = "success";
 
-        // Đặt các thuộc tính đúng thứ tự
-        String[] inputsForm = new String[]{ userID, shipToDate, total, status, profilePic, createdDate, createdBy, modifiedDate, modifiedBy};
-        // Mảng lưu trữ lỗi
-        ArrayList<String> errors = new ArrayList<>();
-
-        // Biến bắt lỗi
-        boolean isValid = true;
-
-        for (String string : inputsForm) {
-            if (BlankInputUtil.isBlank(string)) {
-                errors.add("e");
-                if (isValid) {
-                    isValid = false;
-                }
-            } else {
-                errors.add(null);
-            }
-        }
-        req.setAttribute("errors", errors);
-
-
 
         // Nếu không lỗi thì lưu vào database
-        if (isValid) {
             // Đổi String về số
-            int userIDInt = NumberValidateUtil.toInt(userID);
             int statusInt = NumberValidateUtil.toInt(status);
 
 
             // Set thuộc tính vào bean
             OrderBean orderBean = new OrderBean();
             orderBean.setId(id);
-            orderBean.setUserId(userIDInt);
             orderBean.setStatus(statusInt);
 
             orderDAO.updateOrder(orderBean);
             resp.sendRedirect(req.getContextPath() + "/admin/order-management/editing?id=" + orderBean.getId() + "&success=" + success);
-        } else {
-            OrderBean orderBean = orderDAO.findOrderById(id);
-            req.setAttribute("orderBean", orderBean);
-            req.getRequestDispatcher("/editing-order.jsp").forward(req, resp);
-        }
     }
 }

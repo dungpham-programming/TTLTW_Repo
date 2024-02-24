@@ -91,7 +91,7 @@ public class OrderDAO {
           
 
     public List<OrderBean> findAllOrders() {
-        String sql = "SELECT id, userId, total, status, shipToDate, createdDate, createdBy, modifiedDate, modifiedBy " +
+        String sql = "SELECT id, userId, total, paymentMethod, status, shipToDate, createdDate, createdBy, modifiedDate, modifiedBy " +
                 "FROM orders";
         List<OrderBean> orderList = new ArrayList<>();
 

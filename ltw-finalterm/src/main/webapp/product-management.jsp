@@ -110,9 +110,6 @@
                                 <% } %>
                                 <%-- TODO: Ảnh chỉ là để link tạm thời --%>
                                 <td>
-                                    <img src="<c:url value="/templates/admin/assets/img/tui_sen_1.jpg"/>" alt="">
-                                    <img src="<c:url value="/templates/admin/assets/img/tui_sen_2.jpg"/>" alt="">
-                                    <img src="<c:url value="/templates/admin/assets/img/tui_sen_3.jpg"/>" alt="">
                                 </td>
                                 <td><%=product.getCreatedDate()%></td>
                                 <td><%=product.getCreatedBy()%></td>
