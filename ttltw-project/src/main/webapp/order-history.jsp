@@ -6,21 +6,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="shortcut icon" href="../favicon.png">
-
-    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/all.css">
-    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/sharp-solid.css">
-    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/sharp-regular.css">
-    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/sharp-light.css">
-
-    <!-- Bootstrap CSS -->
-    <link href="<c:url value="templates/client/css/bootstrap.min.css"/>" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
-    <link href="<c:url value="/templates/client/css/tiny-slider.css"/>" rel="stylesheet">
-    <link href="<c:url value="/templates/client/css/style.css"/>" rel="stylesheet">
-
+    <jsp:include page="/common/client/using-resource-header.jsp"/>
     <title>DDD. - Nghệ thuật mỹ nghệ</title>
 </head>
 
@@ -109,10 +95,6 @@
 
 <jsp:include page="/common/client/footer.jsp"/>
 
-<script src="<c:url value="/templates/client/js/bootstrap.bundle.min.js"/>"></script>
-<script src="<c:url value="/templates/client/js/tiny-slider.js"/>"></script>
-<%--<script src="../js/reset-password.js"></script>--%>
-<script src="<c:url value="/templates/client/js/custom.js"/>"></script>
+<jsp:include page="/common/client/using-resource-footer.jsp"/>
 </body>
-
 </html>

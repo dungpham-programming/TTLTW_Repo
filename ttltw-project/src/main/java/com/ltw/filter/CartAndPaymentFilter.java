@@ -1,5 +1,6 @@
 package com.ltw.filter;
 
+import com.ltw.bean.Cart;
 import com.ltw.bean.UserBean;
 import com.ltw.util.SessionUtil;
 
@@ -23,6 +24,9 @@ public class CartAndPaymentFilter implements Filter {
                 // Nếu chưa tồn tại Session, điều hướng sang trang login
                 response.sendRedirect(request.getContextPath() + "/signin?message=must_login");
                 return;
+            } else {
+                Cart cart = new Cart();
+                SessionUtil.getInstance().putValue(request, "cart", cart);
             }
         }
 

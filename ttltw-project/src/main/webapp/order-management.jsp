@@ -6,19 +6,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>DDD. Admin - Management Order</title>
-
-  <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/all.css">
-  <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/sharp-solid.css">
-  <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/sharp-regular.css">
-  <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/sharp-light.css">
-
-  <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet"/>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"/>
-  <link rel="stylesheet" href="<c:url value="/templates/admin/css/styles.css"/>">
-  <link rel="stylesheet" href="<c:url value="/templates/admin/css/admin-custom.css"/>">
-  <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+  <title>DDD. Admin - Quản lý đơn hàng</title>
+  <jsp:include page="/common/admin/using-resource-header.jsp"/>
 </head>
 <body class="sb-nav-fixed">
 <jsp:include page="/common/admin/top-header.jsp"/>
@@ -114,15 +103,7 @@
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-        crossorigin="anonymous"></script>
-<script src="<c:url value="/templates/admin/js/scripts.js"/>"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-<script src="../assets/demo/chart-area-demo.js"></script>
-<script src="../assets/demo/chart-bar-demo.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
-        crossorigin="anonymous"></script>
-<script src="../js/datatables-simple-demo.js"></script>
+<jsp:include page="/common/admin/using-resource-footer.jsp"/>
 </body>
 </html>
 

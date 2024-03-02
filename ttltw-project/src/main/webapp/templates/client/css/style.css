@@ -109,8 +109,7 @@ hr {
 
 @media (min-width: 992px) {
     .custom-navbar .custom-navbar-nav li {
-        margin-left: 15px;
-        margin-right: 15px;
+        margin: 0 5px;
     }
 }
 
@@ -181,7 +180,7 @@ hr {
 }
 
 .custom-navbar .custom-navbar-cta li:first-child {
-    margin-right: 20px;
+    margin-right: 10px;
 }
 
 .custom-navbar .custom-navbar-cta i {
@@ -1317,8 +1316,8 @@ hr {
 }
 
 .form-control {
-    height: 50px;
-    border-radius: 10px;
+    height: 40px;
+    border-radius: .25rem;
     font-family: "Inter", sans-serif;
 }
 
@@ -2082,4 +2081,49 @@ a.check {
 
 .more:hover {
     color: white;
+}
+
+.suggestion {
+    list-style-type: none;
+}
+
+#search-frame {
+    position: relative;
+}
+
+#search-suggest {
+    position: absolute;
+    top: 40px;
+    z-index: 1000;
+    background-color: #fff;
+    width: 100%;
+    border-left: 1px solid #000;
+    border-right: 1px solid #000;
+    border-bottom: 1px solid #000;
+    box-shadow: 0 4px 14px rgba(10, 10, 10, 0.2);
+    box-sizing: border-box;
+    padding: 0 2rem;
+}
+
+.search-frame {
+    position: relative;
+}
+
+.search-btn {
+    position: absolute;
+    top: 1px;
+    right: 0;
+    background-color: transparent;
+    border: none;
+    padding: 5px 16px;
+}
+
+.suggestion {
+    list-style-type: none;
+}
+
+@media (max-width: 992px) {
+    .custom-navbar .navbar-brand {
+        font-size: 28px;
+    }
 }

@@ -4,25 +4,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%
+    ProductBean productDetail= (ProductBean) request.getAttribute("productDetail");
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="shortcut icon" href="../favicon.png">
-
-    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/all.css">
-    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/sharp-solid.css">
-    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/sharp-regular.css">
-    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/sharp-light.css">
-
-    <!-- Bootstrap CSS -->
-    <link href="<c:url value="/templates/client/css/bootstrap.min.css"/>" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
-    <link href="<c:url value="/templates/client/css/tiny-slider.css"/>" rel="stylesheet">
-    <link href="<c:url value="/templates/client/css/style.css"/>" rel="stylesheet">
-
-    <title>DDD. - Nghệ thuật mỹ nghệ</title>
+    <jsp:include page="/common/client/using-resource-header.jsp"/>
+    <title>DDD. - <%=productDetail.getName()%></title>
 </head>
 <body>
 <jsp:include page="/common/client/header.jsp"/>
@@ -32,9 +21,6 @@
     <div class="container">
         <div class="product-content product-wrap clearfix product-detail">
             <div class="row">
-                <%
-                    ProductBean productDetail= (ProductBean) request.getAttribute("productDetail");
-                %>
                 <div class="col-md-4 col-sm-12 col-xs-12">
                     <div class="product-image">
                         <div id="carouselExampleIndicators" class="carousel slide">
@@ -164,11 +150,6 @@
 
 <jsp:include page="/common/client/footer.jsp"/>
 
-<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js"></script>
-<script src="<c:url value="/templates/client/js/custom.js"/>"></script>
-<script type="text/javascript">
-
-</script>
+<jsp:include page="/common/client/using-resource-footer.jsp"/>
 </body>
 </html>

@@ -22,17 +22,9 @@ public class CartAddingController extends HttpServlet {
         // Đăng nhập mới cho phép thêm vào cart (Đã có trong filter)
         String productId = req.getParameter("productId");
         // 3 requestBy: Từ shop, từ product-detail và từ search
-
+        // Cart đã được thêm vào ngay khi thực hiện filter
         ProductBean product = productDAO.findProductById(Integer.parseInt(productId));
-
-        Cart cart = null;
-        Object o = SessionUtil.getInstance().getValue(req, "cart");
-
-        if (o != null) {
-            cart = (Cart) o;
-        } else {
-            cart = new Cart();
-        }
+        Cart cart = (Cart) SessionUtil.getInstance().getValue(req, "cart");
 
         Item item = new Item();
         item.setProduct(product);
