@@ -6,7 +6,17 @@
 <nav id="navigation" class="custom-navbar navbar navbar-fixed navbar-expand-md navbar-dark bg-dark" aria-label="DDD Navigation Bar">
 
     <div class="container" id="container-nav">
-        <a class="navbar-brand" href="index.html">DDD<span>.</span></a>
+        <a class="navbar-brand" href="<c:url value="/home"/>">DDD<span>.</span></a>
+
+        <div class="col-lg-4 col-md-3 ms-2 p-1">
+            <div class="search-frame">
+                <form action="#" method="get">
+                    <input id="search-box" type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="search-addon" name="key"/>
+                    <button type="submit" class="search-btn"><i class="fa-light fa-magnifying-glass"></i></button>
+                </form>
+                <ul id="search-suggest"></ul>
+            </div>
+        </div>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni" aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>

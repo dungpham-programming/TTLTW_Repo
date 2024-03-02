@@ -499,4 +499,31 @@ public class ProductDAO {
             CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
         }
     }
+
+    public List<String> getSuggestTitle(String key) {
+        String sql = "SELECT name FROM products WHERE name LIKE ?";
+        List<String> suggestKeys = new ArrayList<>();
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            String keyQuery = "%" + key + "%";
+            SetParameterUtil.setParameter(preparedStatement, keyQuery);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                String productName = resultSet.getString("name");
+                suggestKeys.add(productName);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return suggestKeys;
+    }
 }
