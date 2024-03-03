@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class ProductDAO {
     public List<ProductImageBean> findImagesByProductId(int productId) {
@@ -409,8 +410,8 @@ public class ProductDAO {
     }
 
 
-    public int getTotalItems() {
-        String sql = "SELECT COUNT(id) AS tongsanpham FROM products";
+    public int getTotalItemsByCategoryType(int categoryTypeId) {
+        String sql = "SELECT COUNT(id) AS tongsanpham FROM products WHERE categoryTypeId = ?";
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -419,6 +420,7 @@ public class ProductDAO {
         try {
             connection = OpenConnectionUtil.openConnection();
             preparedStatement = connection.prepareStatement(sql);
+            SetParameterUtil.setParameter(preparedStatement, categoryTypeId);
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
@@ -525,5 +527,28 @@ public class ProductDAO {
             CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
         }
         return suggestKeys;
+    }
+
+    public int getTotalItems() {
+        String sql = "SELECT COUNT(id) AS tongsanpham FROM products";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getInt("tongsanpham");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return -1;
     }
 }

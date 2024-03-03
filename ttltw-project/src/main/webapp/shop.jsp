@@ -64,7 +64,7 @@
                                 <li class="pop-right-item"><a
                                         href="<c:url value="/shop-detail-by-type">
                                                 <c:param name="categoryTypeId" value="<%=String.valueOf(categoryType.getId())%>"/>
-                                                <c:param name="page" value="1"/>
+                                                <c:param name="recentPage" value="1"/>
                                                 <c:param name="sort" value="none"/>
                                                 <c:param name="range" value="none"/>
                                               </c:url>" class="pop-right-link"><%=categoryType.getName()%>

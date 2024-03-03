@@ -53,7 +53,7 @@
                                 %>
                                 <li class="pop-right-item"><a href="<c:url value="/shop-detail-by-type">
                                                                         <c:param name="categoryTypeId" value="<%=String.valueOf(categoryType.getId())%>"/>
-                                                                        <c:param name="page" value="1"/>
+                                                                        <c:param name="recentPage" value="1"/>
                                                                         <c:param name="sort" value="none"/>
                                                                         <c:param name="range" value="none"/>
                                                                     </c:url>"
@@ -109,7 +109,7 @@
                 <div class="row">
                     <div class="d-flex justify-content-center mb-5"><a href="<c:url value="/shop-detail-by-type">
                                                                                 <c:param name="categoryTypeId" value="<%=String.valueOf(categoryType.getId())%>"/>
-                                                                                <c:param name="page" value="1"/>
+                                                                                <c:param name="recentPage" value="1"/>
                                                                                 <c:param name="sort" value="none"/>
                                                                                 <c:param name="range" value="none"/>
                                                                             </c:url>" class="more">Xem thêm -></a>
