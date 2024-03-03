@@ -15,4 +15,5 @@
 <link href="<c:url value="/templates/client/css/style.css"/>" rel="stylesheet">
 
 <!-- Script JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
