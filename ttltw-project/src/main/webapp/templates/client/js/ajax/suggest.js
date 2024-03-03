@@ -20,7 +20,7 @@ $(document).ready(() => {
 // Bắt sự kiện khi người dùng nhấn vào vùng khác
 $(document).on('click', (event) => {
     // Kiểm tra xem người dùng có nhấn vào ô tìm kiếm hay không
-    if (!$(event.target).closest('#search-box').length) {
+    if (!$(event.target).closest('#search-box').length && !$(event.target).closest('#search-suggest').length) {
         // Người dùng nhấn vào vùng khác, xóa các thẻ suggest
         $('#search-suggest').empty();
         $('#search-suggest').css('display', 'none');
@@ -35,7 +35,7 @@ function displaySuggestions(suggestKeys) {
 
     if (suggestKeys.length > 0) {
         for (let i = 0; i < suggestKeys.length; i++) {
-            suggestionsContainer.append(`<li class="suggestion result">${suggestKeys[i]}</li>`);
+            suggestionsContainer.append(`<li class="suggestion result"><a href="#">${suggestKeys[i]}</a></li>`);
         }
     } else {
         suggestionsContainer.append(`<li class="suggestion empty-result">Không có từ khóa gợi ý.</li>`);

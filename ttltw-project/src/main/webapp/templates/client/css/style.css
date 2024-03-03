@@ -557,6 +557,12 @@ hr {
     margin-bottom: 10px;
 }
 
+.product-section .product-item h3.cate-home {
+    font-weight: 400;
+    font-size: 16px;
+    height: 40px;
+}
+
 .product-section .product-item strong {
     font-weight: 700 !important;
     font-size: 18px !important;

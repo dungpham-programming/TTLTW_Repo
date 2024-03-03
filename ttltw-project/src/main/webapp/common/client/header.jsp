@@ -11,7 +11,7 @@
         <div class="col-lg-4 col-md-3 ms-2 p-1">
             <div class="search-frame">
                 <form action="#" method="get">
-                    <input id="search-box" type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="search-addon" name="key"/>
+                    <input id="search-box" type="text" class="form-control" placeholder="Tìm kiếm từ khóa, sản phẩm, bài viết..." aria-label="Search" aria-describedby="search-addon" name="key"/>
                     <button type="submit" class="search-btn"><i class="fa-light fa-magnifying-glass"></i></button>
                 </form>
                 <ul id="search-suggest"></ul>
