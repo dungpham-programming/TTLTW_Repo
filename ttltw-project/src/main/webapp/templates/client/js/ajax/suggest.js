@@ -7,8 +7,8 @@ $(document).ready(() => {
             type: "GET",
             dataType: "json",
             data: {key: searchKey},
-            success: (suggestKeys) => {
-                displaySuggestions(suggestKeys);
+            success: (response) => {
+                displaySuggestions(response);
             },
             error: () => {
                 console.log("Lỗi lấy dữ liệu!");

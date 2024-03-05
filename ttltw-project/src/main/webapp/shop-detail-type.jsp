@@ -149,7 +149,7 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div id="product-container" class="row">
                     <%
                         List<ProductBean> products = (List<ProductBean>) request.getAttribute("products");
                         for (ProductBean product : products) {
@@ -189,8 +189,8 @@
                         <input type="hidden" name="recentPage" id="recentPage">
                         <input type="hidden" value="<%=categoryType.getId()%>" id="categoryTypeId"
                                name="categoryTypeId"/>
-                        <input type="hidden" name="sort" value="<%=sort%>">
-                        <input type="hidden" name="range" value="<%=range%>">
+                        <input type="hidden" name="sort" value="<%=sort%>" id="sort">
+                        <input type="hidden" name="range" value="<%=range%>" id="range">
                     </form>
                 </div>
             </div>
@@ -209,29 +209,12 @@
 <script>
     let currentPage = <%=serverPage%>;
     let totalPages =  <%=serverTotalPages%>;
-    let limit = 2;
-
-    $(document).ready(function () {
-        window.pagObj = $('#pagination').twbsPagination({
-            // Kiểm tra các thuộc tính trong file .js (trong default)
-            totalPages: totalPages,
-            // Đây là SỐ PAGE HIỂN THỊ TRONG THANH CHỌN PAGE
-            visiblePages: 5,
-            startPage: currentPage,
-            onPageClick: function (event, page) {
-                event.preventDefault();
-                // Nếu page hiện tại khác page đang chọn thì mới cần submit
-                if (currentPage !== page) {
-                    $('#recentPage').val(page);
-                    $('#paginationForm').submit();
-                }
-            }
-        }).on('page', function (event, page) {
-            console.info(page + ' (from event listening)');
-        });
-    });
+    let categoryTypeId = $('#categoryTypeId').val();
+    let sort = $('#sort').val();
+    let range = $('#range').val();
 </script>
 
 <jsp:include page="/common/client/using-resource-footer.jsp"/>
+<script src="<c:url value="/templates/client/js/ajax/product-psr.js"/>"></script>
 </body>
 </html>
