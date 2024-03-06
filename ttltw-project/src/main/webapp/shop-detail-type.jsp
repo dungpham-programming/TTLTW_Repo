@@ -5,6 +5,7 @@
 <%@ page import="com.ltw.bean.CategoryTypeBean" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="com.ltw.bean.ProductBean" %>
+<%@ page import="com.ltw.bean.ProductImageBean" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -151,13 +152,15 @@
 
                 <div id="product-container" class="row">
                     <%
+                        Map<Integer, ProductImageBean> imageMap = (Map<Integer, ProductImageBean>) request.getAttribute("imageMap");
                         List<ProductBean> products = (List<ProductBean>) request.getAttribute("products");
                         for (ProductBean product : products) {
+                            ProductImageBean image = imageMap.get(product.getId());
                     %>
                     <!-- Start Column 1 -->
                     <div class="col-12 col-md-6 col-lg-3 mb-5">
                         <div class="product-item">
-                            <img src="../images/wooden/binh_go_cam_2_1.jpg" class="img-fluid product-thumbnail">
+                            <img src="<%=image.getLink()%>" class="img-fluid product-thumbnail" alt="">
                             <h3 class="product-title"><%=product.getName()%>
                             </h3>
                             <strong class="product-price"><f:formatNumber value="<%=product.getDiscountPrice()%>"

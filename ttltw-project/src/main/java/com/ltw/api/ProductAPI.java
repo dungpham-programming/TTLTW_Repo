@@ -3,6 +3,8 @@ package com.ltw.api;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ltw.bean.ProductBean;
+import com.ltw.bean.ProductImageBean;
+import com.ltw.dao.ImageDAO;
 import com.ltw.dao.ProductDAO;
 
 import javax.servlet.ServletException;
@@ -11,12 +13,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
+// TODO: Thêm ảnh vào JSON của sản phẩm
 @WebServlet(value = {"/api/product-psr"})
 public class ProductAPI extends HttpServlet {
     private final ProductDAO productDAO = new ProductDAO();
-
+    private final ImageDAO imageDAO = new ImageDAO();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String categoryTypeId = req.getParameter("categoryTypeId");
@@ -28,7 +32,15 @@ public class ProductAPI extends HttpServlet {
         int totalPages = getTotalPagesByCategoryType(Integer.parseInt(categoryTypeId));
         double[] rangeLimit = getLimitRange(range);
 
+        // Lấy ra danh sách sản phẩm sau khi đã filter (Loc) qua pagination, sort, range
         List<ProductBean> products = productDAO.findByTypeIdAndLimit(Integer.parseInt(categoryTypeId), rangeLimit, sort, getStartLimit(Integer.parseInt(recentPage)), 2);
+        // Thêm ảnh tương ứng vào sản phẩm trong danh sách
+        for (ProductBean product : products) {
+            List<ProductImageBean> thumbnailImage = new ArrayList<>();
+            thumbnailImage.add(imageDAO.findOneByProductId(product.getId()));
+            product.setImages(thumbnailImage);
+        }
+
         String jsonToClient = combineJson(products, Integer.parseInt(recentPage), totalPages);
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json");

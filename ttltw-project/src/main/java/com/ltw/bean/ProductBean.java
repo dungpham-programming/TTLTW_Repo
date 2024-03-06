@@ -1,6 +1,7 @@
 package com.ltw.bean;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public class ProductBean {
     private int id;
@@ -19,6 +20,7 @@ public class ProductBean {
     private String createdBy;
     private Timestamp modifiedDate;
     private String modifiedBy;
+    private List<ProductImageBean> images;
 
     public ProductBean() {
     }
@@ -149,5 +151,13 @@ public class ProductBean {
 
     public void setModifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
+    }
+
+    public List<ProductImageBean> getImages() {
+        return images;
+    }
+
+    public void setImages(List<ProductImageBean> images) {
+        this.images = images;
     }
 }

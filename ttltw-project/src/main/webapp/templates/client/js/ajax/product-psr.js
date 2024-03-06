@@ -98,7 +98,7 @@ function appendProduct(productContainer, products) {
         productContainer.append(`
             <div class="col-12 col-md-6 col-lg-3 mb-5">
                 <div class="product-item">
-                    <img src="../images/wooden/binh_go_cam_2_1.jpg" class="img-fluid product-thumbnail" alt="">
+                    <img src="${product.images[0].link}" class="img-fluid product-thumbnail" alt="">
                     <h3 class="product-title">${product.name}</h3>
                     <strong class="product-price">${numeral(product.discountPrice).format('0,0')}₫</strong>
                     <div class="origin-price-and-discount">
