@@ -10,9 +10,12 @@
 
         <div class="col-lg-4 col-md-3 ms-2 p-1">
             <div class="search-frame">
+                <%-- Hàm encodeInput có trong using-resource-footer.jsp --%>
                 <form action="<c:url value="/search"/>" method="get">
-                    <input id="search-box" type="text" class="form-control" placeholder="Tìm kiếm từ khóa, sản phẩm, bài viết..." aria-label="Search" aria-describedby="search-addon" name="key"/>
-                    <button type="submit" class="search-btn"><i class="fa-light fa-magnifying-glass"></i></button>
+                    <div id="search-component">
+                        <input id="search-box" type="text" name="key" class="form-control" placeholder="Tìm kiếm từ khóa, sản phẩm, bài viết..."/>
+                        <button type="submit" class="search-btn"><i class="fa-light fa-magnifying-glass"></i></button>
+                    </div>
                     <input type="hidden" name="page" id="page" value="1">
                     <input type="hidden" name="sort" value="none">
                     <input type="hidden" name="range" value="none">
@@ -75,6 +78,5 @@
             </ul>
         </div>
     </div>
-
 </nav>
 <!-- End Header/Navigation -->

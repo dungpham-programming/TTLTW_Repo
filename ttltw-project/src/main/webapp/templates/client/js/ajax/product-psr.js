@@ -16,11 +16,12 @@ $(() => {
         onPageClick: (event, page) => {
             // Nếu page hiện tại khác page đang chọn thì mới cần fetch data
             if (currentPage !== page) {
-                changeURLAndFetchData(page)
                 if (typeof categoryTypeId !== 'undefined') {
+                    changeURL(page, categoryTypeId, sort, range)
                     fetchDataByCateType(page, categoryTypeId, sort, range);
                 }
                 if (typeof key !== 'undefined') {
+                    changeURL(page, key, sort, range)
                     fetchDataByKey(page, key, sort, range);
                 }
             }
@@ -28,9 +29,59 @@ $(() => {
     });
 });
 
-// TODO: Xem xét thêm cho sort và range
-function changeURLAndFetchData(pageClick) {
-    let newURL = `http://localhost:8080/ttltw/shop-detail-by-type?categoryTypeId=${categoryTypeId}&recentPage=${pageClick}&sort=${sort}&range=none`;
+// Hàm bắt sự kiện khi radio button sort được nhấn
+$(() => {
+    $("input[name='sort']").change(() => {
+        // Lấy ra giá trị của nút được chọn
+        let selectedValue = $("input[name='sort']:checked").val();
+        $.ajax({
+            url: url,
+            type: "GET",
+            data: {
+                recentPage: currentPage,
+                categoryTypeId: categoryTypeId,
+                sort: selectedValue,
+                range: range
+            },
+            success: (response) => {
+                changeURL(currentPage, categoryTypeId, selectedValue, range);
+                updateUI(response);
+            },
+            error: () => {
+                console.log("Lỗi lấy dữ liệu!");
+            }
+        });
+    });
+});
+
+// Hàm bắt sự kiện khi radio button range được chọn
+$(() => {
+    $("input[name='range']").change(() => {
+        // Lấy ra giá trị của nút được chọn
+        let selectedValue = $("input[name='range']:checked").val();
+        $.ajax({
+            url: url,
+            type: "GET",
+            data: {
+                recentPage: currentPage,
+                categoryTypeId: categoryTypeId,
+                sort: sort,
+                range: selectedValue
+            },
+            success: (response) => {
+                changeURL(currentPage, categoryTypeId, sort, selectedValue);
+                updateUI(response);
+            },
+            error: () => {
+                console.log("Lỗi lấy dữ liệu!");
+            }
+        });
+    });
+});
+
+// Hàm thay đổi URL mà không refresh lại toàn bộ trang
+function changeURL(page, categoryTypeId, sort, range) {
+    let newURL = `http://localhost:8080/ttltw/shop-detail-by-type?categoryTypeId=${categoryTypeId}&recentPage=${page}&sort=${sort}&range=${range}`;
     history.pushState({initial: true}, null, newURL);
 }
 
