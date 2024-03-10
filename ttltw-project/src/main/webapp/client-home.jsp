@@ -62,7 +62,7 @@
                                                           </c:url>">
                     <img src="../images/wooden/binh_go_cam_2_1.jpg"
                          class="img-fluid product-thumbnail fix-size-thumbnail">
-                    <h3 class="center-text">Các sản phẩm làm từ</h3>
+                    <h3 class="center-text cate-home">Các sản phẩm làm từ</h3>
                     <strong class="center-text big-category"><%= category.getName() %>
                     </strong>
 

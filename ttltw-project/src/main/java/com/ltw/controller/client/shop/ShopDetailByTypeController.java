@@ -31,11 +31,11 @@ public class ShopDetailByTypeController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String categoryTypeId = req.getParameter("categoryTypeId");
         // Pagination
-        String page = req.getParameter("page");
+        String recentPage = req.getParameter("recentPage");
         // Sort & Range
         String sort = req.getParameter("sort");
         String range = req.getParameter("range");
-        int totalPages = getTotalPages();
+        int totalPages = getTotalPagesByCategoryType(Integer.parseInt(categoryTypeId));
         CustomizeBean customizeInfo = customizeDAO.getCustomizeInfo();
         // Sử dụng cho navigation bên trái
         List<CategoryBean> categories = categoryDAO.findAllCategories();
@@ -44,7 +44,7 @@ public class ShopDetailByTypeController extends HttpServlet {
         CategoryTypeBean categoryType = categoryTypeDAO.findTypeById(Integer.parseInt(categoryTypeId));
         // Phân tích range và lấy ra mảng giá trị
         double[] rangeLimit = getLimitRange(range);
-        List<ProductBean> products = productDAO.findByTypeIdAndLimit(Integer.parseInt(categoryTypeId), rangeLimit, sort, getStartLimit(Integer.parseInt(page)), 2);
+        List<ProductBean> products = productDAO.findByTypeIdAndLimit(Integer.parseInt(categoryTypeId), rangeLimit, sort, getStartLimit(Integer.parseInt(recentPage)), 2);
 
         // Đưa phân loại sản phẩm tương ứng với categoryId vào map (navigation bên trái)
         for (CategoryBean category : categories) {
@@ -53,7 +53,7 @@ public class ShopDetailByTypeController extends HttpServlet {
         }
 
         req.setAttribute("customizeInfo", customizeInfo);
-        req.setAttribute("serverPage", Integer.valueOf(page));
+        req.setAttribute("serverPage", Integer.valueOf(recentPage));
         req.setAttribute("serverTotalPages", totalPages);
         req.setAttribute("sort", sort);
         req.setAttribute("range", range);
@@ -92,8 +92,8 @@ public class ShopDetailByTypeController extends HttpServlet {
     }
 
     // Pagination
-    private int getTotalPages() {
-        int totalItems = productDAO.getTotalItems();
+    private int getTotalPagesByCategoryType(int categoryTypeId) {
+        int totalItems = productDAO.getTotalItemsByCategoryType(categoryTypeId);
         return (int) Math.ceil((double) totalItems / 2);
     }
 

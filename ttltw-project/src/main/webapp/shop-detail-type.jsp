@@ -38,17 +38,6 @@
             String sort = (String) request.getAttribute("sort");
             String range = (String) request.getAttribute("range");
         %>
-        <div class="row mb-3">
-            <form action="<c:url value="/search"/>" method="get">
-                <input type="hidden" name="sort" value="none">
-                <input type="hidden" name="range" value="none">
-                <input type="hidden" name="page" value="1">
-                <div class="input-group">
-                    <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" name="key"/>
-                    <button type="submit" class="btn btn-outline-primary" data-mdb-ripple-init>search</button>
-                </div>
-            </form>
-        </div>
         <div class="row">
             <div class="col-3 pe-3 nav-left">
                 <div class="nav-left-block">
@@ -73,10 +62,12 @@
                                     %>
                                     <li class="pop-right-item"><a href="<c:url value="/shop-detail-by-type">
                                                                             <c:param name="categoryTypeId" value="<%=String.valueOf(categoryType.getId())%>"/>
-                                                                            <c:param name="page" value="1"/>
+                                                                            <c:param name="recentPage" value="1"/>
                                                                             <c:param name="sort" value="none"/>
                                                                             <c:param name="range" value="none"/>
-                                                                        </c:url>" class="pop-right-link"><%=categoryType.getName()%></a>
+                                                                        </c:url>"
+                                                                  class="pop-right-link"><%=categoryType.getName()%>
+                                    </a>
                                     </li>
                                     <% } %>
                                 </ul>
@@ -92,47 +83,56 @@
                         <form action="<c:url value="/shop-detail-by-type"/>" method="get">
                             <div><h5>Sắp xếp theo giá</h5></div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="sort" id="option1" value="none" <%if (sort.equals("none")) {%>checked<%}%>>
+                                <input class="form-check-input" type="radio" name="sort" id="option1" value="none"
+                                       <%if (sort.equals("none")) {%>checked<%}%>>
                                 <label class="form-check-label" for="option1">Không</label>
                             </div>
 
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="sort" id="option2" value="asc" <%if (sort.equals("asc")) {%>checked<%}%>>
+                                <input class="form-check-input" type="radio" name="sort" id="option2" value="asc"
+                                       <%if (sort.equals("asc")) {%>checked<%}%>>
                                 <label class="form-check-label" for="option2">Tăng</label>
                             </div>
 
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="sort" id="option3" value="desc" <%if (sort.equals("desc")) {%>checked<%}%>>
+                                <input class="form-check-input" type="radio" name="sort" id="option3" value="desc"
+                                       <%if (sort.equals("desc")) {%>checked<%}%>>
                                 <label class="form-check-label" for="option3">Giảm</label>
                             </div>
 
                             <div class="mt-2"><h5>Khoảng giá</h5></div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="range" id="option4" value="none" <%if (range.equals("none")) {%>checked<%}%>>
+                                <input class="form-check-input" type="radio" name="range" id="option4" value="none"
+                                       <%if (range.equals("none")) {%>checked<%}%>>
                                 <label class="form-check-label" for="option4">Không</label>
                             </div>
 
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="range" id="option5" value="0-to-499" <%if (range.equals("0-to-499")) {%>checked<%}%>>
+                                <input class="form-check-input" type="radio" name="range" id="option5" value="0-to-499"
+                                       <%if (range.equals("0-to-499")) {%>checked<%}%>>
                                 <label class="form-check-label" for="option5">0 - 499.000đ</label>
                             </div>
 
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="range" id="option6" value="500-to-2999" <%if (range.equals("500-to-2999")) {%>checked<%}%>>
+                                <input class="form-check-input" type="radio" name="range" id="option6"
+                                       value="500-to-2999" <%if (range.equals("500-to-2999")) {%>checked<%}%>>
                                 <label class="form-check-label" for="option6">500.000đ - 2.999.000đ</label>
                             </div>
 
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="range" id="option7" value="3000-to-9999" <%if (range.equals("3000-to-9999")) {%>checked<%}%>>
+                                <input class="form-check-input" type="radio" name="range" id="option7"
+                                       value="3000-to-9999" <%if (range.equals("3000-to-9999")) {%>checked<%}%>>
                                 <label class="form-check-label" for="option7">3.000.000đ - 9.999.000đ</label>
                             </div>
 
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="range" id="option8" value="up-to-10000" <%if (range.equals("up-to-10000")) {%>checked<%}%>>
+                                <input class="form-check-input" type="radio" name="range" id="option8"
+                                       value="up-to-10000" <%if (range.equals("up-to-10000")) {%>checked<%}%>>
                                 <label class="form-check-label" for="option8">10.000.000đ trở lên</label>
                             </div>
-                            <input type="hidden" name="categoryTypeId" value="<%=String.valueOf(categoryType.getId())%>">
-                            <input type="hidden" name="page" value="1">
+                            <input type="hidden" name="categoryTypeId"
+                                   value="<%=String.valueOf(categoryType.getId())%>">
+                            <input type="hidden" name="recentPage" value="1">
 
                             <button class="btn btn-primary" type="submit">Gửi</button>
                         </form>
@@ -172,7 +172,8 @@
                                 <i class="fa-solid fa-cart-plus fa-xl" style="color: #2a1710"></i>
                                 <p class="content-btn-mini">Thêm vào giỏ hàng</p>
                             </a>
-                            <a href="<c:url value="/product-detail"><c:param name="id" value="<%=String.valueOf(product.getId())%>"/></c:url>" class="btn-pop-mini right">
+                            <a href="<c:url value="/product-detail"><c:param name="id" value="<%=String.valueOf(product.getId())%>"/></c:url>"
+                               class="btn-pop-mini right">
                                 <i class="fa-solid fa-info fa-xl" style="color: #2a1710"></i>
                                 <p class="content-btn-mini">Chi tiết sản phẩm</p>
                             </a>
@@ -185,9 +186,9 @@
                     <form action="<c:url value="/shop-detail-by-type"/>" id="paginationForm" method="get">
                         <ul class="pagination justify-content-center" id="pagination"></ul>
                         <!-- Có input nhưng hidden (ẩn) đi -->
+                        <input type="hidden" name="recentPage" id="recentPage">
                         <input type="hidden" value="<%=categoryType.getId()%>" id="categoryTypeId"
                                name="categoryTypeId"/>
-                        <input type="hidden" value="" id="page" name="page"/>
                         <input type="hidden" name="sort" value="<%=sort%>">
                         <input type="hidden" name="range" value="<%=range%>">
                     </form>
@@ -209,7 +210,8 @@
     let currentPage = <%=serverPage%>;
     let totalPages =  <%=serverTotalPages%>;
     let limit = 2;
-    $(function () {
+
+    $(document).ready(function () {
         window.pagObj = $('#pagination').twbsPagination({
             // Kiểm tra các thuộc tính trong file .js (trong default)
             totalPages: totalPages,
@@ -217,11 +219,10 @@
             visiblePages: 5,
             startPage: currentPage,
             onPageClick: function (event, page) {
+                event.preventDefault();
                 // Nếu page hiện tại khác page đang chọn thì mới cần submit
                 if (currentPage !== page) {
-                    // Đây là SỐ LƯỢNG ITEM TRONG 1 PAGE
-                    $('#itemPerVisible').val(limit);
-                    $('#page').val(page);
+                    $('#recentPage').val(page);
                     $('#paginationForm').submit();
                 }
             }

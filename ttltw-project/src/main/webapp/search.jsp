@@ -40,17 +40,6 @@
 <!-- Start Wood Section -->
 <div class="product-section product-section before-footer-section position-relative-top-84px">
     <div class="container">
-        <div class="row mb-3">
-            <form action="<c:url value="/search"/>" method="get">
-                <input type="hidden" name="sort" value="<%=sort%>">
-                <input type="hidden" name="range" value="<%=range%>">
-                <input type="hidden" name="page" value="1">
-                <div class="input-group">
-                    <input type="text" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" name="key"/>
-                    <button type="submit" class="btn btn-outline-primary" data-mdb-ripple-init>search</button>
-                </div>
-            </form>
-        </div>
         <div class="row">
             <div class="col-3 pe-3 nav-left">
                 <div class="nav-left-block">
@@ -75,7 +64,7 @@
                                     %>
                                     <li class="pop-right-item"><a href="<c:url value="/shop-detail-by-type">
                                                                             <c:param name="categoryTypeId" value="<%=String.valueOf(categoryType.getId())%>"/>
-                                                                            <c:param name="page" value="1"/>
+                                                                            <c:param name="recentPage" value="1"/>
                                                                             <c:param name="sort" value="none"/>
                                                                             <c:param name="range" value="none"/>
                                                                         </c:url>" class="pop-right-link"><%=categoryType.getName()%>
@@ -89,7 +78,7 @@
 
                     <div class="sorting px-1">
                         <form action="<c:url value="/search"/>" method="get">
-                            <input type="hidden" name="page" value="1">
+                            <input type="hidden" name="recentPage" value="1">
                             <input type="hidden" name="key" value="<%=key%>">
                             <div><h5>Sắp xếp theo giá</h5></div>
                             <div class="form-check form-check-inline">
@@ -185,7 +174,7 @@
                         <ul class="pagination justify-content-center" id="pagination"></ul>
                         <!-- Có input nhưng hidden (ẩn) đi -->
                         <input type="hidden" name="key" value="<%=key%>">
-                        <input type="hidden" value="" id="page" name="page"/>
+                        <input type="hidden" id="recentPage" name="recentPage"/>
                         <input type="hidden" name="sort" value="<%=sort%>">
                         <input type="hidden" name="range" value="<%=range%>">
                     </form>
@@ -207,7 +196,8 @@
     let currentPage = <%=serverPage%>;
     let totalPages =  <%=serverTotalPages%>;
     let limit = 2;
-    $(function () {
+
+    $(document).ready(function () {
         window.pagObj = $('#pagination').twbsPagination({
             // Kiểm tra các thuộc tính trong file .js (trong default)
             totalPages: totalPages,
@@ -215,11 +205,10 @@
             visiblePages: 5,
             startPage: currentPage,
             onPageClick: function (event, page) {
+                event.preventDefault();
                 // Nếu page hiện tại khác page đang chọn thì mới cần submit
                 if (currentPage !== page) {
-                    // Đây là SỐ LƯỢNG ITEM TRONG 1 PAGE
-                    $('#itemPerVisible').val(limit);
-                    $('#page').val(page);
+                    $('#recentPage').val(page);
                     $('#paginationForm').submit();
                 }
             }

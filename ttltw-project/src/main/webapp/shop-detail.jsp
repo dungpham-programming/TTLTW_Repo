@@ -32,17 +32,6 @@
 <!-- Start Wood Section -->
 <div class="product-section product-section before-footer-section position-relative-top-84px">
     <div class="container">
-        <div class="row mb-3">
-            <form action="<c:url value="/search"/>" method="get">
-                <input type="hidden" name="sort" value="none">
-                <input type="hidden" name="range" value="none">
-                <input type="hidden" name="page" value="1">
-                <div class="input-group">
-                    <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" name="key"/>
-                    <button type="submit" class="btn btn-outline-primary" data-mdb-ripple-init>search</button>
-                </div>
-            </form>
-        </div>
         <div class="row">
             <div class="col-3 pe-3 nav-left">
                 <div class="nav-left-block mb-5">
@@ -64,7 +53,7 @@
                                 %>
                                 <li class="pop-right-item"><a href="<c:url value="/shop-detail-by-type">
                                                                         <c:param name="categoryTypeId" value="<%=String.valueOf(categoryType.getId())%>"/>
-                                                                        <c:param name="page" value="1"/>
+                                                                        <c:param name="recentPage" value="1"/>
                                                                         <c:param name="sort" value="none"/>
                                                                         <c:param name="range" value="none"/>
                                                                     </c:url>"
@@ -120,7 +109,7 @@
                 <div class="row">
                     <div class="d-flex justify-content-center mb-5"><a href="<c:url value="/shop-detail-by-type">
                                                                                 <c:param name="categoryTypeId" value="<%=String.valueOf(categoryType.getId())%>"/>
-                                                                                <c:param name="page" value="1"/>
+                                                                                <c:param name="recentPage" value="1"/>
                                                                                 <c:param name="sort" value="none"/>
                                                                                 <c:param name="range" value="none"/>
                                                                             </c:url>" class="more">Xem thêm -></a>
