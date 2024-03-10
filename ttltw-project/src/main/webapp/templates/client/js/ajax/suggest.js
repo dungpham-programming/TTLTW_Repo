@@ -7,8 +7,8 @@ $(document).ready(() => {
             type: "GET",
             dataType: "json",
             data: {key: searchKey},
-            success: (suggestKeys) => {
-                displaySuggestions(suggestKeys);
+            success: (response) => {
+                displaySuggestions(response);
             },
             error: () => {
                 console.log("Lỗi lấy dữ liệu!");
@@ -19,8 +19,8 @@ $(document).ready(() => {
 
 // Bắt sự kiện khi người dùng nhấn vào vùng khác
 $(document).on('click', (event) => {
-    // Kiểm tra xem người dùng có nhấn vào ô tìm kiếm hay không
-    if (!$(event.target).closest('#search-box').length && !$(event.target).closest('#search-suggest').length) {
+    // Kiểm tra xem người dùng có nhấn vào các phần tử tìm kiếm (search box, button, search suggest)
+    if (!$(event.target).closest('#search-component').length && !$(event.target).closest('#search-suggest').length) {
         // Người dùng nhấn vào vùng khác, xóa các thẻ suggest
         $('#search-suggest').empty();
         $('#search-suggest').css('display', 'none');

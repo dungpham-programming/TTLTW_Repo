@@ -5,6 +5,7 @@
 <%@ page import="com.ltw.bean.CategoryTypeBean" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="com.ltw.bean.ProductBean" %>
+<%@ page import="com.ltw.bean.ProductImageBean" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -149,15 +150,17 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div id="product-container" class="row">
                     <%
+                        Map<Integer, ProductImageBean> imageMap = (Map<Integer, ProductImageBean>) request.getAttribute("imageMap");
                         List<ProductBean> products = (List<ProductBean>) request.getAttribute("products");
                         for (ProductBean product : products) {
+                            ProductImageBean image = imageMap.get(product.getId());
                     %>
                     <!-- Start Column 1 -->
                     <div class="col-12 col-md-6 col-lg-3 mb-5">
                         <div class="product-item">
-                            <img src="../images/wooden/binh_go_cam_2_1.jpg" class="img-fluid product-thumbnail">
+                            <img src="<%=image.getLink()%>" class="img-fluid product-thumbnail" alt="">
                             <h3 class="product-title"><%=product.getName()%>
                             </h3>
                             <strong class="product-price"><f:formatNumber value="<%=product.getDiscountPrice()%>"
@@ -189,8 +192,8 @@
                         <input type="hidden" name="recentPage" id="recentPage">
                         <input type="hidden" value="<%=categoryType.getId()%>" id="categoryTypeId"
                                name="categoryTypeId"/>
-                        <input type="hidden" name="sort" value="<%=sort%>">
-                        <input type="hidden" name="range" value="<%=range%>">
+                        <input type="hidden" name="sort" value="<%=sort%>" id="sort">
+                        <input type="hidden" name="range" value="<%=range%>" id="range">
                     </form>
                 </div>
             </div>
@@ -209,29 +212,12 @@
 <script>
     let currentPage = <%=serverPage%>;
     let totalPages =  <%=serverTotalPages%>;
-    let limit = 2;
-
-    $(document).ready(function () {
-        window.pagObj = $('#pagination').twbsPagination({
-            // Kiểm tra các thuộc tính trong file .js (trong default)
-            totalPages: totalPages,
-            // Đây là SỐ PAGE HIỂN THỊ TRONG THANH CHỌN PAGE
-            visiblePages: 5,
-            startPage: currentPage,
-            onPageClick: function (event, page) {
-                event.preventDefault();
-                // Nếu page hiện tại khác page đang chọn thì mới cần submit
-                if (currentPage !== page) {
-                    $('#recentPage').val(page);
-                    $('#paginationForm').submit();
-                }
-            }
-        }).on('page', function (event, page) {
-            console.info(page + ' (from event listening)');
-        });
-    });
+    let categoryTypeId = $('#categoryTypeId').val();
+    let sort = $('#sort').val();
+    let range = $('#range').val();
 </script>
 
 <jsp:include page="/common/client/using-resource-footer.jsp"/>
+<script src="<c:url value="/templates/client/js/ajax/product-psr.js"/>"></script>
 </body>
 </html>

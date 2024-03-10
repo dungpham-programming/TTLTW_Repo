@@ -143,9 +143,9 @@
                         for (ProductBean product : products) {
                     %>
                     <!-- Start Column 1 -->
-                    <div class="col-12 col-md-6 col-lg-3 mb-5">
+                    <div id="product-container" class="col-12 col-md-6 col-lg-3 mb-5">
                         <div class="product-item">
-                            <img src="../images/wooden/binh_go_cam_2_1.jpg" class="img-fluid product-thumbnail">
+                            <img src="../images/wooden/binh_go_cam_2_1.jpg" class="img-fluid product-thumbnail" alt="">
                             <h3 class="product-title"><%=product.getName()%>
                             </h3>
                             <strong class="product-price"><f:formatNumber value="<%=product.getDiscountPrice()%>"
@@ -195,7 +195,9 @@
 <script>
     let currentPage = <%=serverPage%>;
     let totalPages =  <%=serverTotalPages%>;
-    let limit = 2;
+    let key = <%=key%>;
+    let sort = $('#sort').val();
+    let range = $('#range').val();
 
     $(document).ready(function () {
         window.pagObj = $('#pagination').twbsPagination({

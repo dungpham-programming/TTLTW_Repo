@@ -1,9 +1,6 @@
 package com.ltw.controller.client.shop;
 
-import com.ltw.bean.CategoryBean;
-import com.ltw.bean.CategoryTypeBean;
-import com.ltw.bean.CustomizeBean;
-import com.ltw.bean.ProductBean;
+import com.ltw.bean.*;
 import com.ltw.dao.*;
 
 import javax.servlet.ServletException;
@@ -12,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +44,13 @@ public class ShopDetailByTypeController extends HttpServlet {
         double[] rangeLimit = getLimitRange(range);
         List<ProductBean> products = productDAO.findByTypeIdAndLimit(Integer.parseInt(categoryTypeId), rangeLimit, sort, getStartLimit(Integer.parseInt(recentPage)), 2);
 
+        // Lấy ra List ảnh dựa vào id của product
+        Map<Integer, ProductImageBean> imageMap = new HashMap<>();
+        for (ProductBean product : products) {
+            ProductImageBean thumbnailImage = imageDAO.findOneByProductId(product.getId());
+            imageMap.put(product.getId(), thumbnailImage);
+        }
+
         // Đưa phân loại sản phẩm tương ứng với categoryId vào map (navigation bên trái)
         for (CategoryBean category : categories) {
             List<CategoryTypeBean> categoryTypes = categoryTypeDAO.findCategoryTypeByCategoryId(category.getId());
@@ -61,6 +66,7 @@ public class ShopDetailByTypeController extends HttpServlet {
         req.setAttribute("products", products);
         req.setAttribute("categories", categories);
         req.setAttribute("categoryTypeMap", categoryTypeMap);
+        req.setAttribute("imageMap", imageMap);
         req.getRequestDispatcher("/shop-detail-type.jsp").forward(req, resp);
     }
 
