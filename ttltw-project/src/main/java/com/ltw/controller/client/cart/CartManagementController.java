@@ -21,6 +21,7 @@ public class CartManagementController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         CustomizeBean customizeInfo = customizeDAO.getCustomizeInfo();
         req.setAttribute("customizeInfo", customizeInfo);
+        SessionUtil.getInstance().getValue(req, "cart");
         req.getRequestDispatcher("/cart.jsp").forward(req, resp);
     }
 }

@@ -25,8 +25,10 @@ public class CartAndPaymentFilter implements Filter {
                 response.sendRedirect(request.getContextPath() + "/signin?message=must_login");
                 return;
             } else {
-                Cart cart = new Cart();
-                SessionUtil.getInstance().putValue(request, "cart", cart);
+                if (SessionUtil.getInstance().getValue(request, "cart") == null) {
+                    Cart cart = new Cart();
+                    SessionUtil.getInstance().putValue(request, "cart", cart);
+                }
             }
         }
 

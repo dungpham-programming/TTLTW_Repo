@@ -34,7 +34,7 @@
 
             if (unitPriceElement) {
                 var quantity = parseInt(quantityAmount.value, 10);
-                var unitPrice = parseFloat(unitPriceElement.innerText.replace('đ', '').replace(/\./g, ''));
+                var unitPrice = parseFloat(unitPriceElement.innerText.replace('đ', '').replace(/,/g, ''));
 
                 if (isNaN(quantity) || quantity < 0) {
                     quantity = 1;
@@ -112,8 +112,8 @@
             var rows = document.querySelectorAll('.site-blocks-table tbody tr');
             rows.forEach(function (row) {
                 var quantity = parseInt(row.querySelector('.quantity-amount').value, 10);
-                var originalPrice = parseFloat(row.querySelector('.original-price').innerText.replace('đ', '').replace(/\./g, ''));
-                var discountPrice = parseFloat(row.querySelector('.discount-price').innerText.replace('đ', '').replace(/\./g, ''));
+                var originalPrice = parseFloat(row.querySelector('.original-price').innerText.replace('đ', '').replace(/,/g, ''));
+                var discountPrice = parseFloat(row.querySelector('.discount-price').innerText.replace('đ', '').replace(/,/g, ''));
 
                 originalTotal += quantity * originalPrice;
                 discountTotal += quantity * discountPrice;
