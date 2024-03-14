@@ -23,116 +23,116 @@
     };
     tinyslider();
 
-
-    var sitePlusMinus = function () {
-        var quantityContainers = document.getElementsByClassName('quantity-container');
-
-        function updateTotal(quantityContainer) {
-            var quantityAmount = quantityContainer.querySelector('.quantity-amount');
-            var unitPriceElement = quantityContainer.closest('tr').querySelector('.discount-price');
-            var totalElement = quantityContainer.closest('tr').querySelector('.total');
-
-            if (unitPriceElement) {
-                var quantity = parseInt(quantityAmount.value, 10);
-                var unitPrice = parseFloat(unitPriceElement.innerText.replace('đ', '').replace(/,/g, ''));
-
-                if (isNaN(quantity) || quantity < 0) {
-                    quantity = 1;
-                    quantityAmount.value = quantity;
-                }
-
-                var total = quantity * unitPrice;
-                totalElement.innerText = formatCurrency(total) + 'đ';
-                updateCartTotals();
-            }
-        }
-
-        function createBindings(quantityContainer) {
-            var quantityAmount = quantityContainer.querySelector('.quantity-amount');
-            var increase = quantityContainer.querySelector('.increase');
-            var decrease = quantityContainer.querySelector('.decrease');
-
-            increase.addEventListener('click', function (e) {
-                notify();
-                updateValue(e, quantityAmount, 1);
-                updateTotal(quantityContainer);
-            });
-
-            decrease.addEventListener('click', function (e) {
-                notify()
-                updateValue(e, quantityAmount, -1);
-                updateTotal(quantityContainer);
-            });
-
-            quantityAmount.addEventListener('blur', function () {
-                notify()
-                validateQuantity(quantityAmount);
-                updateTotal(quantityContainer);
-            });
-        }
-
-        function notify() {
-            let notifyElement = document.getElementById("notify");
-            notifyElement.classList.add('alert', 'alert-info')
-            notifyElement.innerText = "Bạn cần nhấn nút \"Cập nhật giỏ hàng\" để cập nhật thông tin";
-        }
-
-        function updateValue(event, quantityAmount, step) {
-            var value = parseInt(quantityAmount.value, 10);
-
-            if (isNaN(value) || value < 0) {
-                value = 1;
-            } else {
-                value += step;
-                value = Math.max(value, 0); // Giữ cho giá trị không âm
-            }
-
-            quantityAmount.value = value;
-        }
-
-        function validateQuantity(input) {
-            var value = parseInt(input.value, 10);
-
-            if (isNaN(value) || value < 0) {
-                input.value = 1;
-            }
-        }
-
-        function formatCurrency(amount) {
-            return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-        }
-
-        function updateCartTotals() {
-            var originalTotalElement = document.querySelector('.original-total');
-            var discountTotalElement = document.querySelector('.discount-total');
-
-            var originalTotal = 0;
-            var discountTotal = 0;
-
-            var rows = document.querySelectorAll('.site-blocks-table tbody tr');
-            rows.forEach(function (row) {
-                var quantity = parseInt(row.querySelector('.quantity-amount').value, 10);
-                var originalPrice = parseFloat(row.querySelector('.original-price').innerText.replace('đ', '').replace(/,/g, ''));
-                var discountPrice = parseFloat(row.querySelector('.discount-price').innerText.replace('đ', '').replace(/,/g, ''));
-
-                originalTotal += quantity * originalPrice;
-                discountTotal += quantity * discountPrice;
-            });
-
-            originalTotalElement.innerText = formatCurrency(originalTotal) + 'đ';
-            discountTotalElement.innerText = formatCurrency(discountTotal) + 'đ';
-        }
-
-        function init() {
-            for (var i = 0; i < quantityContainers.length; i++) {
-                createBindings(quantityContainers[i]);
-                updateTotal(quantityContainers[i]);
-            }
-        }
-
-        init();
-    };
-    sitePlusMinus();
+    //
+    // var sitePlusMinus = function () {
+    //     var quantityContainers = document.getElementsByClassName('quantity-container');
+    //
+    //     function updateTotal(quantityContainer) {
+    //         var quantityAmount = quantityContainer.querySelector('.quantity-amount');
+    //         var unitPriceElement = quantityContainer.closest('tr').querySelector('.discount-price');
+    //         var totalElement = quantityContainer.closest('tr').querySelector('.total');
+    //
+    //         if (unitPriceElement) {
+    //             var quantity = parseInt(quantityAmount.value, 10);
+    //             var unitPrice = parseFloat(unitPriceElement.innerText.replace('đ', '').replace(/,/g, ''));
+    //
+    //             if (isNaN(quantity) || quantity < 0) {
+    //                 quantity = 1;
+    //                 quantityAmount.value = quantity;
+    //             }
+    //
+    //             var total = quantity * unitPrice;
+    //             totalElement.innerText = formatCurrency(total) + 'đ';
+    //             updateCartTotals();
+    //         }
+    //     }
+    //
+    //     function createBindings(quantityContainer) {
+    //         var quantityAmount = quantityContainer.querySelector('.quantity-amount');
+    //         var increase = quantityContainer.querySelector('.increase');
+    //         var decrease = quantityContainer.querySelector('.decrease');
+    //
+    //         increase.addEventListener('click', function (e) {
+    //             notify();
+    //             updateValue(e, quantityAmount, 1);
+    //             updateTotal(quantityContainer);
+    //         });
+    //
+    //         decrease.addEventListener('click', function (e) {
+    //             notify()
+    //             updateValue(e, quantityAmount, -1);
+    //             updateTotal(quantityContainer);
+    //         });
+    //
+    //         quantityAmount.addEventListener('blur', function () {
+    //             notify()
+    //             validateQuantity(quantityAmount);
+    //             updateTotal(quantityContainer);
+    //         });
+    //     }
+    //
+    //     function notify() {
+    //         let notifyElement = document.getElementById("notify");
+    //         notifyElement.classList.add('alert', 'alert-info')
+    //         notifyElement.innerText = "Bạn cần nhấn nút \"Cập nhật giỏ hàng\" để cập nhật thông tin";
+    //     }
+    //
+    //     function updateValue(event, quantityAmount, step) {
+    //         var value = parseInt(quantityAmount.value, 10);
+    //
+    //         if (isNaN(value) || value < 0) {
+    //             value = 1;
+    //         } else {
+    //             value += step;
+    //             value = Math.max(value, 0); // Giữ cho giá trị không âm
+    //         }
+    //
+    //         quantityAmount.value = value;
+    //     }
+    //
+    //     function validateQuantity(input) {
+    //         var value = parseInt(input.value, 10);
+    //
+    //         if (isNaN(value) || value < 0) {
+    //             input.value = 1;
+    //         }
+    //     }
+    //
+    //     function formatCurrency(amount) {
+    //         return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    //     }
+    //
+    //     function updateCartTotals() {
+    //         var originalTotalElement = document.querySelector('.original-total');
+    //         var discountTotalElement = document.querySelector('.discount-total');
+    //
+    //         var originalTotal = 0;
+    //         var discountTotal = 0;
+    //
+    //         var rows = document.querySelectorAll('.site-blocks-table tbody tr');
+    //         rows.forEach(function (row) {
+    //             var quantity = parseInt(row.querySelector('.quantity-amount').value, 10);
+    //             var originalPrice = parseFloat(row.querySelector('.original-price').innerText.replace('đ', '').replace(/,/g, ''));
+    //             var discountPrice = parseFloat(row.querySelector('.discount-price').innerText.replace('đ', '').replace(/,/g, ''));
+    //
+    //             originalTotal += quantity * originalPrice;
+    //             discountTotal += quantity * discountPrice;
+    //         });
+    //
+    //         originalTotalElement.innerText = formatCurrency(originalTotal) + 'đ';
+    //         discountTotalElement.innerText = formatCurrency(discountTotal) + 'đ';
+    //     }
+    //
+    //     function init() {
+    //         for (var i = 0; i < quantityContainers.length; i++) {
+    //             createBindings(quantityContainers[i]);
+    //             updateTotal(quantityContainers[i]);
+    //         }
+    //     }
+    //
+    //     init();
+    // };
+    // sitePlusMinus();
 })()
 
 // Dung Pham
