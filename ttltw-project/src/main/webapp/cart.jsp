@@ -54,7 +54,7 @@
                                     <th class="product-total">Thành tiền</th>
                                 </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="table-content">
                                 <%
                                     Cart cart = (Cart) request.getSession().getAttribute("cart");
                                     if (cart != null) {
@@ -104,6 +104,8 @@
                                                 <button class="btn btn-outline-black decrease" type="button">&minus;
                                                 </button>
                                             </div>
+                                            <input type="hidden" class="productId" name="productId"
+                                                   value="<%=items.get(i).getProduct().getId()%>">
                                             <input type="text" class="form-control text-center quantity-amount"
                                                    name="quantity-<%=i+1%>" value="<%=items.get(i).getQuantity()%>"
                                                    placeholder="" aria-label="Example text with button addon"
@@ -147,24 +149,26 @@
                             <h3 class="text-black h4 text-uppercase">Tổng cộng</h3>
                         </div>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <span class="text-black">Tổng giá gốc</span>
+                    <div id="total-container" class="row flex-column">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <span class="text-black">Tổng giá gốc</span>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <del class="text-black original-total"><f:formatNumber
+                                        value="<%=cart != null ? cart.getOriginalPriceTotal() : 0%>" pattern="#,##0.##"/>đ
+                                </del>
+                            </div>
                         </div>
-                        <div class="col-md-6 text-right">
-                            <del class="text-black original-total"><f:formatNumber
-                                    value="<%=cart != null ? cart.getOriginalPriceTotal() : 0%>" pattern="#,##0.##"/>đ
-                            </del>
-                        </div>
-                    </div>
-                    <div class="row mb-5">
-                        <div class="col-md-6">
-                            <span class="text-black">Tổng giá sau giảm</span>
-                        </div>
-                        <div class="col-md-6 text-right">
-                            <strong class="text-danger discount-total"><f:formatNumber
-                                    value="<%=cart != null ? cart.getDiscountPriceTotal() : 0%>"
-                                    pattern="#,##0.##"/>đ</strong>
+                        <div class="row mb-5">
+                            <div class="col-md-6">
+                                <span class="text-black">Tổng giá sau giảm</span>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <strong class="text-danger discount-total"><f:formatNumber
+                                        value="<%=cart != null ? cart.getDiscountPriceTotal() : 0%>"
+                                        pattern="#,##0.##"/>đ</strong>
+                            </div>
                         </div>
                     </div>
 
@@ -183,5 +187,6 @@
 <jsp:include page="/common/client/footer.jsp"/>
 
 <jsp:include page="/common/client/using-resource-footer.jsp"/>
+<script src="<c:url value="/templates/client/js/ajax/cart.js"/>"></script>
 </body>
 </html>
