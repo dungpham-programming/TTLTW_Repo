@@ -1,9 +1,10 @@
 const updateCartUrl = `http://localhost:8080${contextPath}/api/update-cart`;
 
-// Hàm update số lượng và giá tiền
-$(document).ready(() => {
+// Hàm update số lượng và giá tiền khi bấm nút tăng giảm
+$(() => {
     // on là hàm event delegate, nghĩa là khi tạo mới thì hàm on sẽ
     // gán sự kiện của nút đó cho elememt mới được render ra
+    // Chỗ function không được xài arrow function, sẽ không nhận được giá trị (?????)
     $("#table-content").on("click", ".increase, .decrease", function () {
         // Lấy giá trị số lượng từ ô input tương ứng
         let quantity = $(this).closest('.quantity-container').find('.quantity-amount').val();
@@ -17,6 +18,32 @@ $(document).ready(() => {
                 quantity--;
             }
         }
+
+        // Gửi yêu cầu AJAX đến Servlet
+        $.ajax({
+            type: "GET",
+            url: updateCartUrl,
+            dataType: "json",
+            contentType: "json",
+            data: {
+                productId: productId,
+                quantity: quantity
+            },
+            success: (cart) => {
+                updateUI(cart);
+            },
+            error: () => {
+                console.log("Lỗi xảy ra khi gửi yêu cầu AJAX!");
+            }
+        });
+    });
+});
+
+// Hàm update số lượng và giá tiền khi nhập vào input
+$(() => {
+    $("#table-content").on("blur", ".quantity-amount", function () {
+        let quantity = $(this).closest('.quantity-container').find('.quantity-amount').val();
+        let productId = $(this).closest('.quantity-container').find('.productId').val();
 
         // Gửi yêu cầu AJAX đến Servlet
         $.ajax({

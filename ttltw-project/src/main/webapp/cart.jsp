@@ -187,6 +187,6 @@
 <jsp:include page="/common/client/footer.jsp"/>
 
 <jsp:include page="/common/client/using-resource-footer.jsp"/>
-<script src="<c:url value="/templates/client/js/ajax/cart.js"/>"></script>
+<script src="<c:url value="/templates/client/js/ajax/cart/cart-update.js"/>"></script>
 </body>
 </html>

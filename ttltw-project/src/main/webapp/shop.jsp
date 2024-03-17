@@ -35,11 +35,9 @@
             String success = request.getParameter("success");
             if (success != null) {
         %>
-        <div class="alert alert-success alert-dismissible fade show" role="alert" id="autoDismissAlert">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
             Thêm sản phẩm thành công!
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         <% } %>
         <div class="row">

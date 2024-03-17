@@ -37,11 +37,16 @@ public class Cart {
     public void updateItem(int productId, int quantity) {
         Item item = getItemByProductId(productId);
         if (item != null) {
-            item.setQuantity(quantity);
-            double originalTotal = item.getProduct().getOriginalPrice() * quantity;
-            double discountTotal = item.getProduct().getDiscountPrice() * quantity;
-            item.setTotal(originalTotal);
-            item.setTotalWithDiscount(discountTotal);
+            // Nếu số lượng nhỏ hơn hoặc bằng 0 thì xóa khỏi cart
+            if (quantity <= 0) {
+                deleteItemZeroQuantity(productId);
+            } else {
+                item.setQuantity(quantity);
+                double originalTotal = item.getProduct().getOriginalPrice() * quantity;
+                double discountTotal = item.getProduct().getDiscountPrice() * quantity;
+                item.setTotal(originalTotal);
+                item.setTotalWithDiscount(discountTotal);
+            }
         }
 
         // Set tổng vào cart
@@ -56,6 +61,14 @@ public class Cart {
 
         // Set tổng vào cart
         setTotalPurcharseAndDiscount();
+    }
+
+    // Không set tổng vào cart khi xóa
+    public void deleteItemZeroQuantity(int productId) {
+        Item item = getItemByProductId(productId);
+        if (item != null) {
+            items.remove(item);
+        }
     }
 
     public Item getItemByProductId(int productId) {
