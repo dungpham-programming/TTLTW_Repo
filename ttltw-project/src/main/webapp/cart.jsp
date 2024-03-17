@@ -42,104 +42,102 @@
         <div class="row justify-content-between">
             <div class="col-9">
                 <div class="row mb-5">
-                    <form action="<c:url value="/cart-updating"/>" class="col-md-12" method="post">
-                        <div class="site-blocks-table">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th class="product-remove"></th>
-                                    <th class="product-name">Sản phẩm</th>
-                                    <th class="product-price">Đơn giá</th>
-                                    <th class="product-quantity">Số lượng</th>
-                                    <th class="product-total">Thành tiền</th>
-                                </tr>
-                                </thead>
-                                <tbody id="table-content">
-                                <%
-                                    Cart cart = (Cart) request.getSession().getAttribute("cart");
-                                    if (cart != null) {
-                                        List<Item> items = cart.getItems();
-                                        if (items != null) {
-                                            if (!items.isEmpty()) {
-                                                for (int i = 0; i < cart.getTotalItem(); i++) {
-                                                    String linkImage = items.get(i).getProduct().getImages().get(0).getLink();
-                                %>
-                                <tr>
-                                    <td>
-                                        <a href="<c:url value="/cart-deleting"><c:param name="productId" value="<%=String.valueOf(items.get(i).getProduct().getId())%>"/></c:url>"
-                                           class="btn btn-black btn-sm">X</a></td>
-                                    <td class="product-name">
-                                        <div class="d-flex align-items-center">
-                                            <img src="<%=linkImage%>" alt="Image" class="img-config">
-                                            <h2 class="h5 m-0 ps-4 text-black"><%=items.get(i).getProduct().getName()%>
-                                            </h2>
+                    <div class="site-blocks-table">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th class="product-remove"></th>
+                                <th class="product-name">Sản phẩm</th>
+                                <th class="product-price">Đơn giá</th>
+                                <th class="product-quantity">Số lượng</th>
+                                <th class="product-total">Thành tiền</th>
+                            </tr>
+                            </thead>
+                            <tbody id="table-content">
+                            <%
+                                Cart cart = (Cart) request.getSession().getAttribute("cart");
+                                if (cart != null) {
+                                    List<Item> items = cart.getItems();
+                                    if (items != null) {
+                                        if (!items.isEmpty()) {
+                                            for (int i = 0; i < cart.getTotalItem(); i++) {
+                                                String linkImage = items.get(i).getProduct().getImages().get(0).getLink();
+                            %>
+                            <tr>
+                                <td>
+                                    <a href="<c:url value="/cart-deleting"><c:param name="productId" value="<%=String.valueOf(items.get(i).getProduct().getId())%>"/></c:url>"
+                                       class="btn btn-black btn-sm">X</a></td>
+                                <td class="product-name">
+                                    <div class="d-flex align-items-center">
+                                        <img src="<%=linkImage%>" alt="Image" class="img-config">
+                                        <h2 class="h5 m-0 ps-4 text-black"><%=items.get(i).getProduct().getName()%>
+                                        </h2>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex flex-column mb-2">
+                                        <div class="main-price d-flex justify-content-start">
+                                            <f:formatNumber
+                                                    value="<%=items.get(i).getProduct().getDiscountPrice()%>"
+                                                    pattern="#,##0.##"/>đ
                                         </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex flex-column mb-2">
-                                            <div class="main-price d-flex justify-content-start">
-                                                <f:formatNumber
-                                                        value="<%=items.get(i).getProduct().getDiscountPrice()%>"
+                                        <div class="d-flex flex-row">
+                                            <div class="original-price">
+                                                <del><f:formatNumber
+                                                        value="<%=items.get(i).getProduct().getOriginalPrice()%>"
                                                         pattern="#,##0.##"/>đ
+                                                </del>
                                             </div>
-                                            <div class="d-flex flex-row">
-                                                <div class="original-price">
-                                                    <del><f:formatNumber
-                                                            value="<%=items.get(i).getProduct().getOriginalPrice()%>"
-                                                            pattern="#,##0.##"/>đ
-                                                    </del>
-                                                </div>
-                                                <div class="discount-percent">
-                                                    <f:formatNumber
-                                                            value="<%=items.get(i).getProduct().getDiscountPercent()%>"
-                                                            pattern="#,##0.##"/>%
-                                                </div>
+                                            <div class="discount-percent">
+                                                <f:formatNumber
+                                                        value="<%=items.get(i).getProduct().getDiscountPercent()%>"
+                                                        pattern="#,##0.##"/>%
                                             </div>
                                         </div>
-                                    </td>
-                                    <td>
-                                        <div class="input-group d-flex align-items-center quantity-container"
-                                             style="max-width: 120px;">
-                                            <div class="input-group-prepend">
-                                                <button class="btn btn-outline-black decrease" type="button">&minus;
-                                                </button>
-                                            </div>
-                                            <input type="hidden" class="productId" name="productId"
-                                                   value="<%=items.get(i).getProduct().getId()%>">
-                                            <input type="text" class="form-control text-center quantity-amount"
-                                                   name="quantity-<%=i+1%>" value="<%=items.get(i).getQuantity()%>"
-                                                   placeholder="" aria-label="Example text with button addon"
-                                                   aria-describedby="button-addon1">
-                                            <div class="input-group-append">
-                                                <button class="btn btn-outline-black increase" type="button">&plus;
-                                                </button>
-                                            </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group d-flex align-items-center quantity-container"
+                                         style="max-width: 120px;">
+                                        <div class="input-group-prepend">
+                                            <button class="btn btn-outline-black decrease" type="button">&minus;
+                                            </button>
                                         </div>
-                                    </td>
-                                    <td class="total"><f:formatNumber value="<%=items.get(i).getTotalWithDiscount()%>"
-                                                                      pattern="#,##0.##"/>đ
-                                    </td>
-                                </tr>
-                                <% }
-                                }
-                                }
-                                }
-                                %>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-md-6">
-                                <div class="row mb-5">
-                                    <div class="col-md-6">
-                                        <div class="cart-btn d-inline-block">
-                                            <a style="color: #e3bd74;" href="<c:url value="/shop"/>">Tiếp tục mua</a>
+                                        <input type="hidden" class="productId" name="productId"
+                                               value="<%=items.get(i).getProduct().getId()%>">
+                                        <input type="text" class="form-control text-center quantity-amount"
+                                               name="quantity-<%=i+1%>" value="<%=items.get(i).getQuantity()%>"
+                                               placeholder="" aria-label="Example text with button addon"
+                                               aria-describedby="button-addon1">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-black increase" type="button">&plus;
+                                            </button>
                                         </div>
+                                    </div>
+                                </td>
+                                <td class="total"><f:formatNumber value="<%=items.get(i).getTotalWithDiscount()%>"
+                                                                  pattern="#,##0.##"/>đ
+                                </td>
+                            </tr>
+                            <% }
+                            }
+                            }
+                            }
+                            %>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <div class="row mb-5">
+                                <div class="col-md-6">
+                                    <div class="cart-btn d-inline-block">
+                                        <a style="color: #e3bd74;" href="<c:url value="/shop"/>">Tiếp tục mua</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
             <div class="col-3 total">
@@ -156,7 +154,8 @@
                             </div>
                             <div class="col-md-6 text-right">
                                 <del class="text-black original-total"><f:formatNumber
-                                        value="<%=cart != null ? cart.getOriginalPriceTotal() : 0%>" pattern="#,##0.##"/>đ
+                                        value="<%=cart != null ? cart.getOriginalPriceTotal() : 0%>"
+                                        pattern="#,##0.##"/>đ
                                 </del>
                             </div>
                         </div>
