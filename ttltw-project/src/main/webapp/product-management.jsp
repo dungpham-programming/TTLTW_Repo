@@ -46,15 +46,11 @@
                             <tr>
                                 <th>ID Sản phẩm</th>
                                 <th>Tên sản phẩm</th>
-                                <th>Miêu tả</th>
                                 <th>Mã danh mục</th>
                                 <th>Giá gốc</th>
                                 <th>Giá giảm</th>
                                 <th>Phần trăm giảm</th>
                                 <th>Số lượng còn</th>
-                                <th>Kích thước</th>
-                                <th>Thông tin khác</th>
-                                <th>Từ khóa</th>
                                 <th>Trạng thái</th>
                                 <th>Ảnh</th>
                                 <th>Tạo ngày</th>
