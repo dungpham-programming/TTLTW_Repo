@@ -21,10 +21,9 @@ $(() => {
 
         // Gửi yêu cầu AJAX đến Servlet
         $.ajax({
-            type: "GET",
+            type: "POST",
             url: updateCartUrl,
             dataType: "json",
-            contentType: "json",
             data: {
                 productId: productId,
                 quantity: quantity
@@ -47,7 +46,7 @@ $(() => {
 
         // Gửi yêu cầu AJAX đến Servlet
         $.ajax({
-            type: "GET",
+            type: "POST",
             url: updateCartUrl,
             dataType: "json",
             contentType: "json",

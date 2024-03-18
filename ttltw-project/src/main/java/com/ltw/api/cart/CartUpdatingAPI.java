@@ -2,7 +2,6 @@ package com.ltw.api.cart;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ltw.bean.Cart;
-import com.ltw.bean.Item;
 import com.ltw.util.SessionUtil;
 
 import javax.servlet.ServletException;
@@ -15,7 +14,7 @@ import java.io.IOException;
 @WebServlet(value = {"/api/update-cart"})
 public class CartUpdatingAPI extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
         int productId = Integer.parseInt(req.getParameter("productId"));
         int quantity = Integer.parseInt(req.getParameter("quantity"));
