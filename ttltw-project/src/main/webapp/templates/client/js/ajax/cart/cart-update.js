@@ -1,4 +1,4 @@
-const updateCartUrl = `http://localhost:8080${contextPath}/api/update-cart`;
+const updateCartUrl = `http://localhost:8080${contextPath}/api/cart-updating`;
 
 // Hàm update số lượng và giá tiền khi bấm nút tăng giảm
 $(() => {

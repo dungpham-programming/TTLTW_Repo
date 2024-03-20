@@ -1,5 +1,6 @@
 package com.ltw.filter;
 
+import com.ltw.bean.Cart;
 import com.ltw.bean.UserBean;
 import com.ltw.util.SessionUtil;
 
@@ -20,9 +21,18 @@ public class Authorization implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String uri = request.getRequestURI();
+        UserBean user = (UserBean) SessionUtil.getInstance().getValue(request, "user");
+
+        if (user != null) {
+            // Tạo cart ngay sau khi thêm tài khoản vào Session
+            if (SessionUtil.getInstance().getValue(request, "cart") == null) {
+                Cart cart = new Cart();
+                SessionUtil.getInstance().putValue(request, "cart", cart);
+            }
+        }
+
         // Filter các url bắt đầu bằng "/admin" hoặc có chứa "admin"
         if (uri.startsWith("/admin") || uri.contains("admin")) {
-            UserBean user = (UserBean) SessionUtil.getInstance().getValue(request, "user");
             // Nếu có tồn tại Session thì tiếp tục
             if (user != null) {
                 // Nếu roleId là 2 (Admin) hoặc 3 (Mod) thì cho qua

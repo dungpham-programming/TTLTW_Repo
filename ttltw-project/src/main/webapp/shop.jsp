@@ -35,7 +35,7 @@
             String success = request.getParameter("success");
             if (success != null) {
         %>
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <div id="autoDismissAlert" class="alert alert-success alert-dismissible fade show" role="alert">
             Thêm sản phẩm thành công!
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
@@ -103,6 +103,7 @@
                                 Map<Integer, ProductImageBean> productImage = (Map<Integer, ProductImageBean>) request.getAttribute("imageMap");
                                 ProductImageBean imageBean = productImage.get(product.getId());
                             %>
+                            <input type="hidden" name="productId" value="<%=product.getId()%>">
                             <img src="<%=imageBean.getLink()%>" alt="image" class="img-fluid product-thumbnail">
                             <h3 class="product-title"><%=product.getName()%>
                             </h3>
@@ -112,14 +113,14 @@
                                 <del><f:formatNumber value="<%=product.getOriginalPrice()%>" pattern="#,##0.##"/>₫</del>
                                 <label><f:formatNumber value="<%=product.getDiscountPercent()%>" pattern="##0"/>%</label>
                             </div>
-                            <a href="<c:url value="/cart-adding"><c:param name="productId" value="<%=String.valueOf(product.getId())%>"/><c:param name="requestBy" value="shop"/></c:url>" class="btn-pop-mini left">
+                            <button class="btn-pop-mini left">
                                 <i class="fa-solid fa-cart-plus fa-xl" style="color: #2a1710"></i>
                                 <p class="content-btn-mini">Thêm vào giỏ hàng</p>
-                            </a>
-                            <a href="<c:url value="/product-detail"><c:param name="id" value="<%=String.valueOf(product.getId())%>"/></c:url>" class="btn-pop-mini right">
+                            </button>
+                            <button href="<c:url value="/product-detail"><c:param name="id" value="<%=String.valueOf(product.getId())%>"/></c:url>" class="btn-pop-mini right">
                                 <i class="fa-solid fa-info fa-xl" style="color: #2a1710"></i>
                                 <p class="content-btn-mini">Chi tiết sản phẩm</p>
-                            </a>
+                            </button>
                         </div>
                     </div>
                     <% } %>
@@ -137,17 +138,16 @@
 </div>
 <!-- End Shop Section -->
 <jsp:include page="/common/client/footer.jsp"/>
-
 <script>
     // Wait for the DOM to be ready
-    $(document).ready(function() {
+    $(() => {
         // Set a timeout to close the alert after 3000 milliseconds (3 seconds)
-        setTimeout(function() {
+        setTimeout(() => {
             $("#autoDismissAlert").alert('close');
         }, 3000);
     });
 </script>
-
 <jsp:include page="/common/client/using-resource-footer.jsp"/>
+<script src="<c:url value="/templates/client/js/ajax/cart/cart-add.js"/>"></script>
 </body>
 </html>

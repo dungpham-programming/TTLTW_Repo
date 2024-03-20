@@ -10,7 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebFilter(urlPatterns = {"/cart-management", "/cart-adding", "/cart-updating", "/cart-delete", "/checkout"})
+@WebFilter(urlPatterns = {"/cart-management", "/cart-adding", "/cart-updating", "/cart-delete",
+        "/checkout", "/api/cart-adding", "/api/cart-updating"})
 public class CartAndPaymentFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
@@ -22,13 +23,12 @@ public class CartAndPaymentFilter implements Filter {
             UserBean user = (UserBean) SessionUtil.getInstance().getValue(request, "user");
             if (user == null) {
                 // Nếu chưa tồn tại Session, điều hướng sang trang login
-                response.sendRedirect(request.getContextPath() + "/signin?message=must_login");
+                // Bắt buộc phải chuyển hướng bằng client-side => Send redirect link bằng JSON lên client
+                response.setCharacterEncoding("UTF-8");
+                response.setContentType("application/json");
+                String redirectJson = "{\"redirectLink\": \"http://localhost:8080" + request.getContextPath() + "/signin?message=must_login\"}";
+                response.getWriter().write(redirectJson);
                 return;
-            } else {
-                if (SessionUtil.getInstance().getValue(request, "cart") == null) {
-                    Cart cart = new Cart();
-                    SessionUtil.getInstance().putValue(request, "cart", cart);
-                }
             }
         }
 

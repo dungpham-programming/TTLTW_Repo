@@ -73,7 +73,7 @@
                         <li class="drop-menu hv-gray"><a href="<c:url value="/signout"/>">Đăng xuất</a></li>
                     </ul>
                 </li>
-                <li class="hv-li"><a class="nav-link yellow" href="<c:url value="/cart-management"/>"><i class="fa-light fa-cart-shopping"></i><span class="number-item yellow"><%if (numberItems != null) {%><%=numberItems%><%}%></span></a></li>
+                <li class="hv-li"><a class="nav-link yellow" href="<c:url value="/cart-management"/>"><i class="fa-light fa-cart-shopping"></i><span class="number-item yellow"><%=(numberItems != null) ? numberItems : 0%></span></a></li>
                 <% } %>
             </ul>
         </div>
