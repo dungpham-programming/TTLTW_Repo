@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
 :root {
     --primary-color-darkyellow: #e3bd74;
     --primary-color-gray: #f0f0f0;
@@ -742,7 +743,6 @@ hr {
 }
 
 .product-section .product-item:hover
-
 .product-section .product-item .product-thumbnail {
     /* Đã xác định được width và height của ảnh
      => Căn giữa được bằng auto margin */
@@ -1662,7 +1662,7 @@ p, dd {
     padding: 30px 30px 50px
 }
 
-.product-detail hr+.description-tabs {
+.product-detail hr + .description-tabs {
     padding: 0 0 5px !important
 }
 
@@ -1697,13 +1697,13 @@ p, dd {
     font-size: 16px !important
 }
 
-.product-detail .fa-2x>h5 {
+.product-detail .fa-2x > h5 {
     font-size: 12px;
     margin: 0
 }
 
-.product-detail .fa-2x+a,
-.product-detail .fa-2x+a+a {
+.product-detail .fa-2x + a,
+.product-detail .fa-2x + a + a {
     font-size: 13px
 }
 
@@ -1803,9 +1803,8 @@ p, dd {
 }
 
 .add-cart {
-    padding: 1rem 1.5rem;
+    padding: 0.5rem 0.75rem;
     background-color: var(--primary-color-darkred);
-    color: var(--primary-color-gray);
     transition: .3s all ease-out;
     text-align: center;
     border-radius: .625rem;
@@ -1814,6 +1813,7 @@ p, dd {
 .add-cart:hover {
     color: var(--primary-color-darkyellow);
 }
+
 .confirmed {
     color: green !important;
 }
@@ -1948,21 +1948,23 @@ p, dd {
     text-align: center;
 }
 
-#updateInfoForm .username, .firsttname,.lastname, .emaill,.addressLine,.addressWard,.addressDistrict,.addressProvince{
+#updateInfoForm .username, .firsttname, .lastname, .emaill, .addressLine, .addressWard, .addressDistrict, .addressProvince {
     margin-bottom: 10px;
 }
+
 #updateInfoForm #oldUsername, #newUsername,
 #oldFirsttname, #newFirsttname,
 #oldLastname, #newLastname,
 #oldEmaill, #newEmaill,
-#oldAddressLine,#newAddressLine,
-#oldAddressWard,#newAddressWard,
-#oldAddressDistrict,#newAddressDistrict,
-#oldAddressProvince, #newAddressProvince{
+#oldAddressLine, #newAddressLine,
+#oldAddressWard, #newAddressWard,
+#oldAddressDistrict, #newAddressDistrict,
+#oldAddressProvince, #newAddressProvince {
     width: 100%;
 
 }
-.infom-button{
+
+.infom-button {
     padding: .25rem;
     background-color: var(--primary-color-darkred);
     color: var(--primary-color-gray);
@@ -1970,7 +1972,8 @@ p, dd {
     margin-top: 10px;
 
 }
-.infom-button.a-btn{
+
+.infom-button.a-btn {
     padding: .75rem;
     display: inline-block;
     transition: .15s all ease-out;

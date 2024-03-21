@@ -1,12 +1,13 @@
 const addingCartUrl = `http://localhost:8080${contextPath}/api/cart-adding`;
 
 // Function gửi yêu cầu AJAX khi click vào nút "Thêm vào giỏ hàng"
+// Đối với "/shop", "/shop-detail-by-category", "/shop-detail-by-type" là .product-item, còn với "/product-detail" là .cart-div
 $(() => {
     // Lấy ra button giỏ hàng (.left)
     $(".btn-pop-mini.left").click(function(event) {
         event.preventDefault(); // Ngăn chặn hành động mặc định của nút
 
-        const productId = $(this).closest('.product-item').find('input[name="productId"]').val(); // Lấy productId của sản phẩm
+        const productId = $(this).closest('.product-item, .cart-div').find('input[name="productId"]').val(); // Lấy productId của sản phẩm
 
         // Gửi yêu cầu AJAX đến Servlet để thêm sản phẩm vào giỏ hàng
         $.ajax({
