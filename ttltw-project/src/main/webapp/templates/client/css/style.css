@@ -646,6 +646,7 @@ hr {
 
 .product-section .product-item .btn-pop-mini.right {
     left: 74%;
+    border: 1px solid #000;
 }
 
 .product-section .product-item:hover .btn-pop,
@@ -2182,4 +2183,12 @@ a.check {
 a.cart-btn:hover {
     color: white;
     text-decoration: none
+}
+
+.adding-cart-notify {
+    position: fixed;
+    top: 102px;
+    right: 0;
+    width: 16%;
+    z-index: 1000;
 }

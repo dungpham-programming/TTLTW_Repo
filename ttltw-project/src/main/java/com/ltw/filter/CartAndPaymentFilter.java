@@ -1,6 +1,5 @@
 package com.ltw.filter;
 
-import com.ltw.bean.Cart;
 import com.ltw.bean.UserBean;
 import com.ltw.util.SessionUtil;
 

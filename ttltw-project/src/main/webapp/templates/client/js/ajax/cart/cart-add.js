@@ -35,14 +35,16 @@ $(() => {
 });
 
 const successNotify = () => {
-    const popup = $('<div class="alert alert-success fixed-top">Thực hiện thành công!</div>');
+    const popup = $(`<div id="autoDismissAlert" class="alert alert-success alert-dismissible fade show d-flex align-items-center adding-cart-notify" role="alert">
+                        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
+                        <div>Thêm vào giỏ hàng thành công!</div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                     </div>`);
 
     $('body').append(popup);
 
     setTimeout(() => {
-        popup.fadeOut('slow', () => {
-            $(this).remove();
-        });
+        $("#autoDismissAlert").alert('close');
     }, 3000);
 }
 
