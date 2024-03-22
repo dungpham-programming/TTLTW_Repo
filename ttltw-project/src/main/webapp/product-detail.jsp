@@ -129,8 +129,8 @@
                         <div class="col-sm-12 col-md-6 col-lg-6 dp-flex justify-content-center align-items-center cart-div">
                             <input type="hidden" name="productId" value="<%=productDetail.getId()%>">
                             <button class="btn-pop-mini left add-cart">
-                                <i class="fa-solid fa-cart-plus fa-xl" style="color: #ffffff"></i>
-                                <p class="content-btn-mini" style="color: #ffffff; margin: 0">Thêm vào giỏ hàng</p>
+                                <i class="fa-solid fa-cart-plus fa-xl"></i>
+                                <p class="content-btn-mini">Thêm vào giỏ hàng</p>
                             </button>
                         </div>
                         <div class="col-sm-12 col-md-6 col-lg-6 dp-flex justify-content-start align-content-center">

@@ -49,7 +49,6 @@ $(() => {
             type: "POST",
             url: updateCartUrl,
             dataType: "json",
-            contentType: "json",
             data: {
                 productId: productId,
                 quantity: quantity

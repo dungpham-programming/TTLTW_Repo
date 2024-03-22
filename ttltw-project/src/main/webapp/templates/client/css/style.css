@@ -1810,10 +1810,6 @@ p, dd {
     border-radius: .625rem;
 }
 
-.add-cart:hover {
-    color: var(--primary-color-darkyellow);
-}
-
 .confirmed {
     color: green !important;
 }
@@ -2194,4 +2190,17 @@ a.cart-btn:hover {
     right: 0;
     width: 16%;
     z-index: 1000;
+}
+
+.add-cart i, .add-cart p {
+    color: #ffffff;
+    transition: .3s color ease-out;
+}
+
+.add-cart p {
+    margin: 0;
+}
+
+.add-cart:hover i, .add-cart:hover p {
+    color: var(--primary-color-darkyellow);
 }
