@@ -22,7 +22,7 @@ $(() => {
                 // Xử lý phản hồi từ Servlet (nếu cần)
                 if (response.success === "true") {
                     const totalItems = response.totalItems;
-                    successNotify();
+                    notify();
                     updateTotalItem(totalItems);
                     // Xử lý response.sendRedirect được Servlet gửi trên client-side
                 } else if (response.redirectLink) {
@@ -38,9 +38,9 @@ $(() => {
     });
 });
 
-const successNotify = () => {
+const notify = () => {
     const popup = $(`<div id="autoDismissAlert" class="alert alert-success alert-dismissible fade show d-flex align-items-center adding-cart-notify" role="alert">
-                        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
+                        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
                         <div>Thêm vào giỏ hàng thành công!</div>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                      </div>`);
@@ -49,6 +49,8 @@ const successNotify = () => {
         // Nếu không có thông báo nào hiển thị, hiển thị thông báo mới
         $('body').append(popup);
         isPopupVisible = true;
+        // Cập nhật thông báo hiện tại vào previous
+        previousPopup = popup
     } else {
         // Nếu có thông báo đang hiển thị, xóa thông báo cũ khỏi DOM
         previousPopup.remove();

@@ -20,14 +20,24 @@ public class CartAndPaymentFilter implements Filter {
         // Filter các url bắt đầu bằng "/cart" hoặc có chứa "cart"
         if (uri.startsWith("/cart") || uri.contains("cart")) {
             UserBean user = (UserBean) SessionUtil.getInstance().getValue(request, "user");
-            if (user == null) {
-                // Nếu chưa tồn tại Session, điều hướng sang trang login
-                // Bắt buộc phải chuyển hướng bằng client-side => Send redirect link bằng JSON lên client
-                response.setCharacterEncoding("UTF-8");
-                response.setContentType("application/json");
-                String redirectJson = "{\"redirectLink\": \"http://localhost:8080" + request.getContextPath() + "/signin?message=must_login\"}";
-                response.getWriter().write(redirectJson);
+            String xRequestedWith = request.getHeader("X-Requested-With");
+            if ("XMLHttpRequest".equals(xRequestedWith)) {
+                if (user == null) {
+                    // Nếu là AJAX request thì phải chuyển hướng bằng client-side => Send redirect link bằng JSON lên client
+                    // Nếu chưa tồn tại Session, điều hướng sang trang login
+                    // Bắt buộc phải chuyển hướng bằng client-side => Send redirect link bằng JSON lên client
+                    response.setCharacterEncoding("UTF-8");
+                    response.setContentType("application/json");
+                    String redirectJson = "{\"redirectLink\": \"http://localhost:8080" + request.getContextPath() + "/signin?message=must_login\"}";
+                    response.getWriter().write(redirectJson);
+                    return;
+                }
+            } else {
+                if (user == null) {
+                // Nếu không là AJAX request thì sendRedirct thông qua servers
+                response.sendRedirect(request.getContextPath() + "/signin?message=must_login");
                 return;
+                }
             }
         }
 

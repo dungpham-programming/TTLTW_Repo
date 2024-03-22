@@ -53,14 +53,15 @@ public class Cart {
         setTotalPurcharseAndDiscount();
     }
 
-    public void deleteItem(int productId) {
+    public int deleteItem(int productId) {
         Item item = getItemByProductId(productId);
         if (item != null) {
             items.remove(item);
+            // Set tổng vào cart
+            setTotalPurcharseAndDiscount();
+            return 1;
         }
-
-        // Set tổng vào cart
-        setTotalPurcharseAndDiscount();
+        return -1;
     }
 
     // Không set tổng vào cart khi xóa
