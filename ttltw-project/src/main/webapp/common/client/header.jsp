@@ -62,7 +62,7 @@
                 <% } %>
 
                 <% if (user != null) {%>
-                <li class="hv-li"><a class="nav-link yellow" href="#"><i class="fa-regular fa-user"></i></a>
+                <li class="hv-li"><a class="nav-link yellow position-relative" href="#"><i class="fa-regular fa-user"></i></a>
                     <ul class="ul-drop-menu">
                         <li class="drop-menu hello-user">Xin chào, <%= (user.getFirstName() == null || user.getFirstName().isEmpty() || user.getLastName() == null || user.getLastName().isEmpty()) ? user.getEmail() : user.getFirstName() + " " + user.getLastName() %>!</li>
                         <li class="drop-menu hv-gray"><a href="<c:url value="user-info">
@@ -73,7 +73,7 @@
                         <li class="drop-menu hv-gray"><a href="<c:url value="/signout"/>">Đăng xuất</a></li>
                     </ul>
                 </li>
-                <li class="hv-li"><a class="nav-link yellow" href="<c:url value="/cart-management"/>"><i class="fa-light fa-cart-shopping"></i><span><%if (numberItems != null) {%><%=numberItems%><%}%></span></a></li>
+                <li class="hv-li"><a class="nav-link yellow" href="<c:url value="/cart-management"/>"><i class="fa-light fa-cart-shopping"></i><span class="number-item yellow"><%=(numberItems != null) ? numberItems : 0%></span></a></li>
                 <% } %>
             </ul>
         </div>

@@ -1,9 +1,10 @@
-package com.ltw.controller.client.cart;
+package com.ltw.api.cart;
 
 import com.ltw.bean.Cart;
 import com.ltw.bean.Item;
 import com.ltw.bean.ProductBean;
 import com.ltw.bean.ProductImageBean;
+import com.ltw.dao.ImageDAO;
 import com.ltw.dao.ProductDAO;
 import com.ltw.util.SessionUtil;
 
@@ -15,19 +16,18 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(value = "/cart-adding")
-public class CartAddingController extends HttpServlet {
+// Cần tạo API bắt đầu bằng "/api/cart-"
+// Todo: Xóa filter "/cart" sau khi xong API
+@WebServlet(value = {"/api/cart-adding"})
+public class CartAddingAPI extends HttpServlet {
     private final ProductDAO productDAO = new ProductDAO();
+    private final ImageDAO imageDAO = new ImageDAO();
 
-    // Todo: Chuyển đổi hàm findImage vào ProductImageDAO.
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // Đăng nhập mới cho phép thêm vào cart (Đã có trong filter)
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String productId = req.getParameter("productId");
-        // 3 requestBy: Từ shop, từ product-detail và từ search
-        // Cart đã được thêm vào ngay khi thực hiện filter
         ProductBean product = productDAO.findProductById(Integer.parseInt(productId));
-        List<ProductImageBean> thumbnailProduct = productDAO.findImagesByProductId(Integer.parseInt(productId));
+        List<ProductImageBean> thumbnailProduct = imageDAO.getThumbnailByProductId(Integer.parseInt(productId));
         product.setImages(thumbnailProduct);
         Cart cart = (Cart) SessionUtil.getInstance().getValue(req, "cart");
 
@@ -36,7 +36,11 @@ public class CartAddingController extends HttpServlet {
 
         cart.addItem(item);
         SessionUtil.getInstance().putValue(req, "cart", cart);
+        int totalItems = cart.getTotalItem();
 
-        resp.sendRedirect(req.getContextPath() + "/shop?success=s");
+        String responseJson = "{\"totalItems\": " + totalItems + ", \"success\": \"true\"}";
+        resp.setCharacterEncoding("UTF-8");
+        resp.setContentType("application/json");
+        resp.getWriter().write(responseJson);
     }
 }
