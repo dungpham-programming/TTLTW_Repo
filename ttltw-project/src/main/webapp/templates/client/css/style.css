@@ -1734,8 +1734,12 @@ p, dd {
     padding: 10px 19px 13px;
 }
 
-.product-detail .certified ul li:first-child {
+.product-detail .certified ul li:not(last-child) {
     border-right: none
+}
+
+.product-detail .certified ul li:last-child {
+    border-right: 1px solid #ccc;
 }
 
 .product-detail .certified ul li a {

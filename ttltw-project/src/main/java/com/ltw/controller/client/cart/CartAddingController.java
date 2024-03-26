@@ -4,6 +4,7 @@ import com.ltw.bean.Cart;
 import com.ltw.bean.Item;
 import com.ltw.bean.ProductBean;
 import com.ltw.bean.ProductImageBean;
+import com.ltw.dao.ImageDAO;
 import com.ltw.dao.ProductDAO;
 import com.ltw.util.SessionUtil;
 
@@ -18,8 +19,8 @@ import java.util.List;
 @WebServlet(value = "/cart-adding")
 public class CartAddingController extends HttpServlet {
     private final ProductDAO productDAO = new ProductDAO();
+    private final ImageDAO imageDAO = new ImageDAO();
 
-    // Todo: Chuyển đổi hàm findImage vào ProductImageDAO.
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // Đăng nhập mới cho phép thêm vào cart (Đã có trong filter)
@@ -27,7 +28,7 @@ public class CartAddingController extends HttpServlet {
         // 3 requestBy: Từ shop, từ product-detail và từ search
         // Cart đã được thêm vào ngay khi thực hiện filter
         ProductBean product = productDAO.findProductById(Integer.parseInt(productId));
-        List<ProductImageBean> thumbnailProduct = productDAO.findImagesByProductId(Integer.parseInt(productId));
+        List<ProductImageBean> thumbnailProduct = imageDAO.findImagesByProductId(Integer.parseInt(productId));
         product.setImages(thumbnailProduct);
         Cart cart = (Cart) SessionUtil.getInstance().getValue(req, "cart");
 

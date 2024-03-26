@@ -1,5 +1,6 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.ltw.bean.ProductBean" %>
+<%@ page import="com.ltw.bean.ProductImageBean" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -24,27 +25,21 @@
                 <div class="col-md-4 col-sm-12 col-xs-12">
                     <div class="product-image">
                         <div id="carouselExampleIndicators" class="carousel slide">
+                            <%
+                                List<ProductImageBean> images = productDetail.getImages();
+                            %>
                             <div class="carousel-indicators">
-                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
-                                        class="active" aria-current="true" aria-label="Slide 1"></button>
-                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
-                                        aria-label="Slide 2"></button>
-                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
-                                        aria-label="Slide 3"></button>
+                                <% for (int i = 0; i < images.size(); i++) { %>
+                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<%= i %>"
+                                        <%= (i == 0) ? "class=\"active\" aria-current=\"true\"" : "" %>></button>
+                                <% } %>
                             </div>
                             <div class="carousel-inner">
-                                <div class="carousel-item active">
-                                    <img src="../images/knitting/vi_cam_tay.jpg" class="d-block fixed-height-img"
-                                         alt="...">
+                                <% for (int i = 0; i < images.size(); i++) { %>
+                                <div class="carousel-item <%= (i == 0) ? "active" : "" %>">
+                                    <img src="<%=images.get(i).getLink()%>" class="d-block fixed-height-img" alt="...">
                                 </div>
-                                <div class="carousel-item">
-                                    <img src="../images/knitting/vi_cam_tay1.jpg" class="d-block fixed-height-img"
-                                         alt="...">
-                                </div>
-                                <div class="carousel-item">
-                                    <img src="../images/knitting/vi_cam_tay2.jpg" class="d-block fixed-height-img"
-                                         alt="...">
-                                </div>
+                                <% } %>
                             </div>
                             <button class="carousel-control-prev" type="button"
                                     data-bs-target="#carouselExampleIndicators"
@@ -88,6 +83,9 @@
                                     <%if (productDetail.getStatus() == 1) {%>Còn hàng<%}%>
                                     <%if (productDetail.getStatus() == 2) {%>Hết hàng<%}%>
                                 </span></a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);">Số lượng đã bán<span style="color: red"><%=productDetail.getSoldQuantity()%></span></a>
                             </li>
                         </ul>
                     </div>

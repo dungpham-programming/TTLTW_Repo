@@ -15,7 +15,7 @@ public class ImageDAO {
         ProductImageBean productImageBean = null;
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT id, name, link, productId ")
-                .append("FROM images ");
+                .append("FROM images WHERE id = ?");
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -24,6 +24,7 @@ public class ImageDAO {
         try {
             connection = OpenConnectionUtil.openConnection();
             preparedStatement = connection.prepareStatement(sql.toString());
+            SetParameterUtil.setParameter(preparedStatement, id);
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
@@ -286,5 +287,34 @@ public class ImageDAO {
             CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
         }
         return thumbnail;
+    }
+
+    public List<ProductImageBean> findImagesByProductId(int productId) {
+        List<ProductImageBean> productImageBeans = new ArrayList<>();
+        String query = "SELECT id, link FROM images WHERE productId = ?";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            preparedStatement = connection.prepareStatement(query);
+            SetParameterUtil.setParameter(preparedStatement, productId);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                ProductImageBean productImageBean = new ProductImageBean();
+                productImageBean.setId(resultSet.getInt("id"));
+                productImageBean.setLink(resultSet.getString("link"));
+                productImageBeans.add(productImageBean);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+
+        return productImageBeans;
     }
 }
