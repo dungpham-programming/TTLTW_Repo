@@ -1,18 +1,19 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.ltw.bean.ProductBean" %>
 <%@ page import="com.ltw.bean.ProductImageBean" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
-    ProductBean productDetail= (ProductBean) request.getAttribute("productDetail");
+    ProductBean productDetail = (ProductBean) request.getAttribute("productDetail");
 %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <jsp:include page="/common/client/using-resource-header.jsp"/>
-    <title>DDD. - <%=productDetail.getName()%></title>
+    <title>DDD. - <%=productDetail.getName()%>
+    </title>
 </head>
 <body>
 <jsp:include page="/common/client/header.jsp"/>
@@ -24,13 +25,14 @@
             <div class="row">
                 <div class="col-md-4 col-sm-12 col-xs-12">
                     <div class="product-image">
-                        <div id="carouselExampleIndicators" class="carousel slide">
+                        <div id="carouselExampleIndicators" class="carousel carousel-dark slide">
                             <%
                                 List<ProductImageBean> images = productDetail.getImages();
                             %>
                             <div class="carousel-indicators">
                                 <% for (int i = 0; i < images.size(); i++) { %>
-                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<%= i %>"
+                                <button type="button" data-bs-target="#carouselExampleIndicators"
+                                        data-bs-slide-to="<%= i %>"
                                         <%= (i == 0) ? "class=\"active\" aria-current=\"true\"" : "" %>></button>
                                 <% } %>
                             </div>
@@ -69,14 +71,16 @@
                     </h2>
                     <hr/>
                     <h3 class="price-container">
-                        <span class="discount-price"><fmt:formatNumber value="<%=productDetail.getDiscountPrice()%>" pattern="#,##0.##"/>đ</span>
+                        <span class="discount-price"><fmt:formatNumber value="<%=productDetail.getDiscountPrice()%>"
+                                                                       pattern="#,##0.##"/>đ</span>
                         <del><fmt:formatNumber value="<%=productDetail.getOriginalPrice()%>" pattern="#,##0.##"/>đ</del>
                         <span class="discount-percent">-10%</span>
                     </h3>
                     <div class="certified">
                         <ul>
                             <li>
-                                <a href="javascript:void(0);">Số lượng hàng còn<span><%=productDetail.getQuantity()%></span></a>
+                                <a href="javascript:void(0);">Số lượng hàng
+                                    còn<span><%=productDetail.getQuantity()%></span></a>
                             </li>
                             <li>
                                 <a href="javascript:void(0);">Tình trạng hàng<span>
@@ -85,7 +89,8 @@
                                 </span></a>
                             </li>
                             <li>
-                                <a href="javascript:void(0);">Số lượng đã bán<span style="color: red"><%=productDetail.getSoldQuantity()%></span></a>
+                                <a href="javascript:void(0);">Số lượng đã bán<span
+                                        style="color: red"><%=productDetail.getSoldQuantity()%></span></a>
                             </li>
                         </ul>
                     </div>
@@ -110,15 +115,19 @@
                                  role="tabpanel">
                                 <br/>
                                 <strong>Chi tiết sản phẩm</strong>
-                                <p><%=productDetail.getDescription()%></p>
+                                <p><%=productDetail.getDescription()%>
+                                </p>
                             </div>
                             <div class="tab-pane fade" id="size" role="tabpanel">
                                 <strong>Chiều cao x Đáy bé x Đáy lớn</strong>
-                                <p><%=productDetail.getSize()%></p>
+                                <p><%=productDetail.getSize()%>
+                                </p>
                                 <strong>Chất liệu</strong>
-                                <p><%=productDetail.getOtherSpec()%></p>
+                                <p><%=productDetail.getOtherSpec()%>
+                                </p>
                                 <strong>Từ khóa</strong>
-                                <p><%=productDetail.getKeyword()%></p>
+                                <p><%=productDetail.getKeyword()%>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -140,7 +149,41 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
 
+        <div class="product-suggest">
+            <input type="hidden" name="currentPos" value="6">
+            <input type="hidden" name="categoryTypeId" value="<%=productDetail.getCategoryTypeId()%>">
+            <div class="suggest-title-wrap">
+                <h2 class="mb-4">Sản phẩm tương tự</h2>
+            </div>
+            <div class="row product-suggest-wrap">
+                <%
+                    List<ProductBean> productSuggest = (List<ProductBean>) request.getAttribute("productSuggest");
+                    for (ProductBean product : productSuggest) {
+                %>
+                <div class="col-2 mb-3">
+                    <a href="<c:url value="/product-detail"><c:param name="id" value="<%=String.valueOf(product.getId())%>"/></c:url>">
+                        <div class="card">
+                            <span class="discount-percent"><f:formatNumber value="<%=product.getDiscountPercent()%>" pattern="##0"/>%</span>
+                            <img src="<%=product.getImages().get(0).getLink()%>" class="card-img-top suggest-img" alt="...">
+                            <div class="card-body d-flex flex-column justify-content-between">
+                                <h5 class="card-title"><%=product.getName()%></h5>
+                                <div class="card-text d-flex flex-column">
+                                    <p class="discount"><f:formatNumber value="<%=product.getDiscountPrice()%>" pattern="#,##0.##"/>đ</p>
+                                    <del class="original"><f:formatNumber value="<%=product.getOriginalPrice()%>" pattern="#,##0.##"/>đ</del>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <% } %>
+            </div>
+            <div class="row">
+                <div class="w-100">
+                    <button type="button" class="btn-more">Xem thêm</button>
+                </div>
             </div>
         </div>
     </div>
@@ -164,5 +207,6 @@
 
 <jsp:include page="/common/client/using-resource-footer.jsp"/>
 <script src="<c:url value="/templates/client/js/ajax/cart/cart-add.js"/>"></script>
+<script src="<c:url value="/templates/client/js/ajax/product-suggest.js"/>"></script>
 </body>
 </html>

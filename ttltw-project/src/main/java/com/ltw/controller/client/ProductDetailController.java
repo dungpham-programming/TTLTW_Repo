@@ -29,9 +29,17 @@ public class ProductDetailController extends HttpServlet {
         List<ProductImageBean> productImages = imageDAO.findImagesByProductId(productId);
         productDetailBean.setImages(productImages);
 
+        List<ProductBean> productSuggest = productDetailDAO.findSixProductsForSuggest(productDetailBean.getCategoryTypeId(), 0);
+        for (ProductBean product : productSuggest) {
+            List<ProductImageBean> thumbnail = imageDAO.getThumbnailByProductId(product.getId());
+            product.setImages(thumbnail);
+        }
+
         req.setAttribute("customizeInfo", customizeInfo);
         req.setAttribute("productDetail", productDetailBean);
+        req.setAttribute("productSuggest", productSuggest);
 
-        req.getRequestDispatcher("/product-detail.jsp").forward(req, resp);
+
+        req.getRequestDispatcher("/product-detail.jsp").forward(req, resp); 
     }
 }

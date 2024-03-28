@@ -1511,6 +1511,7 @@ p, dd {
 
 .product {
     background: var(--primary-color-gray);
+    padding-bottom: 60px;
 }
 
 .product-content {
@@ -2207,4 +2208,78 @@ a.cart-btn:hover {
 
 .add-cart:hover i, .add-cart:hover p {
     color: var(--primary-color-darkyellow);
+}
+
+.product-suggest {
+    margin-top: 50px;
+}
+
+.product-wrap:not(last-child) {
+    margin-bottom: 16px;
+}
+
+.btn-more {
+    margin: 10px auto;
+    display: block;
+    padding: 12px 28px;
+    border-radius: 8px;
+    background-color: var(--primary-color-darkred);
+    color: white;
+    transition: .3s color ease-out;
+}
+
+.btn-more:hover {
+    color: var(--primary-color-darkyellow);
+}
+
+.product-suggest .card-title {
+    font-size: 16px;
+}
+
+.product-suggest .card {
+    height: 330px;
+    border-radius: 10px;
+    position: relative;
+}
+
+.product-suggest-wrap a:hover .card-title {
+    color: var(--primary-color-darkyellow);
+    scale: 1.05;
+}
+
+.card-title {
+    transition: .3s all ease-out;
+}
+
+span.discount-percent {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #c21f1f;
+    color: white;
+    padding: 0 8px;
+    border: none;
+    border-radius: 4px;
+}
+
+img.suggest-img {
+    width: 50%;
+    margin: 0 auto;
+    padding: 30px 0;
+}
+
+p.discount, del.original, span.discount-percent {
+    margin: 0;
+}
+
+p.discount {
+    color: red;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+del.original {
+    padding-right: 4px;
+    color: #838383;
+    font-size: 13px;
 }
