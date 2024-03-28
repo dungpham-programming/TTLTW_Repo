@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.util.List;
 
 // Cần tạo API bắt đầu bằng "/api/cart-"
-// Todo: Xóa filter "/cart" sau khi xong API
 @WebServlet(value = {"/api/cart-adding"})
 public class CartAddingAPI extends HttpServlet {
     private final ProductDAO productDAO = new ProductDAO();
