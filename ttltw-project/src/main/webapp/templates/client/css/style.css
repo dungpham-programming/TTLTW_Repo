@@ -2283,3 +2283,11 @@ del.original {
     color: #838383;
     font-size: 13px;
 }
+
+.sold-introduce {
+    font-size: 13px;
+}
+
+.sold-quantity {
+    color: #c21f1f;
+}

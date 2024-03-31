@@ -172,7 +172,10 @@
                                 <h5 class="card-title"><%=product.getName()%></h5>
                                 <div class="card-text d-flex flex-column">
                                     <p class="discount"><f:formatNumber value="<%=product.getDiscountPrice()%>" pattern="#,##0.##"/>đ</p>
-                                    <del class="original"><f:formatNumber value="<%=product.getOriginalPrice()%>" pattern="#,##0.##"/>đ</del>
+                                    <div class="footer-div d-flex justify-content-between">
+                                        <del class="original"><f:formatNumber value="<%=product.getOriginalPrice()%>" pattern="#,##0.##"/>đ</del>
+                                        <p class="sold-introduce">Đã bán: <span class="sold-quantity"><%=product.getSoldQuantity()%></span></p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
