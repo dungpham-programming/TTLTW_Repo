@@ -17,6 +17,7 @@ import java.util.List;
 public class ProductManagementController extends HttpServlet {
     private final ProductDAO productDAO = new ProductDAO();
 
+    // Todo: Hiển thị soldQuantity và không cho phép thuộc tính này thay đổi
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<ProductBean> listProduct = productDAO.findAllProducts();

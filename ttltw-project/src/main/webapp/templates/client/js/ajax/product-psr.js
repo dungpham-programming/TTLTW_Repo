@@ -151,9 +151,9 @@ function appendProduct(productContainer, products) {
                 <div class="product-item">
                     <img src="${product.images[0].link}" class="img-fluid product-thumbnail" alt="">
                     <h3 class="product-title">${product.name}</h3>
-                    <strong class="product-price">${numeral(product.discountPrice).format('0,0')}₫</strong>
+                    <strong class="product-price">${numeral(product.discountPrice).format('0,0')}đ</strong>
                     <div class="origin-price-and-discount">
-                        <del>${numeral(product.originalPrice).format('0,0')}₫</del>
+                        <del>${numeral(product.originalPrice).format('0,0')}đ</del>
                         <label>${numeral(product.discountPercent).format('0,0')}%</label>
                     </div>
                     <a href="${contextPath}/cart-adding?productId=${product.id}&requestBy=shop-detail-by-type" class="btn-pop-mini left">
