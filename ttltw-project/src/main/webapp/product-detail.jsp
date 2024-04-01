@@ -155,6 +155,8 @@
         <div class="product-suggest">
             <input type="hidden" name="currentPos" value="6">
             <input type="hidden" name="categoryTypeId" value="<%=productDetail.getCategoryTypeId()%>">
+            <input type="hidden" name="productId" value="<%=productDetail.getId()%>">
+
             <div class="suggest-title-wrap">
                 <h2 class="mb-4">Sản phẩm tương tự</h2>
             </div>

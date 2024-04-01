@@ -4,6 +4,7 @@ $(() => {
     $('.btn-more').on('click', function () {
         let currentPos = $('input[name="currentPos"]').val();
         let categoryTypeId = $('input[name="categoryTypeId"]').val();
+        let productId = $('input[name="productId"]').val();
 
         $.ajax({
             url: suggestUrl,
@@ -11,7 +12,8 @@ $(() => {
             dataType: 'json',
             data: {
                 currentPos: currentPos,
-                categoryTypeId: categoryTypeId
+                categoryTypeId: categoryTypeId,
+                productId: productId
             },
             success: (response) => {
                 updateUI(response)

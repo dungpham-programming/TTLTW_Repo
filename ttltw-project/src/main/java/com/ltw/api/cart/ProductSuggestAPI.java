@@ -24,8 +24,9 @@ public class ProductSuggestAPI extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int currentPos = Integer.parseInt(req.getParameter("currentPos"));
         int categoryTypeId = Integer.parseInt(req.getParameter("categoryTypeId"));
+        int productId = Integer.parseInt(req.getParameter("productId"));
 
-        List<ProductBean> productSuggest = productDAO.findSixProductsForSuggest(categoryTypeId, currentPos);
+        List<ProductBean> productSuggest = productDAO.findSixProductsForSuggest(productId, categoryTypeId, currentPos);
         for (ProductBean product : productSuggest) {
             List<ProductImageBean> thumbnail = imageDAO.getThumbnailByProductId(product.getId());
             product.setImages(thumbnail);

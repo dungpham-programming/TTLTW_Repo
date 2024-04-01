@@ -525,12 +525,12 @@ public class ProductDAO {
         return -1;
     }
 
-    public List<ProductBean> findSixProductsForSuggest(int categoryTypeId, int offset) {
+    public List<ProductBean> findSixProductsForSuggest(int productId, int categoryTypeId, int offset) {
         String sql = "SELECT id, name, description, categoryTypeId, originalPrice, discountPrice, " +
                 "discountPercent, quantity, soldQuantity, size, otherSpec, keyword, status, " +
                 "createdDate, createdBy, modifiedDate, modifiedBy " +
                 "FROM products " +
-                "WHERE categoryTypeId = ? " +
+                "WHERE categoryTypeId = ? AND id <> ? " +
                 "ORDER BY soldQuantity desc " +
                 "LIMIT 6 OFFSET ?";
 
@@ -543,7 +543,7 @@ public class ProductDAO {
         try {
             connection = OpenConnectionUtil.openConnection();
             preparedStatement = connection.prepareStatement(sql);
-            SetParameterUtil.setParameter(preparedStatement, categoryTypeId, offset);
+            SetParameterUtil.setParameter(preparedStatement, categoryTypeId, productId, offset);
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
