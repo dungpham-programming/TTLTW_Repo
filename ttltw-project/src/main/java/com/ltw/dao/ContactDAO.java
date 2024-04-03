@@ -7,7 +7,10 @@ import com.ltw.util.SetParameterUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContactDAO {
     public void createContact(ContactBean contactBean) {
@@ -42,5 +45,36 @@ public class ContactDAO {
         } finally {
             CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
         }
+    }
+    public List<ContactBean> findAllContacts() {
+        List<ContactBean> contacts = new ArrayList<>();
+        String sql = "SELECT id, email, firstName, lastName, message, " +
+                "status, createdDate, createdBy, modifiedDate, modifiedBy " +
+                "FROM contact";
+
+        try (Connection connection = OpenConnectionUtil.openConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            while (resultSet.next()) {
+                ContactBean contact = new ContactBean();
+                contact.setId(resultSet.getInt("id"));
+                contact.setEmail(resultSet.getString("email"));
+                contact.setFirstName(resultSet.getString("firstName"));
+                contact.setLastName(resultSet.getString("lastName"));
+                contact.setMessage(resultSet.getString("message"));
+                contact.setStatus(resultSet.getInt("status"));
+                contact.setCreatedDate(resultSet.getTimestamp("createdDate"));
+                contact.setCreatedBy(resultSet.getString("createdBy"));
+                contact.setModifiedDate(resultSet.getTimestamp("modifiedDate"));
+                contact.setModifiedBy(resultSet.getString("modifiedBy"));
+
+                contacts.add(contact);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return contacts;
     }
 }

@@ -51,33 +51,6 @@ public class UserDAO {
         return accountList;
     }
 
-    public void createAccount(UserBean userBean) {
-        String sql = "INSERT INTO users (password, firstName, lastName, roleId, " +
-                "email, addressLine, addressWard, addressDistrict, status) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-
-        try {
-            connection = OpenConnectionUtil.openConnection();
-            connection.setAutoCommit(false);
-            preparedStatement = connection.prepareStatement(sql);
-            SetParameterUtil.setParameter(preparedStatement, userBean.getPassword(), userBean.getFirstName(),
-                    userBean.getLastName(), userBean.getRoleId(), userBean.getEmail(), userBean.getAddressLine(),
-                    userBean.getAddressWard(), userBean.getAddressDistrict(), userBean.getStatus());
-            preparedStatement.executeUpdate();
-            connection.commit();
-        } catch (SQLException e) {
-            try {
-                connection.rollback();
-            } catch (SQLException ex) {
-                throw new RuntimeException(ex);
-            }
-        } finally {
-            CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
-        }
-    }
 
     public int deleteAccount(int id) {
         int affectRows;
