@@ -96,7 +96,7 @@
                                     <%=account.getAddressLine() + ", " + account.getAddressWard() + ", " + account.getAddressDistrict() + ", " + account.getAddressProvince()%>
                                 </td>
                                 <%
-                                    String status = "";
+                                    String status;
                                     switch (account.getStatus()) {
                                         case 1:
                                             status = "Đã active";
