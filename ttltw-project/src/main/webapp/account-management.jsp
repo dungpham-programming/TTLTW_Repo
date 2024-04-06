@@ -68,25 +68,51 @@
 
                                 <td><%=account.getEmail()%></td>
 
-                                <% if (account.getFirstName() != null) { %>
-                                <td><%=account.getFirstName()%></td>
-                                <% } %>
+                                <td><%= (account.getFirstName() != null) ? account.getFirstName() : "" %></td>
 
-                                <% if (account.getLastName() != null) { %>
-                                <td><%=account.getLastName()%></td>
-                                <% } %>
+                                <td><%= (account.getLastName() != null) ? account.getLastName() : "" %></td>
 
+                                <%
+                                    String role;
+                                    switch (account.getRoleId()) {
+                                        case 1:
+                                            role = "Người dùng";
+                                            break;
+                                        case 2:
+                                            role = "Quản trị";
+                                            break;
+                                        case 3:
+                                            role = "Người chỉnh sửa";
+                                            break;
+                                        default:
+                                            role = "";
+                                            break;
+                                    };
+                                %>
                                 <td>
-                                    <%if (account.getRoleId() == 1) {%>Người dùng<%} else if (account.getRoleId() == 2) { %>Quản trị viên<%}%>
+                                    <%=role%>
                                 </td>
-                                <td><%=account.getAddressLine() + ", " + account.getAddressWard() + ", " + account.getAddressDistrict() + ", " + account.getAddressProvince()%></td>
-                                <% if (account.getStatus() == 1) { %>
-                                <td>Đã active</td>
-                                <% } else if (account.getStatus() == 2) { %>
-                                <td>Cần xác thực</td>
-                                <% } else if (account.getStatus() == 0) { %>
-                                <td>Vô hiệu hóa</td>
-                                <% } %>
+                                <td>
+                                    <%=account.getAddressLine() + ", " + account.getAddressWard() + ", " + account.getAddressDistrict() + ", " + account.getAddressProvince()%>
+                                </td>
+                                <%
+                                    String status = "";
+                                    switch (account.getStatus()) {
+                                        case 1:
+                                            status = "Đã active";
+                                            break;
+                                        case 2:
+                                            status = "Cần xác thực";
+                                            break;
+                                        case 3:
+                                            status = "Vô hiệu hóa";
+                                            break;
+                                        default:
+                                            status = "";
+                                            break;
+                                    };
+                                %>
+                                <td><%=status%></td>
                                 <td><%=account.getCreatedDate()%></td>
                                 <td><%=account.getModifiedDate()%></td>
                                 <td>
