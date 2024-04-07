@@ -1,6 +1,7 @@
 package com.ltw.dao;
 
 import com.ltw.bean.UserBean;
+import com.ltw.dao.impl.LogDAO;
 import com.ltw.util.CloseResourceUtil;
 import com.ltw.util.OpenConnectionUtil;
 import com.ltw.util.SetParameterUtil;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAO {
+    private LogDAO logDAO = new LogDAO();
     public List<UserBean> findAllAccounts() {
         String sql = "SELECT id, firstName, lastName, roleId, " +
                 "email, addressLine, addressWard, addressDistrict, status, " +

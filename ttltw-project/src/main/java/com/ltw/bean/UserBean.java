@@ -1,6 +1,10 @@
 package com.ltw.bean;
 
+import com.ltw.dao.impl.LogDAO;
+import com.ltw.dto.LogAddressDTO;
+
 import java.sql.Timestamp;
+import java.util.ResourceBundle;
 
 public class UserBean {
     private int id;
@@ -20,6 +24,10 @@ public class UserBean {
     private String createdBy;
     private Timestamp modifiedDate;
     private String modifiedBy;
+    private LogDAO logDAO = new LogDAO();
+    ResourceBundle logLevelBundle = ResourceBundle.getBundle("log-level");
+    ResourceBundle requestMethodBundle = ResourceBundle.getBundle("request-method");
+    ResourceBundle logContentBundle = ResourceBundle.getBundle("log-content");
 
     public UserBean() {
     }
@@ -158,5 +166,20 @@ public class UserBean {
 
     public void setModifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
+    }
+
+    // Ghi log thông qua model
+    public void loginLog(String ip, String national, String level, String requestMethod, String status, String previous, String current) {
+        // Ghi log
+        LogBean log = new LogBean();
+        log.setIp(ip);
+        log.setNational(national);
+        log.setLevel(Integer.parseInt(logLevelBundle.getString(level)));
+        log.setRequestMethod(Integer.parseInt(requestMethodBundle.getString(requestMethod)));
+        log.setAddress(new LogAddressDTO("login", email, logContentBundle.getString(status)));
+        log.setPreviousValue(previous);
+        log.setCurrentValue(current);
+        log.setCreatedDate(new Timestamp(System.currentTimeMillis()));
+        logDAO.create(log);
     }
 }
