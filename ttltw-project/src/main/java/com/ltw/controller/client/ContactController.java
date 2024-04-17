@@ -68,7 +68,6 @@ public class ContactController extends HttpServlet {
             contactBean.setFirstName(firstName);
             contactBean.setLastName(lastName);
             contactBean.setMessage(message);
-            contactDAO.createContact(contactBean);
 
             req.setAttribute("success", success);
             req.setAttribute("customizeInfo", customizeInfo);

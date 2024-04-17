@@ -47,6 +47,7 @@ public class ContactDAO {
         }
     }
 
+
     public List<ContactBean> findAllContacts() {
         String sql = "SELECT id, email, firstName, lastName, message, " +
                 "status, createdDate, createdBy, modifiedDate, modifiedBy " +
@@ -179,5 +180,6 @@ public class ContactDAO {
         }
         return affectRows;
     }
+
 
 }

@@ -79,6 +79,8 @@
                                 <td><%=contact.getModifiedDate()%></td>
                                 <td><%=contact.getModifiedBy()%></td>
                                 <td>
+                                    <a href="<c:url value="/admin/contact-management/adding"/>" data-bs-toggle="tooltip" title="Thêm liên hệ" class="edit"><i
+                                            class="fa-regular fa-pen-to-square" style="color: #e3bd74;"></i></a>
                                     <a href="<c:url value="/admin/contact-management/editing"/>" data-bs-toggle="tooltip" title="Chỉnh sửa liên hệ" class="edit"><i
                                             class="fa-regular fa-pen-to-square" style="color: #e3bd74;"></i></a>
                                     <a href="<c:url value="/admin/contact-management/delete"/>" data-bs-toggle="tooltip" title="Xóa liên hệ" class="add"><i
