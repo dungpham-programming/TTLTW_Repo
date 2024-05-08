@@ -24,6 +24,7 @@ public class ContactController extends HttpServlet {
         req.getRequestDispatcher("contact.jsp").forward(req, resp);
     }
 
+    // TODO: Chưa gọi xuống DAO để lưu vào CSDL
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
