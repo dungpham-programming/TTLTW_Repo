@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAO {
-    private LogDAO logDAO = new LogDAO();
     public List<UserBean> findAllAccounts() {
         String sql = "SELECT id, firstName, lastName, roleId, " +
                 "email, addressLine, addressWard, addressDistrict, status, " +

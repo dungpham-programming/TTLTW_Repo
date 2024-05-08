@@ -1,9 +1,5 @@
 package com.ltw.bean;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ltw.dto.LogAddressDTO;
-
 import java.sql.Timestamp;
 
 public class LogBean {
@@ -12,7 +8,6 @@ public class LogBean {
     private String national;
     private int level;
     private String address;
-    private int requestMethod;
     private String previousValue;
     private String currentValue;
     private Timestamp createdDate;
@@ -21,12 +16,11 @@ public class LogBean {
 
     }
 
-    public LogBean(String ip, String national, int level, String address, int requestMethod, String previousValue, String currentValue) {
+    public LogBean(String ip, String national, int level, String address, String previousValue, String currentValue) {
         this.ip = ip;
         this.national = national;
         this.level = level;
         this.address = address;
-        this.requestMethod = requestMethod;
         this.previousValue = previousValue;
         this.currentValue = currentValue;
     }
@@ -55,7 +49,7 @@ public class LogBean {
         this.national = national;
     }
 
-    public void setAddress(String address) {
+    public void setAddress() {
         this.address = address;
     }
 
@@ -71,22 +65,8 @@ public class LogBean {
         return address;
     }
 
-    public void setAddress(LogAddressDTO address) {
-        // Chuyển đổi từ Object sang JSON
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            this.address = objectMapper.writeValueAsString(address);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public int getRequestMethod() {
-        return requestMethod;
-    }
-
-    public void setRequestMethod(int requestMethod) {
-        this.requestMethod = requestMethod;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getPreviousValue() {

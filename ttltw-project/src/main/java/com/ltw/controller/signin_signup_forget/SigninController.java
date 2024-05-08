@@ -1,10 +1,8 @@
 package com.ltw.controller.signin_signup_forget;
 
-import com.ltw.bean.LogBean;
 import com.ltw.bean.UserBean;
-import com.ltw.dao.impl.LogDAO;
-import com.ltw.dto.LogAddressDTO;
 import com.ltw.service.CodeVerifyService;
+import com.ltw.service.LogService;
 import com.ltw.util.SendEmailUtil;
 import com.ltw.util.SessionUtil;
 
@@ -14,12 +12,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.ResourceBundle;
 
 @WebServlet(value = {"/signin"})
 public class SigninController extends HttpServlet {
     private CodeVerifyService codeVerifyService = new CodeVerifyService();
+    private LogService logService = new LogService();
     ResourceBundle notifyBundle = ResourceBundle.getBundle("notify-message");
 
     @Override
@@ -73,13 +71,13 @@ public class SigninController extends HttpServlet {
         } else {
             // Nếu không có lỗi gì, kiểm tra xem tài khoản đã active chưa
             // Nếu đã active thì tạo ra một Session, ghi log và redirect người dùng về trang home
-            UserBean user = null;
+                UserBean user = null;
             if (codeVerifyService.isActive(email)) {
                 user = codeVerifyService.findUserByEmail(email);
                 if (user != null) {
                     SessionUtil.getInstance().putValue(req, "user", user);
                     // Ghi lại log, truyền vào 1 status
-                    user.loginLog("", "", "INFO", "POST","login-success", "", "");
+                    logService.createLog(req.getRemoteAddr(), "", "INFO", user.getId(), "login-success-active", null, null);
                     // Authentication
                     // Kiểm tra role khi đăng nhập để redirect (1 là client, 2 là admin, 3 là mod)
                     if (user.getRoleId() == 1) {
@@ -93,7 +91,7 @@ public class SigninController extends HttpServlet {
                 String verifiedCode = codeVerifyService.generateVerifiedCode();
                 codeVerifyService.setNewCodeByEmail(email, verifiedCode);
                 SendEmailUtil.sendVerificationCode(email, verifiedCode);
-                user.loginLog("", "", "INFO", "POST","not-verify", "", "");
+                logService.createLog(req.getRemoteAddr(), "", "INFO", user.getId(), "login-success-verify", "", "");
                 resp.sendRedirect(req.getContextPath() + "/code-verify.jsp?email=" + email);
             }
         }

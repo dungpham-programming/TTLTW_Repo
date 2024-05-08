@@ -1,5 +1,6 @@
 package com.ltw.service;
 
+import com.ltw.bean.UserBean;
 import com.ltw.dao.UserDAO;
 import com.ltw.util.EncryptPasswordUtil;
 
@@ -83,5 +84,9 @@ public class LinkVerifyService {
 
     public void setEmptyKey(String email) {
         userDAO.setEmptyKey(email);
+    }
+
+    public UserBean findUserByEmail(String email) {
+        return userDAO.findUserByEmail(email);
     }
 }

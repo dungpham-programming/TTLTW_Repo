@@ -2,12 +2,12 @@ package com.ltw.dto;
 
 public class LogAddressDTO {
     private String function;
-    private String email;
+    private int userId;
     private String content;
 
-    public LogAddressDTO(String function, String email, String content) {
+    public LogAddressDTO(String function, int userId, String content) {
         this.function = function;
-        this.email = email;
+        this.userId = userId;
         this.content = content;
     }
 
@@ -19,12 +19,12 @@ public class LogAddressDTO {
         this.function = function;
     }
 
-    public String getEmail() {
-        return email;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getContent() {

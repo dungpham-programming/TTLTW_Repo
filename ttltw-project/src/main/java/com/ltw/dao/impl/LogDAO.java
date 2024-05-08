@@ -1,7 +1,6 @@
 package com.ltw.dao.impl;
 
 import com.ltw.bean.LogBean;
-import com.ltw.dao.intf.IDao;
 import com.ltw.dao.intf.IDaoNonUpdate;
 import com.ltw.util.CloseResourceUtil;
 import com.ltw.util.OpenConnectionUtil;
@@ -21,9 +20,9 @@ public class LogDAO implements IDaoNonUpdate<LogBean> {
     @Override
     public int create(LogBean logBean) {
         int record = -1;
-        String sql = "INSERT INTO logs (ip, national, level, requestMethod, address, " +
+        String sql = "INSERT INTO logs (ip, national, level, address, " +
                 "previousValue, currentValue, createdDate) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -32,8 +31,8 @@ public class LogDAO implements IDaoNonUpdate<LogBean> {
             connection = OpenConnectionUtil.openConnection();
             connection.setAutoCommit(false);
             preparedStatement = connection.prepareStatement(sql);
-            SetParameterUtil.setParameter(preparedStatement, logBean.getIp(), logBean.getNational(), logBean.getLevel(), logBean.getRequestMethod(),
-                                    logBean.getAddress(), logBean.getPreviousValue(), logBean.getCurrentValue(), logBean.getCreatedDate());
+            SetParameterUtil.setParameter(preparedStatement, logBean.getIp(), logBean.getNational(), logBean.getLevel(),
+                    logBean.getAddress(), logBean.getPreviousValue(), logBean.getCurrentValue(), logBean.getCreatedDate());
             record = preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {

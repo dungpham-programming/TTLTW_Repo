@@ -2,8 +2,10 @@ package com.ltw.controller.signin_signup_forget;
 
 import com.ltw.bean.UserBean;
 import com.ltw.service.CodeVerifyService;
+import com.ltw.service.LogService;
 import com.ltw.util.EncryptPasswordUtil;
 import com.ltw.util.SendEmailUtil;
+import com.ltw.util.TransferDataUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,6 +17,7 @@ import java.io.IOException;
 @WebServlet(value = {"/register"})
 public class RegisterController extends HttpServlet {
     private final CodeVerifyService codeVerifyService = new CodeVerifyService();
+    private LogService logService = new LogService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -25,7 +28,6 @@ public class RegisterController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
         String type = req.getParameter("type");
-        int id = 0;
 
         // Nếu có parameter đăng ký tài khoản được gửi về
         if (type != null) {
@@ -105,11 +107,14 @@ public class RegisterController extends HttpServlet {
                     UserBean user = new UserBean();
                     String hashedPassword = EncryptPasswordUtil.encryptPassword(password);
                     String verifiedCode = codeVerifyService.generateVerifiedCode();
+
                     user.setEmail(email);
                     user.setPassword(hashedPassword);
                     user.setVerifiedCode(verifiedCode);
 
                     codeVerifyService.register(user);
+                    // Register thì không có previous value (mặc định là "") và userId (mặc đinh là -1)
+                    logService.createLog(req.getRemoteAddr(), "", "INFO", -1, "register", null, new TransferDataUtil<UserBean>().toJson(user));
                     // Gửi verifiedCode về Email
                     SendEmailUtil.sendVerificationCode(email, verifiedCode);
                     resp.sendRedirect(req.getContextPath() + "/code-verify.jsp?email=" + email);

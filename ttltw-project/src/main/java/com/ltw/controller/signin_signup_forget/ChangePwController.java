@@ -1,8 +1,9 @@
 package com.ltw.controller.signin_signup_forget;
 
+import com.ltw.bean.UserBean;
 import com.ltw.service.LinkVerifyService;
-import com.ltw.util.EncryptPasswordUtil;
-import org.mindrot.jbcrypt.BCrypt;
+import com.ltw.service.LogService;
+import com.ltw.util.TransferDataUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,6 +16,7 @@ import java.io.IOException;
 @WebServlet(value = {"/change-password"})
 public class ChangePwController extends HttpServlet {
     private final LinkVerifyService linkVerifyService = new LinkVerifyService();
+    private LogService logService = new LogService();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -80,8 +82,13 @@ public class ChangePwController extends HttpServlet {
                 req.getRequestDispatcher("change-password.jsp").forward(req, resp);
             } else {
                 // Xử lý hashing password trong Service
+                UserBean prevUser = linkVerifyService.findUserByEmail(email);
                 linkVerifyService.saveRenewPasswordByEmail(email, newPassword);
                 linkVerifyService.setEmptyKey(email);
+                UserBean curUser = linkVerifyService.findUserByEmail(email);
+
+                logService.createLog(req.getRemoteAddr(), "", "ALERT", curUser.getId(), "password-change",
+                        new TransferDataUtil<UserBean>().toJson(prevUser), new TransferDataUtil<UserBean>().toJson(curUser));
                 resp.sendRedirect(req.getContextPath() + "/change-success.jsp");
             }
         }
