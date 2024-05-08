@@ -51,7 +51,7 @@ public class ContactDAO {
     public List<ContactBean> findAllContacts() {
         String sql = "SELECT id, email, firstName, lastName, message, " +
                 "status, createdDate, createdBy, modifiedDate, modifiedBy " +
-                "FROM contact";
+                "FROM contacts";
 
         List<ContactBean> contactList = new ArrayList<>();
         PreparedStatement preparedStatement = null;
@@ -90,7 +90,7 @@ public class ContactDAO {
     public ContactBean findContactById(int id) {
         ContactBean contactBean = new ContactBean();
         String sql = "SELECT id, email, firstName, lastName, message, status, createdDate, createdBy, modifiedDate, modifiedBy " +
-                "FROM contact " +
+                "FROM contacts " +
                 "WHERE id = ?";
 
         Connection connection = null;
@@ -126,7 +126,7 @@ public class ContactDAO {
 
     public void updateContact(ContactBean contact) {
         StringBuilder sql = new StringBuilder();
-        sql.append("UPDATE contact ")
+        sql.append("UPDATE contacts ")
                 .append("SET firstName = ?, lastName = ?, message = ?, status = ?, modifiedDate = ?, modifiedBy = ? ")
                 .append("WHERE id = ?");
 
@@ -155,7 +155,7 @@ public class ContactDAO {
 
     public int deleteContact(int id) {
         int affectRows;
-        String sql = "DELETE FROM contact WHERE id = ?";
+        String sql = "DELETE FROM contacts WHERE id = ?";
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
