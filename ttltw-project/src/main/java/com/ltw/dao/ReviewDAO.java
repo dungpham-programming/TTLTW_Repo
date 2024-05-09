@@ -18,7 +18,7 @@ public class ReviewDAO {
         String sql = "SELECT id, productId, userId, username, " +
                 "content, rating, helpfulCount, reportCount, " +
                 "createdDate, modifiedDate " +
-                "FROM users";
+                "FROM reviews";
 
         List<ReviewBean> reviewList = new ArrayList<>();
 
