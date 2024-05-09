@@ -1,11 +1,11 @@
 package com.ltw.controller.signin_signup_forget;
 
 import com.ltw.bean.UserBean;
+import com.ltw.dto.LogAddressDTO;
 import com.ltw.service.CodeVerifyService;
 import com.ltw.service.LogService;
 import com.ltw.util.EncryptPasswordUtil;
 import com.ltw.util.SendEmailUtil;
-import com.ltw.util.TransferDataUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,7 +17,7 @@ import java.io.IOException;
 @WebServlet(value = {"/register"})
 public class RegisterController extends HttpServlet {
     private final CodeVerifyService codeVerifyService = new CodeVerifyService();
-    private LogService logService = new LogService();
+    private LogService<UserBean> logService = new LogService<>();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -113,8 +113,12 @@ public class RegisterController extends HttpServlet {
                     user.setVerifiedCode(verifiedCode);
 
                     codeVerifyService.register(user);
-                    // Register thì không có previous value (mặc định là "") và userId (mặc đinh là -1)
-                    logService.createLog(req.getRemoteAddr(), "", "INFO", -1, "register", null, new TransferDataUtil<UserBean>().toJson(user));
+
+                    // Ghi log
+                    // Register thì không có previous value (mặc định là null) và userId (mặc đinh là -1)
+                    LogAddressDTO addressObj = new LogAddressDTO("register", -1, "register");
+                    logService.createLog(req.getRemoteAddr(), "", "INFO", addressObj, null, user);
+
                     // Gửi verifiedCode về Email
                     SendEmailUtil.sendVerificationCode(email, verifiedCode);
                     resp.sendRedirect(req.getContextPath() + "/code-verify.jsp?email=" + email);

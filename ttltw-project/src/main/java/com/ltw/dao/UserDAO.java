@@ -1,7 +1,6 @@
 package com.ltw.dao;
 
 import com.ltw.bean.UserBean;
-import com.ltw.dao.impl.LogDAO;
 import com.ltw.util.CloseResourceUtil;
 import com.ltw.util.OpenConnectionUtil;
 import com.ltw.util.SetParameterUtil;
@@ -54,7 +53,7 @@ public class UserDAO {
 
     public void createAccount(UserBean userBean) {
         String sql = "INSERT INTO users (password, firstName, lastName, roleId, " +
-                "email, addressLine, addressWard, addressDistrict, status) " +
+                "email, addressLine, addressWard, addressDistrict, addressProvince, status) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         Connection connection = null;
@@ -66,7 +65,7 @@ public class UserDAO {
             preparedStatement = connection.prepareStatement(sql);
             SetParameterUtil.setParameter(preparedStatement, userBean.getPassword(), userBean.getFirstName(),
                     userBean.getLastName(), userBean.getRoleId(), userBean.getEmail(), userBean.getAddressLine(),
-                    userBean.getAddressWard(), userBean.getAddressDistrict(), userBean.getStatus());
+                    userBean.getAddressWard(), userBean.getAddressDistrict(), userBean.getAddressProvince(), userBean.getStatus());
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
@@ -460,7 +459,7 @@ public class UserDAO {
     public UserBean findUserByEmail(String email) {
         UserBean userBean = null;
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT id, email, roleId, firstName, lastName, addressLine, addressWard, addressDistrict, addressProvince, createdDate ")
+        sql.append("SELECT id, email, roleId, status, firstName, lastName, addressLine, addressWard, addressDistrict, addressProvince, createdDate ")
                 .append("FROM users ")
                 .append("WHERE email = ?");
 
@@ -479,6 +478,7 @@ public class UserDAO {
                 userBean.setId(resultSet.getInt("id"));
                 userBean.setEmail(resultSet.getString("email"));
                 userBean.setRoleId(resultSet.getInt("roleId"));
+                userBean.setStatus(resultSet.getInt("status"));
                 userBean.setFirstName(resultSet.getString("firstName"));
                 userBean.setLastName(resultSet.getString("lastName"));
                 userBean.setAddressLine(resultSet.getString("addressLine"));
@@ -556,6 +556,7 @@ public class UserDAO {
         }
     }
 
+    // TODO: Kiểm tra lại hàm isCorrectKey
     // Kiểm tra key
     public boolean isCorrectKey(String email, String key) {
         StringBuilder sql = new StringBuilder();

@@ -1,6 +1,7 @@
 package com.ltw.controller.signin_signup_forget;
 
 import com.ltw.bean.UserBean;
+import com.ltw.dto.LogAddressDTO;
 import com.ltw.service.CodeVerifyService;
 import com.ltw.service.LogService;
 import com.ltw.util.SendEmailUtil;
@@ -17,7 +18,7 @@ import java.util.ResourceBundle;
 @WebServlet(value = {"/signin"})
 public class SigninController extends HttpServlet {
     private CodeVerifyService codeVerifyService = new CodeVerifyService();
-    private LogService logService = new LogService();
+    private LogService<UserBean> logService = new LogService<>();
     ResourceBundle notifyBundle = ResourceBundle.getBundle("notify-message");
 
     @Override
@@ -76,8 +77,12 @@ public class SigninController extends HttpServlet {
                 user = codeVerifyService.findUserByEmail(email);
                 if (user != null) {
                     SessionUtil.getInstance().putValue(req, "user", user);
-                    // Ghi lại log, truyền vào 1 status
-                    logService.createLog(req.getRemoteAddr(), "", "INFO", user.getId(), "login-success-active", null, null);
+
+                    // Ghi lại log nếu tài khoản đã active
+                    // Do đến đây vẫn chưa đăng nhập vào tài khoản => Chưa có UserBean trong Session => id mặc định là -1
+                    LogAddressDTO addressObj = new LogAddressDTO("login", -1, "login-success-active");
+                    logService.createLog(req.getRemoteAddr(), "", "INFO", addressObj, null, null);
+
                     // Authentication
                     // Kiểm tra role khi đăng nhập để redirect (1 là client, 2 là admin, 3 là mod)
                     if (user.getRoleId() == 1) {
@@ -91,7 +96,11 @@ public class SigninController extends HttpServlet {
                 String verifiedCode = codeVerifyService.generateVerifiedCode();
                 codeVerifyService.setNewCodeByEmail(email, verifiedCode);
                 SendEmailUtil.sendVerificationCode(email, verifiedCode);
-                logService.createLog(req.getRemoteAddr(), "", "INFO", user.getId(), "login-success-verify", "", "");
+
+                // Ghi lại log nếu tài khoản cần verify
+                LogAddressDTO addressObj = new LogAddressDTO("login", user.getId(), "login-success-verify");
+                logService.createLog(req.getRemoteAddr(), "", "INFO", addressObj, null, null);
+
                 resp.sendRedirect(req.getContextPath() + "/code-verify.jsp?email=" + email);
             }
         }

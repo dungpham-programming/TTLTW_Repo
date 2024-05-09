@@ -16,15 +16,6 @@ public class LogBean {
 
     }
 
-    public LogBean(String ip, String national, int level, String address, String previousValue, String currentValue) {
-        this.ip = ip;
-        this.national = national;
-        this.level = level;
-        this.address = address;
-        this.previousValue = previousValue;
-        this.currentValue = currentValue;
-    }
-
     public int getId() {
         return id;
     }
@@ -47,10 +38,6 @@ public class LogBean {
 
     public void setNational(String national) {
         this.national = national;
-    }
-
-    public void setAddress() {
-        this.address = address;
     }
 
     public int getLevel() {

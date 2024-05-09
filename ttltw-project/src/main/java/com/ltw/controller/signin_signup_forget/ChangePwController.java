@@ -1,9 +1,9 @@
 package com.ltw.controller.signin_signup_forget;
 
 import com.ltw.bean.UserBean;
+import com.ltw.dto.LogAddressDTO;
 import com.ltw.service.LinkVerifyService;
 import com.ltw.service.LogService;
-import com.ltw.util.TransferDataUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,12 +11,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 // TODO: Mã hóa mật khẩu
 @WebServlet(value = {"/change-password"})
 public class ChangePwController extends HttpServlet {
     private final LinkVerifyService linkVerifyService = new LinkVerifyService();
-    private LogService logService = new LogService();
+    private LogService<UserBean> logService = new LogService<>();
+    private ResourceBundle logBundle = ResourceBundle.getBundle("log-content");
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -87,8 +89,11 @@ public class ChangePwController extends HttpServlet {
                 linkVerifyService.setEmptyKey(email);
                 UserBean curUser = linkVerifyService.findUserByEmail(email);
 
-                logService.createLog(req.getRemoteAddr(), "", "ALERT", curUser.getId(), "password-change",
-                        new TransferDataUtil<UserBean>().toJson(prevUser), new TransferDataUtil<UserBean>().toJson(curUser));
+                // Ghi log
+                // Do quên mật khẩu này chưa qua đăng nhập => Chưa vào Session => Giá trị mặc định là -1.
+                LogAddressDTO addressObj = new LogAddressDTO("change-password-by-forget", -1, logBundle.getString("change-password-by-forget"));
+                logService.createLog(req.getRemoteAddr(), "", "ALERT", addressObj, prevUser, curUser);
+
                 resp.sendRedirect(req.getContextPath() + "/change-success.jsp");
             }
         }

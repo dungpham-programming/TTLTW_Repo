@@ -2,9 +2,12 @@ package com.ltw.controller.admin.account;
 
 import com.ltw.bean.UserBean;
 import com.ltw.dao.UserDAO;
+import com.ltw.dto.LogAddressDTO;
+import com.ltw.service.LogService;
 import com.ltw.util.BlankInputUtil;
 import com.ltw.util.EncryptPasswordUtil;
 import com.ltw.util.NumberValidateUtil;
+import com.ltw.util.SessionUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,10 +16,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 @WebServlet("/admin/account-management/adding")
 public class AccountAddingController extends HttpServlet {
     private final UserDAO userDAO = new UserDAO();
+    private LogService<UserBean> logService = new LogService<>();
+    private ResourceBundle logBundle = ResourceBundle.getBundle("log-content");
+
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("/adding-account.jsp").forward(req, resp);
     }
@@ -73,8 +80,21 @@ public class AccountAddingController extends HttpServlet {
             userBean.setAddressProvince(addressProvince);
 
             userDAO.createAccount(userBean);
+
+            // Ghi log khi thành công
+            // Lấy ra người thực hiện thay đổi từ Session
+            UserBean modifyUser = (UserBean) SessionUtil.getInstance().getValue(req, "user");
+            LogAddressDTO addressObj = new LogAddressDTO("admin-create-account", modifyUser.getId(), logBundle.getString("admin-create-account-success"));
+            UserBean currentObj = userDAO.findUserByEmail(email);
+            logService.createLog(req.getRemoteAddr(), "", "ALERT", addressObj, null, currentObj);
+
             resp.sendRedirect(req.getContextPath() + "/admin/account-management/adding?success=" + success);
         } else {
+            // Ghi log khi thất bại
+            UserBean modifyUser = (UserBean) SessionUtil.getInstance().getValue(req, "user");
+            LogAddressDTO addressObj = new LogAddressDTO("admin-create-account", modifyUser.getId(), logBundle.getString("admin-create-account-fail"));
+            logService.createLog(req.getRemoteAddr(), "", "ALERT", addressObj, null, null);
+
             req.getRequestDispatcher("/adding-account.jsp").forward(req, resp);
         }
     }
