@@ -12,6 +12,7 @@ public class ProductBean {
     private double discountPrice;
     private double discountPercent;
     private int quantity;
+    private int soldQuantity;
     private String size;
     private String otherSpec;
     private int status;
@@ -87,6 +88,14 @@ public class ProductBean {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public int getSoldQuantity() {
+        return soldQuantity;
+    }
+
+    public void setSoldQuantity(int soldQuantity) {
+        this.soldQuantity = soldQuantity;
     }
 
     public int getStatus() {

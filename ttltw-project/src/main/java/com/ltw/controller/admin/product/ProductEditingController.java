@@ -1,9 +1,13 @@
 package com.ltw.controller.admin.product;
 
 import com.ltw.bean.ProductBean;
+import com.ltw.bean.UserBean;
 import com.ltw.dao.ProductDAO;
+import com.ltw.dto.LogAddressDTO;
+import com.ltw.service.LogService;
 import com.ltw.util.BlankInputUtil;
 import com.ltw.util.NumberValidateUtil;
+import com.ltw.util.SessionUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,10 +16,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 @WebServlet(value = {"/admin/product-management/editing"})
 public class ProductEditingController extends HttpServlet {
     private final ProductDAO productDAO = new ProductDAO();
+    private LogService<ProductBean> logService = new LogService<>();
+    private ResourceBundle logBundle = ResourceBundle.getBundle("log-content");
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
@@ -91,6 +99,11 @@ public class ProductEditingController extends HttpServlet {
             req.setAttribute("dPeErr", dPeErr);
         }
 
+        LogAddressDTO addressObj;
+        UserBean userLogin = (UserBean) SessionUtil.getInstance().getValue(req, "user");
+        // Product trước đó (Trong db)
+        ProductBean prevObj = productDAO.findProductById(id);
+
         // Nếu không lỗi thì lưu vào database
         if (isValid) {
             // Đổi String về số
@@ -100,6 +113,7 @@ public class ProductEditingController extends HttpServlet {
             double originalPriceDouble = NumberValidateUtil.toDouble(originalPrice);
             double discountPriceDouble = NumberValidateUtil.toDouble(discountPrice);
             double discountPercentDouble = NumberValidateUtil.toDouble(discountPercent);
+
 
             // Set thuộc tính vào bean
             ProductBean productBean = new ProductBean();
@@ -116,11 +130,25 @@ public class ProductEditingController extends HttpServlet {
             productBean.setStatus(statusInt);
             productBean.setKeyword(keyword);
 
-            productDAO.updateProduct(productBean);
-            resp.sendRedirect(req.getContextPath() + "/admin/product-management/editing?id=" + productBean.getId() + "&success=" + success);
+            int affectedRows = productDAO.updateProduct(productBean);
+            if (affectedRows < 0) {
+                // TODO: Thêm bắt lỗi trên JSP khi xử lý lỗi db
+                addressObj = new LogAddressDTO("admin-create-product", userLogin.getId(), logBundle.getString("admin-update-product-fail"));
+                logService.createLog(req.getRemoteAddr(), "", "ALERT", addressObj, prevObj, productDAO.findProductById(id));
+                String createErr = "e";
+                req.setAttribute("createErr", createErr);
+                req.getRequestDispatcher("/adding-product.jsp").forward(req, resp);
+            } else {
+                addressObj = new LogAddressDTO("admin-create-product", userLogin.getId(), logBundle.getString("admin-update-product-success"));
+                logService.createLog(req.getRemoteAddr(), "", "ALERT", addressObj, prevObj, productDAO.findProductById(id));
+                resp.sendRedirect(req.getContextPath() + "/admin/product-management/editing?id=" + productBean.getId() + "&success=" + success);
+            }
         } else {
             ProductBean productBean = productDAO.findProductById(id);
             req.setAttribute("productBean", productBean);
+
+            addressObj = new LogAddressDTO("admin-update-product", userLogin.getId(), logBundle.getString("admin-update-product-fail"));
+            logService.createLog(req.getRemoteAddr(), "", "ALERT", addressObj, prevObj, productBean);
             req.getRequestDispatcher("/editing-product.jsp").forward(req, resp);
         }
     }
