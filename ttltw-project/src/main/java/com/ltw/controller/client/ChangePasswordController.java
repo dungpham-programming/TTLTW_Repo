@@ -1,6 +1,11 @@
 package com.ltw.controller.client;
 
+import com.ltw.bean.UserBean;
+import com.ltw.dao.UserDAO;
+import com.ltw.dto.LogAddressDTO;
 import com.ltw.service.LinkVerifyService;
+import com.ltw.service.LogService;
+import com.ltw.util.SessionUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,10 +13,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 @WebServlet(value = {"/user-change-password"})
 public class ChangePasswordController extends HttpServlet {
     private final LinkVerifyService linkVerifyService = new LinkVerifyService();
+    private UserDAO userDAO = new UserDAO();
+    private LogService<UserBean> logService = new LogService<>();
+    private ResourceBundle logBundle = ResourceBundle.getBundle("log-content");
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -68,7 +77,25 @@ public class ChangePasswordController extends HttpServlet {
         }
 
         if (!isValid) {
-            linkVerifyService.saveRenewPasswordByEmail(email, newPassword);
+            UserBean prevObj = userDAO.findUserByEmail(email);
+            int affectedRows = -1;
+            UserBean currentObj = userDAO.findUserByEmail(email);
+            UserBean loginUser = (UserBean) SessionUtil.getInstance().getValue(req, "user");
+            if (affectedRows < 0) {
+                // TODO: Khi có UI cho chức năng này, cần thêm thông báo vào UI
+                LogAddressDTO addressObj = new LogAddressDTO("user-change-password", loginUser.getId(), logBundle.getString("user-change-password-fail"));
+                logService.createLog(req.getRemoteAddr(), "", "WARNING", addressObj, prevObj, currentObj);
+                String error = "e";
+                req.setAttribute("error", error);
+                req.getRequestDispatcher("/forget.jsp").forward(req, resp);
+            } else {
+                // TODO: Khi có UI cho chức năng này, cần thêm thông báo vào UI
+                LogAddressDTO addressObj = new LogAddressDTO("user-change-password", loginUser.getId(), logBundle.getString("user-change-password-success"));
+                logService.createLog(req.getRemoteAddr(), "", "WARNING", addressObj, prevObj, currentObj);
+                String success = "s";
+                req.setAttribute("success", success);
+                req.getRequestDispatcher("/thankyou.jsp").forward(req, resp);
+            }
         }
     }
 }

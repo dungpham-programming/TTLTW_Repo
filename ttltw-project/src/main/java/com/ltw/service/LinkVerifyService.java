@@ -66,10 +66,10 @@ public class LinkVerifyService {
     }
 
     // Service lưu mật khẩu mới vào trong database
-    public void saveRenewPasswordByEmail(String email, String password) {
+    public int saveRenewPasswordByEmail(String email, String password) {
         // Hashing mật khẩu trước khi lưu
         String hashedPassword = EncryptPasswordUtil.encryptPassword(password);
-        userDAO.saveRenewPasswordByEmail(email, hashedPassword);
+        return userDAO.saveRenewPasswordByEmail(email, hashedPassword);
     }
 
     // Lưu key vào user

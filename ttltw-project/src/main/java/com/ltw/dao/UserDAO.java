@@ -369,7 +369,8 @@ public class UserDAO {
     }
 
     // Lưu mật khẩu mới cho tài khoản
-    public void saveRenewPasswordByEmail(String email, String password) {
+    public int saveRenewPasswordByEmail(String email, String password) {
+        int affectedRows = -1;
         StringBuilder sql = new StringBuilder();
         sql.append("UPDATE users ")
                 .append("SET password = ? ")
@@ -384,7 +385,7 @@ public class UserDAO {
             preparedStatement = connection.prepareStatement(sql.toString());
 
             SetParameterUtil.setParameter(preparedStatement, password, email);
-            preparedStatement.executeUpdate();
+            affectedRows = preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
             try {
@@ -395,6 +396,7 @@ public class UserDAO {
         } finally {
             CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
         }
+        return affectedRows;
     }
 
     // Kiểm tra xem tài khoản và mật khẩu có hợp lệ không

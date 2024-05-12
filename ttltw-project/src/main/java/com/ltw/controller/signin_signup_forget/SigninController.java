@@ -72,9 +72,8 @@ public class SigninController extends HttpServlet {
         } else {
             // Nếu không có lỗi gì, kiểm tra xem tài khoản đã active chưa
             // Nếu đã active thì tạo ra một Session, ghi log và redirect người dùng về trang home
-                UserBean user = null;
+            UserBean user = codeVerifyService.findUserByEmail(email);
             if (codeVerifyService.isActive(email)) {
-                user = codeVerifyService.findUserByEmail(email);
                 if (user != null) {
                     SessionUtil.getInstance().putValue(req, "user", user);
 
