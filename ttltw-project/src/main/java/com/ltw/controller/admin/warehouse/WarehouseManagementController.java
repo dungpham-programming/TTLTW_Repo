@@ -1,6 +1,7 @@
 package com.ltw.controller.admin.warehouse;
 
 import com.ltw.bean.UserBean;
+import com.ltw.bean.WarehouseBean;
 import com.ltw.dao.UserDAO;
 import com.ltw.dao.WarehouseDAO;
 
@@ -16,9 +17,9 @@ import java.util.List;
 public class WarehouseManagementController extends HttpServlet {
     private final WarehouseDAO warehouseDAO = new WarehouseDAO();
 
-//    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        List<WarehouseBean> warehouses = WarehouseDAO.findAllAccounts();
-//        request.setAttribute("warehouses", warehouses);
-//        request.getRequestDispatcher("/warehouse-management.jsp").forward(request, response);
-//    }
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<WarehouseBean> warehouses = WarehouseDAO.findAllWarehouses ();
+        request.setAttribute("warehouses", warehouses);
+        request.getRequestDispatcher("/warehouse-management.jsp").forward(request, response);
+    }
 }
