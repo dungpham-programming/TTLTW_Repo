@@ -23,7 +23,8 @@ public class HomeController extends HttpServlet {
     private final CustomizeDAO customizeDAO = new CustomizeDAO();
     private final CategoryDAO categoryDAO = new CategoryDAO();
     private final BlogDAO blogDAO = new BlogDAO();
-  
+
+    // TODO: Cần thêm thông báo cho người dùng khi cố ý truy cập vào trang admin khi role là client
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         CustomizeBean customizeInfo = customizeDAO.getCustomizeInfo();

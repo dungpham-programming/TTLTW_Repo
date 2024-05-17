@@ -2,6 +2,8 @@ package com.ltw.controller.admin.order;
 
 import com.ltw.bean.OrderBean;
 import com.ltw.dao.OrderDAO;
+import com.ltw.dto.LogAddressDTO;
+import com.ltw.service.LogService;
 import com.ltw.util.BlankInputUtil;
 import com.ltw.util.NumberValidateUtil;
 
@@ -12,9 +14,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
+
 @WebServlet(value = {"/admin/order-management/editing"})
 public class OrderEditingController extends HttpServlet {
     private final OrderDAO orderDAO = new OrderDAO();
+    private LogService<OrderBean> logService = new LogService<>();
+    private final ResourceBundle logBundle = ResourceBundle.getBundle("log-content");
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
@@ -39,16 +46,21 @@ public class OrderEditingController extends HttpServlet {
 
 
         // Nếu không lỗi thì lưu vào database
-            // Đổi String về số
-            int statusInt = NumberValidateUtil.toInt(status);
+        // Đổi String về số
+        int statusInt = NumberValidateUtil.toInt(status);
+        // Lấy ra Order trong Database làm giá trị previous
+        OrderBean prevObj = orderDAO.findOrderById(id);
 
+        // Set thuộc tính vào bean
+        OrderBean orderBean = new OrderBean();
+        orderBean.setId(id);
+        orderBean.setStatus(statusInt);
 
-            // Set thuộc tính vào bean
-            OrderBean orderBean = new OrderBean();
-            orderBean.setId(id);
-            orderBean.setStatus(statusInt);
+        orderDAO.updateOrder(orderBean);
 
-            orderDAO.updateOrder(orderBean);
-            resp.sendRedirect(req.getContextPath() + "/admin/order-management/editing?id=" + orderBean.getId() + "&success=" + success);
+        // Ghi log
+        LogAddressDTO addressObj = new LogAddressDTO("admin-edit-order", id, logBundle.getString("admin-update-order-success"));
+        logService.createLog(req.getRemoteAddr(), "", "ALERT", addressObj, prevObj, orderBean);
+        resp.sendRedirect(req.getContextPath() + "/admin/order-management/editing?id=" + orderBean.getId() + "&success=" + success);
     }
 }
