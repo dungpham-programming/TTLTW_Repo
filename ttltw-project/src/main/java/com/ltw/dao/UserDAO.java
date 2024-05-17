@@ -560,7 +560,6 @@ public class UserDAO {
         }
     }
 
-    // TODO: Kiểm tra lại hàm isCorrectKey
     // Kiểm tra key
     public boolean isCorrectKey(String email, String key) {
         StringBuilder sql = new StringBuilder();
@@ -583,7 +582,7 @@ public class UserDAO {
             // Check if the result set has a row
             if (resultSet.next()) {
                 String keyInDB = resultSet.getString("changePwHash");
-                return (keyInDB != null && !keyInDB.isEmpty());
+                return keyInDB != null && keyInDB.equals(key);
             }
         } catch (SQLException e) {
             // Handle the exception (log it or throw a custom exception)
