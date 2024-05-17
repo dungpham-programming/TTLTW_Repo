@@ -16,38 +16,9 @@ import java.util.List;
 import java.util.Set;
 
 public class ProductDAO {
-    public List<ProductImageBean> findImagesByProductId(int productId) {
-        List<ProductImageBean> productImageBeans = new ArrayList<>();
-        String query = "SELECT id, link FROM images WHERE productId = ?";
-
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        try {
-            connection = OpenConnectionUtil.openConnection();
-            preparedStatement = connection.prepareStatement(query);
-            SetParameterUtil.setParameter(preparedStatement, productId);
-            resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                ProductImageBean productImageBean = new ProductImageBean();
-                productImageBean.setId(resultSet.getInt("id"));
-                productImageBean.setLink(resultSet.getString("link"));
-                productImageBeans.add(productImageBean);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
-        }
-
-        return productImageBeans;
-    }
-
     public List<ProductBean> findAllProducts() {
         String sql = "SELECT id, name, description, categoryTypeId, originalPrice, discountPrice, " +
-                "discountPercent, quantity, size, otherSpec, keyword, status, " +
+                "discountPercent, quantity, soldQuantity, size, otherSpec, keyword, status, " +
                 "createdDate, createdBy, modifiedDate, modifiedBy " +
                 "FROM products";
 
@@ -72,6 +43,7 @@ public class ProductDAO {
                 productBean.setDiscountPrice(resultSet.getDouble("discountPrice"));
                 productBean.setDiscountPercent(resultSet.getDouble("discountPercent"));
                 productBean.setQuantity(resultSet.getInt("quantity"));
+                productBean.setSoldQuantity(resultSet.getInt("soldQuantity"));
                 productBean.setSize(resultSet.getString("size"));
                 productBean.setOtherSpec(resultSet.getString("otherSpec"));
                 productBean.setKeyword(resultSet.getString("keyword"));
@@ -600,6 +572,7 @@ public class ProductDAO {
         } finally {
             CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
         }
+      
         return product;
     }
 

@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter(urlPatterns = {"/user-info", "/order-history", "/order-detail-history", "/user-change-password"})
+@WebFilter(urlPatterns = {"/user-info", "/order-history", "/order-detail-history", "/user-change-password", "/api/admin/*"})
 public class Authentication implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {

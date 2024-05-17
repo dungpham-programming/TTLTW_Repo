@@ -19,7 +19,6 @@
                 </ol>
                 <%
                     ArrayList<String> errors = (ArrayList<String>) request.getAttribute("errors");
-                    String success = request.getParameter("success");
                 %>
                 <form action="<c:url value="/admin/account-management/adding"/>" method="post">
                     <div class="row">

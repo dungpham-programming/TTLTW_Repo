@@ -1,5 +1,6 @@
 $(document).ready(() => {
-    $('#search-box').on('input', () => {
+    // event delegate (on) nay gọi lại chính nó ($('#search-box'))
+     $('#search-box').on('input', () => {
         let searchKey = $('#search-box').val();
         let url = `http://localhost:8080${contextPath}/api/suggest-key`;
         $.ajax({

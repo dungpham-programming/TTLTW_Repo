@@ -46,15 +46,11 @@
                             <tr>
                                 <th>ID Sản phẩm</th>
                                 <th>Tên sản phẩm</th>
-                                <th>Miêu tả</th>
                                 <th>Mã danh mục</th>
                                 <th>Giá gốc</th>
                                 <th>Giá giảm</th>
                                 <th>Phần trăm giảm</th>
                                 <th>Số lượng còn</th>
-                                <th>Kích thước</th>
-                                <th>Thông tin khác</th>
-                                <th>Từ khóa</th>
                                 <th>Trạng thái</th>
                                 <th>Ảnh</th>
                                 <th>Tạo ngày</th>
@@ -78,18 +74,12 @@
                                 <td><%=product.getName()%></td>
                                 <% } %>
 
-                                <% if (product.getDescription() != null) { %>
-                                <td><%=product.getDescription()%></td>
-                                <% } %>
 
                                 <td><%=product.getCategoryTypeId()%></td>
                                 <td><fmt:formatNumber value="<%=product.getOriginalPrice()%>" pattern="#,##0.##"/>đ</td>
                                 <td><fmt:formatNumber value="<%=product.getDiscountPrice()%>" pattern="#,##0.##"/>đ</td>
                                 <td><fmt:formatNumber value="<%=product.getDiscountPercent()%>" pattern="#.##"/>%</td>
                                 <td><%=product.getQuantity()%></td>
-                                <td><%=product.getSize()%></td>
-                                <td><%=product.getOtherSpec()%></td>
-                                <td><%=product.getKeyword()%></td>
                                 <% if (product.getStatus() == 1) { %>
                                 <td>Còn hàng</td>
                                 <% } else if (product.getStatus() == 2) { %>

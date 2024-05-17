@@ -129,7 +129,7 @@
                                 <table class="table site-block-order-table mb-5">
                                     <thead>
                                     <th>Sản phẩm</th>
-                                    <th>Tổng tiền</th>
+                                    <th>Thành tiền</th>
                                     </thead>
                                     <tbody>
                                     <%
@@ -143,7 +143,7 @@
                                     <%}%>
                                     <tr>
                                         <td class="text-black font-weight-bold"><strong>Tổng cộng</strong></td>
-                                        <td class="text-black font-weight-bold"><strong><fmt:formatNumber value="<%=cart.getDiscountPriceTotal()%>" pattern="#,##0.##"/>đ</strong></td>
+                                        <td class="text-danger font-weight-bold"><strong><fmt:formatNumber value="<%=cart.getDiscountPriceTotal()%>" pattern="#,##0.##"/>đ</strong></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -164,7 +164,7 @@
                                     <div class="collapse" id="paymentOnDelivery">
                                         <div class="py-2">
                                             <p class="mb-0">Thanh toán trực tiếp sau khi đã nhận hàng. Hoàn tiền trong
-                                                vòng 30 ngày kể từ khi đặt haàng nếu có sự cố do chúng tôi.</p>
+                                                vòng 30 ngày kể từ khi đặt hàng nếu có sự cố do chúng tôi.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -175,7 +175,7 @@
                                             <input type="radio" name="paymentMethod" value="paymentByBanking"
                                                    data-bs-toggle="collapse"
                                                    href="#paymentByBanking" role="button" aria-expanded="false"
-                                                   aria-controls="paymentByBanking">
+                                                   aria-controls="paymentByBanking" disabled>
                                             Thanh toán bằng Internet Banking (sắp có)
                                         </label>
                                     </h3>
