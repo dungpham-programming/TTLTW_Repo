@@ -78,7 +78,7 @@ public class ChangePasswordController extends HttpServlet {
 
         if (!isValid) {
             UserBean prevObj = userDAO.findUserByEmail(email);
-            int affectedRows = -1;
+            int affectedRows = linkVerifyService.saveRenewPasswordByEmail(email, newPassword);
             UserBean currentObj = userDAO.findUserByEmail(email);
             UserBean loginUser = (UserBean) SessionUtil.getInstance().getValue(req, "user");
             if (affectedRows < 0) {
@@ -88,7 +88,7 @@ public class ChangePasswordController extends HttpServlet {
                 String error = "e";
                 req.setAttribute("error", error);
                 req.getRequestDispatcher("/forget.jsp").forward(req, resp);
-            } else {
+            } else if (affectedRows > 0) {
                 // TODO: Khi có UI cho chức năng này, cần thêm thông báo vào UI
                 LogAddressDTO addressObj = new LogAddressDTO("user-change-password", loginUser.getId(), logBundle.getString("user-change-password-success"));
                 logService.createLog(req.getRemoteAddr(), "", "WARNING", addressObj, prevObj, currentObj);

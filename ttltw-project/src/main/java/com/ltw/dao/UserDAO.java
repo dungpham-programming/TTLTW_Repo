@@ -338,7 +338,8 @@ public class UserDAO {
     }
 
     // Cập nhật lại thông tin tài khoản
-    public void updateAccount(UserBean user) {
+    public int updateAccount(UserBean user) {
+        int affectedRows = -1;
         StringBuilder sql = new StringBuilder();
         sql.append("UPDATE users ")
                 .append("SET firstName = ?, lastName = ?, addressLine = ?, ")
@@ -355,7 +356,7 @@ public class UserDAO {
             SetParameterUtil.setParameter(preparedStatement, user.getFirstName(), user.getLastName(),
                                             user.getAddressLine(), user.getAddressWard(), user.getAddressDistrict(),
                                             user.getAddressProvince(), user.getId());
-            preparedStatement.executeUpdate();
+            affectedRows = preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
             try {
@@ -366,6 +367,7 @@ public class UserDAO {
         } finally {
             CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
         }
+        return affectedRows;
     }
 
     // Lưu mật khẩu mới cho tài khoản
