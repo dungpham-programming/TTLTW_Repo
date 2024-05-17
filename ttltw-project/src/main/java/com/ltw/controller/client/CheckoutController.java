@@ -2,6 +2,9 @@ package com.ltw.controller.client;
 
 import com.ltw.bean.*;
 import com.ltw.dao.*;
+import com.ltw.dto.FullOrderDTO;
+import com.ltw.dto.LogAddressDTO;
+import com.ltw.service.LogService;
 import com.ltw.util.BlankInputUtil;
 import com.ltw.util.SessionUtil;
 
@@ -12,10 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @WebServlet(value = {"/checkout"})
 public class CheckoutController extends HttpServlet {
@@ -24,6 +24,10 @@ public class CheckoutController extends HttpServlet {
     private final OrderDAO orderDAO = new OrderDAO();
     private final OrderDetailDAO orderDetailDAO = new OrderDetailDAO();
     private final ProductDAO productDAO = new ProductDAO();
+    private LogService<UserBean> userLogService = new LogService<>();
+    private LogService<OrderBean> orderLogService = new LogService<>();
+    private LogService<List<OrderDetailBean>> orderDetailLogService = new LogService<>();
+    private ResourceBundle logBundle = ResourceBundle.getBundle("log-content");
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -56,6 +60,8 @@ public class CheckoutController extends HttpServlet {
         String[] inputsForm = new String[]{firstName, lastName, addressLine, addressWard, addressDistrict, addressProvince};
         ArrayList<String> errors = new ArrayList<>();
 
+        UserBean modifyUser = (UserBean) SessionUtil.getInstance().getValue(req, "user");
+
         boolean isValid = true;
 
         for (String string : inputsForm) {
@@ -83,7 +89,18 @@ public class CheckoutController extends HttpServlet {
             userBean.setAddressDistrict(addressDistrict.trim());
             userBean.setAddressProvince(addressProvince.trim());
 
-            userDAO.updateAccount(userBean);
+            UserBean prevUser = userDAO.findUserById(user.getId());
+            int userAffected = userDAO.updateAccount(userBean);
+
+            if (userAffected < 0) {
+                LogAddressDTO addressObj = new LogAddressDTO("user-update-in-checkout", modifyUser.getId(), logBundle.getString("user-update-in-checkout-fail"));
+                userLogService.createLog(req.getRemoteAddr(), "", "ALERT", addressObj, prevUser, prevUser);
+            } else if (userAffected > 0) {
+                UserBean nowUser = userDAO.findUserById(user.getId());
+                LogAddressDTO addressObj = new LogAddressDTO("user-update-in-checkout", modifyUser.getId(), logBundle.getString("user-update-in-checkout-success"));
+                userLogService.createLog(req.getRemoteAddr(), "", "ALERT", addressObj, prevUser, nowUser);
+            }
+
             // Lưu thông tin đơn hàng
             OrderBean orderBean = new OrderBean();
             orderBean.setUserId(user.getId());
@@ -100,27 +117,39 @@ public class CheckoutController extends HttpServlet {
             orderBean.setModifiedBy(user.getEmail());
 
             int orderId = orderDAO.createOrder(orderBean);
-            if (orderId == -1) {
+            if (orderId <= 0) {
                 req.setAttribute("insertError", "ie");
                 CustomizeBean customizeInfo = customizeDAO.getCustomizeInfo();
                 req.setAttribute("customizeInfo", customizeInfo);
                 req.getRequestDispatcher("/checkout.jsp").forward(req, resp);
             } else {
+                List<OrderDetailBean> orderDetails = new ArrayList<>();
+
                 for (Item item : cart.getItems()) {
                     OrderDetailBean orderDetailBean = new OrderDetailBean();
                     orderDetailBean.setOrderId(orderId);
                     orderDetailBean.setProductId(item.getProduct().getId());
                     orderDetailBean.setQuantity(item.getQuantity());
 
+                    orderDetails.add(orderDetailBean);
                     orderDetailDAO.createOrderDetail(orderDetailBean);
 
                     int quantityProductAfterOrder = productDAO.getTotalItems() - item.getQuantity();
                     // Set lại số lượng product
                     productDAO.updateQuantity(item.getProduct().getId(), quantityProductAfterOrder);
                 }
+                // Ghi log thành công
+                LogAddressDTO addressObj = new LogAddressDTO("order-in-checkout", modifyUser.getId(), logBundle.getString("order-in-checkout-success"));
+                FullOrderDTO fullOrder = new FullOrderDTO(orderDAO.findOrderById(orderId), orderDetails);
+                orderLogService.createLog(req.getRemoteAddr(), "", "ALERT", addressObj, null, fullOrder);
+
                 resp.sendRedirect(req.getContextPath() + "/thankyou");
             }
         } else {
+            // Ghi log thất bại
+            LogAddressDTO addressObj = new LogAddressDTO("order-in-checkout", modifyUser.getId(), logBundle.getString("order-in-checkout-fail"));
+            orderLogService.createLog(req.getRemoteAddr(), "", "ALERT", addressObj, null, null);
+
             req.getRequestDispatcher("/checkout.jsp").forward(req, resp);
         }
     }
@@ -137,7 +166,6 @@ public class CheckoutController extends HttpServlet {
 
         // Lấy thời gian sau khi thêm 7 ngày
         Date sevenDaysLater = calendar.getTime();
-        Timestamp timestampSevenDaysLater = new Timestamp(sevenDaysLater.getTime());
-        return timestampSevenDaysLater;
+        return new Timestamp(sevenDaysLater.getTime());
     }
 }

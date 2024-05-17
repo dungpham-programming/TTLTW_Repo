@@ -13,7 +13,8 @@ public class LogService<T> {
     ResourceBundle logLevelBundle = ResourceBundle.getBundle("log-level");
 
     // Ghi log thông qua model
-    public void createLog(String ip, String national, String level, LogAddressDTO logObj, T previousObj, T currentObj) {
+    // previous và current có thể truyền một model hoặc List của model đó, việc ghi vào JSON đã xử lý riêng trong TransferDataUtil
+    public void createLog(String ip, String national, String level, LogAddressDTO logObj, Object previousObj, Object currentObj) {
         // Validate các Object được truyền vào
         String address = (logObj == null ? null : new TransferDataUtil<LogAddressDTO>().toJson(logObj));
         String previousValue = (previousObj == null ? null : new TransferDataUtil<T>().toJson(previousObj));
