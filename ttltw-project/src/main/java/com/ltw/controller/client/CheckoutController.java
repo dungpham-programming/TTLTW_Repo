@@ -25,8 +25,7 @@ public class CheckoutController extends HttpServlet {
     private final OrderDetailDAO orderDetailDAO = new OrderDetailDAO();
     private final ProductDAO productDAO = new ProductDAO();
     private LogService<UserBean> userLogService = new LogService<>();
-    private LogService<OrderBean> orderLogService = new LogService<>();
-    private LogService<List<OrderDetailBean>> orderDetailLogService = new LogService<>();
+    private LogService<FullOrderDTO> orderLogService = new LogService<>();
     private ResourceBundle logBundle = ResourceBundle.getBundle("log-content");
 
     @Override
