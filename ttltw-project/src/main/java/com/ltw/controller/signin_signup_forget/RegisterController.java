@@ -117,7 +117,7 @@ public class RegisterController extends HttpServlet {
                     // Ghi log
                     // Register thì không có previous value (mặc định là null) và userId (mặc đinh là -1)
                     LogAddressDTO addressObj = new LogAddressDTO("register", -1, "register");
-                    logService.createLog(req.getRemoteAddr(), "", "INFO", addressObj, null, user);
+                    logService.createLog(req.getRemoteAddr(), "", "ALERT", addressObj, null, user);
 
                     // Gửi verifiedCode về Email
                     SendEmailUtil.sendVerificationCode(email, verifiedCode);
