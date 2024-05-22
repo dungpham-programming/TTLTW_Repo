@@ -56,7 +56,7 @@
 
 <jsp:include page="/common/client/footer.jsp"/>
 
-<jsp:include page="/common/client/using-resource-footer.jsp"/><jsp:include page="/common/client/using-resource-footer.jsp"/>
+<jsp:include page="/common/client/using-resource-footer.jsp"/>
 </body>
 
 </html>
