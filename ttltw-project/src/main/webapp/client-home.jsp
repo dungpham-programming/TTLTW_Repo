@@ -19,15 +19,17 @@
 <jsp:include page="/common/client/header.jsp"/>
 <%-- End Header Session --%>
 
+<%
+    CustomizeBean customizeInfo = (CustomizeBean) request.getAttribute("customizeInfo");
+%>
 <!-- Start Hero Section -->
 <div class="hero home position-relative-top-84px" >
     <div class="container">
         <div class="row justify-content-between">
             <div class="col-12">
                 <div class="intro-excerpt">
-                    <h1>Nghệ thuật từ mỹ nghệ</h1>
-                    <p class="mb-4 darkred_alpha">Mỗi một sản phẩm mỹ nghệ là một kiệt tác. Thưởng thức tinh túy của
-                        nghệ thuật thông qua các sản phẩm mỹ nghệ tuyệt vời của chúng tôi.</p>
+                    <h1><%=customizeInfo.getWelcomeTitle()%></h1>
+                    <p class="mb-4 darkred_alpha"><%=customizeInfo.getWelcomeDes()%></p>
                     <p><a href="<c:url value="/shop"/>" class="btn-main btn-secondary me-2">Khám phá ngay</a>
                     </p>
                 </div>
@@ -44,9 +46,8 @@
 
             <!-- Start Column 1 -->
             <div class="col-md-12 col-lg-3 mb-5 mb-lg-0">
-                <h2 class="mb-4 section-title">Sản phẩm mỹ nghệ với chất lượng tuyệt vời.</h2>
-                <p class="mb-4 darkred_alpha">Khám phá, lựa chọn và trải nghiệm sản phẩm mỹ nghệ với chất lượng hàng
-                    đầu. Thưởng thức theo cách của bạn</p>
+                <h2 class="mb-4 section-title"><%=customizeInfo.getProductTitle()%></h2>
+                <p class="mb-4 darkred_alpha"><%=customizeInfo.getProductDes()%></p>
                 <p><a href="<c:url value="/shop"/>" class="btn-main">Khám phá ngay</a></p>
             </div>
             <!-- End Column 1 -->
@@ -60,7 +61,7 @@
                 <a class="product-item center-text" href="<c:url value="/shop-detail-by-category">
                                                               <c:param name="categoryId" value="<%=String.valueOf(category.getId())%>"/>
                                                           </c:url>">
-                    <img src="../images/wooden/binh_go_cam_2_1.jpg"
+                    <img src="<%=category.getProfilePic()%>"
                          class="img-fluid product-thumbnail fix-size-thumbnail">
                     <h3 class="center-text cate-home">Các sản phẩm làm từ</h3>
                     <strong class="center-text big-category"><%= category.getName() %>
@@ -79,7 +80,6 @@
 <!-- End Product Section -->
 
 <%
-    CustomizeBean customizeInfo = (CustomizeBean) request.getAttribute("customizeInfo");
     List<Content1Bean> listContent1 = (List<Content1Bean>) request.getAttribute("listContent1");
     String[] prContent2List = (String[]) request.getAttribute("prContent2List");
 
@@ -139,9 +139,6 @@
                             for (String content : prContent2List) {
                     %>
                     <li class="darkred-text"><%=content%></li>
-<%--                    <li class="darkred-text">Chọn loại hàng bạn quan tâm</li>
-                    <li class="darkred-text">Thêm sản phẩm vào giỏ hàng</li>
-                    <li class="darkred-text">Vào giỏ hàng và thanh toán</li>--%>
                         <% } %>
                     <% } %>
                 </ul>
@@ -172,7 +169,7 @@
                 <div class="post-entry">
                     <a href="<c:url value="/blog-detail">
                                 <c:param name="id" value="<%=String.valueOf(blog.getId())%>"/>
-                             </c:url>" class="post-thumbnail"><img src="../images/blog/post-1.jpg" alt="Image"
+                             </c:url>" class="post-thumbnail"><img src="#" alt="Image"
                                                                             class="img-fluid"></a>
                     <div class="post-content-entry">
                         <h3><a href="<c:url value="/blog-detail">

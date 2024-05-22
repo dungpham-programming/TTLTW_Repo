@@ -1,9 +1,6 @@
 package com.ltw.controller.client;
 
-import com.ltw.bean.BlogBean;
-import com.ltw.bean.CategoryBean;
-import com.ltw.bean.Content1Bean;
-import com.ltw.bean.CustomizeBean;
+import com.ltw.bean.*;
 import com.ltw.dao.BlogDAO;
 import com.ltw.dao.CategoryDAO;
 import com.ltw.dao.CustomizeDAO;
