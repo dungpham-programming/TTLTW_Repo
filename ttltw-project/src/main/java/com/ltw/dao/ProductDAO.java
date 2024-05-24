@@ -601,4 +601,56 @@ public class ProductDAO {
         }
         return false;
     }
+
+    public List<ProductBean> findSixProductsForSuggest(int productId, int categoryTypeId, int offset) {
+        String sql = "SELECT id, name, description, categoryTypeId, originalPrice, discountPrice, " +
+                "discountPercent, quantity, soldQuantity, size, otherSpec, keyword, status, " +
+                "createdDate, createdBy, modifiedDate, modifiedBy " +
+                "FROM products " +
+                "WHERE categoryTypeId = ? " +
+                "WHERE categoryTypeId = ? AND id <> ? " +
+                "ORDER BY soldQuantity desc " +
+                "LIMIT 6 OFFSET ?";
+
+        List<ProductBean> productList = new ArrayList<>();
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            SetParameterUtil.setParameter(preparedStatement, productId, categoryTypeId, offset);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                ProductBean productBean = new ProductBean();
+                productBean.setId(resultSet.getInt("id"));
+                productBean.setName(resultSet.getString("name"));
+                productBean.setDescription(resultSet.getString("description"));
+                productBean.setCategoryTypeId(resultSet.getInt("categoryTypeId"));
+                productBean.setOriginalPrice(resultSet.getDouble("originalPrice"));
+                productBean.setDiscountPrice(resultSet.getDouble("discountPrice"));
+                productBean.setDiscountPercent(resultSet.getDouble("discountPercent"));
+                productBean.setQuantity(resultSet.getInt("quantity"));
+                productBean.setSoldQuantity(resultSet.getInt("soldQuantity"));
+                productBean.setSize(resultSet.getString("size"));
+                productBean.setOtherSpec(resultSet.getString("otherSpec"));
+                productBean.setKeyword(resultSet.getString("keyword"));
+                productBean.setStatus(resultSet.getInt("status"));
+                productBean.setCreatedDate(resultSet.getTimestamp("createdDate"));
+                productBean.setCreatedBy(resultSet.getString("createdBy"));
+                productBean.setModifiedDate(resultSet.getTimestamp("modifiedDate"));
+                productBean.setModifiedBy(resultSet.getString("modifiedBy"));
+
+                productList.add(productBean);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return productList;
+    }
 }
