@@ -1,4 +1,4 @@
-package com.ltw.controller.signin_signup_forget;
+package com.ltw.controller.signin_signup_forget.via_page;
 
 import com.ltw.service.CodeVerifyService;
 import com.ltw.util.SendEmailUtil;
