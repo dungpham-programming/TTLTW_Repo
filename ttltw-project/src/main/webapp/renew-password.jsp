@@ -52,8 +52,8 @@
                     <div id="retype-error"></div>
                 </form>
                 <div class="dp-flex justify-content-between renew-button-group">
-                    <a href="success-renew.html" class="passwd-button a-btn">Thay đổi mật khẩu</a>
-                    <a href="index.html" class="passwd-button a-btn">Quay lại trang chủ</a>
+                    <a href="success-renew.jsp" class="passwd-button a-btn">Thay đổi mật khẩu</a>
+                    <a href="index.jsp" class="passwd-button a-btn">Quay lại trang chủ</a>
                 </div>
             </div>
         </div>
