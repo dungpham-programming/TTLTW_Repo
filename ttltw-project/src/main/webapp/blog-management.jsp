@@ -75,8 +75,15 @@
                                 <td><%=blog.getModifiedDate()%></td>
                                 <td><%=blog.getModifiedBy()%></td>
                                 <td>
-                                    <a href="<c:url value="/admin/blog-management/editing"/>" data-bs-toggle="tooltip" title="Chỉnh sửa bài viết" class="edit"><i class="fa-regular fa-pen-to-square" style="color: #e3bd74;"></i></a>
-                                    <a href="<c:url value="/admin/blog-management/delete"/>" data-bs-toggle="tooltip" title="Xóa bài viết" class="delete"><i class="fa-solid fa-trash" style="color: #e3bd74;"></i></a>
+                                    <a href="<c:url value="/admin/blog-management/editing">
+                                                <c:param name="id" value="<%=idStr%>"/>
+                                             </c:url>"
+                                       data-bs-toggle="tooltip" title="Chỉnh sửa tin tức" class="edit"><i
+                                            class="fa-regular fa-pen-to-square" style="color: #e3bd74;"></i></a>
+                                    <a href="<c:url value="/admin/blog-management/deleting">
+                                                <c:param name="id" value="<%=idStr%>"/>
+                                             </c:url>" data-bs-toggle="tooltip" title="Xóa tin tức" class="delete"><i
+                                            class="fa-solid fa-trash" style="color: #e3bd74;"></i></a>
                                 </td>
                             </tr>
                             </tbody>
