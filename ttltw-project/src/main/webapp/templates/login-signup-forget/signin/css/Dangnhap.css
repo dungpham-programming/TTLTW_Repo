@@ -10,7 +10,6 @@ body {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    overflow-y: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -119,7 +118,7 @@ body {
     font-size: 0.8em;
     color: black;
     gap: 14em;
-    padding-bottom: 10em;
+    padding-bottom: 1em;
 }
 .screen-1 .footer span {
     cursor: pointer;
@@ -135,7 +134,7 @@ button {
     cursor: pointer;
 }
 h1{
-    color: #e8b949  ;
+    color: #e8b949 !important;
     font-size: 35px;
     font-weight: bold;
     text-align: center;
@@ -178,4 +177,21 @@ form .submit-button {
     width: 100%;
     color: red;
     font-size: 14px;
+}
+
+.oauth-btn {
+    padding: 8px 12px;
+    border: 1px solid;
+    border-radius: 4px;
+    transition: all .3s ease-out;
+}
+.oauth-btn i {
+    padding-right: 2px;
+}
+
+
+.oauth-btn:hover {
+    border: 1px solid #2c0b0e;
+    background-color: #2c0b0e;
+    color: white;
 }
