@@ -32,6 +32,7 @@ public class ContactController extends HttpServlet {
         req.getRequestDispatcher("contact.jsp").forward(req, resp);
     }
 
+    // TODO: Chưa gọi xuống DAO để lưu vào CSDL
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
@@ -76,6 +77,7 @@ public class ContactController extends HttpServlet {
             contactBean.setFirstName(firstName);
             contactBean.setLastName(lastName);
             contactBean.setMessage(message);
+
             int id = contactDAO.createContact(contactBean);
 
             UserBean modifyUser = (UserBean) SessionUtil.getInstance().getValue(req, "user");
