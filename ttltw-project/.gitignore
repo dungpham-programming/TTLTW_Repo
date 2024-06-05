@@ -40,3 +40,4 @@ build/
 
 ### Mac OS ###
 .DS_Store
+/out/artifacts/ltw_finalterm_war_exploded/META-INF/MANIFEST.MF

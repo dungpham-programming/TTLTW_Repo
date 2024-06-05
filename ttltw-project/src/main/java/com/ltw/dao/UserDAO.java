@@ -51,6 +51,33 @@ public class UserDAO {
         return accountList;
     }
 
+    public void createAccount(UserBean userBean) {
+        String sql = "INSERT INTO users (password, firstName, lastName, roleId, " +
+                "email, addressLine, addressWard, addressDistrict, addressProvince, status) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            connection.setAutoCommit(false);
+            preparedStatement = connection.prepareStatement(sql);
+            SetParameterUtil.setParameter(preparedStatement, userBean.getPassword(), userBean.getFirstName(),
+                    userBean.getLastName(), userBean.getRoleId(), userBean.getEmail(), userBean.getAddressLine(),
+                    userBean.getAddressWard(), userBean.getAddressDistrict(), userBean.getAddressProvince(), userBean.getStatus());
+            preparedStatement.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        } finally {
+            CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
+        }
+    }
 
     public int deleteAccount(int id) {
         int affectRows;
@@ -311,7 +338,8 @@ public class UserDAO {
     }
 
     // Cập nhật lại thông tin tài khoản
-    public void updateAccount(UserBean user) {
+    public int updateAccount(UserBean user) {
+        int affectedRows = -1;
         StringBuilder sql = new StringBuilder();
         sql.append("UPDATE users ")
                 .append("SET firstName = ?, lastName = ?, addressLine = ?, ")
@@ -328,7 +356,7 @@ public class UserDAO {
             SetParameterUtil.setParameter(preparedStatement, user.getFirstName(), user.getLastName(),
                                             user.getAddressLine(), user.getAddressWard(), user.getAddressDistrict(),
                                             user.getAddressProvince(), user.getId());
-            preparedStatement.executeUpdate();
+            affectedRows = preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
             try {
@@ -339,10 +367,12 @@ public class UserDAO {
         } finally {
             CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
         }
+        return affectedRows;
     }
 
     // Lưu mật khẩu mới cho tài khoản
-    public void saveRenewPasswordByEmail(String email, String password) {
+    public int saveRenewPasswordByEmail(String email, String password) {
+        int affectedRows = -1;
         StringBuilder sql = new StringBuilder();
         sql.append("UPDATE users ")
                 .append("SET password = ? ")
@@ -357,7 +387,7 @@ public class UserDAO {
             preparedStatement = connection.prepareStatement(sql.toString());
 
             SetParameterUtil.setParameter(preparedStatement, password, email);
-            preparedStatement.executeUpdate();
+            affectedRows = preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
             try {
@@ -368,6 +398,7 @@ public class UserDAO {
         } finally {
             CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
         }
+        return affectedRows;
     }
 
     // Kiểm tra xem tài khoản và mật khẩu có hợp lệ không
@@ -432,7 +463,7 @@ public class UserDAO {
     public UserBean findUserByEmail(String email) {
         UserBean userBean = null;
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT id, email, roleId, firstName, lastName, addressLine, addressWard, addressDistrict, addressProvince, createdDate ")
+        sql.append("SELECT id, email, roleId, status, firstName, lastName, addressLine, addressWard, addressDistrict, addressProvince, createdDate ")
                 .append("FROM users ")
                 .append("WHERE email = ?");
 
@@ -451,6 +482,7 @@ public class UserDAO {
                 userBean.setId(resultSet.getInt("id"));
                 userBean.setEmail(resultSet.getString("email"));
                 userBean.setRoleId(resultSet.getInt("roleId"));
+                userBean.setStatus(resultSet.getInt("status"));
                 userBean.setFirstName(resultSet.getString("firstName"));
                 userBean.setLastName(resultSet.getString("lastName"));
                 userBean.setAddressLine(resultSet.getString("addressLine"));
@@ -550,7 +582,7 @@ public class UserDAO {
             // Check if the result set has a row
             if (resultSet.next()) {
                 String keyInDB = resultSet.getString("changePwHash");
-                return (keyInDB != null && !keyInDB.isEmpty());
+                return keyInDB != null && keyInDB.equals(key);
             }
         } catch (SQLException e) {
             // Handle the exception (log it or throw a custom exception)

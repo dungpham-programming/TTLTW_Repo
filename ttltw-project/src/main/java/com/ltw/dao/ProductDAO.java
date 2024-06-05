@@ -16,38 +16,9 @@ import java.util.List;
 import java.util.Set;
 
 public class ProductDAO {
-    public List<ProductImageBean> findImagesByProductId(int productId) {
-        List<ProductImageBean> productImageBeans = new ArrayList<>();
-        String query = "SELECT id, link FROM images WHERE productId = ?";
-
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        try {
-            connection = OpenConnectionUtil.openConnection();
-            preparedStatement = connection.prepareStatement(query);
-            SetParameterUtil.setParameter(preparedStatement, productId);
-            resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                ProductImageBean productImageBean = new ProductImageBean();
-                productImageBean.setId(resultSet.getInt("id"));
-                productImageBean.setLink(resultSet.getString("link"));
-                productImageBeans.add(productImageBean);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
-        }
-
-        return productImageBeans;
-    }
-
     public List<ProductBean> findAllProducts() {
         String sql = "SELECT id, name, description, categoryTypeId, originalPrice, discountPrice, " +
-                "discountPercent, quantity, size, otherSpec, keyword, status, " +
+                "discountPercent, quantity, soldQuantity, size, otherSpec, keyword, status, " +
                 "createdDate, createdBy, modifiedDate, modifiedBy " +
                 "FROM products";
 
@@ -72,6 +43,7 @@ public class ProductDAO {
                 productBean.setDiscountPrice(resultSet.getDouble("discountPrice"));
                 productBean.setDiscountPercent(resultSet.getDouble("discountPercent"));
                 productBean.setQuantity(resultSet.getInt("quantity"));
+                productBean.setSoldQuantity(resultSet.getInt("soldQuantity"));
                 productBean.setSize(resultSet.getString("size"));
                 productBean.setOtherSpec(resultSet.getString("otherSpec"));
                 productBean.setKeyword(resultSet.getString("keyword"));
@@ -94,7 +66,7 @@ public class ProductDAO {
     public ProductBean findProductById(int id) {
         ProductBean product = null;
         String sql = "SELECT id, name, description, categoryTypeId, originalPrice, discountPrice, " +
-                "discountPercent, quantity, size, otherSpec, status, keyword, " +
+                "discountPercent, quantity, soldQuantity, size, otherSpec, status, keyword, " +
                 "createdDate, createdBy, modifiedDate, modifiedBy " +
                 "FROM products " +
                 "WHERE id = ? AND status <> 0";
@@ -119,6 +91,7 @@ public class ProductDAO {
                 product.setDiscountPrice(resultSet.getDouble("discountPrice"));
                 product.setDiscountPercent(resultSet.getDouble("discountPercent"));
                 product.setQuantity(resultSet.getInt("quantity"));
+                product.setSoldQuantity(resultSet.getInt("soldQuantity"));
                 product.setSize(resultSet.getString("size"));
                 product.setOtherSpec(resultSet.getString("otherSpec"));
                 product.setStatus(resultSet.getInt("status"));
@@ -136,7 +109,8 @@ public class ProductDAO {
         return product;
     }
 
-    public void updateProduct(ProductBean productBean) {
+    public int updateProduct(ProductBean productBean) {
+        int affectedRows = -1;
         String sql = "UPDATE products " +
                 "SET name = ?, description = ?, categoryTypeId = ?, originalPrice = ?, discountPrice = ?, " +
                 "discountPercent = ?, quantity = ?, size = ?, otherSpec = ?, status = ?, keyword = ? " +
@@ -152,7 +126,7 @@ public class ProductDAO {
             SetParameterUtil.setParameter(preparedStatement, productBean.getName(), productBean.getDescription(), productBean.getCategoryTypeId(),
                     productBean.getOriginalPrice(), productBean.getDiscountPrice(), productBean.getDiscountPercent(), productBean.getQuantity(),
                     productBean.getSize(), productBean.getOtherSpec(), productBean.getStatus(), productBean.getKeyword(), productBean.getId());
-            preparedStatement.executeUpdate();
+            affectedRows = preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
             try {
@@ -163,9 +137,11 @@ public class ProductDAO {
         } finally {
             CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
         }
+        return affectedRows;
     }
 
-    public void createProduct(ProductBean productBean) {
+    public int createProduct(ProductBean productBean) {
+        int affectedRows = -1;
         String sql = "INSERT INTO products (name, description, categoryTypeId, originalPrice, discountPrice, " +
                 "discountPercent, quantity, size, otherSpec, status, keyword) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -180,7 +156,7 @@ public class ProductDAO {
             SetParameterUtil.setParameter(preparedStatement, productBean.getName(), productBean.getDescription(), productBean.getCategoryTypeId(),
                     productBean.getOriginalPrice(), productBean.getDiscountPrice(), productBean.getDiscountPercent(), productBean.getQuantity(),
                     productBean.getSize(), productBean.getOtherSpec(), productBean.getStatus(), productBean.getKeyword());
-            preparedStatement.executeUpdate();
+            affectedRows = preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
             try {
@@ -191,6 +167,7 @@ public class ProductDAO {
         } finally {
             CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
         }
+        return affectedRows;
     }
 
     public int deleteProduct(int id) {
@@ -550,5 +527,130 @@ public class ProductDAO {
             CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
         }
         return -1;
+    }
+
+    public ProductBean findProductByName(String name) {
+        ProductBean product = null;
+        String sql = "SELECT id, name, description, categoryTypeId, originalPrice, discountPrice, " +
+                "discountPercent, quantity, soldQuantity, size, otherSpec, status, keyword, " +
+                "createdDate, createdBy, modifiedDate, modifiedBy " +
+                "FROM products " +
+                "WHERE name = ? AND status <> 0";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            SetParameterUtil.setParameter(preparedStatement, name);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                product = new ProductBean();
+                product.setId(resultSet.getInt("id"));
+                product.setName(resultSet.getString("name"));
+                product.setDescription(resultSet.getString("description"));
+                product.setCategoryTypeId(resultSet.getInt("categoryTypeId"));
+                product.setOriginalPrice(resultSet.getDouble("originalPrice"));
+                product.setDiscountPrice(resultSet.getDouble("discountPrice"));
+                product.setDiscountPercent(resultSet.getDouble("discountPercent"));
+                product.setQuantity(resultSet.getInt("quantity"));
+                product.setSoldQuantity(resultSet.getInt("soldQuantity"));
+                product.setSize(resultSet.getString("size"));
+                product.setOtherSpec(resultSet.getString("otherSpec"));
+                product.setStatus(resultSet.getInt("status"));
+                product.setKeyword(resultSet.getString("keyword"));
+                product.setCreatedDate(resultSet.getTimestamp("createdDate"));
+                product.setCreatedBy(resultSet.getString("createdBy"));
+                product.setModifiedDate(resultSet.getTimestamp("modifiedDate"));
+                product.setModifiedBy(resultSet.getString("modifiedBy"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+      
+        return product;
+    }
+
+    public boolean isExistProductName(String name) {
+        String sql = "SELECT id " +
+                "FROM products " +
+                "WHERE name = ? AND status <> 0";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            SetParameterUtil.setParameter(preparedStatement, name);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return false;
+    }
+
+    public List<ProductBean> findSixProductsForSuggest(int productId, int categoryTypeId, int offset) {
+        String sql = "SELECT id, name, description, categoryTypeId, originalPrice, discountPrice, " +
+                "discountPercent, quantity, soldQuantity, size, otherSpec, keyword, status, " +
+                "createdDate, createdBy, modifiedDate, modifiedBy " +
+                "FROM products " +
+                "WHERE categoryTypeId = ? " +
+                "WHERE categoryTypeId = ? AND id <> ? " +
+                "ORDER BY soldQuantity desc " +
+                "LIMIT 6 OFFSET ?";
+
+        List<ProductBean> productList = new ArrayList<>();
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            SetParameterUtil.setParameter(preparedStatement, productId, categoryTypeId, offset);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                ProductBean productBean = new ProductBean();
+                productBean.setId(resultSet.getInt("id"));
+                productBean.setName(resultSet.getString("name"));
+                productBean.setDescription(resultSet.getString("description"));
+                productBean.setCategoryTypeId(resultSet.getInt("categoryTypeId"));
+                productBean.setOriginalPrice(resultSet.getDouble("originalPrice"));
+                productBean.setDiscountPrice(resultSet.getDouble("discountPrice"));
+                productBean.setDiscountPercent(resultSet.getDouble("discountPercent"));
+                productBean.setQuantity(resultSet.getInt("quantity"));
+                productBean.setSoldQuantity(resultSet.getInt("soldQuantity"));
+                productBean.setSize(resultSet.getString("size"));
+                productBean.setOtherSpec(resultSet.getString("otherSpec"));
+                productBean.setKeyword(resultSet.getString("keyword"));
+                productBean.setStatus(resultSet.getInt("status"));
+                productBean.setCreatedDate(resultSet.getTimestamp("createdDate"));
+                productBean.setCreatedBy(resultSet.getString("createdBy"));
+                productBean.setModifiedDate(resultSet.getTimestamp("modifiedDate"));
+                productBean.setModifiedBy(resultSet.getString("modifiedBy"));
+
+                productList.add(productBean);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return productList;
     }
 }

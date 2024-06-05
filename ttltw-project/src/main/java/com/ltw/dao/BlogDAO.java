@@ -48,7 +48,7 @@ public class BlogDAO {
         }
         return blogBean;
     }
-    
+
     // TODO: Thay đổi lại câu SQL khi thêm status trong bảng Category
     public List<BlogBean> findThreeBlogs() {
         List<BlogBean> result = new ArrayList<>();
@@ -118,4 +118,32 @@ public class BlogDAO {
         }
         return result;
     }
+
+    public void createAccount(BlogBean blogBean) {
+        String sql = "INSERT INTO blogs(title, description, content, categoryID, status,createdDate, createdBy) " +
+                "VALUES (?, ?, ?, ?, ?,?,?,)";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            connection.setAutoCommit(false);
+            preparedStatement = connection.prepareStatement(sql);
+            SetParameterUtil.setParameter(preparedStatement, blogBean.getTitle(), blogBean.getDescription(),
+                    blogBean.getContent(), blogBean.getCategoryId(), blogBean.getStatus());
+            preparedStatement.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        } finally {
+            CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
+        }
+    }
+
+
 }

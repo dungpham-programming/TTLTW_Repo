@@ -1,7 +1,11 @@
 package com.ltw.service;
 
+import com.ltw.bean.UserBean;
 import com.ltw.dao.UserDAO;
 import com.ltw.util.EncryptPasswordUtil;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class LinkVerifyService {
     private final UserDAO userDAO = new UserDAO();
@@ -23,7 +27,12 @@ public class LinkVerifyService {
 
     // Service Kiểm tra tính hợp lệ của email
     public boolean isValidEmail(String email) {
-        return true;
+        // Regex để kiểm tra email
+        // ?: Không ghi nhớ kết quả
+        String emailRegex = "^[a-zA-Z0-9_-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]+$";
+        Pattern pattern = Pattern.compile(emailRegex);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
     }
 
     // Service kiểm tra xem trong database đã tồn tại email được truyền vào hay chưa
@@ -49,11 +58,6 @@ public class LinkVerifyService {
         return email.equals(emailQuery);
     }
 
-    // Servlet thêm code rỗng vào verifiedCode
-    public void setEmptyCode(String email) {
-        userDAO.setEmptyCode(email);
-    }
-
     // Service kiểm tra xem input có chứa khoảng trống không
     public boolean containsSpace(String input) {
         return input.contains(" ");
@@ -65,10 +69,10 @@ public class LinkVerifyService {
     }
 
     // Service lưu mật khẩu mới vào trong database
-    public void saveRenewPasswordByEmail(String email, String password) {
+    public int saveRenewPasswordByEmail(String email, String password) {
         // Hashing mật khẩu trước khi lưu
         String hashedPassword = EncryptPasswordUtil.encryptPassword(password);
-        userDAO.saveRenewPasswordByEmail(email, hashedPassword);
+        return userDAO.saveRenewPasswordByEmail(email, hashedPassword);
     }
 
     // Lưu key vào user
@@ -83,5 +87,9 @@ public class LinkVerifyService {
 
     public void setEmptyKey(String email) {
         userDAO.setEmptyKey(email);
+    }
+
+    public UserBean findUserByEmail(String email) {
+        return userDAO.findUserByEmail(email);
     }
 }

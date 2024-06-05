@@ -1,9 +1,6 @@
 package com.ltw.controller.client;
 
-import com.ltw.bean.BlogBean;
-import com.ltw.bean.CategoryBean;
-import com.ltw.bean.Content1Bean;
-import com.ltw.bean.CustomizeBean;
+import com.ltw.bean.*;
 import com.ltw.dao.BlogDAO;
 import com.ltw.dao.CategoryDAO;
 import com.ltw.dao.CustomizeDAO;
@@ -23,7 +20,8 @@ public class HomeController extends HttpServlet {
     private final CustomizeDAO customizeDAO = new CustomizeDAO();
     private final CategoryDAO categoryDAO = new CategoryDAO();
     private final BlogDAO blogDAO = new BlogDAO();
-  
+
+    // TODO: Cần thêm thông báo cho người dùng khi cố ý truy cập vào trang admin khi role là client
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         CustomizeBean customizeInfo = customizeDAO.getCustomizeInfo();

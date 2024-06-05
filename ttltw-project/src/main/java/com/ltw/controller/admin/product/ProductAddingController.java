@@ -1,9 +1,13 @@
 package com.ltw.controller.admin.product;
 
 import com.ltw.bean.ProductBean;
+import com.ltw.bean.UserBean;
 import com.ltw.dao.ProductDAO;
+import com.ltw.dto.LogAddressDTO;
+import com.ltw.service.LogService;
 import com.ltw.util.BlankInputUtil;
 import com.ltw.util.NumberValidateUtil;
+import com.ltw.util.SessionUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,10 +16,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 @WebServlet(value = {"/admin/product-management/adding"})
 public class ProductAddingController extends HttpServlet {
     private final ProductDAO productDAO = new ProductDAO();
+    private LogService<ProductBean> logService = new LogService<>();
+    private ResourceBundle logBundle = ResourceBundle.getBundle("log-content");
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -93,6 +100,18 @@ public class ProductAddingController extends HttpServlet {
             req.setAttribute("dPeErr", dPeErr);
         }
 
+        // Kiểm tra tên sản phẩm (Không được trùng tên)
+        if (productDAO.isExistProductName(name)) {
+            // TODO: Thêm bắt lỗi trên JSP khi xử lý lỗi db
+            String nameErr = "e";
+            if (isValid) {
+                isValid = false;
+            }
+            req.setAttribute("nameErr", nameErr);
+        }
+
+        LogAddressDTO addressObj;
+        UserBean userLogin = (UserBean) SessionUtil.getInstance().getValue(req, "user");
         // Nếu không lỗi thì lưu vào database
         if (isValid) {
             // Đổi String về số
@@ -117,9 +136,22 @@ public class ProductAddingController extends HttpServlet {
             productBean.setStatus(statusInt);
             productBean.setKeyword(keyword);
 
-            productDAO.createProduct(productBean);
-            resp.sendRedirect(req.getContextPath() + "/admin/product-management/adding?success=" + success);
+            int affectedRows = productDAO.createProduct(productBean);
+            if (affectedRows < 0) {
+                // TODO: Thêm bắt lỗi trên JSP khi xử lý lỗi db
+                addressObj = new LogAddressDTO("admin-create-product", userLogin.getId(), logBundle.getString("admin-create-product-fail"));
+                logService.createLog(req.getRemoteAddr(), "", "ALERT", addressObj, null, null);
+                String createErr = "e";
+                req.setAttribute("createErr", createErr);
+                req.getRequestDispatcher("/adding-product.jsp").forward(req, resp);
+            } else {
+                addressObj = new LogAddressDTO("admin-create-product", userLogin.getId(), logBundle.getString("admin-create-product-success"));
+                logService.createLog(req.getRemoteAddr(), "", "ALERT", addressObj, null, productDAO.findProductByName(name));
+                resp.sendRedirect(req.getContextPath() + "/admin/product-management/adding?success=" + success);
+            }
         } else {
+            addressObj = new LogAddressDTO("admin-create-product", userLogin.getId(), logBundle.getString("admin-create-product-fail"));
+            logService.createLog(req.getRemoteAddr(), "", "ALERT", addressObj, null, null);
             req.getRequestDispatcher("/adding-product.jsp").forward(req, resp);
         }
     }

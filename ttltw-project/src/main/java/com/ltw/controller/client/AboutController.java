@@ -1,27 +1,24 @@
-package com.ltw.controller.client.cart;
+package com.ltw.controller.client;
 
-import com.ltw.bean.CustomizeBean;
-import com.ltw.bean.Item;
-import com.ltw.dao.CustomizeDAO;
-import com.ltw.util.SessionUtil;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
+import com.ltw.bean.CustomizeBean;
+import com.ltw.dao.CustomizeDAO;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 
-@WebServlet(value = {"/cart-management"})
-public class CartManagementController extends HttpServlet {
+@WebServlet(value = {"/about-us"})
+public class AboutController extends HttpServlet {
     private final CustomizeDAO customizeDAO = new CustomizeDAO();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         CustomizeBean customizeInfo = customizeDAO.getCustomizeInfo();
+
         req.setAttribute("customizeInfo", customizeInfo);
-        SessionUtil.getInstance().getValue(req, "cart");
-        req.getRequestDispatcher("/cart.jsp").forward(req, resp);
+        req.getRequestDispatcher("/about.jsp").forward(req, resp);
     }
 }

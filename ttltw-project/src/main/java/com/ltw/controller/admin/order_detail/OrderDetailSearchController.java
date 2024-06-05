@@ -26,14 +26,10 @@ public class OrderDetailSearchController extends HttpServlet {
         // Kiểm tra lỗi bỏ trống orderId
         if (BlankInputUtil.isBlank(orderId)) {
             error = "Không được để trống";
-            if (isValid) {
-                isValid = false;
-            }
+            isValid = false;
         } else if (!isNumeric(orderId)) {
             error = "Phải là định dạng số!";
-            if (isValid) {
-                isValid = false;
-            }
+            isValid = false;
         }
 
         if (isValid) {

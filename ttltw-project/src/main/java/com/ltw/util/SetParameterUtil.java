@@ -3,6 +3,7 @@ package com.ltw.util;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.sql.Types;
 
 public class SetParameterUtil {
     public static void setParameter(PreparedStatement statement, Object... parameters) {
@@ -19,6 +20,8 @@ public class SetParameterUtil {
                     statement.setDouble(index, (double) parameter);
                 } else if (parameter instanceof Timestamp) {
                     statement.setTimestamp(index, (Timestamp) parameter);
+                } else if (parameter == null) {
+                    statement.setNull(index, Types.NULL);
                 }
             } catch (SQLException e) {
                 // TODO: handle exception

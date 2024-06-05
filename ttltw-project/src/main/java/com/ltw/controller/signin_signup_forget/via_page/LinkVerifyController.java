@@ -1,4 +1,4 @@
-package com.ltw.controller.signin_signup_forget;
+package com.ltw.controller.signin_signup_forget.via_page;
 
 import com.ltw.service.LinkVerifyService;
 
@@ -25,7 +25,6 @@ public class LinkVerifyController extends HttpServlet {
                 String verifyCode = req.getParameter("verifyCode");
                 String key = req.getParameter("key");
                 if (linkVerifyService.isCorrectVerifiedCode(email, verifyCode) && linkVerifyService.isCorrectKey(email, key)) {
-                    linkVerifyService.setEmptyCode(email);
                     resp.sendRedirect("change-password.jsp?email=" + email + "&key=" + key);
                 }
                 else {

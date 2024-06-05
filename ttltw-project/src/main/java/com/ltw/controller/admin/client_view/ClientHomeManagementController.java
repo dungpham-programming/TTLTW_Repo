@@ -238,7 +238,7 @@ public class ClientHomeManagementController extends HttpServlet {
 
     private String colorIconList(String iconListInput) {
         StringBuilder sb = new StringBuilder();
-        String[] listIcon = iconListInput.split(",\\s+");
+        String[] listIcon = iconListInput.split(",\\s*");
         for (int i = 0; i < listIcon.length; i++) {
             sb.append(addWebColorForIcon(listIcon[i]));
             if (i != listIcon.length - 1) {
@@ -258,7 +258,13 @@ public class ClientHomeManagementController extends HttpServlet {
         Element iconElement = doc.select("i").first();
 
         // Thêm thuộc tính style vào phần tử <i>
-        iconElement.attr("style", "color: #e3bd74;");
+        if (iconElement != null) {
+            String style = iconElement.attr("style");
+            if (style == null || !style.contains("color")) {
+                // Thêm thuộc tính style vào phần tử <i>
+                iconElement.attr("style", "color: #e3bd74;");
+            }
+        }
 
         // In ra chuỗi HTML đã được sửa đổi
         result = iconElement.outerHtml();

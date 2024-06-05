@@ -103,9 +103,9 @@
 
                         <div class="col-6">
                             <label for="prIcon1">Icon(Lấy icon ở <a class="link" href="https://fontawesome.com/search"
-                                                                    target="_blank">đây</a>, xóa dấu xuống dòng. Màu code tự thêm)</label>
+                                                                    target="_blank">đây</a>, xóa dấu xuống dòng. 1 icon/nội dung. Không có khoảng trống trức và sau dấu phẩy</label>
                             <textarea name="prIcon1" id="prIcon1"
-                                      placeholder="Mỗi icon cách nhau bởi dấu phẩy, 1 icon/nội dung"
+                                      placeholder="Mỗi icon cách nhau bởi dấu phẩy, 1 icon/nội dung. Màu mặc định là #e3bd74"
                                       required><%if (customizeBean != null && customizeBean.getPrIcon1() != null) {%><%=customizeBean.getPrIcon1()%><%}%></textarea>
                             <% if (errors != null && errors.get(6) != null) { %>
                             <div class="error" id="error8">Không được để trống!</div>
