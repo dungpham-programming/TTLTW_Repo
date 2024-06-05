@@ -13,6 +13,7 @@ public class ProductBean {
     private double discountPercent;
     private int quantity;
     private int soldQuantity;
+    private double rating;
     private String size;
     private String otherSpec;
     private int status;
@@ -104,6 +105,14 @@ public class ProductBean {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
     }
 
     public String getSize() {
