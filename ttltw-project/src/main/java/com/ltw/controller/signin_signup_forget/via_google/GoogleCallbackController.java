@@ -68,12 +68,14 @@ public class GoogleCallbackController extends HttpServlet {
                         .build();
 
                 Userinfo userInfo = oauth2.userinfo().get().execute();
-                String name = userInfo.getName();
+                String familyName = userInfo.getFamilyName();
+                String givenName = userInfo.getGivenName();
                 String email = userInfo.getEmail();
 
                 UserBean user = new UserBean();
                 user.setEmail(email);
-                user.setLastName(name);
+                user.setFirstName(familyName);
+                user.setLastName(givenName);
 
                 // Nếu email chưa xuất hiện trong database thì thêm thông tin vào database
                 if (userDAO.findUserByEmail(email) == null) {
