@@ -18,7 +18,7 @@ public class GoogleSignInController extends HttpServlet {
         String clientId = bundle.getString("google-client-id");
         String redirectUri = bundle.getString("google-redirect-uri");
         String googleLoginUrl = "https://accounts.google.com/o/oauth2/auth?client_id=" + clientId
-                + "&response_type=code&redirect_uri=" + redirectUri + "&scope=email&access_type=offline";
+                + "&response_type=code&redirect_uri=" + redirectUri + "&scope=email%20profile&access_type=offline";
 
         resp.sendRedirect(googleLoginUrl);
     }
