@@ -53,6 +53,10 @@
         <div class="alert alert-danger">
             Lỗi OAuth 2.0!
         </div>
+        <%} else if (notify.equals("access-denied")) {%>
+        <div class="alert alert-danger">
+            Từ chối bởi Google!
+        </div>
         <%}%>
     <%}%>
 
