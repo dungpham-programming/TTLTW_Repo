@@ -258,4 +258,31 @@ public class OrderDAO {
         }
         return affected;
     }
+    public int deleteOrder(int id) {
+        int affectRows;
+        String sql = "DELETE FROM orders WHERE id = ?";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            connection.setAutoCommit(false);
+            preparedStatement = connection.prepareStatement(sql);
+            SetParameterUtil.setParameter(preparedStatement, id);
+            affectRows = preparedStatement.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+                return -1;
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                return -1;
+            }
+        } finally {
+            CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
+        }
+        return affectRows;
+    }
 }
