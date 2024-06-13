@@ -28,7 +28,6 @@ import java.security.GeneralSecurityException;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
-// TODO: Xử lý trường hợp http://localhost:8080/google-callback?error=access_denied khi người dùng hủy trong page Google OAuth 2.0
 @WebServlet(value = {"/google-callback"})
 public class GoogleCallbackController extends HttpServlet {
     private final ResourceBundle bundle = ResourceBundle.getBundle("oauth2dot0");

@@ -10,7 +10,7 @@ import java.util.ResourceBundle;
 
 // Servlet nhận request login via Google và chuyển hướng về Google
 @WebServlet(value = {"/signin-via-google"})
-public class GoogleSignInController extends HttpServlet {
+public class GoogleSigninController extends HttpServlet {
     private static ResourceBundle bundle = ResourceBundle.getBundle("oauth2dot0");
 
     @Override

@@ -100,7 +100,7 @@
                 </form>
 
                 <form action="<c:url value="/signin-via-facebook"/>" class="mt-0">
-                    <button type="button" class="oauth-btn">
+                    <button type="submit" class="oauth-btn">
                         <i class="fa-brands fa-facebook-f" style="color: #045be7;"></i>
                         <span>Facebook</span>
                     </button>
