@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 @WebServlet(value = {"/admin/product-management/editing"})
@@ -61,7 +62,7 @@ public class ProductEditingController extends HttpServlet {
         // Đặt các thuộc tính đúng thứ tự
         String[] inputsForm = new String[]{name, description, categoryTypeId, originalPrice, discountPrice, discountPercent, quantity, size, otherSpec, status, keyword};
         // Mảng lưu trữ lỗi
-        ArrayList<String> errors = new ArrayList<>();
+        List<String> errors = new ArrayList<>();
 
         // Biến bắt lỗi
         boolean isValid = true;
@@ -76,7 +77,7 @@ public class ProductEditingController extends HttpServlet {
                 errors.add(null);
             }
         }
-        req.setAttribute("errors", errors);
+
 
         // Kiểm tra các lỗi nhập liệu khác
         // Lỗi nhập liệu cho giá và phần trăm (Là phần số)
@@ -144,6 +145,8 @@ public class ProductEditingController extends HttpServlet {
                 resp.sendRedirect(req.getContextPath() + "/admin/product-management/editing?id=" + productBean.getId() + "&success=" + success);
             }
         } else {
+            req.setAttribute("errors", errors);
+
             ProductBean productBean = productDAO.findProductById(id);
             req.setAttribute("productBean", productBean);
 

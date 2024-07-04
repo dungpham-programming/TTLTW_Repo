@@ -1,7 +1,7 @@
 function deleteRecord(buttonClicked, id, requestBy) {
     if (confirm("Bạn có muốn xóa record này không?")) {
         $.ajax({
-            url: `http://localhost:8080/api/admin/delete-${requestBy}?id=${id}`,
+            url: `http://localhost:8080/api/admin/${requestBy}?id=${id}`,
             type: 'DELETE',
             dataType: 'json',
             success: function(response) {

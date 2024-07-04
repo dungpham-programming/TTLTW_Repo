@@ -22,7 +22,7 @@ import java.util.ResourceBundle;
 public class ContactController extends HttpServlet {
     private final CustomizeDAO customizeDAO = new CustomizeDAO();
     private final ContactDAO contactDAO = new ContactDAO();
-    private LogService<ContactDAO> logService = new LogService<>();
+    private LogService<ContactBean> logService = new LogService<>();
     private ResourceBundle logBundle = ResourceBundle.getBundle("log-content");
 
     @Override

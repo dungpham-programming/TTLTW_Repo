@@ -4,10 +4,10 @@ import com.ltw.bean.UserBean;
 import com.ltw.dao.UserDAO;
 import com.ltw.dto.LogAddressDTO;
 import com.ltw.service.LogService;
-import com.ltw.util.BlankInputUtil;
 import com.ltw.util.EncryptPasswordUtil;
 import com.ltw.util.NumberValidateUtil;
 import com.ltw.util.SessionUtil;
+import com.ltw.util.ValidateParamUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 @WebServlet("/admin/account-management/adding")
@@ -43,22 +43,20 @@ public class AccountAddingController extends HttpServlet {
         String status = req.getParameter("status");
 
         String success = "success";
-        String[] inputsForm = new String[] {email, password, firstName, lastName, roleId, status, addressLine, addressWard, addressDistrict, addressProvince};
-        ArrayList<String> errors = new ArrayList<>();
+        String[] inputsForm = {email, password, firstName, lastName, roleId, status, addressLine, addressWard, addressDistrict, addressProvince};
         // Biến bắt lỗi
         boolean isValid = true;
 
-        for (String string : inputsForm) {
-            if (BlankInputUtil.isBlank(string)) {
-                errors.add("e");
-                if (isValid) {
-                    isValid = false;
-                }
-            } else {
-                errors.add(null);
+        // Kiểm tra input rỗng/null trong hàm checkEmptyParam
+        List<String> errors = ValidateParamUtil.checkEmptyParam(inputsForm);
+
+        // Nếu có lỗi (khác null) trả về isValid = false
+        for (String error : errors) {
+            if (error != null) {
+                isValid = false;
+                break;
             }
         }
-        req.setAttribute("errors", errors);
 
         // Nếu không lỗi thì lưu vào database
         if (isValid) {
@@ -90,6 +88,7 @@ public class AccountAddingController extends HttpServlet {
 
             resp.sendRedirect(req.getContextPath() + "/admin/account-management/adding?success=" + success);
         } else {
+            req.setAttribute("errors", errors);
             // Ghi log khi thất bại
             UserBean modifyUser = (UserBean) SessionUtil.getInstance().getValue(req, "user");
             LogAddressDTO addressObj = new LogAddressDTO("admin-create-account", modifyUser.getId(), logBundle.getString("admin-create-account-fail"));

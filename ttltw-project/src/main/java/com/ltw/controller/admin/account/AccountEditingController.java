@@ -37,6 +37,7 @@ public class AccountEditingController extends HttpServlet {
         // Lấy id kiểu int ra để lưu vào database
         int id = Integer.parseInt(idStr);
 
+        String email = req.getParameter("email");
         String roleId = req.getParameter("roleId");
         String status = req.getParameter("status");
 
@@ -62,6 +63,7 @@ public class AccountEditingController extends HttpServlet {
         LogAddressDTO addressObj = new LogAddressDTO("admin-create-account", modifyUser.getId(), logBundle.getString("admin-update-account-success"));
         UserBean currentObj = userDAO.findUserById(id);
         logService.createLog(req.getRemoteAddr(), "", "ALERT", addressObj, prevObj, currentObj);
+
         resp.sendRedirect(req.getContextPath() + "/admin/account-management/editing?id=" + userBean.getId() + "&success=" + success);
     }
 }
