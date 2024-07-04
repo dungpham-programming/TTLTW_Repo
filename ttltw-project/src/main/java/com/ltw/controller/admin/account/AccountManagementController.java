@@ -1,7 +1,5 @@
 package com.ltw.controller.admin.account;
 
-import com.ltw.dao.UserDAO;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,7 +9,6 @@ import java.io.IOException;
 
 @WebServlet("/admin/account-management")
 public class AccountManagementController extends HttpServlet {
-    private final UserDAO userDAO = new UserDAO();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("/account-management.jsp").forward(request, response);
