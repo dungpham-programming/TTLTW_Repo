@@ -28,10 +28,12 @@
                     String error = (String) request.getAttribute("error");
                 %>
                 <% if (success != null) { %>
-                <div class="alert alert-success"><%=success%></div>
+                <div class="alert alert-success"><%=success%>
+                </div>
                 <% } %>
                 <% if (error != null) { %>
-                <div class="alert alert-error"><%=error%></div>
+                <div class="alert alert-error"><%=error%>
+                </div>
                 <% } %>
                 <div class="card mb-4 mt-4">
                     <div class="card-header">
@@ -39,7 +41,9 @@
                         Quản lý tin tức
                     </div>
                     <div class="list-button">
-                        <a href="<c:url value="/admin/blog-management/adding"/>" data-bs-toggle="tooltip" title="Thêm bài viết" class="add"><i class="fa-solid fa-plus" style="color: #e3bd74;"></i>Thêm bài viết</a>
+                        <a href="<c:url value="/admin/blog-management/adding"/>" data-bs-toggle="tooltip"
+                           title="Thêm bài viết" class="add"><i class="fa-solid fa-plus" style="color: #e3bd74;"></i>Thêm
+                            bài viết</a>
                     </div>
                     <div class="table-responsive">
                         <table id="manageAccountTable">
@@ -59,21 +63,30 @@
                             </thead>
                             <%
                                 List<BlogBean> listBlog = (List<BlogBean>) request.getAttribute("listBlog");
-
-                                for (BlogBean blog : listBlog) {
-                                    String idStr = String.valueOf(blog.getId());
+                                if (listBlog != null) {
+                                    for (BlogBean blog : listBlog) {
+                                        String idStr = String.valueOf(blog.getId());
                             %>
                             <tbody>
                             <tr>
-                                <td><%=blog.getId()%></td>
-                                <td><%=blog.getTitle()%></td>
-                                <td><%=blog.getDescription()%></td>
-                                <td><%=blog.getContent()%></td>
-                                <td><%=blog.getCategoryId()%></td>
-                                <td><%=blog.getCreatedDate()%></td>
-                                <td><%=blog.getCreatedBy()%></td>
-                                <td><%=blog.getModifiedDate()%></td>
-                                <td><%=blog.getModifiedBy()%></td>
+                                <td><%=blog.getId()%>
+                                </td>
+                                <td><%=blog.getTitle()%>
+                                </td>
+                                <td><%=blog.getDescription()%>
+                                </td>
+                                <td><%=blog.getContent()%>
+                                </td>
+                                <td><%=blog.getCategoryId()%>
+                                </td>
+                                <td><%=blog.getCreatedDate()%>
+                                </td>
+                                <td><%=blog.getCreatedBy()%>
+                                </td>
+                                <td><%=blog.getModifiedDate()%>
+                                </td>
+                                <td><%=blog.getModifiedBy()%>
+                                </td>
                                 <td>
                                     <a href="<c:url value="/admin/blog-management/editing">
                                                 <c:param name="id" value="<%=idStr%>"/>
@@ -87,6 +100,7 @@
                                 </td>
                             </tr>
                             </tbody>
+                                <% } %>
                             <% } %>
                         </table>
                     </div>
