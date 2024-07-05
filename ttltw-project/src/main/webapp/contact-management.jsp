@@ -93,10 +93,10 @@
                                     <a href="<c:url value="/admin/contact-management/adding"/>" data-bs-toggle="tooltip"
                                        title="Thêm liên hệ" class="edit"><i
                                             class="fa-regular fa-pen-to-square" style="color: #e3bd74;"></i></a>
-                                    <a href="<c:url value="/admin/contact-management/editing"/>"
+                                    <a href="<c:url value="/admin/contact-management/editing"><c:param name="id" value="<%=idStr%>"/></c:url>"
                                        data-bs-toggle="tooltip" title="Chỉnh sửa liên hệ" class="edit"><i
                                             class="fa-regular fa-pen-to-square" style="color: #e3bd74;"></i></a>
-                                    <a href="<c:url value="/admin/contact-management/delete"/>" data-bs-toggle="tooltip"
+                                    <a href="<c:url value="/admin/contact-management/delete"><c:param name="id" value="<%=idStr%>"/></c:url>" data-bs-toggle="tooltip"
                                        title="Xóa liên hệ" class="add"><i
                                             class="fa-solid fa-trash" style="color: #e3bd74;"></i></a>
                                 </td>
