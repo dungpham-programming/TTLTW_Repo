@@ -51,22 +51,30 @@ public class UserDAO {
         return accountList;
     }
 
-    public void createAccount(UserBean userBean) {
+    public int createAccount(UserBean userBean) {
+        int id = -1;
         String sql = "INSERT INTO users (password, firstName, lastName, roleId, " +
                 "email, addressLine, addressWard, addressDistrict, addressProvince, status) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
 
         try {
             connection = OpenConnectionUtil.openConnection();
             connection.setAutoCommit(false);
-            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             SetParameterUtil.setParameter(preparedStatement, userBean.getPassword(), userBean.getFirstName(),
                     userBean.getLastName(), userBean.getRoleId(), userBean.getEmail(), userBean.getAddressLine(),
                     userBean.getAddressWard(), userBean.getAddressDistrict(), userBean.getAddressProvince(), userBean.getStatus());
-            preparedStatement.executeUpdate();
+            int affectedRows = preparedStatement.executeUpdate();
+            if (affectedRows > 0) {
+                resultSet = preparedStatement.getGeneratedKeys();
+                if (resultSet.next()) {
+                    id = resultSet.getInt(1);
+                }
+            }
             connection.commit();
         } catch (SQLException e) {
             try {
@@ -75,8 +83,9 @@ public class UserDAO {
                 throw new RuntimeException(ex);
             }
         } finally {
-            CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
         }
+        return id;
     }
 
     public int deleteAccount(int id) {

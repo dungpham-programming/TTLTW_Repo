@@ -1,11 +1,11 @@
 package com.ltw.controller.signin_signup_forget.via_page;
 
 import com.ltw.bean.UserBean;
-import com.ltw.dto.LogAddressDTO;
+import com.ltw.constant.LogLevel;
+import com.ltw.constant.LogState;
 import com.ltw.service.CodeVerifyService;
 import com.ltw.service.LogService;
 import com.ltw.util.SendEmailUtil;
-import com.ltw.util.SessionUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -75,12 +75,8 @@ public class SigninController extends HttpServlet {
             UserBean user = codeVerifyService.findUserByEmail(email);
             if (codeVerifyService.isActive(email)) {
                 if (user != null) {
-                    SessionUtil.getInstance().putValue(req, "user", user);
-
                     // Ghi lại log nếu tài khoản đã active
-                    // Do đến đây vẫn chưa đăng nhập vào tài khoản => Chưa có UserBean trong Session => id mặc định là -1
-                    LogAddressDTO addressObj = new LogAddressDTO("login", -1, "login-success-active");
-                    logService.createLog(req.getRemoteAddr(), "", "INFO", addressObj, null, null);
+                    logService.log(req, "login-active", LogState.SUCCESS, LogLevel.INFO, user, user);
 
                     // Authentication
                     // Kiểm tra role khi đăng nhập để redirect (1 là client, 2 là admin, 3 là mod)
@@ -97,9 +93,7 @@ public class SigninController extends HttpServlet {
                 SendEmailUtil.sendVerificationCode(email, verifiedCode);
 
                 // Ghi lại log nếu tài khoản cần verify
-                LogAddressDTO addressObj = new LogAddressDTO("login", user.getId(), "login-success-verify");
-                logService.createLog(req.getRemoteAddr(), "", "INFO", addressObj, null, null);
-
+                logService.log(req, "login-verify", LogState.SUCCESS, LogLevel.INFO, user, user);
                 resp.sendRedirect(req.getContextPath() + "/code-verify.jsp?email=" + email);
             }
         }

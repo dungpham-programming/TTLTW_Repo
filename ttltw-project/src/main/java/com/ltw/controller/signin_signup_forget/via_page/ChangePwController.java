@@ -1,7 +1,8 @@
 package com.ltw.controller.signin_signup_forget.via_page;
 
 import com.ltw.bean.UserBean;
-import com.ltw.dto.LogAddressDTO;
+import com.ltw.constant.LogLevel;
+import com.ltw.constant.LogState;
 import com.ltw.service.LinkVerifyService;
 import com.ltw.service.LogService;
 
@@ -85,16 +86,20 @@ public class ChangePwController extends HttpServlet {
             } else {
                 // Xử lý hashing password trong Service
                 UserBean prevUser = linkVerifyService.findUserByEmail(email);
-                linkVerifyService.saveRenewPasswordByEmail(email, newPassword);
-                linkVerifyService.setEmptyKey(email);
-                UserBean curUser = linkVerifyService.findUserByEmail(email);
+                int affectedRows = linkVerifyService.saveRenewPasswordByEmail(email, newPassword);
+                UserBean currentUser = linkVerifyService.findUserByEmail(email);
 
-                // Ghi log
-                // Do quên mật khẩu này chưa qua đăng nhập => Chưa vào Session => Giá trị mặc định là -1.
-                LogAddressDTO addressObj = new LogAddressDTO("change-password-by-forget", -1, logBundle.getString("change-password-by-forget"));
-                logService.createLog(req.getRemoteAddr(), "", "ALERT", addressObj, prevUser, curUser);
-
-                resp.sendRedirect(req.getContextPath() + "/change-success.jsp");
+                if (affectedRows <= 0) {
+                    logService.log(req, "change-password-by-forget", LogState.FAIL, LogLevel.ALERT, prevUser, currentUser);
+                    String error = "e";
+                    req.setAttribute("error", error);
+                    req.getRequestDispatcher("/change-password.jsp").forward(req, resp);
+                } else {
+                    logService.log(req, "change-password-by-forget", LogState.SUCCESS, LogLevel.WARNING, prevUser, currentUser);
+                    // Xóa key vì đã xác thực thành công
+                    linkVerifyService.setEmptyKey(email);
+                    resp.sendRedirect(req.getContextPath() + "/change-success.jsp");
+                }
             }
         }
     }

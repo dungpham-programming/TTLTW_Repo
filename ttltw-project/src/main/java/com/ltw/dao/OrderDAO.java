@@ -164,7 +164,8 @@ public class OrderDAO {
         return order;
     }
 
-    public void updateOrder(OrderBean orderBean) {
+    public int updateOrder(OrderBean orderBean) {
+        int affectedRows = -1;
         String sql = "UPDATE orders " +
                 "SET status = ? " +
                 "WHERE id = ?";
@@ -177,7 +178,7 @@ public class OrderDAO {
             connection.setAutoCommit(false);
             preparedStatement = connection.prepareStatement(sql);
             SetParameterUtil.setParameter(preparedStatement, orderBean.getStatus(), orderBean.getId());
-            preparedStatement.executeUpdate();
+            affectedRows = preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
             try {
@@ -188,6 +189,7 @@ public class OrderDAO {
         } finally {
             CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
         }
+        return affectedRows;
     }
 
     public int createOrder(OrderBean orderBean) {

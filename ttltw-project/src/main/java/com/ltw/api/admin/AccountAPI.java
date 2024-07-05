@@ -1,8 +1,11 @@
 package com.ltw.api.admin;
 
 import com.ltw.bean.UserBean;
+import com.ltw.constant.LogLevel;
+import com.ltw.constant.LogState;
 import com.ltw.dao.UserDAO;
 import com.ltw.dto.DatatableDTO;
+import com.ltw.service.LogService;
 import com.ltw.util.TransferDataUtil;
 
 import javax.servlet.ServletException;
@@ -16,6 +19,8 @@ import java.util.List;
 @WebServlet(value = {"/api/admin/account"})
 public class AccountAPI extends HttpServlet {
     private final UserDAO userDAO = new UserDAO();
+    private UserBean prevUser;
+    private LogService<UserBean> logService = new LogService<>();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -53,12 +58,16 @@ public class AccountAPI extends HttpServlet {
         String status;
         String notify;
 
+        prevUser = userDAO.findUserById(id);
         int affectedRow = userDAO.deleteAccount(id);
 
         if (affectedRow < 1) {
+            UserBean currentUser = userDAO.findUserById(id);
+            logService.log(req, "admin-delete-account", LogState.FAIL, LogLevel.ALERT, prevUser, currentUser);
             status = "error";
             notify = "Có lỗi khi xóa log!";
         } else {
+            logService.log(req, "admin-delete-account", LogState.SUCCESS, LogLevel.WARNING, prevUser, null);
             status = "success";
             notify = "Xóa log thành công!";
         }

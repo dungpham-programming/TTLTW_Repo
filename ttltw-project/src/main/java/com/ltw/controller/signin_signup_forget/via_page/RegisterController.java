@@ -1,7 +1,8 @@
 package com.ltw.controller.signin_signup_forget.via_page;
 
 import com.ltw.bean.UserBean;
-import com.ltw.dto.LogAddressDTO;
+import com.ltw.constant.LogLevel;
+import com.ltw.constant.LogState;
 import com.ltw.service.CodeVerifyService;
 import com.ltw.service.LogService;
 import com.ltw.util.EncryptPasswordUtil;
@@ -53,7 +54,7 @@ public class RegisterController extends HttpServlet {
                             // Tồn tại thì trả về lỗi và set vào request
                             emailError = "Email này đã tồn tại!";
                             req.setAttribute("emailError", emailError);
-                            isValid  = false;
+                            isValid = false;
                         }
                         // Không tồn tại lỗi gì thì xuống điều kiện khác
                     }
@@ -61,14 +62,14 @@ public class RegisterController extends HttpServlet {
                     else {
                         emailError = "Email không hợp lệ!";
                         req.setAttribute("emailError", emailError);
-                        isValid  = false;
+                        isValid = false;
                     }
                 }
                 // Nếu bị bỏ trống, trả vè lỗi
                 else {
                     emailError = "Email không được để trống!";
                     req.setAttribute("emailError", emailError);
-                    isValid  = false;
+                    isValid = false;
                 }
 
                 // Kiểm tra xem trường Mật khẩu và Nhập lại mật khẩu có bị để trống
@@ -80,26 +81,24 @@ public class RegisterController extends HttpServlet {
                             if (!codeVerifyService.isSamePassword(password, retypePassword)) {
                                 passwordError = "Mật khẩu và Nhập lại mật khẩu không khớp";
                                 req.setAttribute("passwordError", passwordError);
-                                isValid  = false;
+                                isValid = false;
                             }
-                        }
-                        else {
+                        } else {
                             passwordError = "Mật khẩu phải có 6 ký tự trở lên";
                             req.setAttribute("passwordError", passwordError);
-                            isValid  = false;
+                            isValid = false;
                         }
-                    }
-                    else {
+                    } else {
                         passwordError = "Mật khẩu không được chứa khoảng trắng";
                         req.setAttribute("passwordError", passwordError);
-                        isValid  = false;
+                        isValid = false;
                     }
                 }
                 // Nếu bị bỏ trống, trả về lỗi
                 else {
                     passwordError = "Mật khẩu hoặc Nhập lại mật khẩu không được để trống";
                     req.setAttribute("passwordError", passwordError);
-                    isValid  = false;
+                    isValid = false;
                 }
 
                 // Nếu thành công thì binding dữ liệu vào Bean rồi gửi về Service, sau đó gọi phương thức tạo mã ngẫu nhiên và set vào verifiedCode
@@ -112,19 +111,20 @@ public class RegisterController extends HttpServlet {
                     user.setPassword(hashedPassword);
                     user.setVerifiedCode(verifiedCode);
 
-                    codeVerifyService.register(user);
+                    int id = codeVerifyService.register(user);
+                    if (id > 0) {
+                        UserBean currentUser = codeVerifyService.findUserByEmail(email);
+                        logService.log(req, "register", LogState.SUCCESS, LogLevel.ALERT, null, currentUser);
 
-                    // Ghi log
-                    // Register thì không có previous value (mặc định là null) và userId (mặc đinh là -1)
-                    LogAddressDTO addressObj = new LogAddressDTO("register", -1, "register");
-                    logService.createLog(req.getRemoteAddr(), "", "ALERT", addressObj, null, user);
-
-                    // Gửi verifiedCode về Email
-                    SendEmailUtil.sendVerificationCode(email, verifiedCode);
-                    resp.sendRedirect(req.getContextPath() + "/code-verify.jsp?email=" + email);
+                        // Gửi verifiedCode về Email
+                        SendEmailUtil.sendVerificationCode(email, verifiedCode);
+                        resp.sendRedirect(req.getContextPath() + "/code-verify.jsp?email=" + email);
+                    } else {
+                        // Nếu không thành công, link sẽ được redirect cùng với lỗi
+                        req.getRequestDispatcher("/signup.jsp").forward(req, resp);
+                    }
                 } else {
-                    // Nếu không thành công, link sẽ được redirect cùng với lỗi
-                    req.getRequestDispatcher("signup.jsp").forward(req, resp);
+                    req.getRequestDispatcher("/signup.jsp").forward(req, resp);
                 }
             }
         }

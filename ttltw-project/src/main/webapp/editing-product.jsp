@@ -24,16 +24,17 @@
                 <%
                     ProductBean productBean = (ProductBean) request.getAttribute("productBean");
                     ArrayList<String> errors = (ArrayList<String>) request.getAttribute("errors");
-                    String success = request.getParameter("success");
-                    String oPrErr = request.getParameter("oPrErr");
-                    String dPrErr = request.getParameter("dPrErr");
-                    String dPeErr = request.getParameter("dPeErr");
+                    String msg = (String) request.getAttribute("msg");
+                    String oPrErr = (String) request.getAttribute("oPrErr");
+                    String dPrErr = (String) request.getAttribute("dPrErr");
+                    String dPeErr = (String) request.getAttribute("dPeErr");
+                    String qErr = (String) request.getAttribute("qErr");
                 %>
-                <% if (success != null) { %>
-                <div class="alert alert-success">
-                    Chỉnh sửa sản phẩm thành công!
-                </div>
-                <% } %>
+                <%
+                    if (msg != null) {
+                %>
+                <%= (msg.equals("success") ? "<div class=\"alert alert-success\">Thay đổi thành công!</div>" : "<div class=\"alert alert-danger\">Thay đổi thất bại!</div>") %>
+                <%}%>
                 <form action="<c:url value="/admin/product-management/editing"/>" method="post">
                     <div class="row">
                         <div class="col-12">
@@ -88,7 +89,9 @@
                             <% if (errors != null && errors.get(5) != null) { %>
                             <div class="error" id="error6">Không được để trống!</div>
                             <% } %>
-                            <div class="error" id="dPeError"></div>
+                            <% if (dPeErr != null) { %>
+                            <div class="error" id="dPeError">Phải là số và lớn hơn 0!</div>
+                            <%}%>
                         </div>
 
                         <div class="col-3">
@@ -97,6 +100,7 @@
                             <% if (errors != null && errors.get(6) != null) { %>
                             <div class="error" id="error7">Không được để trống!</div>
                             <% } %>
+                            <% if (qErr != null) { %>
                             <div class="error" id="qError"></div>
                         </div>
 

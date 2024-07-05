@@ -1,19 +1,13 @@
 package com.ltw.dao;
 
-import com.ltw.bean.ProductImageBean;
-
 import com.ltw.bean.ProductBean;
 import com.ltw.util.CloseResourceUtil;
 import com.ltw.util.OpenConnectionUtil;
 import com.ltw.util.SetParameterUtil;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class ProductDAO {
     public List<ProductBean> findAllProducts() {
@@ -141,22 +135,29 @@ public class ProductDAO {
     }
 
     public int createProduct(ProductBean productBean) {
-        int affectedRows = -1;
+        int id = -1;
         String sql = "INSERT INTO products (name, description, categoryTypeId, originalPrice, discountPrice, " +
                 "discountPercent, quantity, size, otherSpec, status, keyword) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
 
         try {
             connection = OpenConnectionUtil.openConnection();
             connection.setAutoCommit(false);
-            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             SetParameterUtil.setParameter(preparedStatement, productBean.getName(), productBean.getDescription(), productBean.getCategoryTypeId(),
                     productBean.getOriginalPrice(), productBean.getDiscountPrice(), productBean.getDiscountPercent(), productBean.getQuantity(),
                     productBean.getSize(), productBean.getOtherSpec(), productBean.getStatus(), productBean.getKeyword());
-            affectedRows = preparedStatement.executeUpdate();
+            int affectedRows = preparedStatement.executeUpdate();
+            if (affectedRows > 0) {
+                 resultSet= preparedStatement.getGeneratedKeys();
+                if (resultSet.next()) {
+                    id = resultSet.getInt(1);
+                }
+            }
             connection.commit();
         } catch (SQLException e) {
             try {
@@ -165,13 +166,13 @@ public class ProductDAO {
                 throw new RuntimeException(ex);
             }
         } finally {
-            CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
         }
-        return affectedRows;
+        return id;
     }
 
     public int deleteProduct(int id) {
-        int affectRows;
+        int affectedRows;
         String sql = "DELETE FROM products WHERE id = ?";
 
         Connection connection = null;
@@ -182,7 +183,7 @@ public class ProductDAO {
             connection.setAutoCommit(false);
             preparedStatement = connection.prepareStatement(sql);
             SetParameterUtil.setParameter(preparedStatement, id);
-            affectRows = preparedStatement.executeUpdate();
+            affectedRows = preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
             try {
@@ -195,7 +196,7 @@ public class ProductDAO {
         } finally {
             CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
         }
-        return affectRows;
+        return affectedRows;
     }
 
     public List<ProductBean> findThreeProductByCategoryId(int categoryId) {

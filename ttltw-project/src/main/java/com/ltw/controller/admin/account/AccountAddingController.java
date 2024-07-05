@@ -1,12 +1,12 @@
 package com.ltw.controller.admin.account;
 
 import com.ltw.bean.UserBean;
+import com.ltw.constant.LogLevel;
+import com.ltw.constant.LogState;
 import com.ltw.dao.UserDAO;
-import com.ltw.dto.LogAddressDTO;
 import com.ltw.service.LogService;
 import com.ltw.util.EncryptPasswordUtil;
 import com.ltw.util.NumberValidateUtil;
-import com.ltw.util.SessionUtil;
 import com.ltw.util.ValidateParamUtil;
 
 import javax.servlet.ServletException;
@@ -42,7 +42,7 @@ public class AccountAddingController extends HttpServlet {
         String addressProvince = req.getParameter("addressProvince");
         String status = req.getParameter("status");
 
-        String success = "success";
+        String msg = null;
         String[] inputsForm = {email, password, firstName, lastName, roleId, status, addressLine, addressWard, addressDistrict, addressProvince};
         // Biến bắt lỗi
         boolean isValid = true;
@@ -58,43 +58,42 @@ public class AccountAddingController extends HttpServlet {
             }
         }
 
-        // Nếu không lỗi thì lưu vào database
+        // Nếu không lỗi thì lưu vào database cùng với
         if (isValid) {
             // Đổi String về số
             int roleIdInt = NumberValidateUtil.toInt(roleId);
             int statusInt = NumberValidateUtil.toInt(status);
 
             // Set thuộc tính vào bean
-            UserBean userBean = new UserBean();
-            userBean.setEmail(email);
-            userBean.setPassword(EncryptPasswordUtil.encryptPassword(password));
-            userBean.setFirstName(firstName);
-            userBean.setLastName(lastName);
-            userBean.setRoleId(roleIdInt);
-            userBean.setStatus(statusInt);
-            userBean.setAddressLine(addressLine);
-            userBean.setAddressWard(addressWard);
-            userBean.setAddressDistrict(addressDistrict);
-            userBean.setAddressProvince(addressProvince);
+            UserBean nowChange = new UserBean();
+            nowChange.setEmail(email);
+            nowChange.setPassword(EncryptPasswordUtil.encryptPassword(password));
+            nowChange.setFirstName(firstName);
+            nowChange.setLastName(lastName);
+            nowChange.setRoleId(roleIdInt);
+            nowChange.setStatus(statusInt);
+            nowChange.setAddressLine(addressLine);
+            nowChange.setAddressWard(addressWard);
+            nowChange.setAddressDistrict(addressDistrict);
+            nowChange.setAddressProvince(addressProvince);
 
-            userDAO.createAccount(userBean);
+            int id = userDAO.createAccount(nowChange);
 
-            // Ghi log khi thành công
-            // Lấy ra người thực hiện thay đổi từ Session
-            UserBean modifyUser = (UserBean) SessionUtil.getInstance().getValue(req, "user");
-            LogAddressDTO addressObj = new LogAddressDTO("admin-create-account", modifyUser.getId(), logBundle.getString("admin-create-account-success"));
-            UserBean currentObj = userDAO.findUserByEmail(email);
-            logService.createLog(req.getRemoteAddr(), "", "ALERT", addressObj, null, currentObj);
-
-            resp.sendRedirect(req.getContextPath() + "/admin/account-management/adding?success=" + success);
+            if (id <= 0) {
+                logService.log(req, "admin-update-account", LogState.FAIL, LogLevel.ALERT, null, null);
+                msg = "error";
+            } else {
+                UserBean currentUser = userDAO.findUserById(id);
+                logService.log(req, "admin-update-account", LogState.SUCCESS, LogLevel.WARNING, null, currentUser);
+                msg = "success";
+            }
         } else {
+            // Lỗi nhập liệu người dùng thì không ghi log
             req.setAttribute("errors", errors);
-            // Ghi log khi thất bại
-            UserBean modifyUser = (UserBean) SessionUtil.getInstance().getValue(req, "user");
-            LogAddressDTO addressObj = new LogAddressDTO("admin-create-account", modifyUser.getId(), logBundle.getString("admin-create-account-fail"));
-            logService.createLog(req.getRemoteAddr(), "", "ALERT", addressObj, null, null);
-
-            req.getRequestDispatcher("/adding-account.jsp").forward(req, resp);
+            msg = "error";
         }
+
+        req.setAttribute("msg", msg);
+        req.getRequestDispatcher("/editing-account.jsp").forward(req, resp);
     }
 }

@@ -22,15 +22,11 @@
                     <li class="breadcrumb-item active">DDD. Administrator</li>
                 </ol>
                 <%
-                    String success = (String) request.getAttribute("success");
-                    String error = (String) request.getAttribute("error");
+                    String msg = (String) request.getAttribute("msg");
+                    if (msg != null) {
                 %>
-                <% if (success != null) { %>
-                <div class="alert alert-success"><%=success%></div>
-                <% } %>
-                <% if (error != null) { %>
-                <div class="alert alert-error"><%=error%></div>
-                <% } %>
+                <%= (msg.equals("success") ? "<div class=\"alert alert-success\">Xóa thành công!</div>" : "<div class=\"alert alert-danger\">Xóa thất bại!</div>") %>
+                <%}%>
                 <div class="card mb-4 mt-4">
                     <div class="card-header">
                         <i class="fas fa-table me-1"></i>

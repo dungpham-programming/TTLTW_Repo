@@ -1,11 +1,11 @@
 package com.ltw.controller.client;
 
 import com.ltw.bean.UserBean;
+import com.ltw.constant.LogLevel;
+import com.ltw.constant.LogState;
 import com.ltw.dao.UserDAO;
-import com.ltw.dto.LogAddressDTO;
 import com.ltw.service.LinkVerifyService;
 import com.ltw.service.LogService;
-import com.ltw.util.SessionUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -77,21 +77,18 @@ public class ChangePasswordController extends HttpServlet {
         }
 
         if (!isValid) {
-            UserBean prevObj = userDAO.findUserByEmail(email);
+            UserBean prevUser = userDAO.findUserByEmail(email);
             int affectedRows = linkVerifyService.saveRenewPasswordByEmail(email, newPassword);
-            UserBean currentObj = userDAO.findUserByEmail(email);
-            UserBean loginUser = (UserBean) SessionUtil.getInstance().getValue(req, "user");
+            UserBean currentUser = userDAO.findUserByEmail(email);
+
             if (affectedRows < 0) {
-                // TODO: Khi có UI cho chức năng này, cần thêm thông báo vào UI
-                LogAddressDTO addressObj = new LogAddressDTO("user-change-password", loginUser.getId(), logBundle.getString("user-change-password-fail"));
-                logService.createLog(req.getRemoteAddr(), "", "WARNING", addressObj, prevObj, currentObj);
+                logService.log(req, "user-change-password", LogState.FAIL, LogLevel.ALERT, prevUser, currentUser);
                 String error = "e";
                 req.setAttribute("error", error);
                 req.getRequestDispatcher("/forget.jsp").forward(req, resp);
             } else if (affectedRows > 0) {
                 // TODO: Khi có UI cho chức năng này, cần thêm thông báo vào UI
-                LogAddressDTO addressObj = new LogAddressDTO("user-change-password", loginUser.getId(), logBundle.getString("user-change-password-success"));
-                logService.createLog(req.getRemoteAddr(), "", "WARNING", addressObj, prevObj, currentObj);
+                logService.log(req, "user-change-password", LogState.SUCCESS, LogLevel.WARNING, prevUser, currentUser);
                 String success = "s";
                 req.setAttribute("success", success);
                 req.getRequestDispatcher("/thankyou.jsp").forward(req, resp);

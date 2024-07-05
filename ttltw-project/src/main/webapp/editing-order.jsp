@@ -22,13 +22,13 @@
                 </ol>
                 <%
                     OrderBean orderBean = (OrderBean) request.getAttribute("orderBean");
-                    String success = request.getParameter("success");
+                    String msg = (String) request.getAttribute("msg");
                 %>
-                <% if (success != null) { %>
-                <div class="alert alert-success">
-                    Chỉnh sửa đơn hàng thành công!
-                </div>
-                <% } %>
+                <%
+                    if (msg != null) {
+                %>
+                <%= (msg.equals("success") ? "<div class=\"alert alert-success\">Thay đổi thành công!</div>" : "<div class=\"alert alert-danger\">Thay đổi thất bại!</div>") %>
+                <%}%>
                 <form action="<c:url value="/admin/order-management/editing"/>" method="post">
                     <div class="row">
                         <div class="col-6">
@@ -38,12 +38,12 @@
 
                         <div class="col-3">
                             <label for="createdDate">Ngày đặt</label>
-                            <input type="text" id="createdDate" name="createdDate" value="<%=orderBean.getCreatedDate()%>" disabled>
+                            <input type="date" id="createdDate" name="createdDate" value="<%=orderBean.getCreatedDate()%>">
                         </div>
 
                         <div class="col-3">
                             <label for="shipToDate">Ngày giao</label>
-                            <input type="text" id="shipToDate" name="shipToDate" value="<%=orderBean.getShipToDate()%>" disabled>
+                            <input type="date" id="shipToDate" name="shipToDate" value="<%=orderBean.getShipToDate()%>">
                         </div>
 
                         <div class="col-6">

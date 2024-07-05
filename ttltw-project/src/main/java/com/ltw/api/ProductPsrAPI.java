@@ -18,7 +18,7 @@ import java.util.List;
 
 // TODO: Thêm ảnh vào JSON của sản phẩm
 @WebServlet(value = {"/api/product-psr"})
-public class ProductAPI extends HttpServlet {
+public class ProductPsrAPI extends HttpServlet {
     private final ProductDAO productDAO = new ProductDAO();
     private final ImageDAO imageDAO = new ImageDAO();
     @Override

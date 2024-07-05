@@ -19,29 +19,30 @@
                     <li class="breadcrumb-item active">DDD. Administrator</li>
                 </ol>
                 <%
-                    String success = request.getParameter("success");
-                    if (success != null) {
+                    String msg = (String) request.getAttribute("msg");
+                    if (msg != null) {
                 %>
-                <div class="alert alert-success">Thay đổi thành công!</div>
+                <%= (msg.equals("success") ? "<div class=\"alert alert-success\">Thay đổi thành công!</div>" : "<div class=\"alert alert-danger\">Thay đổi thất bại!</div>") %>
                 <%}%>
                 <form action="<c:url value="/admin/account-management/editing"/>" method="post">
                     <%
-                        UserBean user = (UserBean) request.getAttribute("accountBean");
+                        UserBean user = (UserBean) request.getAttribute("displayUser");
+                        if (user == null) {
                     %>
                     <div class="row">
                         <div class="col-3">
                             <label for="email">Email</label>
-                            <input type="email" id="email" name="email" value="<%=user.getEmail()%>" disabled>
+                            <input type="email" id="email" name="email" value="<%=user.getEmail()%>">
                         </div>
 
                         <div class="col-3">
                             <label for="firstName">Họ</label>
-                            <input type="text" id="firstName" name="firstName" value="<%=user.getFirstName()%>" disabled>
+                            <input type="text" id="firstName" name="firstName" value="<%=user.getFirstName()%>">
                         </div>
 
                         <div class="col-3">
                             <label for="lastName">Tên</label>
-                            <input type="text" id="lastName" name="lastName" value="<%=user.getLastName()%>" disabled>
+                            <input type="text" id="lastName" name="lastName" value="<%=user.getLastName()%>">
                         </div>
 
                         <div class="col-2">
@@ -63,22 +64,22 @@
 
                         <div class="col-12">
                             <label for="addressLine">Số nhà/Tên đường</label>
-                            <input type="text" id="addressLine" name="addressLine" value="Đường NAQ" disabled>
+                            <input type="text" id="addressLine" name="addressLine">
                         </div>
 
                         <div class="col-12">
                             <label for="addressWard">Phường/Xã</label>
-                            <input type="text" id="addressWard" name="addressWard" value="Phường Klfa" disabled>
+                            <input type="text" id="addressWard" name="addressWard>
                         </div>
 
                         <div class="col-12">
                             <label for="addressDistrict">Quận/Huyện</label>
-                            <input type="text" id="addressDistrict" name="addressDistrict" value="BH" disabled>
+                            <input type="text" id="addressDistrict" name="addressDistrict">
                         </div>
 
                         <div class="col-12">
                             <label for="addressProvince">Tỉnh/Thành phố</label>
-                            <input type="text" id="addressProvince" name="addressProvince" value="Đồng Nai" disabled>
+                            <input type="text" id="addressProvince" name="addressProvince">
                         </div>
                     </div>
                     <input type="hidden" name="id" value="<%=user.getId()%>">
@@ -86,6 +87,9 @@
                     <a href="<c:url value="/admin/account-management"/>">Quay về trang quản lý</a>
                     <a href="<c:url value="/admin/home"/>">Quay về trang chủ</a>
                 </form>
+                <%} else {%>
+                <div class="alert alert-danger">Lỗi hệ thống!</div>
+                <%}%>
             </div>
         </main>
     </div>

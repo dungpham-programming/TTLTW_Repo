@@ -36,7 +36,13 @@
     </div>
     <%
         String emailError = (String) request.getAttribute("emailError");
+        String error = (String) request.getAttribute("error");
     %>
+    <% if (error != null) {%>
+    <div class="alert alert-danger">
+        Đổi mật khẩu thất bại!
+    </div>
+    <%}%>
     <form action="<c:url value="/forget"/> " method="post" accept-charset="UTF-8">
         <div class="email">
             <label for="email">Địa chỉ Email</label>

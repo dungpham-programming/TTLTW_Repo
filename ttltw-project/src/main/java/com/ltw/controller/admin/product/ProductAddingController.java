@@ -1,13 +1,12 @@
 package com.ltw.controller.admin.product;
 
 import com.ltw.bean.ProductBean;
-import com.ltw.bean.UserBean;
+import com.ltw.constant.LogLevel;
+import com.ltw.constant.LogState;
 import com.ltw.dao.ProductDAO;
-import com.ltw.dto.LogAddressDTO;
 import com.ltw.service.LogService;
-import com.ltw.util.BlankInputUtil;
 import com.ltw.util.NumberValidateUtil;
-import com.ltw.util.SessionUtil;
+import com.ltw.util.ValidateParamUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,7 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 @WebServlet(value = {"/admin/product-management/adding"})
@@ -50,32 +49,27 @@ public class ProductAddingController extends HttpServlet {
         String status = req.getParameter("status");
         String keyword = req.getParameter("keyword");
 
-        // Các biến lưu giữ lỗi về giá (Tên biến là viết tắt của
-        // originalPriceErr, discountPriceErr, discountPercentErr)
-        String oPrErr = "e", dPrErr = "e", dPeErr = "e";
+        // Các biến lưu giữ lỗi về giá
+        String oPrErr = "e", dPrErr = "e", dPeErr = "e", qErr = "e";
 
-        // Biến thông báo thành công
-        String success = "success";
+        // Biến thông báo
+        String msg = "";
 
         // Đặt các thuộc tính đúng thứ tự
         String[] inputsForm = new String[]{name, description, categoryTypeId, originalPrice, discountPrice, discountPercent, quantity, size, otherSpec, status, keyword};
-        // Mảng lưu trữ lỗi
-        ArrayList<String> errors = new ArrayList<>();
-
         // Biến bắt lỗi
         boolean isValid = true;
 
-        for (String string : inputsForm) {
-            if (BlankInputUtil.isBlank(string)) {
-                errors.add("e");
-                if (isValid) {
-                    isValid = false;
-                }
-            } else {
-                errors.add(null);
+        // Kiểm tra input rằng/null trong hàm checkEmptyParam
+        List<String> errors = ValidateParamUtil.checkEmptyParam(inputsForm);
+
+        // Nếu có lỗi (khác null) trả về isValid = false
+        for (String error : errors) {
+            if (error != null) {
+                isValid = false;
+                break;
             }
         }
-        req.setAttribute("errors", errors);
 
         // Kiểm tra các lỗi nhập liệu khác
         // Lỗi nhập liệu cho giá và phần trăm (Là phần số)
@@ -93,11 +87,17 @@ public class ProductAddingController extends HttpServlet {
             req.setAttribute("oPrErr", dPrErr);
         }
 
-        if (!NumberValidateUtil.isNumeric(discountPercent)) {
+        if (!NumberValidateUtil.isNumeric(discountPercent) || NumberValidateUtil.isValidPercent(discountPercent)) {
             if (isValid) {
                 isValid = false;
             }
             req.setAttribute("dPeErr", dPeErr);
+        }
+        if (!NumberValidateUtil.isNumeric(quantity) || NumberValidateUtil.isValidQuantity(quantity)) {
+            if (isValid) {
+                isValid = false;
+            }
+            req.setAttribute("qErr", qErr);
         }
 
         // Kiểm tra tên sản phẩm (Không được trùng tên)
@@ -110,8 +110,6 @@ public class ProductAddingController extends HttpServlet {
             req.setAttribute("nameErr", nameErr);
         }
 
-        LogAddressDTO addressObj;
-        UserBean userLogin = (UserBean) SessionUtil.getInstance().getValue(req, "user");
         // Nếu không lỗi thì lưu vào database
         if (isValid) {
             // Đổi String về số
@@ -136,23 +134,22 @@ public class ProductAddingController extends HttpServlet {
             productBean.setStatus(statusInt);
             productBean.setKeyword(keyword);
 
-            int affectedRows = productDAO.createProduct(productBean);
-            if (affectedRows < 0) {
-                // TODO: Thêm bắt lỗi trên JSP khi xử lý lỗi db
-                addressObj = new LogAddressDTO("admin-create-product", userLogin.getId(), logBundle.getString("admin-create-product-fail"));
-                logService.createLog(req.getRemoteAddr(), "", "ALERT", addressObj, null, null);
-                String createErr = "e";
-                req.setAttribute("createErr", createErr);
-                req.getRequestDispatcher("/adding-product.jsp").forward(req, resp);
+            int id = productDAO.createProduct(productBean);
+            if (id <= 0) {
+                logService.log(req, "admin-create-product", LogState.FAIL, LogLevel.ALERT, null, null);
+                msg = "error";
             } else {
-                addressObj = new LogAddressDTO("admin-create-product", userLogin.getId(), logBundle.getString("admin-create-product-success"));
-                logService.createLog(req.getRemoteAddr(), "", "ALERT", addressObj, null, productDAO.findProductByName(name));
-                resp.sendRedirect(req.getContextPath() + "/admin/product-management/adding?success=" + success);
+                ProductBean currentProduct = productDAO.findProductById(id);
+                logService.log(req, "admin-create-product", LogState.SUCCESS, LogLevel.WARNING, null, currentProduct);
+                msg = "success";
             }
         } else {
-            addressObj = new LogAddressDTO("admin-create-product", userLogin.getId(), logBundle.getString("admin-create-product-fail"));
-            logService.createLog(req.getRemoteAddr(), "", "ALERT", addressObj, null, null);
-            req.getRequestDispatcher("/adding-product.jsp").forward(req, resp);
+            req.setAttribute("errors", errors);
+            logService.log(req, "admin-create-product", LogState.FAIL, LogLevel.ALERT, null, null);
+            msg = "error";
         }
+
+        req.setAttribute("msg", msg);
+        req.getRequestDispatcher("/adding-product.jsp").forward(req, resp);
     }
 }

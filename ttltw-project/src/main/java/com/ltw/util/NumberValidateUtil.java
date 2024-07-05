@@ -22,6 +22,13 @@ public class NumberValidateUtil {
         return toDouble(input) <= 0;
     }
 
+    public static boolean isValidQuantity(String input) {
+        return toInt(input) <= 0;
+    }
+    public static boolean isValidPercent(String input) {
+        return toDouble(input) > 0 || toDouble(input) < 100;
+    }
+
     private static String replaceDot(String input) {
         return input.replace(".", "");
     }
