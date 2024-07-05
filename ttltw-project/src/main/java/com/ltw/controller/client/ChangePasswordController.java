@@ -76,8 +76,8 @@ public class ChangePasswordController extends HttpServlet {
             isValid = false;
         }
 
+        UserBean prevUser = userDAO.findUserByEmail(email);
         if (!isValid) {
-            UserBean prevUser = userDAO.findUserByEmail(email);
             int affectedRows = linkVerifyService.saveRenewPasswordByEmail(email, newPassword);
             UserBean currentUser = userDAO.findUserByEmail(email);
 
@@ -87,12 +87,15 @@ public class ChangePasswordController extends HttpServlet {
                 req.setAttribute("error", error);
                 req.getRequestDispatcher("/forget.jsp").forward(req, resp);
             } else if (affectedRows > 0) {
-                // TODO: Khi có UI cho chức năng này, cần thêm thông báo vào UI
                 logService.log(req, "user-change-password", LogState.SUCCESS, LogLevel.WARNING, prevUser, currentUser);
-                String success = "s";
-                req.setAttribute("success", success);
                 req.getRequestDispatcher("/thankyou.jsp").forward(req, resp);
             }
+        } else {
+            UserBean currentUser = userDAO.findUserByEmail(email);
+            logService.log(req, "user-change-password", LogState.FAIL, LogLevel.ALERT, prevUser, currentUser);
+            String error = "e";
+            req.setAttribute("error", error);
+            req.getRequestDispatcher("/forget.jsp").forward(req, resp);
         }
     }
 }

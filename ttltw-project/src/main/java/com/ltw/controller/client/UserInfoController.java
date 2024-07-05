@@ -2,9 +2,10 @@ package com.ltw.controller.client;
 
 import com.ltw.bean.CustomizeBean;
 import com.ltw.bean.UserBean;
+import com.ltw.constant.LogLevel;
+import com.ltw.constant.LogState;
 import com.ltw.dao.CustomizeDAO;
 import com.ltw.dao.UserDAO;
-import com.ltw.dto.LogAddressDTO;
 import com.ltw.service.LogService;
 import com.ltw.util.BlankInputUtil;
 import com.ltw.util.SessionUtil;
@@ -47,14 +48,14 @@ public class UserInfoController extends HttpServlet {
         String addressProvince = req.getParameter("addressProvince");
 
         // String thông báo lên JSP
-        String notify;
+        String msg = "";
         String error = "";
-        String fnError = null;
-        String lnError = null;
-        String alError = null;
-        String awError = null;
-        String adError = null;
-        String apError = null;
+        String fnError;
+        String lnError;
+        String alError;
+        String awError;
+        String adError;
+        String apError;
 
         // Tạo ra bean lưu trữ thông tin để đưa xuống DAO
         UserBean userBean;
@@ -108,22 +109,22 @@ public class UserInfoController extends HttpServlet {
             UserBean prevUser = userDAO.findUserById(session.getId());
             // Đưa bean xuống Database
             int affectedRows = userDAO.updateAccount(userBean);
+            UserBean currentUser = userDAO.findUserById(session.getId());
             if (affectedRows > 0) {
-                LogAddressDTO address = new LogAddressDTO("user-change-info", session.getId(), logBundle.getString("user-change-info-success"));
-                // Ghi log
-                logService.createLog(req.getRemoteAddr(), "", "WARNING", address, prevUser, userDAO.findUserById(session.getId()));
+                logService.log(req, "user-change-info", LogState.SUCCESS, LogLevel.WARNING, prevUser, currentUser);
+                msg = "success";
                 // Cập nhật lại giá trị trên Session
                 SessionUtil.getInstance().putValue(req, "user", userDAO.findUserById(session.getId()));
+            } else {
+                logService.log(req, "user-change-info", LogState.FAIL, LogLevel.WARNING, prevUser, currentUser);
+                msg = "fail";
             }
-
-            // Thông báo thành công lên JSP và truyền thông tin mới update lên
-            notify = "success";
-            req.setAttribute("notify", notify);
         }
 
         // Cuối cùng lấy thông tin từ db để hiển thị cho người dùng
         userBean = userDAO.findUserById(session.getId());
         req.setAttribute("userInfo", userBean);
-        req.getRequestDispatcher("client-userinfo.jsp").forward(req, resp);
+        req.setAttribute("msg", msg);
+        req.getRequestDispatcher("/client-userinfo.jsp").forward(req, resp);
     }
 }

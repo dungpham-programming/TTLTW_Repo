@@ -44,7 +44,7 @@
                     String addressDistrictErr = (String) request.getAttribute("adErr");
                     String addressProvinceErr = (String) request.getAttribute("apErr");
 
-                    String notify = (String) request.getAttribute("notify");
+                    String msg = (String) request.getAttribute("notify");
 
                     UserBean userInfo = (UserBean) request.getAttribute("userInfo");
 
@@ -52,9 +52,11 @@
                     String originalEmail = userInfo.getEmail();
                 %>
                 <form action="<c:url value="/user-info?action=update"/>" method="post" id="updateInfoForm" accept-charset="UTF-8">
-                    <% if (notify != null && notify.equals("success")) { %>
+                    <% if (msg != null && msg.equals("success")) { %>
                     <div><p class="success">Cập nhật tài khoản thành công!</p></div>
-                    <% } %>
+                    <% } else {%>
+                    <div><p class="fail">Cập nhật tài khoản thất bại!</p></div>
+                    <%}%>
 
                     <!--                    Cập nhật firstname-->
 

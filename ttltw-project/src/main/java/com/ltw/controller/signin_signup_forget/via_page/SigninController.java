@@ -6,6 +6,7 @@ import com.ltw.constant.LogState;
 import com.ltw.service.CodeVerifyService;
 import com.ltw.service.LogService;
 import com.ltw.util.SendEmailUtil;
+import com.ltw.util.SessionUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -78,6 +79,8 @@ public class SigninController extends HttpServlet {
                     // Ghi lại log nếu tài khoản đã active
                     logService.log(req, "login-active", LogState.SUCCESS, LogLevel.INFO, user, user);
 
+                    // Thêm tài khoản vào Session
+                    SessionUtil.getInstance().putValue(req, "user", user);
                     // Authentication
                     // Kiểm tra role khi đăng nhập để redirect (1 là client, 2 là admin, 3 là mod)
                     if (user.getRoleId() == 1) {
@@ -85,16 +88,16 @@ public class SigninController extends HttpServlet {
                     } else if (user.getRoleId() == 2 || user.getRoleId() == 3) {
                         resp.sendRedirect(req.getContextPath() + "/admin/home");
                     }
-                }
-            } else {
-                // Nếu chưa active thì tạo ra verifiedCode mới, gửi về email người dùng và redirect sang trang verified
-                String verifiedCode = codeVerifyService.generateVerifiedCode();
-                codeVerifyService.setNewCodeByEmail(email, verifiedCode);
-                SendEmailUtil.sendVerificationCode(email, verifiedCode);
+                } else {
+                    // Nếu chưa active thì tạo ra verifiedCode mới, gửi về email người dùng và redirect sang trang verified
+                    String verifiedCode = codeVerifyService.generateVerifiedCode();
+                    codeVerifyService.setNewCodeByEmail(email, verifiedCode);
+                    SendEmailUtil.sendVerificationCode(email, verifiedCode);
 
-                // Ghi lại log nếu tài khoản cần verify
-                logService.log(req, "login-verify", LogState.SUCCESS, LogLevel.INFO, user, user);
-                resp.sendRedirect(req.getContextPath() + "/code-verify.jsp?email=" + email);
+                    // Ghi lại log nếu tài khoản cần verify
+                    logService.log(req, "login-verify", LogState.SUCCESS, LogLevel.INFO, user, user);
+                    resp.sendRedirect(req.getContextPath() + "/code-verify.jsp?email=" + email);
+                }
             }
         }
     }

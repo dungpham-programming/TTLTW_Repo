@@ -39,7 +39,12 @@
 <!-- Start Contact Form -->
 <div class="untree_co-section position-relative-top-84px">
     <div class="container">
-
+        <%
+            String msg = (String) request.getAttribute("msg");
+            if (msg != null) {
+        %>
+        <%= (msg.equals("success") ? "<div class=\"alert alert-success\">Gửi thành công!</div>" : "<div class=\"alert alert-danger\">Gửi thất bại!</div>") %>
+        <%}%>
         <div class="block">
             <div class="row justify-content-center">
 

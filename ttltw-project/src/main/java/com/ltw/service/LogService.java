@@ -15,14 +15,14 @@ public class LogService<T> {
     private LogDAO logDAO = new LogDAO();
     ResourceBundle logContentBundle = ResourceBundle.getBundle("log-content");
 
-    public void log(HttpServletRequest request, String function, String state, int level, T previousInfo, T currentInfo) {
+    public void log(HttpServletRequest request, String function, String state, int level, Object previousInfo, Object currentInfo) {
         UserBean userModify = (UserBean) SessionUtil.getInstance().getValue(request, "user");
         String ip = request.getRemoteAddr();
         String national = "";
         String content = makeContentName(function, state);
         // Chưa đăng nhập thì id = -1
         int id = (userModify == null) ? -1 : userModify.getId();
-        LogAddressDTO address = new LogAddressDTO("admin-update-product", id, content);
+        LogAddressDTO address = new LogAddressDTO(function, id, content);
         createLog(ip, national, level, address, previousInfo, currentInfo);
     }
 

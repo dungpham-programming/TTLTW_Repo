@@ -2,13 +2,12 @@ package com.ltw.controller.client;
 
 import com.ltw.bean.ContactBean;
 import com.ltw.bean.CustomizeBean;
-import com.ltw.bean.UserBean;
+import com.ltw.constant.LogLevel;
+import com.ltw.constant.LogState;
 import com.ltw.dao.ContactDAO;
 import com.ltw.dao.CustomizeDAO;
-import com.ltw.dto.LogAddressDTO;
 import com.ltw.service.LogService;
 import com.ltw.util.BlankInputUtil;
-import com.ltw.util.SessionUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -32,7 +31,6 @@ public class ContactController extends HttpServlet {
         req.getRequestDispatcher("contact.jsp").forward(req, resp);
     }
 
-    // TODO: Chưa gọi xuống DAO để lưu vào CSDL
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
@@ -47,7 +45,7 @@ public class ContactController extends HttpServlet {
         String lastNameError = "";
         String messageError = "";
 
-        String success = "";
+        String msg = "";
         boolean isValid = true;
 
         if (BlankInputUtil.isBlank(email)) {
@@ -68,6 +66,7 @@ public class ContactController extends HttpServlet {
         }
 
         if (!isValid) {
+            msg = "error";
             req.getRequestDispatcher("contact.jsp").forward(req, resp);
         }
         // Hợp lệ thì set thành công và forward về trang
@@ -79,14 +78,18 @@ public class ContactController extends HttpServlet {
             contactBean.setMessage(message);
 
             int id = contactDAO.createContact(contactBean);
-
-            UserBean modifyUser = (UserBean) SessionUtil.getInstance().getValue(req, "user");
-            LogAddressDTO address = new LogAddressDTO("user-contact", modifyUser.getId(), logBundle.getString("user-contact-success"));
-            logService.createLog(req.getRemoteAddr(), "", "ALERT", address, null, contactDAO.findContactById(id));
-
-            req.setAttribute("success", success);
-            req.setAttribute("customizeInfo", customizeInfo);
-            req.getRequestDispatcher("contact.jsp").forward(req, resp);
+            ContactBean currentContact = contactDAO.findContactById(id);
+            if (id <= 0) {
+                logService.log(req, "user-contact", LogState.FAIL, LogLevel.ALERT, null, null);
+                msg = "error";
+            } else {
+                logService.log(req, "user-contact", LogState.SUCCESS, LogLevel.WARNING, null, currentContact);
+                msg = "success";
+            }
         }
+
+        req.setAttribute("msg", msg);
+        req.setAttribute("customizeInfo", customizeInfo);
+        req.getRequestDispatcher("/contact.jsp").forward(req, resp);
     }
 }

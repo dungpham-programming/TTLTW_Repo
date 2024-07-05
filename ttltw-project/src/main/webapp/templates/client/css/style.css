@@ -2087,6 +2087,11 @@ a.check {
     color: green;
 }
 
+.fail {
+    font-weight: 700;
+    color: red;
+}
+
 .more {
     color: var(--primary-color-darkyellow);
     background-color: var(--primary-color-darkred);
