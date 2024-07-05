@@ -47,10 +47,10 @@ $(document).ready(function () {
             {
                 targets: 6,
                 render: function (data, type, row, meta) {
-                    const addLine = row.addressLine === null ? '' : row.addressLine + ',';
-                    const addWard = row.addressWard === null ? '' : row.addressWard + ',';
-                    const addDistrict = row.addressDistrict === null ? '' : row.addressDistrict + ',';
-                    const addProvince = row.addressProvince === null ? '' : row.addressProvince;
+                    const addLine = (row.addressLine === null || row.addressLine === '') ? '' : row.addressLine + ',';
+                    const addWard = (row.addressWard === null || row.addressWard === '') ? '' : row.addressWard + ',';
+                    const addDistrict = (row.addressDistrict === null || row.addressDistrict === '') ? '' : row.addressDistrict + ',';
+                    const addProvince = (row.addressProvince === null || row.addressProvince === '') ? '' : row.addressProvince;
                     return `${addLine + addWard + addDistrict + addProvince}`;
                 }
             },

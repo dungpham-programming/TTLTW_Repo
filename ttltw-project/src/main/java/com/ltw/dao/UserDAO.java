@@ -55,7 +55,7 @@ public class UserDAO {
         int id = -1;
         String sql = "INSERT INTO users (password, firstName, lastName, roleId, " +
                 "email, addressLine, addressWard, addressDistrict, addressProvince, status) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;

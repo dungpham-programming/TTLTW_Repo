@@ -43,7 +43,7 @@ public class AccountAddingController extends HttpServlet {
         String status = req.getParameter("status");
 
         String msg = null;
-        String[] inputsForm = {email, password, firstName, lastName, roleId, status, addressLine, addressWard, addressDistrict, addressProvince};
+        String[] inputsForm = {email, password, firstName, lastName, roleId, status};
         // Biến bắt lỗi
         boolean isValid = true;
 
@@ -94,6 +94,6 @@ public class AccountAddingController extends HttpServlet {
         }
 
         req.setAttribute("msg", msg);
-        req.getRequestDispatcher("/editing-account.jsp").forward(req, resp);
+        req.getRequestDispatcher("/adding-account.jsp").forward(req, resp);
     }
 }

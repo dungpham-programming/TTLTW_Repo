@@ -27,7 +27,7 @@
                 <form action="<c:url value="/admin/account-management/editing"/>" method="post">
                     <%
                         UserBean user = (UserBean) request.getAttribute("displayUser");
-                        if (user == null) {
+                        if (user != null) {
                     %>
                     <div class="row">
                         <div class="col-3">
@@ -69,7 +69,7 @@
 
                         <div class="col-12">
                             <label for="addressWard">Phường/Xã</label>
-                            <input type="text" id="addressWard" name="addressWard>
+                            <input type="text" id="addressWard" name="addressWard">
                         </div>
 
                         <div class="col-12">
