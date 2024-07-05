@@ -19,6 +19,9 @@ $(document).ready(function (){
             { data: "status"},
             { data: "profilePic"},
             { data: "createdDate"},
+            { data: "createdBy"},
+            { data: "modifiedDate"},
+            { data: "modifiedBy"},
             // Thiết lập cho cột Thao tác
             {sortable: false, searchable: false,}
         ],
