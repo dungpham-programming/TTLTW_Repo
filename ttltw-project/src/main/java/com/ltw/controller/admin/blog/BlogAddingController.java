@@ -68,7 +68,7 @@ public class BlogAddingController extends HttpServlet {
             blogBean.setStatus(statusInt);
 
 
-            blogDAO.createAccount(blogBean);
+            blogDAO.createBlog(blogBean);
             resp.sendRedirect(req.getContextPath() + "/admin/blog-management/adding?success=" + success);
         } else {
             req.getRequestDispatcher("/adding-blog.jsp").forward(req, resp);
