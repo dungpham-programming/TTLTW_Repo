@@ -1,7 +1,6 @@
 package com.ltw.api.admin;
 
 import com.ltw.bean.BlogBean;
-import com.ltw.bean.UserBean;
 import com.ltw.constant.LogLevel;
 import com.ltw.constant.LogState;
 import com.ltw.dao.BlogDAO;
