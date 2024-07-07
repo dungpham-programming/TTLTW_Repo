@@ -121,8 +121,8 @@ public class BlogDAO {
     }
 
     public void createBlog(BlogBean blogBean) {
-        String sql = "INSERT INTO blogs(title, description, content, categoryID, status,createdDate, createdBy) " +
-                "VALUES (?, ?, ?, ?, ?,?,?,)";
+        String sql = "INSERT INTO blogs(title,author, description, content, categoryID, status,createdDate, createdBy) " +
+                "VALUES (?,?, ?, ?, ?, ?,?,?,)";
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -131,7 +131,7 @@ public class BlogDAO {
             connection = OpenConnectionUtil.openConnection();
             connection.setAutoCommit(false);
             preparedStatement = connection.prepareStatement(sql);
-            SetParameterUtil.setParameter(preparedStatement, blogBean.getTitle(), blogBean.getDescription(),
+            SetParameterUtil.setParameter(preparedStatement, blogBean.getTitle(),blogBean.getAuthor(), blogBean.getDescription(),
                     blogBean.getContent(), blogBean.getCategoryId(), blogBean.getStatus());
             preparedStatement.executeUpdate();
             connection.commit();
@@ -149,7 +149,7 @@ public class BlogDAO {
 
     public List<BlogBean> getBlogsDatatable(int start, int length, String columnOrder, String orderDir, String searchValue) {
         List<BlogBean> blogs = new ArrayList<>();
-        String sql = "SELECT id, title, author, description, content, categoryId, status, profilePic, createDate, createBy, modifiedDate,modìileBy FROM users";
+        String sql = "SELECT id, title, author, description, content, categoryId, status, profilePic, createdDate, createdBy, modifiedDate,modifiedBy FROM blogs";
         int index = 1;
 
         Connection conn = null;
@@ -160,7 +160,7 @@ public class BlogDAO {
             conn = OpenConnectionUtil.openConnection();
             if (searchValue != null && !searchValue.isEmpty()) {
                 sql += " WHERE (id LIKE ? OR title LIKE ? OR author LIKE ? OR description LIKE ? OR content LIKE ? OR categoryId LIKE ? " +
-                        "OR status LIKE ? OR profilePic LIKE ? OR createDate LIKE ? OR createBy LIKE ? OR modifiedDate LIKE ? OR modifiedBy LIKE ?)";
+                        "OR status LIKE ? OR profilePic LIKE ? OR createdDate LIKE ? OR createdBy LIKE ? OR modifiedDate LIKE ? OR modifiedBy LIKE ?)";
             }
             sql += " ORDER BY " + columnOrder + " " + orderDir + " ";
             sql += "LIMIT ?, ?";

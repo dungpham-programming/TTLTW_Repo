@@ -1,5 +1,5 @@
 $(document).ready(function (){
-    $('blogData').DataTable({
+    $('#blogData').DataTable({
         lengthMenu: [5, 10, 25, 100],
         processing: true,
         serverSide: true,
