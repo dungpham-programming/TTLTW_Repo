@@ -54,28 +54,28 @@ public class BlogAPI extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        int id = Integer.parseInt(req.getParameter("id"));
-//        String status;
-//        String notify;
-//
-//        prevUser = userDAO.findUserById(id);
-//        int affectedRow = userDAO.deleteAccount(id);
-//
-//        if (affectedRow < 1) {
-//            UserBean currentUser = userDAO.findUserById(id);
-//            logService.log(req, "admin-delete-account", LogState.FAIL, LogLevel.ALERT, prevUser, currentUser);
-//            status = "error";
-//            notify = "Có lỗi khi xóa log!";
-//        } else {
-//            logService.log(req, "admin-delete-account", LogState.SUCCESS, LogLevel.WARNING, prevUser, null);
-//            status = "success";
-//            notify = "Xóa log thành công!";
-//        }
-//
-//        String jsonData = "{\"status\": \"" + status + "\", \"notify\": \"" + notify + "\"}";
-//
-//        resp.setContentType("application/json");
-//        resp.setCharacterEncoding("UTF-8");
-//        resp.getWriter().write(jsonData);
+        int id = Integer.parseInt(req.getParameter("id"));
+        String status;
+        String notify;
+
+        prevBlog = blogDAO.findBlogById(id);
+        int affectedRow = blogDAO.deleteBlog(id);
+
+        if (affectedRow < 1) {
+            BlogBean currentBlog = blogDAO.findBlogById(id);
+            logService.log(req, "admin-delete-blog", LogState.FAIL, LogLevel.ALERT, prevBlog, currentBlog);
+            status = "error";
+            notify = "Có lỗi khi xóa log!";
+        } else {
+            logService.log(req, "admin-delete-blog", LogState.SUCCESS, LogLevel.WARNING, prevBlog, null);
+            status = "success";
+            notify = "Xóa log thành công!";
+        }
+
+        String jsonData = "{\"status\": \"" + status + "\", \"notify\": \"" + notify + "\"}";
+
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+        resp.getWriter().write(jsonData);
     }
 }
