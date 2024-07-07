@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(value = { "/api/adimn/blog"})
+@WebServlet(value = { "/api/admin/blog"})
 public class BlogAPI extends HttpServlet {
     private final BlogDAO blogDAO = new BlogDAO();
     private BlogBean prevBlog;
