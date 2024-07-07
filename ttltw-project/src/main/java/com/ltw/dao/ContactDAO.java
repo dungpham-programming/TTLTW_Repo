@@ -253,4 +253,71 @@ public class ContactDAO {
         }
         return contacts;
     }
+
+    public int getRecordsTotal() {
+        int recordsTotal = -1;
+        String sql = "SELECT COUNT(id) FROM contacts";
+
+        Connection conn = null;
+        PreparedStatement preStat = null;
+        ResultSet rs = null;
+
+        try {
+            conn = OpenConnectionUtil.openConnection();
+            preStat = conn.prepareStatement(sql);
+            rs = preStat.executeQuery();
+
+            if (rs.next()) {
+                recordsTotal = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            CloseResourceUtil.closeResource(rs, preStat, conn);
+        }
+        return recordsTotal;
+    }
+
+    public int getRecordsFiltered(String searchValue) {
+        int recordsFiltered = -1;
+        String sql = "SELECT COUNT(id) FROM contacts";
+
+        Connection conn = null;
+        PreparedStatement preStat = null;
+        ResultSet rs = null;
+
+        try {
+            conn = OpenConnectionUtil.openConnection();
+            if (searchValue != null && !searchValue.isEmpty()) {
+                sql += " WHERE (id LIKE ? OR email LIKE ? OR firstName LIKE ? OR lastName LIKE ? OR title LIKE ? OR message LIKE ? OR status LIKE ? " +
+                        "OR createdDate LIKE ? OR createdBy LIKE ? OR modifiedDate LIKE ? OR modifiedBy LIKE ?)";
+            }
+            preStat = conn.prepareStatement(sql);
+            int index = 1;
+            if (searchValue != null && !searchValue.isEmpty()) {
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index, "%" + searchValue + "%");
+            }
+            rs = preStat.executeQuery();
+
+            if (rs.next()) {
+                recordsFiltered = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            CloseResourceUtil.closeResource(rs, preStat, conn);
+        }
+        return recordsFiltered;
+    }
 }
