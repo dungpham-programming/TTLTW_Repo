@@ -1,6 +1,7 @@
 package com.ltw.dao;
 
 import com.ltw.bean.BlogBean;
+import com.ltw.bean.UserBean;
 import com.ltw.util.CloseResourceUtil;
 import com.ltw.util.OpenConnectionUtil;
 import com.ltw.util.SetParameterUtil;
@@ -146,4 +147,65 @@ public class BlogDAO {
     }
 
 
+    public List<BlogBean> getBlogsDatatable(int start, int length, String columnOrder, String orderDir, String searchValue) {
+        List<BlogBean> blogs = new ArrayList<>();
+        String sql = "SELECT id, title, author, description, content, categoryId, status, profilePic, createDate, createBy, modifiedDate,modìileBy FROM users";
+        int index = 1;
+
+        Connection conn = null;
+        PreparedStatement preStat = null;
+        ResultSet rs = null;
+
+        try {
+            conn = OpenConnectionUtil.openConnection();
+            if (searchValue != null && !searchValue.isEmpty()) {
+                sql += " WHERE (id LIKE ? OR title LIKE ? OR author LIKE ? OR description LIKE ? OR content LIKE ? OR categoryId LIKE ? " +
+                        "OR status LIKE ? OR profilePic LIKE ? OR createDate LIKE ? OR createBy LIKE ? OR modifiedDate LIKE ? OR modifiedBy LIKE ?)";
+            }
+            sql += " ORDER BY " + columnOrder + " " + orderDir + " ";
+            sql += "LIMIT ?, ?";
+
+            preStat = conn.prepareStatement(sql);
+            if (searchValue != null && !searchValue.isEmpty()) {
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+            }
+            preStat.setInt(index++, start);
+            preStat.setInt(index, length);
+
+            rs = preStat.executeQuery();
+            while (rs.next()) {
+                BlogBean blog = new BlogBean();
+                blog.setId(rs.getInt("id"));
+                blog.setTitle(rs.getString("title"));
+                blog.setAuthor(rs.getString("author"));
+                blog.setDescription(rs.getString("description"));
+                blog.setContent(rs.getString("content"));
+                blog.setCategoryId(rs.getInt("categoryId"));
+                blog.setStatus(rs.getInt("status"));
+                blog.setProfilePic(rs.getString("profilePic"));
+                blog.setCreatedDate(rs.getTimestamp("createdDate"));
+                blog.setCreatedBy(rs.getString("createdBy"));
+                blog.setModifiedDate(rs.getTimestamp("modifiedDate"));
+                blog.setModifiedBy(rs.getString("modifiedBy"));
+
+                blogs.add(blog);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            CloseResourceUtil.closeResource(rs, preStat, conn);
+        }
+        return blogs;
+    }
 }
