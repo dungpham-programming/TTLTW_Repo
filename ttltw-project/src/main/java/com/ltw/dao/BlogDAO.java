@@ -120,7 +120,7 @@ public class BlogDAO {
         return result;
     }
 
-    public void createAccount(BlogBean blogBean) {
+    public void createBlog(BlogBean blogBean) {
         String sql = "INSERT INTO blogs(title, description, content, categoryID, status,createdDate, createdBy) " +
                 "VALUES (?, ?, ?, ?, ?,?,?,)";
 
@@ -302,4 +302,35 @@ public class BlogDAO {
         }
         return affectRows;
     }
+    public int updateBlog(BlogBean blog) {
+        int affectedRows = -1;
+        StringBuilder sql = new StringBuilder();
+        sql.append("UPDATE blogs ")
+                .append("SET title = ?, author = ?, description = ?, ")
+                .append("content = ?, profilePic = ? ")
+                .append("WHERE id = ?");
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            connection.setAutoCommit(false);
+            preparedStatement = connection.prepareStatement(sql.toString());
+            SetParameterUtil.setParameter(preparedStatement, blog.getTitle(), blog.getAuthor(),
+                    blog.getDescription(), blog.getContent(), blog.getProfilePic(), blog.getId());
+            affectedRows = preparedStatement.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        } finally {
+            CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
+        }
+        return affectedRows;
+    }
+
 }
