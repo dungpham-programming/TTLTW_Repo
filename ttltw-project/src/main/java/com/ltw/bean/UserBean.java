@@ -1,11 +1,6 @@
 package com.ltw.bean;
 
-import com.ltw.dao.impl.LogDAO;
-import com.ltw.dto.LogAddressDTO;
-
-import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.ResourceBundle;
 
 public class UserBean {
     private int id;
@@ -15,6 +10,7 @@ public class UserBean {
     private String lastName;
     private int roleId;
     private int status;
+    private int viaOAuth;
     private String verifiedCode;
     private String key;
     private String addressLine;
@@ -83,6 +79,15 @@ public class UserBean {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+
+    public int getViaOAuth() {
+        return viaOAuth;
+    }
+
+    public void setViaOAuth(int viaOAuth) {
+        this.viaOAuth = viaOAuth;
     }
 
     public String getVerifiedCode() {
