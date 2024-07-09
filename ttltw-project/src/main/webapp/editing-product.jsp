@@ -102,6 +102,7 @@
                             <% } %>
                             <% if (qErr != null) { %>
                             <div class="error" id="qError"></div>
+                            <% } %>
                         </div>
 
                         <div class="col-3">

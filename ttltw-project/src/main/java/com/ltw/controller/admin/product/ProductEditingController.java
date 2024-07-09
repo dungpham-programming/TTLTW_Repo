@@ -76,27 +76,27 @@ public class ProductEditingController extends HttpServlet {
 
         // Kiểm tra các lỗi nhập liệu khác
         // Lỗi nhập liệu cho giá và phần trăm (Là phần số)
-        if (!NumberValidateUtil.isNumeric(originalPrice) || NumberValidateUtil.isValidPrice(originalPrice)) {
+        if (!NumberValidateUtil.isNumeric(originalPrice) || !NumberValidateUtil.isValidPrice(originalPrice)) {
             if (isValid) {
                 isValid = false;
             }
             req.setAttribute("oPrErr", oPrErr);
         }
 
-        if (!NumberValidateUtil.isNumeric(discountPrice) || NumberValidateUtil.isValidPrice(discountPrice)) {
+        if (!NumberValidateUtil.isNumeric(discountPrice) || !NumberValidateUtil.isValidPrice(discountPrice)) {
             if (isValid) {
                 isValid = false;
             }
             req.setAttribute("oPrErr", dPrErr);
         }
 
-        if (!NumberValidateUtil.isNumeric(discountPercent) || NumberValidateUtil.isValidPercent(discountPercent)) {
+        if (!NumberValidateUtil.isNumeric(discountPercent) || !NumberValidateUtil.isValidPercent(discountPercent)) {
             if (isValid) {
                 isValid = false;
             }
             req.setAttribute("dPeErr", dPeErr);
         }
-        if (!NumberValidateUtil.isNumeric(quantity) || NumberValidateUtil.isValidQuantity(quantity)) {
+        if (!NumberValidateUtil.isNumeric(quantity) || !NumberValidateUtil.isValidQuantity(quantity)) {
             if (isValid) {
                 isValid = false;
             }
@@ -150,6 +150,6 @@ public class ProductEditingController extends HttpServlet {
         ProductBean displayProduct = productDAO.findProductById(id);
         req.setAttribute("msg", msg);
         req.setAttribute("productBean", displayProduct);
-        req.getRequestDispatcher("/adding-product.jsp").forward(req, resp);
+        req.getRequestDispatcher("/editing-product.jsp").forward(req, resp);
     }
 }
