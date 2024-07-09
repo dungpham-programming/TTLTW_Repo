@@ -24,6 +24,7 @@
                     String dPrErr = (String) request.getAttribute("dPrErr");
                     String dPeErr = (String) request.getAttribute("dPeErr");
                     String qErr = (String) request.getAttribute("qErr");
+                    String nameErr = (String) request.getAttribute("nameErr");
                 %>
                 <%
                     String msg = (String) request.getAttribute("msg");
@@ -38,6 +39,9 @@
                             <input type="text" id="name" name="name" placeholder="Tên sản phẩm" required>
                             <% if (errors != null && errors.get(0) != null) { %>
                             <div class="error" id="error1">Không được để trống!</div>
+                            <% } %>
+                            <% if (nameErr != null) { %>
+                            <div class="error" id="nameErr">Trùng tên sản phẩm!</div>
                             <% } %>
                         </div>
 

@@ -148,7 +148,7 @@ public class UserDAO {
     public UserBean findUserById(int id) {
         UserBean userBean = new UserBean();
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT id, email, roleId, firstName, lastName, addressLine, addressWard, addressDistrict, addressProvince, createdDate " )
+        sql.append("SELECT id, email, roleId, status, firstName, lastName, addressLine, addressWard, addressDistrict, addressProvince, createdDate " )
                 .append("FROM users ")
                 .append("WHERE id = ?");
 
@@ -167,6 +167,7 @@ public class UserDAO {
                 userBean.setId(resultSet.getInt("id"));
                 userBean.setEmail(resultSet.getString("email"));
                 userBean.setRoleId(resultSet.getInt("roleId"));
+                userBean.setStatus(resultSet.getInt("status"));
                 userBean.setFirstName(resultSet.getString("firstName"));
                 userBean.setLastName(resultSet.getString("lastName"));
                 userBean.setAddressLine(resultSet.getString("addressLine"));

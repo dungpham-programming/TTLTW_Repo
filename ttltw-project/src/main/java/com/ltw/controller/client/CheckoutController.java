@@ -135,6 +135,7 @@ public class CheckoutController extends HttpServlet {
                 // Ghi log thành công
                 FullOrderDTO fullOrder = new FullOrderDTO(orderDAO.findOrderById(orderId), orderDetails);
                 orderLogService.log(req, "order-in-checkout", LogState.SUCCESS, LogLevel.INFO, null, fullOrder);
+                SessionUtil.getInstance().removeValue(req, "cart");
 
                 resp.sendRedirect(req.getContextPath() + "/thankyou");
             }
