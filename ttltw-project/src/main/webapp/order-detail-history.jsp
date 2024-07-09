@@ -33,31 +33,13 @@
         <div class="table-responsive">
             <table id="orderHistory">
                 <thead>
-                <th>Mã đặt hàng</th>
+                <th>Mã sản phẩm</th>
                 <th>Tên sản phẩm</th>
                 <th>Giá gốc</th>
                 <th>Giá giảm</th>
+                <th>Phần trăm giảm</th>
                 <th>Số lượng</th>
                 </thead>
-                <tbody>
-                <%
-                    List<OrderDetailBean> listOrderDetail = (List<OrderDetailBean>) request.getAttribute("orderDetails");
-                    for (OrderDetailBean orderDetail : listOrderDetail) {
-                        String idStr = String.valueOf(orderDetail.getOrderId());
-
-
-                %>
-                <tr>
-                    <td><%=orderDetail.getOrderId()%></td>
-                    <% if (orderDetail.getProductName() != null) {%>
-                    <td><%= orderDetail.getProductName()%></td>
-                    <% } %>
-                    <td><fmt:formatNumber value="<%=orderDetail.getOriginalPrice()%>" pattern="#,##0.##"/>đ</td>
-                    <td><fmt:formatNumber value="<%=orderDetail.getDiscountPrice()%>" pattern="#,##0.##"/>đ</td>
-                    <td><%=orderDetail.getQuantity()%></td>
-                </tr>
-                </tbody>
-                <%}%>
             </table>
         </div>
         <div class="return-btn">

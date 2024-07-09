@@ -2064,10 +2064,11 @@ a.check {
 }
 
 .return-btn {
-    padding-bottom: 2rem;
+    padding: 2rem 0;
 }
 
 .checking-order-detail {
+    display: inline-block;
     padding: 1rem;
     background-color: var(--primary-color-darkred);
     color: var(--primary-color-gray);

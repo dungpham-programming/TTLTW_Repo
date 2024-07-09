@@ -14,6 +14,22 @@ function deleteRecord(buttonClicked, id, requestBy) {
     }
 }
 
+const deleteRecordByClient = (buttonClicked, id, requestBy) => {
+    if (confirm("Bạn có muốn xóa record không?")) {
+        $.ajax({
+            url: `http://localhost:8080/api/client/${requestBy}?id=${id}`,
+            type: 'DELETE',
+            dataType: 'json',
+            success: function(response) {
+                renderUi(buttonClicked, response);
+            },
+            error: function (error, xhr) {
+                console.log(xhr.responseText)
+            }
+        });
+    }
+}
+
 function renderUi(buttonClicked, response) {
     if (response) {
         const status = response["status"];

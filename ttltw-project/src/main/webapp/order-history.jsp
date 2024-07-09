@@ -28,7 +28,7 @@
 <!-- End Hero Section -->
 
 <!-- Start Renew Password -->
-<div class="renew-password position-relative-top-84px">
+<div class="renew-password position-relative-top-84px" style="background-color: #eeeeee; padding-top: 2rem">
     <%
         String error = request.getParameter("error");
         if (error != null) {
@@ -36,55 +36,33 @@
     <div class="alert alert-danger">Lỗi hệ thống</div>
     <%}%>
     <div class="container">
-        <div class="table-responsive">
-            <table id="orderHistory">
-                <thead>
-
-                <tr>
-                    <th>ID Đơn hàng</th>
-                    <th>Ngày tạo</th>
-                    <th>Ngày nhận</th>
-                    <th>Tổng tiền</th>
-                    <td>Trạng thái</td>
-                    <th>Chức năng</th>
-
-                </tr>
-                </thead>
-                <%
-                    List<OrderBean> listOrder = (List<OrderBean>) request.getAttribute("orderList");
-                    for (OrderBean order : listOrder){
-                        String idStr = String.valueOf(order.getUserId());
-                %>
-                <tbody>
-                <tr>
-                    <td><%=order.getId()%></td>
-                    <td><fmt:formatDate value="<%= order.getCreatedDate() %>" pattern="dd/MM/yyyy" /></td>
-                    <td><fmt:formatDate value="<%= order.getShipToDate() %>" pattern="dd/MM/yyyy" /></td>
-                    <td><fmt:formatNumber value="<%=order.getTotal()%>" pattern="#,##0.##"/>đ</td>
-                    <% if (order.getStatus() == 1) { %>
-                    <td>Chờ xác nhận</td>
-                    <% } else if (order.getStatus() == 2) { %>
-                    <td>Đã xác nhận</td>
-                    <% } else if (order.getStatus() == 3) { %>
-                    <td>Đang vận chuyển</td>
-                    <% } else if (order.getStatus() == 4) { %>
-                    <td>Thành công</td>
-                    <% } else if (order.getStatus() == 0) { %>
-                    <td>Đã hủy</td>
-                    <% } %>
-                    <td>
-                        <a href="<c:url value="/order-detail-history"><c:param name="orderId" value="<%=String.valueOf(order.getId())%>"/></c:url>" data-bs-toggle="tooltip" title="Chi tiết đơn hàng"
-                           class="edit"><i class="fa-solid fa-info fa-xl" style="color: #e3bd74;"></i></a>
-                        <a href="<c:url value="/order-history">
-                                    <c:param name="action" value="cancel"/>
-                                    <c:param name="orderId" value="<%=String.valueOf(order.getId())%>"/>
-                                 </c:url>" data-bs-toggle="tooltip" title="Hủy đơn hàng" class="delete"><i
-                                class="fa-solid fa-trash" style="color: #e3bd74;"></i></a>
-                    </td>
-                </tr>
-                </tbody>
-                <% } %>
-            </table>
+        <div class="card">
+            <div class="card-body">
+                <div class="table table-striped" style="margin-top: 20px;">
+                    <table id="orderHistory" class="table table-striped" style="width: 100%;">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Ngày tạo</th>
+                            <th>Ngày nhận</th>
+                            <th>Tổng tiền</th>
+                            <th>Trạng thái</th>
+                            <th>Chức năng</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th>#</th>
+                            <th>Ngày tạo</th>
+                            <th>Ngày nhận</th>
+                            <th>Tổng tiền</th>
+                            <th>Trạng thái</th>
+                            <th>Chức năng</th>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
         </div>
         <div class="return-btn">
             <a href="<c:url value="/home"/>" class="checking-order-detail">Quay về trang chủ</a>
@@ -94,7 +72,9 @@
 <!-- End Renew Password -->
 
 <jsp:include page="/common/client/footer.jsp"/>
-
 <jsp:include page="/common/client/using-resource-footer.jsp"/>
+<script src="<c:url value="/templates/DataTables/datatables.min.js"/>"></script>
+<script src="<c:url value="/templates/logic-datatable/client/dt-order-history.js"/>"></script>
+<script src="<c:url value="/templates/logic-datatable/service-logic.js"/>"></script>
 </body>
 </html>
