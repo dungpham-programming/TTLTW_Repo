@@ -1,10 +1,14 @@
 package com.ltw.api.user;
 
 import com.ltw.bean.OrderBean;
-import com.ltw.bean.UserBean;
+import com.ltw.bean.OrderDetailBean;
+import com.ltw.constant.LogLevel;
+import com.ltw.constant.LogState;
 import com.ltw.dao.OrderDAO;
+import com.ltw.dao.OrderDetailDAO;
 import com.ltw.dto.DatatableDTO;
-import com.ltw.util.SendEmailUtil;
+import com.ltw.dto.FullOrderDTO;
+import com.ltw.service.LogService;
 import com.ltw.util.TransferDataUtil;
 
 import javax.servlet.ServletException;
@@ -18,6 +22,9 @@ import java.util.List;
 @WebServlet("/api/client/order-history")
 public class OrderHistoryAPI extends HttpServlet {
     private final OrderDAO orderDAO = new OrderDAO();
+    private final OrderDetailDAO orderDetailDAO = new OrderDetailDAO();
+    private final LogService<FullOrderDTO> cancelLogService = new LogService<>();
+    private FullOrderDTO prevFullOrderDTO;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -51,22 +58,47 @@ public class OrderHistoryAPI extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String action = req.getParameter("action");
-        UserBean user = (UserBean) req.getSession().getAttribute("user");
-        int userId = user.getId();
-        List<OrderBean> orderList = orderDAO.findOrderByUserId(userId);
+        int orderId = Integer.parseInt(req.getParameter("orderId"));
+        String status = "";
+        String notify = "";
+        OrderBean prevOrder = orderDAO.findOrderById(orderId);
+        List<OrderDetailBean> prevDetails = orderDetailDAO.findDetailByOrderId(String.valueOf(orderId));
+        prevFullOrderDTO = new FullOrderDTO(prevOrder, prevDetails);
 
-        if (action != null) {
-            if (action.equals("cancel")) {
-                String orderId = req.getParameter("orderId");
-                int affected = orderDAO.cancelOrder(orderId);
-                if (affected == -1 || affected == 0) {
-                    req.setAttribute("error", "e");
-                } else {
-                    SendEmailUtil.sendOrderNotify(user.getEmail(), Integer.parseInt(orderId), "wait");
-                }
+        boolean isValid = false;
+
+        // Kiểm tra trạng thái đơn hàng trước khi hủy
+        if (prevOrder.getStatus() < 0 || prevOrder.getStatus() > 4) {
+            status = "invalid";
+            notify = "Trạng thái không hợp lệ!";
+        } else if (prevOrder.getStatus() == 0) {
+            status = "cancelled";
+            notify = "Đơn hàng đã được hủy trước đó!";
+        } else if (prevOrder.getStatus() > 2) {
+            status = "refuse";
+            notify = "Đơn hàng đã qua giai đoạn \"Đã xác nhận\", không thể hủy!";
+        } else {
+            isValid = true;
+        }
+
+        if (isValid) {
+            int affectedRow = orderDAO.cancelOrder(orderId);
+            OrderBean nowOrder = orderDAO.findOrderById(orderId);
+            List<OrderDetailBean> nowDetails = orderDetailDAO.findDetailByOrderId(String.valueOf(orderId));
+            FullOrderDTO nowFullOrderDTO = new FullOrderDTO(nowOrder, nowDetails);
+            if (affectedRow < 1) {
+                status = "error";
+                notify = "Có lỗi khi hủy đơn hàng!";
+                cancelLogService.log(req, "user-cancel-order", LogState.FAIL, LogLevel.ALERT, prevFullOrderDTO, nowFullOrderDTO);
+            } else {
+                status = "success";
+                notify = "Hủy đơn hàng thành công!";
+                cancelLogService.log(req, "user-cancel-order", LogState.SUCCESS, LogLevel.ALERT, prevFullOrderDTO, nowFullOrderDTO);
             }
         }
-        req.setAttribute("orderList", orderList);
+        String jsonData = "{\"status\": \"" + status + "\", \"notify\": \"" + notify + "\"}";
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+        resp.getWriter().write(jsonData);
     }
 }
