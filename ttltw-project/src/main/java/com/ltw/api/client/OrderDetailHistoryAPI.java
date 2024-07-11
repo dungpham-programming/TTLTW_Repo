@@ -1,4 +1,4 @@
-package com.ltw.api.user;
+package com.ltw.api.client;
 
 import com.ltw.bean.OrderDetailBean;
 import com.ltw.dao.OrderDetailDAO;
@@ -37,9 +37,9 @@ public class OrderDetailHistoryAPI extends HttpServlet {
         String columnOrder = req.getParameter("columns[" + orderBy + "][data]");      // Tên của cột muốn sắp xếp
 
         List<OrderDetailBean> orderDetails = orderDetailDAO.getOrderDetailsDatatable(orderId, start, length, columnOrder, orderDir, searchValue);
-        int recordsTotal = orderDetailDAO.getRecordsTotal();
+        int recordsTotal = orderDetailDAO.getRecordsTotal(orderId);
         // Tổng số record khi filter search
-        int recordsFiltered = orderDetailDAO.getRecordsFiltered(searchValue);
+        int recordsFiltered = orderDetailDAO.getRecordsFiltered(orderId, searchValue);
         draw++;
 
         DatatableDTO<OrderDetailBean> orderDetailDatatableDTO = new DatatableDTO<>(orderDetails, recordsTotal, recordsFiltered, draw);

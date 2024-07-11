@@ -96,9 +96,9 @@ public class OrderDetailDAO {
             connection = OpenConnectionUtil.openConnection();
             int index = 1;
             if (searchValue != null && !searchValue.isEmpty()) {
-                sql += " AND (products.productId LIKE ? OR products.name LIKE ? " +
+                sql += " AND (order_details.productId LIKE ? OR products.name LIKE ? " +
                         "OR products.originalPrice LIKE ? OR products.discountPrice LIKE ? " +
-                        "OR products.discountPercent LIKE ? OR order_details.oquantity LIKE ?)";
+                        "OR products.discountPercent LIKE ? OR order_details.quantity LIKE ?)";
             }
             sql += " ORDER BY " + columnOrder + " " + orderDir + " ";
             sql += "LIMIT ?, ?";
@@ -139,9 +139,9 @@ public class OrderDetailDAO {
         return orderDetails;
     }
 
-    public int getRecordsTotal() {
+    public int getRecordsTotal(int orderId) {
         int recordTotal = -1;
-        String sql = "SELECT COUNT(orderId) FROM order_details";
+        String sql = "SELECT COUNT(orderId) FROM order_details WHERE orderId = ?";
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -150,6 +150,7 @@ public class OrderDetailDAO {
         try {
             connection = OpenConnectionUtil.openConnection();
             preparedStatement = connection.prepareStatement(sql);
+            SetParameterUtil.setParameter(preparedStatement, orderId);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 recordTotal = resultSet.getInt(1);
@@ -162,9 +163,11 @@ public class OrderDetailDAO {
         return recordTotal;
     }
 
-    public int getRecordsFiltered(String searchValue) {
+    public int getRecordsFiltered(int orderId, String searchValue) {
         int recordFiltered = -1;
-        String sql = "SELECT COUNT(orderId) FROM order_details";
+        String sql = "SELECT COUNT(orderId) FROM order_details INNER JOIN products" +
+                " ON order_details.productId = products.id" +
+                " WHERE orderId = ?";
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -174,11 +177,13 @@ public class OrderDetailDAO {
             connection = OpenConnectionUtil.openConnection();
             int index = 1;
             if (searchValue != null && !searchValue.isEmpty()) {
-                sql += " WHERE (products.productId LIKE ? OR products.name LIKE ? " +
+                sql += " AND (order_details.productId LIKE ? OR products.name LIKE ? " +
                         "OR products.originalPrice LIKE ? OR products.discountPrice LIKE ? " +
-                        "OR products.discountPercent LIKE ? OR order_details.oquantity LIKE ?)";
+                        "OR products.discountPercent LIKE ? OR order_details.quantity LIKE ?)";
             }
             preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setInt(index++, orderId);
             if (searchValue != null && !searchValue.isEmpty()) {
                 preparedStatement.setString(index++, "%" + searchValue + "%");
                 preparedStatement.setString(index++, "%" + searchValue + "%");

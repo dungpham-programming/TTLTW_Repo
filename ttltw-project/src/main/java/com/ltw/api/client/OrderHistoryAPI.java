@@ -1,4 +1,4 @@
-package com.ltw.api.user;
+package com.ltw.api.client;
 
 import com.ltw.bean.OrderBean;
 import com.ltw.bean.OrderDetailBean;
