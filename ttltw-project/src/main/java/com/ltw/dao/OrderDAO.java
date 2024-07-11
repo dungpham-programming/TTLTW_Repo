@@ -301,7 +301,7 @@ public class OrderDAO {
         try {
         conn = OpenConnectionUtil.openConnection();
         if (searchValue != null && !searchValue.isEmpty()) {
-            sql += " WHERE (id LIKE ? OR uderId LIKE ? OR total LIKE ? OR paymentMethod LIKE ? " +
+            sql += " WHERE (id LIKE ? OR userId LIKE ? OR total LIKE ? OR paymentMethod LIKE ? " +
                     "OR status LIKE ? OR shipToDate LIKE ? OR createdDate LIKE ? OR createdBy LIKE ? OR modifiedDate LIKE ? OR modifiedBy LIKE ?)";
         }
         sql += " ORDER BY " + columnOrder + " " + orderDir + " ";
@@ -382,7 +382,7 @@ public class OrderDAO {
         try {
             conn = OpenConnectionUtil.openConnection();
             if (searchValue != null && !searchValue.isEmpty()) {
-                sql +=" WHERE (id LIKE ? OR uderId LIKE ? OR total LIKE ? OR paymentMethod LIKE ? " +
+                sql +=" WHERE (id LIKE ? OR userId LIKE ? OR total LIKE ? OR paymentMethod LIKE ? " +
                         "OR status LIKE ? OR shipToDate LIKE ? OR createdDate LIKE ? OR createdBy LIKE ? OR modifiedDate LIKE ? OR modifiedBy LIKE ?)";
             }
             preStat = conn.prepareStatement(sql);
