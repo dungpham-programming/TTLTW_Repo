@@ -1,6 +1,5 @@
 package com.ltw.api.admin;
 
-import com.ltw.bean.BlogBean;
 import com.ltw.bean.OrderBean;
 import com.ltw.constant.LogLevel;
 import com.ltw.constant.LogState;
@@ -17,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(value ={ "api/admin/order"})
+@WebServlet(value ={ "/api/admin/order"})
 public class OrderAPI extends HttpServlet {
     private  final OrderDAO orderDAO = new OrderDAO();
     private OrderBean prevOrder;
