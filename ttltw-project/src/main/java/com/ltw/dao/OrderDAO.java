@@ -1,5 +1,6 @@
 package com.ltw.dao;
 
+import com.ltw.bean.BlogBean;
 import com.ltw.bean.OrderBean;
 import com.ltw.bean.OrderDetailBean;
 import com.ltw.util.CloseResourceUtil;
@@ -286,5 +287,128 @@ public class OrderDAO {
             CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
         }
         return affectRows;
+    }
+
+    public List<OrderBean> getOrderDatatable(int start, int length, String columnOrder, String orderDir, String searchValue) {
+        List<OrderBean> orders = new ArrayList<>();
+    String sql = "SELECT id, userId, total,paymentMethod,status, shipToDate, createdDate, createdBy, modifiedDate,modifiedBy FROM orders";
+    int index = 1;
+
+    Connection conn = null;
+    PreparedStatement preStat = null;
+    ResultSet rs = null;
+
+        try {
+        conn = OpenConnectionUtil.openConnection();
+        if (searchValue != null && !searchValue.isEmpty()) {
+            sql += " WHERE (id LIKE ? OR uderId LIKE ? OR total LIKE ? OR paymentMethod LIKE ? " +
+                    "OR status LIKE ? OR shipToDate LIKE ? OR createdDate LIKE ? OR createdBy LIKE ? OR modifiedDate LIKE ? OR modifiedBy LIKE ?)";
+        }
+        sql += " ORDER BY " + columnOrder + " " + orderDir + " ";
+        sql += "LIMIT ?, ?";
+
+        preStat = conn.prepareStatement(sql);
+        if (searchValue != null && !searchValue.isEmpty()) {
+            preStat.setString(index++, "%" + searchValue + "%");
+            preStat.setString(index++, "%" + searchValue + "%");
+            preStat.setString(index++, "%" + searchValue + "%");
+            preStat.setString(index++, "%" + searchValue + "%");
+            preStat.setString(index++, "%" + searchValue + "%");
+            preStat.setString(index++, "%" + searchValue + "%");
+            preStat.setString(index++, "%" + searchValue + "%");
+            preStat.setString(index++, "%" + searchValue + "%");
+            preStat.setString(index++, "%" + searchValue + "%");
+            preStat.setString(index++, "%" + searchValue + "%");
+             }
+        preStat.setInt(index++, start);
+        preStat.setInt(index, length);
+
+        rs = preStat.executeQuery();
+        while (rs.next()) {
+            OrderBean order = new OrderBean();
+            order.setId(rs.getInt("id"));
+            order.setUserId(rs.getInt("userId"));
+            order.setTotal(rs.getDouble("total"));
+            order.setPaymentMethod(rs.getString("paymentMethod"));
+            order.setStatus(rs.getInt("status"));
+            order.setShipToDate(rs.getTimestamp("shipToDate"));
+            order.setCreatedDate(rs.getTimestamp("createdDate"));
+            order.setCreatedBy(rs.getString("createdBy"));
+            order.setModifiedDate(rs.getTimestamp("modifiedDate"));
+            order.setModifiedBy(rs.getString("modifiedBy"));
+
+            orders.add(order);
+        }
+    } catch (SQLException e) {
+        throw new RuntimeException(e);
+    } finally {
+        CloseResourceUtil.closeResource(rs, preStat, conn);
+    }
+        return orders;
+}
+
+    public int getRecordsTotal() {
+        int recordsTotal = -1;
+        String sql = "SELECT COUNT(id) FROM orders";
+
+        Connection conn = null;
+        PreparedStatement preStat = null;
+        ResultSet rs = null;
+
+        try {
+            conn = OpenConnectionUtil.openConnection();
+            preStat = conn.prepareStatement(sql);
+            rs = preStat.executeQuery();
+
+            if (rs.next()) {
+                recordsTotal = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            CloseResourceUtil.closeResource(rs, preStat, conn);
+        }
+        return recordsTotal;
+    }
+
+    public int getRecordsFiltered(String searchValue){
+        int recordsFiltered = -1;
+        String sql = "SELECT COUNT(id) FROM orders";
+
+        Connection conn = null;
+        PreparedStatement preStat = null;
+        ResultSet rs = null;
+
+        try {
+            conn = OpenConnectionUtil.openConnection();
+            if (searchValue != null && !searchValue.isEmpty()) {
+                sql +=" WHERE (id LIKE ? OR uderId LIKE ? OR total LIKE ? OR paymentMethod LIKE ? " +
+                        "OR status LIKE ? OR shipToDate LIKE ? OR createdDate LIKE ? OR createdBy LIKE ? OR modifiedDate LIKE ? OR modifiedBy LIKE ?)";
+            }
+            preStat = conn.prepareStatement(sql);
+            int index = 1;
+            if (searchValue != null && !searchValue.isEmpty()) {
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+               }
+            rs = preStat.executeQuery();
+
+            if (rs.next()) {
+                recordsFiltered = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            CloseResourceUtil.closeResource(rs, preStat, conn);
+        }
+        return recordsFiltered;
     }
 }
