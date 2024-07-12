@@ -177,4 +177,116 @@ public class WarehouseDAO {
         }
         return affectRows;
     }
+
+    public List<WarehouseBean> getWarehousesDatatable(int start, int length, String columnOrder, String orderDir, String searchValue) {
+        List<WarehouseBean> warehouses = new ArrayList<>();
+        String sql = "SELECT id, shippingFrom, shippingStart, shippingDone, description, createdDate, createdBy FROM warehouses";
+        int index = 1;
+
+        Connection conn = null;
+        PreparedStatement preStat = null;
+        ResultSet rs = null;
+
+        try {
+            conn = OpenConnectionUtil.openConnection();
+            if (searchValue != null && !searchValue.isEmpty()) {
+                sql += " WHERE (id LIKE ? OR shippingFrom LIKE ? OR shippingStart LIKE ? OR shippingDone LIKE ? OR description LIKE ? OR createdDate LIKE ? OR createdBy LIKE ?)";
+            }
+            sql += " ORDER BY " + columnOrder + " " + orderDir + " ";
+            sql += "LIMIT ?, ?";
+
+            preStat = conn.prepareStatement(sql);
+            if (searchValue != null && !searchValue.isEmpty()) {
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+            }
+            preStat.setInt(index++, start);
+            preStat.setInt(index, length);
+
+            rs = preStat.executeQuery();
+            while (rs.next()) {
+                WarehouseBean warehouse = new WarehouseBean();
+                warehouse.setId(rs.getInt("id"));
+                warehouse.setShippingFrom(rs.getString("shippingFrom"));
+                warehouse.setShippingStart(rs.getTimestamp("shippingStart"));
+                warehouse.setShippingDone(rs.getTimestamp("shippingDone"));
+                warehouse.setDescription(rs.getString("description"));
+                warehouse.setCreatedDate(rs.getTimestamp("createdDate"));
+                warehouse.setCreatedBy(rs.getString("createdBy"));
+
+                warehouses.add(warehouse);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            CloseResourceUtil.closeResource(rs, preStat, conn);
+        }
+        return warehouses;
+    }
+
+    public int getRecordsTotal() {
+        int recordsTotal = -1;
+        String sql = "SELECT COUNT(id) FROM warehouses";
+
+        Connection conn = null;
+        PreparedStatement preStat = null;
+        ResultSet rs = null;
+
+        try {
+            conn = OpenConnectionUtil.openConnection();
+            preStat = conn.prepareStatement(sql);
+            rs = preStat.executeQuery();
+
+            if (rs.next()) {
+                recordsTotal = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            CloseResourceUtil.closeResource(rs, preStat, conn);
+        }
+        return recordsTotal;
+    }
+
+    public int getRecordsFiltered(String searchValue) {
+        int recordsFiltered = -1;
+        String sql = "SELECT COUNT(id) FROM warehouses";
+
+        Connection conn = null;
+        PreparedStatement preStat = null;
+        ResultSet rs = null;
+
+        try {
+            conn = OpenConnectionUtil.openConnection();
+            if (searchValue != null && !searchValue.isEmpty()) {
+                sql += " WHERE (id LIKE ? OR shippingFrom LIKE ? OR shippingStart LIKE ? OR shippingDone LIKE ? OR description LIKE ? OR createdDate LIKE ? OR createdBy LIKE ?)";
+            }
+            preStat = conn.prepareStatement(sql);
+            int index = 1;
+            if (searchValue != null && !searchValue.isEmpty()) {
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index, "%" + searchValue + "%");
+            }
+            rs = preStat.executeQuery();
+
+            if (rs.next()) {
+                recordsFiltered = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            CloseResourceUtil.closeResource(rs, preStat, conn);
+        }
+        return recordsFiltered;
+    }
 }
