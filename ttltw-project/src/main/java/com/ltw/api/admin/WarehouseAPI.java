@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(value = {"/api/admin/contact"})
+@WebServlet(value = {"/api/admin/warehouse"})
 public class WarehouseAPI extends HttpServlet {
     private final WarehouseDAO warehouseDAO = new WarehouseDAO();
     private WarehouseBean prevWarehouse;
