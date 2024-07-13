@@ -43,3 +43,15 @@ function renderUi(buttonClicked, response) {
         }, 100);
     }
 }
+
+const escapeHtml = (unsafe) => {
+    if (unsafe === null) {
+        return null;
+    }
+    return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}

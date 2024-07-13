@@ -15,21 +15,44 @@ $(document).ready(function () {
             {data: "ip"},
             {data: "national"},
             {data: "level"},
-            {data: "address"},
-            {data: "previousValue"},
-            {data: "currentValue"},
+            {data: "address", sortable: false, searchable: false},
+            {data: "previousValue", sortable: false, searchable: false},
+            {data: "currentValue", sortable: false, searchable: false},
             {data: "createdDate"},
             {data: "createdBy"},
             // Thiết lập cho cột Thao tác
             {sortable: false, searchable: false,}
         ],
+        order: [[7, "desc"]],
         columnDefs: [
+            {
+                target: 3,
+                render: function (data, type, row, meta) {
+                    switch (data) {
+                        case 1:
+                            return '<span class="badge bg-secondary bg-gradient px-3 py-2">Info</span>';
+                        case 2:
+                            return '<span class="badge bg-info bg-gradient px-3 py-2">Alert</span>';
+                        case 3:
+                            return '<span class="badge bg-warning bg-gradient px-3 py-2">Warning</span>';
+                        case 4:
+                            return '<span class="badge bg-danger bg-gradient px-3 py-2">Danger</span>';
+                        default:
+                            return '<span class="badge bg-warning bg-gradient px-3 py-2">Lỗi hệ thống</span>';
+                    }
+                }
+            },
             {
                 targets: [4, 5, 6],
                 render: function (data, type, row, meta) {
-                    return `<button type="button" class="btn btn-primary open-modal-button" data-bs-toggle="modal"">Launch demo modal</button>`
-                    // const jsonObj = JSON.parse(data);
-                    // return `<pre style="white-space: pre-wrap; margin: 0;"><code class="json">${JSON.stringify(jsonObj, null, 2)}</code></pre>`
+                    // Dữ liệu được gửi qua show-modal.js
+                    if (data === null) {
+                        return `<pre style="white-space: pre-wrap; margin: 0;"><code class="json">null</code></pre>`;
+                    }
+                    const escapeHtmlData = escapeHtml(data);
+                    return `<button type="button" class="open-modal-button edit" data-bs-toggle="modal" data-send="${escapeHtmlData}" style="border: 0; padding: 10px 14px;">
+                                <i class="fa-solid fa-info fa-xl" style="color: #e3bd74;">
+                            </button>`
                 }
             },
             {
