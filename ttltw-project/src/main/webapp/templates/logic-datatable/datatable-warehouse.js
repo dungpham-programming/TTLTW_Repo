@@ -34,7 +34,7 @@ $(document).ready(function () {
                 }
             },
             {
-                targets: 6,
+                targets: 7,
                 render: function (data, type, row, meta) {
                     let allButton = '';
                     const updateBtn = `<a href="http://localhost:8080/admin/warehouse-management/editing?id=${row.id}" data-bs-toggle="tooltip" title="Chỉnh sửa kho"
