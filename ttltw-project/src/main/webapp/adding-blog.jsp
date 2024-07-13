@@ -12,13 +12,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>DDD. Admin - Thêm tài khoản</title>
+    <title>DDD. Admin - Thêm bài viết</title>
     <jsp:include page="/common/admin/using-resource-header.jsp"/>
 </head>
 <body class="sb-nav-fixed">
 <jsp:include page="/common/admin/top-header.jsp"/>
 <div id="layoutSidenav">
-    <div id="layoutSidenav_nav">
         <jsp:include page="/common/admin/left-navigation.jsp"/>
         <div id="layoutSidenav_content" class="gray-bg">
         <main>
