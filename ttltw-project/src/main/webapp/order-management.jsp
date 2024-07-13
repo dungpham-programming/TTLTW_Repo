@@ -35,6 +35,11 @@
             <i class="fas fa-table me-1"></i>
             Quản lý đơn hàng
           </div>
+          <div class="list-button">
+            <a href="<c:url value="/admin/order-management/adding"/>" data-bs-toggle="tooltip"
+               title="Thêm bài viết" class="add"><i class="fa-solid fa-plus" style="color: #e3bd74;"></i>Thêm
+              đơn hàng</a>
+          </div>
           <div class="table-responsive">
             <table id="orderData" class="table table-striped" style="width:100%">
               <thead>
