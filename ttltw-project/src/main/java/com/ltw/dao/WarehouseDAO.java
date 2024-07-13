@@ -1,6 +1,5 @@
 package com.ltw.dao;
 
-import com.ltw.bean.UserBean;
 import com.ltw.bean.WarehouseBean;
 import com.ltw.util.CloseResourceUtil;
 import com.ltw.util.OpenConnectionUtil;
@@ -123,7 +122,8 @@ public class WarehouseDAO {
         return warehouse;
     }
 
-    public void updateWarehouse(WarehouseBean warehouse) {
+    public int updateWarehouse(WarehouseBean warehouse) {
+        int affectedRows = -1;
         StringBuilder sql = new StringBuilder();
         sql.append("UPDATE warehouses SET shippingFrom = ?, shippingStart = ?, shippingDone = ?, description = ?, createdDate = ?, createdBy = ? WHERE id = ?");
 
@@ -137,7 +137,7 @@ public class WarehouseDAO {
             SetParameterUtil.setParameter(preparedStatement, warehouse.getShippingFrom(), warehouse.getShippingStart(),
                     warehouse.getShippingDone(), warehouse.getDescription(), warehouse.getCreatedDate(),
                     warehouse.getCreatedBy(), warehouse.getId());
-            preparedStatement.executeUpdate();
+            affectedRows = preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
             try {
@@ -148,6 +148,7 @@ public class WarehouseDAO {
         } finally {
             CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
         }
+        return affectedRows;
     }
 
     public int deleteWarehouse(int id) {
