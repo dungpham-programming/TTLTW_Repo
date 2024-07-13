@@ -27,8 +27,9 @@ $(document).ready(function () {
             {
                 targets: [4, 5, 6],
                 render: function (data, type, row, meta) {
-                    const jsonObj = JSON.parse(data);
-                    return `<pre style="white-space: pre-wrap; margin: 0;"><code class="json">${JSON.stringify(jsonObj, null, 2)}</code></pre>`
+                    return `<button type="button" class="btn btn-primary open-modal-button" data-bs-toggle="modal"">Launch demo modal</button>`
+                    // const jsonObj = JSON.parse(data);
+                    // return `<pre style="white-space: pre-wrap; margin: 0;"><code class="json">${JSON.stringify(jsonObj, null, 2)}</code></pre>`
                 }
             },
             {
