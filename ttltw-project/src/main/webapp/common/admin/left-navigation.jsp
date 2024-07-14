@@ -43,6 +43,9 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Quản lý ảnh sản phẩm
                 </a>
+                <a class="nav-link light-text pt-3 pb-3 <%if (link.equals("/warehouse-management.jsp")) {%><%="yellow-active"%><% } %>" href="<c:url value="/admin/warehouse-management"/>">
+                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                    Quản lý kho hàng
                 <a class="nav-link light-text pt-3 pb-3<%if (link.equals("/log-management.jsp")) {%><%="yellow-active"%><% } %>" href="<c:url value="/admin/log-management"/>">
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Quản lý log

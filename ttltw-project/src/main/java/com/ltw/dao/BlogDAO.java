@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BlogDAO {
+
     public BlogBean findBlogById(int id) {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT id, author, title, profilePic, content, categoryId, createdDate ")

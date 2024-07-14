@@ -13,11 +13,11 @@ import java.util.List;
 
 @WebServlet("/admin/contact-management")
 public class ContactManagementController extends HttpServlet {
-    private final ContactDAO contactDAO = new ContactDAO();
+//    private final ContactDAO contactDAO = new ContactDAO();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<ContactBean> contacts = contactDAO.findAllContacts();
-        request.setAttribute("contacts", contacts);
+//        List<ContactBean> contacts = contactDAO.findAllContacts();
+//        request.setAttribute("contacts", contacts);
         request.getRequestDispatcher("/contact-management.jsp").forward(request, response);
     }
 }

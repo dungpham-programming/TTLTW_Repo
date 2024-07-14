@@ -15,11 +15,11 @@ import java.util.List;
 
 @WebServlet("/admin/warehouse-management")
 public class WarehouseManagementController extends HttpServlet {
-    private final WarehouseDAO warehouseDAO = new WarehouseDAO();
+//    private final WarehouseDAO warehouseDAO = new WarehouseDAO();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<WarehouseBean> warehouses = WarehouseDAO.findAllWarehouses ();
-        request.setAttribute("warehouses", warehouses);
+//        List<WarehouseBean> warehouses = WarehouseDAO.findAllWarehouses ();
+//        request.setAttribute("warehouses", warehouses);
         request.getRequestDispatcher("/warehouse-management.jsp").forward(request, response);
     }
 }
