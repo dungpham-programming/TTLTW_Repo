@@ -30,6 +30,22 @@ const deleteRecordByClient = (buttonClicked, id, requestBy) => {
     }
 }
 
+const cancelOrder = (buttonClicked, id, requestBy) => {
+    if (confirm("Bạn có muốn xóa record không?")) {
+        $.ajax({
+            url: `http://localhost:8080/api/client/${requestBy}?orderId=${id}`,
+            type: 'DELETE',
+            dataType: 'json',
+            success: function(response) {
+                renderCancelOrder(buttonClicked, response);
+            },
+            error: function (error, xhr) {
+                console.log(xhr.responseText)
+            }
+        });
+    }
+}
+
 function renderUi(buttonClicked, response) {
     if (response) {
         const status = response["status"];
@@ -38,6 +54,17 @@ function renderUi(buttonClicked, response) {
         if (status === "success") {
             buttonClicked.closest('tr').remove();
         }
+        setTimeout(() => {
+            alert(`${notify} Code: ${status}`);
+        }, 100);
+    }
+}
+
+function renderCancelOrder(buttonClicked, response) {
+    if (response) {
+        const status = response["status"];
+        const notify = response["notify"];
+
         setTimeout(() => {
             alert(`${notify} Code: ${status}`);
         }, 100);

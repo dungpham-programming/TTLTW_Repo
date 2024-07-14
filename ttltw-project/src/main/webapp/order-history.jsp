@@ -39,7 +39,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="table table-striped" style="margin-top: 20px;">
-                    <table id="orderHistory" class="table table-striped" style="width: 100%;">
+                    <table id="orderHistory" class="table table-striped">
                         <thead>
                         <tr>
                             <th>#</th>
@@ -50,6 +50,8 @@
                             <th>Chức năng</th>
                         </tr>
                         </thead>
+                        <tbody>
+                        </tbody>
                         <tfoot>
                         <tr>
                             <th>#</th>

@@ -38,8 +38,7 @@ $(() => {
             {
                 targets: 3,
                 render: (data, type, row, meta) => {
-                    const totalPrice = data;
-                    return new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(data);
+                    return `<span style="color: #d31616; font-weight: 500;">${new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(data)}</span>`;
                 }
             },
             {
@@ -68,7 +67,7 @@ $(() => {
                     const infoButton = `<a href="http://localhost:8080/order-detail-history?orderId=${row.id}" data-bs-toggle="tooltip" title="Chi tiết đơn hàng"
                            class="edit" style="padding: 6px 14px;"><i class="fa-solid fa-info fa-xl" style="color: #e3bd74;"></i></a>`;
 
-                    const cancelButton = `<button onclick="deleteRecordByClient(this, ${row.id}, 'account')" data-bs-toggle="tooltip" title="Xóa ảnh" 
+                    const cancelButton = `<button onclick="cancelOrder(this, ${row.id}, 'order-history')" data-bs-toggle="tooltip" title="Hủy đơn hàng" 
                            class="delete" style="padding: 6px 12px; margin-left: 4px; border: 0;"><i class="fa-solid fa-xmark" style="color: #e3bd74;"></i></button>`;
 
                     allButton += infoButton;
