@@ -46,6 +46,17 @@ const cancelOrder = (buttonClicked, id, requestBy) => {
     }
 }
 
+const escapeHtml = (unsafe) => {
+    if (unsafe === null) {
+        return null;
+    }
+    return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
 function renderUi(buttonClicked, response) {
     if (response) {
         const status = response["status"];
