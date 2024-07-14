@@ -81,7 +81,7 @@
 </div>
 
 <jsp:include page="/common/admin/using-resource-footer.jsp"/>
-<script src="<c:url value="/templates/logic-datatable/datatable-warehouse.js"/>"></script>
+<script src="<c:url value="/templates/logic-datatable/admin/datatable-warehouse.js"/>"></script>
 <script src="<c:url value="/templates/logic-datatable/service-logic.js"/>"></script>
 </body>
 </html>

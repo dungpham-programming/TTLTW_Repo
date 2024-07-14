@@ -91,7 +91,7 @@
 </div>
 
 <jsp:include page="/common/admin/using-resource-footer.jsp"/>
-<script src="<c:url value="/templates/logic-datatable/admin/dt-log.js"/>"></script>
+<script src="<c:url value="/templates/logic-datatable/admin/datatable-log.js"/>"></script>
 <script src="<c:url value="/templates/logic-datatable/service-logic.js"/>"></script>
 <script src="<c:url value="/templates/modal/show-modal.js"/>"></script>
 </body>
