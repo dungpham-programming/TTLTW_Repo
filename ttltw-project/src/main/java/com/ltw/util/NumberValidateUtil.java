@@ -19,14 +19,15 @@ public class NumberValidateUtil {
     }
 
     public static boolean isValidPrice(String input) {
-        return toDouble(input) <= 0;
+        return toDouble(input) > 0;
     }
 
     public static boolean isValidQuantity(String input) {
-        return toInt(input) <= 0;
+        return toInt(input) > 0;
     }
     public static boolean isValidPercent(String input) {
-        return toDouble(input) > 0 || toDouble(input) < 100;
+        System.out.println(toDouble(input));
+        return toDouble(input) > 0 && toDouble(input) < 100;
     }
 
     private static String replaceDot(String input) {

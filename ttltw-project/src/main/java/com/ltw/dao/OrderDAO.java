@@ -1,5 +1,6 @@
 package com.ltw.dao;
 
+import com.ltw.bean.BlogBean;
 import com.ltw.bean.OrderBean;
 import com.ltw.bean.OrderDetailBean;
 import com.ltw.util.CloseResourceUtil;
@@ -48,26 +49,23 @@ public class OrderDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
-        
+
         } finally {
             CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
         }
     }
 
-    public static List<OrderBean> findOrderByUserId(int userId){
-    List<OrderBean> orderList = new ArrayList<>();
-        StringBuilder sql = new StringBuilder();
-        sql.append("SELECT id, createdDate, shipToDate, total, status ")
-                .append("FROM orders ")
-                .append("WHERE userId = ?");
-      
+    public List<OrderBean> findOrderByUserId(int userId) {
+        List<OrderBean> orderList = new ArrayList<>();
+        String sql = "SELECT id, createdDate, shipToDate, total, status FROM orders WHERE userId = ?";
+
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
         try {
             connection = OpenConnectionUtil.openConnection();
-            preparedStatement = connection.prepareStatement(sql.toString());
+            preparedStatement = connection.prepareStatement(sql);
             SetParameterUtil.setParameter(preparedStatement, userId);
             resultSet = preparedStatement.executeQuery();
 
@@ -86,9 +84,9 @@ public class OrderDAO {
         } finally {
             CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
         }
-      return orderList;
+        return orderList;
     }
-          
+
 
     public List<OrderBean> findAllOrders() {
         String sql = "SELECT id, userId, total, paymentMethod, status, shipToDate, createdDate, createdBy, modifiedDate, modifiedBy " +
@@ -207,8 +205,8 @@ public class OrderDAO {
             connection.setAutoCommit(false);
             preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             SetParameterUtil.setParameter(preparedStatement, orderBean.getUserId(), orderBean.getCreatedDate(), orderBean.getShipToDate(),
-                                                            orderBean.getTotal(), orderBean.getPaymentMethod(), orderBean.getCreatedBy(),
-                                                            orderBean.getModifiedDate(), orderBean.getModifiedBy());
+                    orderBean.getTotal(), orderBean.getPaymentMethod(), orderBean.getCreatedBy(),
+                    orderBean.getModifiedDate(), orderBean.getModifiedBy());
             int affectedRows = preparedStatement.executeUpdate();
 
             if (affectedRows > 0) {
@@ -233,7 +231,7 @@ public class OrderDAO {
         return id;
     }
 
-    public int cancelOrder(String orderId) {
+    public int cancelOrder(int orderId) {
         int affected = -1;
         String sql = "UPDATE orders " +
                 "SET status = 0 " +
@@ -260,6 +258,7 @@ public class OrderDAO {
         }
         return affected;
     }
+
     public int deleteOrder(int id) {
         int affectRows;
         String sql = "DELETE FROM orders WHERE id = ?";
@@ -286,5 +285,129 @@ public class OrderDAO {
             CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
         }
         return affectRows;
+    }
+
+    public List<OrderBean> getOrderDatatable(int start, int length, String columnOrder, String orderDir, String searchValue) {
+        List<OrderBean> orders = new ArrayList<>();
+    String sql = "SELECT id, userId, total,paymentMethod,status, shipToDate, createdDate, createdBy, modifiedDate,modifiedBy FROM orders";
+    int index = 1;
+
+    Connection conn = null;
+    PreparedStatement preStat = null;
+    ResultSet rs = null;
+
+        try {
+        conn = OpenConnectionUtil.openConnection();
+        if (searchValue != null && !searchValue.isEmpty()) {
+            sql += " WHERE (id LIKE ? OR userId LIKE ? OR total LIKE ? OR paymentMethod LIKE ? " +
+                    "OR status LIKE ? OR shipToDate LIKE ? OR createdDate LIKE ? OR createdBy LIKE ? OR modifiedDate LIKE ? OR modifiedBy LIKE ?)";
+        }
+        sql += " ORDER BY " + columnOrder + " " + orderDir + " ";
+        sql += "LIMIT ?, ?";
+
+        preStat = conn.prepareStatement(sql);
+        if (searchValue != null && !searchValue.isEmpty()) {
+            preStat.setString(index++, "%" + searchValue + "%");
+            preStat.setString(index++, "%" + searchValue + "%");
+            preStat.setString(index++, "%" + searchValue + "%");
+            preStat.setString(index++, "%" + searchValue + "%");
+            preStat.setString(index++, "%" + searchValue + "%");
+            preStat.setString(index++, "%" + searchValue + "%");
+            preStat.setString(index++, "%" + searchValue + "%");
+            preStat.setString(index++, "%" + searchValue + "%");
+            preStat.setString(index++, "%" + searchValue + "%");
+            preStat.setString(index++, "%" + searchValue + "%");
+             }
+        preStat.setInt(index++, start);
+        preStat.setInt(index, length);
+
+        rs = preStat.executeQuery();
+        while (rs.next()) {
+            OrderBean order = new OrderBean();
+            order.setId(rs.getInt("id"));
+            order.setUserId(rs.getInt("userId"));
+            order.setTotal(rs.getDouble("total"));
+            order.setPaymentMethod(rs.getString("paymentMethod"));
+            order.setStatus(rs.getInt("status"));
+            order.setShipToDate(rs.getTimestamp("shipToDate"));
+            order.setCreatedDate(rs.getTimestamp("createdDate"));
+            order.setCreatedBy(rs.getString("createdBy"));
+            order.setModifiedDate(rs.getTimestamp("modifiedDate"));
+            order.setModifiedBy(rs.getString("modifiedBy"));
+
+            orders.add(order);
+        }
+    } catch (SQLException e) {
+        throw new RuntimeException(e);
+    } finally {
+        CloseResourceUtil.closeResource(rs, preStat, conn);
+    }
+        return orders;
+}
+
+    public int getRecordsTotal() {
+        int recordsTotal = -1;
+        String sql = "SELECT COUNT(id) FROM orders";
+
+        Connection conn = null;
+        PreparedStatement preStat = null;
+        ResultSet rs = null;
+
+        try {
+            conn = OpenConnectionUtil.openConnection();
+            preStat = conn.prepareStatement(sql);
+            rs = preStat.executeQuery();
+
+            if (rs.next()) {
+                recordsTotal = rs.getInt(1);
+
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            CloseResourceUtil.closeResource(rs, preStat, conn);
+        }
+        return recordsTotal;
+    }
+
+    public int getRecordsFiltered(String searchValue){
+        int recordsFiltered = -1;
+        String sql = "SELECT COUNT(id) FROM orders";
+
+        Connection conn = null;
+        PreparedStatement preStat = null;
+        ResultSet rs = null;
+
+        try {
+            conn = OpenConnectionUtil.openConnection();
+            if (searchValue != null && !searchValue.isEmpty()) {
+                sql +=" WHERE (id LIKE ? OR userId LIKE ? OR total LIKE ? OR paymentMethod LIKE ? " +
+                        "OR status LIKE ? OR shipToDate LIKE ? OR createdDate LIKE ? OR createdBy LIKE ? OR modifiedDate LIKE ? OR modifiedBy LIKE ?)";
+            }
+            preStat = conn.prepareStatement(sql);
+            int index = 1;
+            if (searchValue != null && !searchValue.isEmpty()) {
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+               }
+            rs = preStat.executeQuery();
+
+            if (rs.next()) {
+                recordsFiltered = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            CloseResourceUtil.closeResource(rs, preStat, conn);
+        }
+        return recordsFiltered;
     }
 }
