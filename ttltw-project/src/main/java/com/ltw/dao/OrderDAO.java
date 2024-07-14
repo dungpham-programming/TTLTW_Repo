@@ -230,7 +230,7 @@ public class OrderDAO {
         return id;
     }
 
-    public int cancelOrder(String orderId) {
+    public int cancelOrder(int orderId) {
         int affected = -1;
         String sql = "UPDATE orders " +
                 "SET status = 0 " +

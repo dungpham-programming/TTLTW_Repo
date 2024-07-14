@@ -1993,6 +1993,7 @@ p, dd {
 }
 
 th, td {
+    border: 1px solid rgba(0, 0, 0, .25);
     padding: 8px;
     text-align: left;
 }

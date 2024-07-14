@@ -1,10 +1,8 @@
-package com.ltw.api.user;
+package com.ltw.api.client;
 
-import com.ltw.bean.OrderBean;
-import com.ltw.bean.UserBean;
-import com.ltw.dao.OrderDAO;
+import com.ltw.bean.OrderDetailBean;
+import com.ltw.dao.OrderDetailDAO;
 import com.ltw.dto.DatatableDTO;
-import com.ltw.util.SendEmailUtil;
 import com.ltw.util.TransferDataUtil;
 
 import javax.servlet.ServletException;
@@ -15,12 +13,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/api/client/order-history")
-public class OrderHistoryAPI extends HttpServlet {
-    private final OrderDAO orderDAO = new OrderDAO();
+@WebServlet(value = {"/api/client/order-detail-history"})
+public class OrderDetailHistoryAPI extends HttpServlet {
+    private OrderDetailDAO orderDetailDAO = new OrderDetailDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
+        int orderId = Integer.parseInt(req.getParameter("orderId"));
+
         // Lấy ra các Property mà DataTable gửi về
         // Thông tin về phân trang
         int draw = Integer.parseInt(req.getParameter("draw"));      // Số thứ tự của request hiện tại
@@ -35,14 +36,14 @@ public class OrderHistoryAPI extends HttpServlet {
         String orderDir = req.getParameter("order[0][dir]") == null ? "asc" : req.getParameter("order[0][dir]");
         String columnOrder = req.getParameter("columns[" + orderBy + "][data]");      // Tên của cột muốn sắp xếp
 
-        List<OrderBean> orders = orderDAO.getOrdersDatatable(start, length, columnOrder, orderDir, searchValue);
-        int recordsTotal = orderDAO.getRecordsTotal();
+        List<OrderDetailBean> orderDetails = orderDetailDAO.getOrderDetailsDatatable(orderId, start, length, columnOrder, orderDir, searchValue);
+        int recordsTotal = orderDetailDAO.getRecordsTotal(orderId);
         // Tổng số record khi filter search
-        int recordsFiltered = orderDAO.getRecordsFiltered(searchValue);
+        int recordsFiltered = orderDetailDAO.getRecordsFiltered(orderId, searchValue);
         draw++;
 
-        DatatableDTO<OrderBean> orderDatatableDTO = new DatatableDTO<>(orders, recordsTotal, recordsFiltered, draw);
-        String jsonData = new TransferDataUtil<DatatableDTO<OrderBean>>().toJson(orderDatatableDTO);
+        DatatableDTO<OrderDetailBean> orderDetailDatatableDTO = new DatatableDTO<>(orderDetails, recordsTotal, recordsFiltered, draw);
+        String jsonData = new TransferDataUtil<DatatableDTO<OrderDetailBean>>().toJson(orderDetailDatatableDTO);
 
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
@@ -51,22 +52,6 @@ public class OrderHistoryAPI extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String action = req.getParameter("action");
-        UserBean user = (UserBean) req.getSession().getAttribute("user");
-        int userId = user.getId();
-        List<OrderBean> orderList = orderDAO.findOrderByUserId(userId);
 
-        if (action != null) {
-            if (action.equals("cancel")) {
-                String orderId = req.getParameter("orderId");
-                int affected = orderDAO.cancelOrder(orderId);
-                if (affected == -1 || affected == 0) {
-                    req.setAttribute("error", "e");
-                } else {
-                    SendEmailUtil.sendOrderNotify(user.getEmail(), Integer.parseInt(orderId), "wait");
-                }
-            }
-        }
-        req.setAttribute("orderList", orderList);
     }
 }

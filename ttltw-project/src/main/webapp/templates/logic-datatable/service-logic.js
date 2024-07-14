@@ -30,6 +30,33 @@ const deleteRecordByClient = (buttonClicked, id, requestBy) => {
     }
 }
 
+const cancelOrder = (buttonClicked, id, requestBy) => {
+    if (confirm("Bạn có muốn xóa record không?")) {
+        $.ajax({
+            url: `http://localhost:8080/api/client/${requestBy}?orderId=${id}`,
+            type: 'DELETE',
+            dataType: 'json',
+            success: function(response) {
+                renderCancelOrder(buttonClicked, response);
+            },
+            error: function (error, xhr) {
+                console.log(xhr.responseText)
+            }
+        });
+    }
+}
+
+const escapeHtml = (unsafe) => {
+    if (unsafe === null) {
+        return null;
+    }
+    return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
 function renderUi(buttonClicked, response) {
     if (response) {
         const status = response["status"];
@@ -44,14 +71,13 @@ function renderUi(buttonClicked, response) {
     }
 }
 
-const escapeHtml = (unsafe) => {
-    if (unsafe === null) {
-        return null;
+function renderCancelOrder(buttonClicked, response) {
+    if (response) {
+        const status = response["status"];
+        const notify = response["notify"];
+
+        setTimeout(() => {
+            alert(`${notify} Code: ${status}`);
+        }, 100);
     }
-    return unsafe
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
 }
