@@ -75,8 +75,8 @@ public class OrderHistoryAPI extends HttpServlet {
             status = "cancelled";
             notify = "Đơn hàng đã được hủy trước đó!";
         } else if (prevOrder.getStatus() > 2) {
-            status = "refuse";
-            notify = "Đơn hàng đã qua giai đoạn \"Đã xác nhận\", không thể hủy!";
+            status = "refused";
+            notify = "Đơn hàng đã qua giai đoạn Đã xác nhận, không thể hủy!";
         } else {
             isValid = true;
         }
