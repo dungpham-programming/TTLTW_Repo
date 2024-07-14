@@ -46,14 +46,17 @@
                             bài viết</a>
                     </div>
                     <div class="table-responsive">
-                        <table id="manageAccountTable">
+                        <table id="blogData" class="table table-striped" style="width:100%">
                             <thead>
                             <tr>
                                 <th>ID Tin tức</th>
                                 <th>Tiêu đề</th>
+                                <th>Tác giả</th>
                                 <th>Mô tả</th>
                                 <th>Nội dung</th>
                                 <th>Mã Loại</th>
+                                <th>Trạng thái</th>
+                                <th> Hình ảnh</th>
                                 <th>Tạo ngày</th>
                                 <th>Tạo bởi</th>
                                 <th>Sửa ngày</th>
@@ -61,47 +64,23 @@
                                 <th>Chức năng</th>
                             </tr>
                             </thead>
-                            <%
-                                List<BlogBean> listBlog = (List<BlogBean>) request.getAttribute("listBlog");
-                                if (listBlog != null) {
-                                    for (BlogBean blog : listBlog) {
-                                        String idStr = String.valueOf(blog.getId());
-                            %>
-                            <tbody>
+                            <tfoot>
                             <tr>
-                                <td><%=blog.getId()%>
-                                </td>
-                                <td><%=blog.getTitle()%>
-                                </td>
-                                <td><%=blog.getDescription()%>
-                                </td>
-                                <td><%=blog.getContent()%>
-                                </td>
-                                <td><%=blog.getCategoryId()%>
-                                </td>
-                                <td><%=blog.getCreatedDate()%>
-                                </td>
-                                <td><%=blog.getCreatedBy()%>
-                                </td>
-                                <td><%=blog.getModifiedDate()%>
-                                </td>
-                                <td><%=blog.getModifiedBy()%>
-                                </td>
-                                <td>
-                                    <a href="<c:url value="/admin/blog-management/editing">
-                                                <c:param name="id" value="<%=idStr%>"/>
-                                             </c:url>"
-                                       data-bs-toggle="tooltip" title="Chỉnh sửa tin tức" class="edit"><i
-                                            class="fa-regular fa-pen-to-square" style="color: #e3bd74;"></i></a>
-                                    <a href="<c:url value="/admin/blog-management/deleting">
-                                                <c:param name="id" value="<%=idStr%>"/>
-                                             </c:url>" data-bs-toggle="tooltip" title="Xóa tin tức" class="delete"><i
-                                            class="fa-solid fa-trash" style="color: #e3bd74;"></i></a>
-                                </td>
+                                <th>ID Tin tức</th>
+                                <th>Tiêu đề</th>
+                                <th>Tác giả</th>
+                                <th>Mô tả</th>
+                                <th>Nội dung</th>
+                                <th>Mã Loại</th>
+                                <th>Trạng thái</th>
+                                <th> Hình ảnh</th>
+                                <th>Tạo ngày</th>
+                                <th>Tạo bởi</th>
+                                <th>Sửa ngày</th>
+                                <th>Sửa bởi</th>
+                                <th>Chức năng</th>
                             </tr>
-                            </tbody>
-                                <% } %>
-                            <% } %>
+                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -111,5 +90,7 @@
 </div>
 
 <jsp:include page="/common/admin/using-resource-footer.jsp"/>
+<script src="<c:url value="/templates/logic-datatable/datatable-blog.js"/>"></script>
+<script src="<c:url value="/templates/logic-datatable/service-logic.js"/>"></script>
 </body>
 </html>

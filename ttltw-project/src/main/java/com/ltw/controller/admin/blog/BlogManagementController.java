@@ -17,11 +17,11 @@ import java.util.List;
 
 public class BlogManagementController extends HttpServlet {
 
-    private final BlogDAO blogDAO = new BlogDAO();
+//    private final BlogDAO blogDAO = new BlogDAO();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<BlogBean> blogs = blogDAO.findAllBlogs();
-        request.setAttribute("blogs", blogs);
+//        List<BlogBean> blogs = blogDAO.findAllBlogs();
+//        request.setAttribute("blogs", blogs);
         request.getRequestDispatcher("/blog-management.jsp").forward(request, response);
     }
 }
