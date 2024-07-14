@@ -12,12 +12,6 @@
     <title>DDD. - Thanh toán</title>
 
     <% CustomizeBean customizeInfo = (CustomizeBean) request.getAttribute("customizeInfo"); %>
-    <style>
-        .hero.checkout {
-            background-image: url("<%=customizeInfo.getBackground()%>");
-            /* Các quy tắc CSS khác cho .hero.home nếu cần */
-        }
-    </style>
 </head>
 
 <body>

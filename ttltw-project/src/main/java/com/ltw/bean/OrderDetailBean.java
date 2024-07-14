@@ -12,6 +12,16 @@ public class OrderDetailBean {
     public OrderDetailBean() {
     }
 
+    public OrderDetailBean(int orderId, int productId, String productName, double originalPrice, double discountPrice, double discountPercent, int quantity) {
+        this.orderId = orderId;
+        this.productId = productId;
+        this.productName = productName;
+        this.originalPrice = originalPrice;
+        this.discountPrice = discountPrice;
+        this.discountPercent = discountPercent;
+        this.quantity = quantity;
+    }
+
     public int getOrderId() {
         return orderId;
     }

@@ -11,6 +11,7 @@ public class LogBean {
     private String previousValue;
     private String currentValue;
     private Timestamp createdDate;
+    private String createdBy;
 
     public LogBean() {
 
@@ -78,5 +79,13 @@ public class LogBean {
 
     public void setCreatedDate(Timestamp createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
     }
 }

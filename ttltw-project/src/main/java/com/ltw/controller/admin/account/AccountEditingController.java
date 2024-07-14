@@ -27,7 +27,7 @@ public class AccountEditingController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         UserBean userBean = userDAO.findUserById(id);
-        request.setAttribute("user", userBean);
+        request.setAttribute("displayUser", userBean);
         request.getRequestDispatcher("/editing-account.jsp").forward(request, response);
     }
 
@@ -94,9 +94,6 @@ public class AccountEditingController extends HttpServlet {
             } else if (affectedRow > 0) {
                 logService.log(req, "admin-update-account", LogState.SUCCESS, LogLevel.WARNING, prevUser, currentUser);
                 msg = "success";
-            } else {
-                // Lỗi nhập liệu người dùng thì không ghi log
-                msg = "error";
             }
         } else {
             req.setAttribute("errors", errors);

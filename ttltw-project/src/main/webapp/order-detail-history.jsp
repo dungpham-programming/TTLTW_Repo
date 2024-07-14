@@ -28,37 +28,33 @@
 <!-- End Hero Section -->
 
 <!-- Start Renew Password -->
-<div class="renew-password position-relative-top-84px">
+<div class="renew-password position-relative-top-84px" style="background-color: #eeeeee; padding-top: 2rem">
     <div class="container">
-        <div class="table-responsive">
-            <table id="orderHistory">
-                <thead>
-                <th>Mã đặt hàng</th>
-                <th>Tên sản phẩm</th>
-                <th>Giá gốc</th>
-                <th>Giá giảm</th>
-                <th>Số lượng</th>
-                </thead>
-                <tbody>
-                <%
-                    List<OrderDetailBean> listOrderDetail = (List<OrderDetailBean>) request.getAttribute("orderDetails");
-                    for (OrderDetailBean orderDetail : listOrderDetail) {
-                        String idStr = String.valueOf(orderDetail.getOrderId());
-
-
-                %>
-                <tr>
-                    <td><%=orderDetail.getOrderId()%></td>
-                    <% if (orderDetail.getProductName() != null) {%>
-                    <td><%= orderDetail.getProductName()%></td>
-                    <% } %>
-                    <td><fmt:formatNumber value="<%=orderDetail.getOriginalPrice()%>" pattern="#,##0.##"/>đ</td>
-                    <td><fmt:formatNumber value="<%=orderDetail.getDiscountPrice()%>" pattern="#,##0.##"/>đ</td>
-                    <td><%=orderDetail.getQuantity()%></td>
-                </tr>
-                </tbody>
-                <%}%>
-            </table>
+        <div class="card">
+            <div class="card-body">
+                <div class="table table-striped">
+                    <table id="orderDetailHistory" class="table table-striped" style="width: 100%;">
+                        <thead>
+                        <th>Mã sản phẩm</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Giá gốc</th>
+                        <th>Giá giảm</th>
+                        <th>Phần trăm giảm</th>
+                        <th>Số lượng</th>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                        <tfoot>
+                        <th>Mã sản phẩm</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Giá gốc</th>
+                        <th>Giá giảm</th>
+                        <th>Phần trăm giảm</th>
+                        <th>Số lượng</th>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
         </div>
         <div class="return-btn">
             <a href="<c:url value="/order-history"/>" class="checking-order-detail">Quay về đơn hàng</a>
@@ -68,8 +64,18 @@
 </div>
 <!-- End Renew Password -->
 
+<%
+    int orderId = (int) request.getAttribute("orderId");
+%>
+
+<script>
+    const orderId = <%=orderId%>;
+</script>
 <jsp:include page="/common/client/footer.jsp"/>
 
 <jsp:include page="/common/client/using-resource-footer.jsp"/>
+<script src="<c:url value="/templates/DataTables/datatables.min.js"/>"></script>
+<script src="<c:url value="/templates/logic-datatable/client/dt-order-detail-history.js"/>"></script>
+<script src="<c:url value="/templates/logic-datatable/service-logic.js"/>"></script>
 </body>
 </html>

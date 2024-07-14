@@ -49,26 +49,23 @@ public class OrderDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
-        
+
         } finally {
             CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
         }
     }
 
-    public static List<OrderBean> findOrderByUserId(int userId){
-    List<OrderBean> orderList = new ArrayList<>();
-        StringBuilder sql = new StringBuilder();
-        sql.append("SELECT id, createdDate, shipToDate, total, status ")
-                .append("FROM orders ")
-                .append("WHERE userId = ?");
-      
+    public List<OrderBean> findOrderByUserId(int userId) {
+        List<OrderBean> orderList = new ArrayList<>();
+        String sql = "SELECT id, createdDate, shipToDate, total, status FROM orders WHERE userId = ?";
+
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
         try {
             connection = OpenConnectionUtil.openConnection();
-            preparedStatement = connection.prepareStatement(sql.toString());
+            preparedStatement = connection.prepareStatement(sql);
             SetParameterUtil.setParameter(preparedStatement, userId);
             resultSet = preparedStatement.executeQuery();
 
@@ -87,9 +84,9 @@ public class OrderDAO {
         } finally {
             CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
         }
-      return orderList;
+        return orderList;
     }
-          
+
 
     public List<OrderBean> findAllOrders() {
         String sql = "SELECT id, userId, total, paymentMethod, status, shipToDate, createdDate, createdBy, modifiedDate, modifiedBy " +
@@ -208,8 +205,8 @@ public class OrderDAO {
             connection.setAutoCommit(false);
             preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             SetParameterUtil.setParameter(preparedStatement, orderBean.getUserId(), orderBean.getCreatedDate(), orderBean.getShipToDate(),
-                                                            orderBean.getTotal(), orderBean.getPaymentMethod(), orderBean.getCreatedBy(),
-                                                            orderBean.getModifiedDate(), orderBean.getModifiedBy());
+                    orderBean.getTotal(), orderBean.getPaymentMethod(), orderBean.getCreatedBy(),
+                    orderBean.getModifiedDate(), orderBean.getModifiedBy());
             int affectedRows = preparedStatement.executeUpdate();
 
             if (affectedRows > 0) {
@@ -234,7 +231,7 @@ public class OrderDAO {
         return id;
     }
 
-    public int cancelOrder(String orderId) {
+    public int cancelOrder(int orderId) {
         int affected = -1;
         String sql = "UPDATE orders " +
                 "SET status = 0 " +
@@ -261,6 +258,7 @@ public class OrderDAO {
         }
         return affected;
     }
+
     public int deleteOrder(int id) {
         int affectRows;
         String sql = "DELETE FROM orders WHERE id = ?";
@@ -362,6 +360,7 @@ public class OrderDAO {
 
             if (rs.next()) {
                 recordsTotal = rs.getInt(1);
+
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
