@@ -45,6 +45,7 @@
                             <th>#</th>
                             <th>Ngày tạo</th>
                             <th>Ngày nhận</th>
+                            <th>Phưương thức thanh toán</th>
                             <th>Tổng tiền</th>
                             <th>Trạng thái</th>
                             <th>Chức năng</th>
@@ -57,6 +58,7 @@
                             <th>#</th>
                             <th>Ngày tạo</th>
                             <th>Ngày nhận</th>
+                            <th>Phưương thức thanh toán</th>
                             <th>Tổng tiền</th>
                             <th>Trạng thái</th>
                             <th>Chức năng</th>

@@ -608,8 +608,7 @@ public class ProductDAO {
                 "discountPercent, quantity, soldQuantity, size, otherSpec, keyword, status, " +
                 "createdDate, createdBy, modifiedDate, modifiedBy " +
                 "FROM products " +
-                "WHERE categoryTypeId = ? " +
-                "WHERE categoryTypeId = ? AND id <> ? " +
+                "WHERE (id <> ? AND categoryTypeId = ?) " +
                 "ORDER BY soldQuantity desc " +
                 "LIMIT 6 OFFSET ?";
 

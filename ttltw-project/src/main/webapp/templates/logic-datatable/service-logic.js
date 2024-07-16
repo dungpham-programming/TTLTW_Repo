@@ -14,7 +14,7 @@ function deleteRecord(buttonClicked, id, requestBy) {
     }
 }
 
-const deleteRecordByClient = (buttonClicked, id, requestBy) => {
+function deleteRecordByClient(buttonClicked, id, requestBy) {
     if (confirm("Bạn có muốn xóa record không?")) {
         $.ajax({
             url: `http://localhost:8080/api/client/${requestBy}?id=${id}`,
@@ -82,7 +82,7 @@ function renderUi(buttonClicked, response) {
     }
 }
 
-const escapeHtml = (unsafe) => {
+function escapeHtml(unsafe) {
     if (unsafe === null) {
         return null;
     }

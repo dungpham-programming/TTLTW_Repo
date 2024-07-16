@@ -2298,3 +2298,37 @@ del.original {
 .sold-quantity {
     color: #c21f1f;
 }
+
+/* CSS cho phần tử select */
+select#filter-rating {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: #f2f2f2;
+    color: #333;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 200px;
+    cursor: pointer;
+}
+
+/* CSS cho các phần tử option */
+select#filter-rating option {
+    background-color: #fff;
+    color: #333;
+    padding: 8px 12px;
+}
+
+/* CSS cho các phần tử option khi hover */
+select#filter-rating option:hover {
+    background-color: #e0e0e0;
+}
+
+/* CSS cho phần tử select khi focus */
+select#filter-rating:focus {
+    outline: none;
+    border-color: #5b9dd9;
+    box-shadow: 0 0 5px rgba(91, 157, 217, 0.5);
+}

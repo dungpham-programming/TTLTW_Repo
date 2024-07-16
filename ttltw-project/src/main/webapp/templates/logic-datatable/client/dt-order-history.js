@@ -13,6 +13,7 @@ $(() => {
             {data: "id"},
             {data: "createdDate"},
             {data: "shipToDate"},
+            {data: "paymentMethod"},
             {data: "total"},
             {data: "status"},
             // Thiết lập cho cột Thao tác
@@ -36,13 +37,13 @@ $(() => {
                 }
             },
             {
-                targets: 3,
+                targets: 4,
                 render: (data, type, row, meta) => {
                     return `<span style="color: #d31616; font-weight: 500;">${new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(data)}</span>`;
                 }
             },
             {
-                targets: 4,
+                targets: 5,
                 render: (data, type, row, meta) => {
                     switch (data) {
                         case 1:
@@ -61,7 +62,7 @@ $(() => {
                 }
             },
             {
-                targets: 5,
+                targets: 6,
                 render: (data, type, row, meta) => {
                     let allButton = '';
                     const infoButton = `<a href="http://localhost:8080/order-detail-history?orderId=${row.id}" data-bs-toggle="tooltip" title="Chi tiết đơn hàng"
@@ -72,6 +73,13 @@ $(() => {
 
                     allButton += infoButton;
                     allButton += cancelButton;
+
+                    if (row.status === 4) {
+                        const reviewButton = `<a href="http://localhost:8080/order-detail-history?orderId=${row.id}" data-bs-toggle="tooltip" title="Đánh giá sản phẩm"
+                           class="edit" style="padding: 6px 12px; margin-left: 4px;"><i class="fa-solid fa-face-smile" style="color: #e3bd74;"></i></a>`;
+
+                        allButton += reviewButton;
+                    }
                     return allButton;
                 }
             }
