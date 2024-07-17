@@ -1,5 +1,6 @@
 <%@ page import="com.ltw.bean.OrderBean" %>
 <%@ page import="java.util.List" %>
+<%@ page import="com.ltw.bean.UserBean" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -91,8 +92,16 @@
     </div>
 </div>
 
+<%
+    UserBean user = (UserBean) request.getSession().getAttribute("user");
+%>
+
 <jsp:include page="/common/client/footer.jsp"/>
 <jsp:include page="/common/client/using-resource-footer.jsp"/>
+<script>
+    const userIdToForm = <%=user.getId()%>;
+    const userNameToForm = "<%=(user.getFirstName() != null && user.getLastName() != null) ? (user.getFirstName() + " " + user.getLastName()) : user.getEmail()%>";
+</script>
 <script src="<c:url value="/templates/DataTables/datatables.min.js"/>"></script>
 <script src="<c:url value="/templates/logic-datatable/client/dt-order-history.js"/>"></script>
 <script src="<c:url value="/templates/logic-datatable/service-logic.js"/>"></script>

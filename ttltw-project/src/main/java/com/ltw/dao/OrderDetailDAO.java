@@ -228,4 +228,27 @@ public class OrderDetailDAO {
         }
         return productIds;
     }
+
+    public void setSuccessReview(int productId, int orderId) {
+        String sql = "UPDATE order_details SET reviewed = 1 WHERE (productId = ? AND orderId = ?)";
+        Connection conn = null;
+        PreparedStatement preStat = null;
+        try {
+            conn = OpenConnectionUtil.openConnection();
+            conn.setAutoCommit(false);
+            preStat = conn.prepareStatement(sql);
+            SetParameterUtil.setParameter(preStat, productId, orderId);
+            preStat.executeUpdate();
+            conn.commit();
+        } catch (SQLException e) {
+            try {
+                conn.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            throw new RuntimeException(e);
+        } finally {
+            CloseResourceUtil.closeNotUseRS(preStat, conn);
+        }
+    }
 }

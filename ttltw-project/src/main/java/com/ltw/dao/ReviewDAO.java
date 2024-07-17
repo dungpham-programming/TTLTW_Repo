@@ -11,8 +11,8 @@ import java.util.List;
 
 public class ReviewDAO {
     public List<ReviewBean> findAllReviews() {
-        String sql = "SELECT id, productId, userId, username, " +
-                "content, rating, status " +
+        String sql = "SELECT id, productId, productName, userId, username, " +
+                "orderId, content, rating, status " +
                 "createdDate,createdBy, modifiedDate,modifiedBy " +
                 "FROM reviews";
 
@@ -31,8 +31,10 @@ public class ReviewDAO {
                 ReviewBean reviewBean = new ReviewBean();
                 reviewBean.setId(resultSet.getInt("id"));
                 reviewBean.setProductId(resultSet.getInt("productId"));
+                reviewBean.setProductName(resultSet.getString("productName"));
                 reviewBean.setUserId(resultSet.getInt("userId"));
                 reviewBean.setUsername(resultSet.getString("username"));
+                reviewBean.setOrderId(resultSet.getInt("orderId"));
                 reviewBean.setContent(resultSet.getString("content"));
                 reviewBean.setRating(resultSet.getInt("rating"));
                 reviewBean.setStatus(resultSet.getInt("status"));
@@ -53,10 +55,10 @@ public class ReviewDAO {
 
     public int createReview(ReviewBean reviewBean) {
         int id = -1;
-        String sql = "INSERT INTO reviews (productId, userId, username, " +
-                "content, rating, status" +
-                "createdDate,createdBy, modifiedDate,modifiedBy "  +
-                "VALUES (?, ?, ?, ?, ?, 1, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO reviews (productId, productName, userId, username, " +
+                "orderId, content, rating, status, " +
+                "createdDate, createdBy, modifiedDate, modifiedBy) "  +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, 1, ?, ?, ?, ?)";
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -66,15 +68,15 @@ public class ReviewDAO {
             connection = OpenConnectionUtil.openConnection();
             connection.setAutoCommit(false);
             preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            SetParameterUtil.setParameter(preparedStatement, reviewBean.getProductId(), reviewBean.getUserId(),
-                    reviewBean.getUsername(), reviewBean.getContent(), reviewBean.getRating(), reviewBean.getStatus(),
+            SetParameterUtil.setParameter(preparedStatement, reviewBean.getProductId(), reviewBean.getProductName(), reviewBean.getUserId(),
+                    reviewBean.getUsername(), reviewBean.getOrderId(), reviewBean.getContent(), reviewBean.getRating(),
                     reviewBean.getCreatedDate(), reviewBean.getCreatedBy(),
                     reviewBean.getModifiedDate(),reviewBean.getModifiedBy());
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows > 0) {
                 resultSet = preparedStatement.getGeneratedKeys();
                 if (resultSet.next()) {
-                    reviewBean.setId(resultSet.getInt(1));
+                    id = resultSet.getInt(1);
                 }
             }
             connection.commit();
@@ -92,7 +94,7 @@ public class ReviewDAO {
 
     public List<ReviewBean> findReviewPaginationByProductId(int productId, int offset) {
         String sql = "SELECT id, productId, userId, username, " +
-                "content, rating, status, " +
+                "orderId, content, rating, status, " +
                 "createdDate, createdBy, modifiedDate, modifiedBy " +
                 "FROM reviews " +
                 "WHERE (productId = ? AND status = 1) " +
@@ -116,6 +118,7 @@ public class ReviewDAO {
                 reviewBean.setProductId(resultSet.getInt("productId"));
                 reviewBean.setUserId(resultSet.getInt("userId"));
                 reviewBean.setUsername(resultSet.getString("username"));
+                reviewBean.setOrderId(resultSet.getInt("orderId"));
                 reviewBean.setContent(resultSet.getString("content"));
                 reviewBean.setRating(resultSet.getInt("rating"));
                 reviewBean.setStatus(resultSet.getInt("status"));
@@ -157,5 +160,53 @@ public class ReviewDAO {
         } finally {
             CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
         }
+    }
+
+    public int getRateTotal(int productId) {
+        int rateTotal = 0;
+        String sql = "SELECT SUM(rating) FROM reviews WHERE productId = ?";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            SetParameterUtil.setParameter(preparedStatement, productId);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                rateTotal = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return rateTotal;
+    }
+
+    public int getRelatedReview(int productId) {
+        int relatedReview = 0;
+        String sql = "SELECT COUNT(productId) FROM reviews WHERE productId = ?";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            SetParameterUtil.setParameter(preparedStatement, productId);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                relatedReview = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return relatedReview;
     }
 }

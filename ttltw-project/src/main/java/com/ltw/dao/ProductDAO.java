@@ -629,4 +629,29 @@ public class ProductDAO {
         }
         return productList;
     }
+
+    public void updateRateTotal(int productId, double newRateTotal, int numReviews) {
+        String sql = "UPDATE products SET avgRate = ? , numReviews = ? WHERE id = ?";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            connection.setAutoCommit(false);
+            preparedStatement = connection.prepareStatement(sql);
+            SetParameterUtil.setParameter(preparedStatement, newRateTotal, numReviews, productId);
+            preparedStatement.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            throw new RuntimeException(e);
+        } finally {
+            CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
+        }
+    }
 }

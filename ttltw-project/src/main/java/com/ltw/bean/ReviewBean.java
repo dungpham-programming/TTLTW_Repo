@@ -10,6 +10,7 @@ public class ReviewBean {
     private List<String> productImgs;
     private int userId;
     private String username;
+    private int orderId;
     private String content;
     private int rating;
     private int status;
@@ -18,13 +19,14 @@ public class ReviewBean {
     private Timestamp modifiedDate;
     private String modifiedBy;
 
-    public ReviewBean(int id, int productId, String productName, List<String> productImgs, int userId, String username, String content, int rating, int status, Timestamp createdDate, String createdBy, Timestamp modifiedDate, String modifiedBy) {
+    public ReviewBean(int id, int productId, String productName, List<String> productImgs, int userId, String username, int orderId, String content, int rating, int status, Timestamp createdDate, String createdBy, Timestamp modifiedDate, String modifiedBy) {
         this.id = id;
         this.productId = productId;
         this.productName = productName;
         this.productImgs = productImgs;
         this.userId = userId;
         this.username = username;
+        this.orderId = orderId;
         this.content = content;
         this.rating = rating;
         this.status = status;
@@ -83,6 +85,14 @@ public class ReviewBean {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public int getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
     }
 
     public String getContent() {

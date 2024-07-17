@@ -124,6 +124,8 @@ public class CheckoutController extends HttpServlet {
                     orderDetailBean.setOrderId(orderId);
                     orderDetailBean.setProductId(item.getProduct().getId());
                     orderDetailBean.setQuantity(item.getQuantity());
+                    // Đánh dấu là chưa review cho sản phẩm này
+                    orderDetailBean.setReviewed(0);
 
                     orderDetails.add(orderDetailBean);
                     orderDetailDAO.createOrderDetail(orderDetailBean);

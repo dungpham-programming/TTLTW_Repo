@@ -68,7 +68,24 @@
                 <div class="col-md-7 offset-md-1 col-sm-12 col-xs-12">
                     <h2 class="name">
                         <%=productDetail.getName()%>
-                        <small>Sản phẩm của <a href="javascript:void(0);" class="text-cyan">DDD.</a></small>
+                        <%
+                            double rateTop = productDetail.getAvgRate();
+                            StringBuilder starTop = new StringBuilder();
+                            for (int i = 1; i <= 5; i++) {
+                                if (i <= Math.floor(rateTop)) {
+                                    starTop.append("<i class=\"fa-solid fa-star fa-sm\" style=\"color: #FFD43B;\"></i>");
+                                } else if (i == Math.ceil(rateTop)) {
+                                    starTop.append("<i class=\"fa-regular fa-star fa-sm\" style=\"color: #FFD43B;\"></i>");
+                                } else {
+                                    starTop.append("<i class=\"fa-regular fa-star fa-sm\" style=\"color: #FFD43B;\"></i>");
+                                }
+                            }
+                        %>
+                        <div class="d-flex align-items-center mt-2">
+                            <div class="me-2"><h3 style="margin: 0"><%=productDetail.getAvgRate()%></h3></div>
+                            <div class="me-2"><%=starTop.toString()%></div>
+                            <div><h5 style="margin: 0">(<%=productDetail.getNumReviews()%> đánh giá)</h5></div>
+                        </div>
 
                     </h2>
                     <hr/>
@@ -205,7 +222,7 @@
                                 }
                             %>
                             <div class="rating">
-                                <%=star%>
+                                <%=star.toString()%>
                             </div>
                             <div class="comment"><%=review.getContent()%></div>
                         </div>

@@ -48,11 +48,12 @@ function renderListFormReview(response) {
         for (const reviewForm of response) {
             const form = `
             <div class="form-container mb-4">
-                <form action="http://localhost:8080/api/client/review-form" id="reviewForm-product${reviewForm.productId}" method="post">
+                <form id="reviewForm-product${reviewForm.productId}">
                     <div class="form-group">
                         <h3>Đánh giá sản phẩm ${reviewForm.productName}</h3>
                     </div>
                     <div class="form-group">
+                        <!--Ảnh sẽ xuất hiện ở đây-->
                         <div class="img-block my-2 d-flex">
                             
                         </div>
@@ -74,48 +75,77 @@ function renderListFormReview(response) {
                     </div>
                     <div class="form-group">
                         <label for="comment">Bình luận:</label>
-                        <textarea class="form-control" id="comment" name="comment" rows="3" required></textarea>
+                        <textarea class="form-control" id="content" name="content" rows="3" required></textarea>
                     </div>
-                    <button type="submit" onclick="sendForm($('#reviewForm-product${reviewForm.productId}'))" class="btn btn-primary mt-3">Gửi đánh giá</button>
+                    <input type="hidden" name="userId" value="${userIdToForm}" required>
+                    <input type="hidden" name="username" value="${userNameToForm}" required>
+                    <input type="hidden" name="productId" value="${reviewForm.productId}" required>
+                    <input type="hidden" name="productName" value="${reviewForm.productName}" required">
+                    <input type="hidden" name="orderId" value="${reviewForm.orderId}"">
+                    <button type="button" onclick="sendData(this)" data-form-id="reviewForm-product${reviewForm.productId}" class="btn btn-primary mt-3">Gửi đánh giá</button>
                 </form>
             </div>
             <hr>`;
-
             bodyReview.append(form);
 
+            // Sau khi đã có phần body của review, thêm ảnh vào img-block
             for (const imgUrl of reviewForm.productImgs) {
                 const imgBlock = $(`#reviewForm-product${reviewForm.productId} .img-block`);
                 imgBlock.empty();
                 imgBlock.append(`<div><img class="img-fluid" style="height: 70px" src="${imgUrl}" alt="Product image"></div>`);
             }
-
-            $(`#reviewForm-product${reviewForm.productId}`).submit((e) => {
-                e.preventDefault();
-
-                $.ajax({
-                    type: "POST",
-                    url: "http://localhost:8080/api/client/review-form",
-                    data: this,
-                    dataType: "json",
-                    success: function (response) {
-                        console.log(response);
-                    },
-                    error: function (xhr, status, error) {
-                        console.log(error);
-                    }
-                });
-            });
         }
     }
 }
 
-function sendForm(formSent) {
-    const formContainer = $(formSent).parent();
-    bodyReview.remove(formSent);
-    formContainer.html(
-        `<div class="alert alert-success">
-                    Đánh giá của bạn đã được gửi
+function sendData(buttonClicked) {
+    // Bắt sự kiện click button
+    console.log("btn clicked");
+    const formId = $(buttonClicked).attr("data-form-id");
+    const formSent = $(`#${formId}`);
+
+    // Serialize data vè URL-encoded
+    const formData = formSent.serialize();
+    const formContainer = formSent.parent();
+
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/api/client/review-form",
+        data: formData,
+        dataType: "json",
+        success: function (response) {
+            console.log(response)
+            notify(response, formContainer, formSent);
+        },
+        error: function (xhr, status, error) {
+            console.log(error);
+            formContainer.html(
+                `<div class="alert alert-danger">
+                                Đã xảy ra lỗi khi gửi đánh giá. Vui lòng thử lại sau.
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>`
+            );
+        }
+    });
+}
+
+function notify(message, formContainer) {
+    const status = message["status"];
+    const notify = message["notify"];
+
+    if (status === "success") {
+        formContainer.html(
+            `<div class="alert alert-success">
+                    ${notify}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>`
-    );
+        );
+    } else {
+        formContainer.before(
+            `<div class="alert alert-danger">
+                  ${notify}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+             </div>`
+        );
+    }
 }
