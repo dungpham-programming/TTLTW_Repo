@@ -13,6 +13,8 @@ public class ProductBean {
     private double discountPercent;
     private int quantity;
     private int soldQuantity;
+    private double avgRate;
+    private int numReviews;
     private String size;
     private String otherSpec;
     private int status;
@@ -96,6 +98,22 @@ public class ProductBean {
 
     public void setSoldQuantity(int soldQuantity) {
         this.soldQuantity = soldQuantity;
+    }
+
+    public double getAvgRate() {
+        return avgRate;
+    }
+
+    public void setAvgRate(double avgRate) {
+        this.avgRate = avgRate;
+    }
+
+    public int getNumReviews() {
+        return numReviews;
+    }
+
+    public void setNumReviews(int numReviews) {
+        this.numReviews = numReviews;
     }
 
     public int getStatus() {

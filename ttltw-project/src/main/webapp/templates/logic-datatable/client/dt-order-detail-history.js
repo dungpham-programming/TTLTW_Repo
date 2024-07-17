@@ -16,6 +16,7 @@ $(() => {
             {data: "discountPrice"},
             {data: "discountPercent"},
             {data: "quantity"},
+            {data: "reviewed"}
         ],
         columnDefs: [
             {
@@ -37,6 +38,19 @@ $(() => {
                 targets: 4,
                 render: (data, type, row, meta) => {
                     return `<span class="badge bg-danger">${data + "%"}</span>`;
+                }
+            },
+            {
+                targets: 6,
+                render: (data, type, row, meta) => {
+                    switch (row.reviewed) {
+                        case 1:
+                            return `<span class="badge bg-success">Đã đánh giá</span>`;
+                        case 0:
+                            return `<span class="badge bg-danger">Chưa đánh giá</span>`;
+                        default:
+                            return `<span class="badge bg-danger">Không hợp lệ</span>`;
+                    }
                 }
             }
         ]

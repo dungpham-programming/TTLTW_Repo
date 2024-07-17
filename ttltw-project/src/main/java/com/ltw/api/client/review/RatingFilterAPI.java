@@ -1,4 +1,4 @@
-package com.ltw.api.client;
+package com.ltw.api.client.review;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

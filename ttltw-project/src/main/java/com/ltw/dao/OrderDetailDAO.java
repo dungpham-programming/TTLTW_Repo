@@ -203,4 +203,29 @@ public class OrderDetailDAO {
         }
         return recordFiltered;
     }
+
+    public List<Integer> getUnreviewedProductByOrderId(int orderId) {
+        List<Integer> productIds = new ArrayList<>();
+        String sql = "SELECT productId FROM order_details WHERE (orderId = ? AND reviewed = 0)";
+
+        Connection conn = null;
+        PreparedStatement preStat = null;
+        ResultSet rs = null;
+
+        try {
+            conn = OpenConnectionUtil.openConnection();
+            preStat = conn.prepareStatement(sql);
+            SetParameterUtil.setParameter(preStat, orderId);
+            rs = preStat.executeQuery();
+
+            while (rs.next()) {
+                productIds.add(rs.getInt("productId"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            CloseResourceUtil.closeResource(rs, preStat, conn);
+        }
+        return productIds;
+    }
 }

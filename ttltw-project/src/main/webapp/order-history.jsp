@@ -45,7 +45,7 @@
                             <th>#</th>
                             <th>Ngày tạo</th>
                             <th>Ngày nhận</th>
-                            <th>Phưương thức thanh toán</th>
+                            <th>Phương thức thanh toán</th>
                             <th>Tổng tiền</th>
                             <th>Trạng thái</th>
                             <th>Chức năng</th>
@@ -58,7 +58,7 @@
                             <th>#</th>
                             <th>Ngày tạo</th>
                             <th>Ngày nhận</th>
-                            <th>Phưương thức thanh toán</th>
+                            <th>Phương thức thanh toán</th>
                             <th>Tổng tiền</th>
                             <th>Trạng thái</th>
                             <th>Chức năng</th>
@@ -75,10 +75,27 @@
 </div>
 <!-- End Renew Password -->
 
+<div class="modal fade" id="reviewProduct" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Review sản phẩm</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <jsp:include page="/common/client/footer.jsp"/>
 <jsp:include page="/common/client/using-resource-footer.jsp"/>
 <script src="<c:url value="/templates/DataTables/datatables.min.js"/>"></script>
 <script src="<c:url value="/templates/logic-datatable/client/dt-order-history.js"/>"></script>
 <script src="<c:url value="/templates/logic-datatable/service-logic.js"/>"></script>
+<script src="<c:url value="/templates/modal/show-modal.js"/>"></script>
 </body>
 </html>

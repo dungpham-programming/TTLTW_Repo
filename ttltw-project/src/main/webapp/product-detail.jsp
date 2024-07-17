@@ -1,6 +1,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.ltw.bean.ProductBean" %>
 <%@ page import="com.ltw.bean.ProductImageBean" %>
+<%@ page import="com.ltw.bean.ReviewBean" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -154,7 +156,7 @@
 
         <div class="product-review" style="margin-bottom: 16px">
             <div class="card">
-                <div class="card-body">
+                <div class="card-body p-5">
                     <div class="suggest-title-wrap">
                         <h2 class="mb-4">Đánh giá của khách hàng</h2>
                     </div>
@@ -180,28 +182,41 @@
                     </select>
                     <hr>
                     <div class="rate-list mt-5">
+                        <%
+                            List<ReviewBean> reviews = (List<ReviewBean>) request.getAttribute("reviews");
+                            for (ReviewBean review : reviews) {
+                                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                                String date = sdf.format(review.getCreatedDate());
+                        %>
                         <div class="rate-item">
                             <div class="name-date d-flex">
-                                <div class="name me-2" style="font-weight: bold">Dũng Phạm</div>
-                                <div class="date">20/2/2024</div>
+                                <div class="name me-2" style="font-weight: bold"><%=review.getUsername()%></div>
+                                <div class="date"><%=date%></div>
                             </div>
+                            <%
+                                int rating = review.getRating();
+                                StringBuilder star = new StringBuilder();
+                                for (int i = 1; i <= 5; i++) {
+                                    if (i <= rating) {
+                                        star.append("<i class=\"fa-solid fa-star\" style=\"color: #FFD43B;\"></i>");
+                                    } else {
+                                        star.append("<i class=\"fa-regular fa-star\" style=\"color: #FFD43B;\"></i>");
+                                    }
+                                }
+                            %>
                             <div class="rating">
-                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                <%=star%>
                             </div>
-                            <div class="comment">Oke oke oke</div>
-                            <div class="vote">Hữu ích (1)</div>
+                            <div class="comment"><%=review.getContent()%></div>
                         </div>
                         <hr>
+                        <%}%>
                     </div>
                 </div>
             </div>
         </div>
         <div class="card">
-            <div class="card-body">
+            <div class="card-body p-5">
                 <div class="product-suggest">
                     <input type="hidden" name="currentPos" value="6">
                     <input type="hidden" name="categoryTypeId" value="<%=productDetail.getCategoryTypeId()%>">
@@ -271,8 +286,8 @@
     </symbol>
 </svg>
 <script>
-    const averageRating = 4.7;
-    const totalReview = 14;
+    const averageRating = <%=productDetail.getAvgRate()%>;
+    const totalReview = <%=productDetail.getNumReviews()%>;
 </script>
 <jsp:include page="/common/client/using-resource-footer.jsp"/>
 <script src="<c:url value="/templates/client/js/render-rating.js"/>"></script>

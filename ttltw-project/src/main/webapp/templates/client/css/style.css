@@ -1660,7 +1660,7 @@ p, dd {
 }
 
 .product-detail {
-    padding: 30px 30px 50px
+    padding: 40px 50px
 }
 
 .product-detail hr + .description-tabs {
@@ -2217,10 +2217,6 @@ a.cart-btn:hover {
     color: var(--primary-color-darkyellow);
 }
 
-.product-suggest {
-    margin-top: 50px;
-}
-
 .product-wrap:not(last-child) {
     margin-bottom: 16px;
 }
@@ -2331,4 +2327,8 @@ select#filter-rating:focus {
     outline: none;
     border-color: #5b9dd9;
     box-shadow: 0 0 5px rgba(91, 157, 217, 0.5);
+}
+
+.vote {
+    cursor: pointer;
 }

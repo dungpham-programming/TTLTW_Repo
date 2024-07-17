@@ -39,7 +39,10 @@ $(() => {
             {
                 targets: 4,
                 render: (data, type, row, meta) => {
-                    return `<span style="color: #d31616; font-weight: 500;">${new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(data)}</span>`;
+                    return `<span style="color: #d31616; font-weight: 500;">${new Intl.NumberFormat('vi-VN', {
+                        style: 'currency',
+                        currency: 'VND'
+                    }).format(data)}</span>`;
                 }
             },
             {
@@ -67,16 +70,17 @@ $(() => {
                     let allButton = '';
                     const infoButton = `<a href="http://localhost:8080/order-detail-history?orderId=${row.id}" data-bs-toggle="tooltip" title="Chi tiết đơn hàng"
                            class="edit" style="padding: 6px 14px;"><i class="fa-solid fa-info fa-xl" style="color: #e3bd74;"></i></a>`;
-
-                    const cancelButton = `<button onclick="cancelOrder(this, ${row.id}, 'order-history')" data-bs-toggle="tooltip" title="Hủy đơn hàng" 
-                           class="delete" style="padding: 6px 12px; margin-left: 4px; border: 0;"><i class="fa-solid fa-xmark" style="color: #e3bd74;"></i></button>`;
-
                     allButton += infoButton;
-                    allButton += cancelButton;
+
+                    if (row.status >= 1 && row.status <= 3) {
+                        const cancelButton = `<button onclick="cancelOrder(this, ${row.id}, 'order-history')" data-bs-toggle="tooltip" title="Hủy đơn hàng" 
+                           class="delete" style="padding: 6px 12px; margin-left: 4px; border: 0;"><i class="fa-solid fa-xmark" style="color: #e3bd74;"></i></button>`;
+                        allButton += cancelButton;
+                    }
 
                     if (row.status === 4) {
-                        const reviewButton = `<a href="http://localhost:8080/order-detail-history?orderId=${row.id}" data-bs-toggle="tooltip" title="Đánh giá sản phẩm"
-                           class="edit" style="padding: 6px 12px; margin-left: 4px;"><i class="fa-solid fa-face-smile" style="color: #e3bd74;"></i></a>`;
+                        const reviewButton = `<button data-bs-toggle="tooltip" title="Đánh giá sản phẩm"
+                           class="edit get-form-review" data-send="${row.id}" style="padding: 6px 10px; margin-left: 4px; border: 0;"><i class="fa-solid fa-face-smile" style="color: #e3bd74;"></i></button>`;
 
                         allButton += reviewButton;
                     }

@@ -12,7 +12,7 @@ import java.util.List;
 public class ProductDAO {
     public List<ProductBean> findAllProducts() {
         String sql = "SELECT id, name, description, categoryTypeId, originalPrice, discountPrice, " +
-                "discountPercent, quantity, soldQuantity, size, otherSpec, keyword, status, " +
+                "discountPercent, quantity, soldQuantity, avgRate, numReviews, size, otherSpec, keyword, status, " +
                 "createdDate, createdBy, modifiedDate, modifiedBy " +
                 "FROM products";
 
@@ -38,6 +38,8 @@ public class ProductDAO {
                 productBean.setDiscountPercent(resultSet.getDouble("discountPercent"));
                 productBean.setQuantity(resultSet.getInt("quantity"));
                 productBean.setSoldQuantity(resultSet.getInt("soldQuantity"));
+                productBean.setAvgRate(resultSet.getDouble("avgRate"));
+                productBean.setNumReviews(resultSet.getInt("numReviews"));
                 productBean.setSize(resultSet.getString("size"));
                 productBean.setOtherSpec(resultSet.getString("otherSpec"));
                 productBean.setKeyword(resultSet.getString("keyword"));
@@ -60,7 +62,7 @@ public class ProductDAO {
     public ProductBean findProductById(int id) {
         ProductBean product = null;
         String sql = "SELECT id, name, description, categoryTypeId, originalPrice, discountPrice, " +
-                "discountPercent, quantity, soldQuantity, size, otherSpec, status, keyword, " +
+                "discountPercent, quantity, soldQuantity, avgRate, numReviews, size, otherSpec, status, keyword, " +
                 "createdDate, createdBy, modifiedDate, modifiedBy " +
                 "FROM products " +
                 "WHERE id = ? AND status <> 0";
@@ -86,6 +88,8 @@ public class ProductDAO {
                 product.setDiscountPercent(resultSet.getDouble("discountPercent"));
                 product.setQuantity(resultSet.getInt("quantity"));
                 product.setSoldQuantity(resultSet.getInt("soldQuantity"));
+                product.setAvgRate(resultSet.getDouble("avgRate"));
+                product.setNumReviews(resultSet.getInt("numReviews"));
                 product.setSize(resultSet.getString("size"));
                 product.setOtherSpec(resultSet.getString("otherSpec"));
                 product.setStatus(resultSet.getInt("status"));
@@ -201,7 +205,8 @@ public class ProductDAO {
 
     public List<ProductBean> findThreeProductByCategoryId(int categoryId) {
         List<ProductBean> products = new ArrayList<>();
-        String sql = "SELECT products.id, products.name, products.categoryTypeId, products.originalPrice, products.discountPrice, products.discountPercent " +
+        String sql = "SELECT products.id, products.name, products.categoryTypeId, products.originalPrice, " +
+                "products.discountPrice, products.discountPercent, products.avgRate, products.numReviews " +
                 "FROM products INNER JOIN category_types ON products.categoryTypeId = category_types.id " +
                 "INNER JOIN categories ON category_types.categoryId = categories.id " +
                 "WHERE categories.id = ? AND products.status = 1 " +
@@ -226,6 +231,8 @@ public class ProductDAO {
                 productBean.setOriginalPrice(resultSet.getDouble("originalPrice"));
                 productBean.setDiscountPrice(resultSet.getDouble("discountPrice"));
                 productBean.setDiscountPercent(resultSet.getDouble("discountPercent"));
+                productBean.setAvgRate(resultSet.getDouble("avgRate"));
+                productBean.setNumReviews(resultSet.getInt("numReviews"));
 
                 products.add(productBean);
             }
@@ -239,7 +246,7 @@ public class ProductDAO {
 
     public List<ProductBean> findFourProductByTypeId(int categoryTypeId) {
         List<ProductBean> products = new ArrayList<>();
-        String sql = "SELECT id, name, categoryTypeId, originalPrice, discountPrice, discountPercent " +
+        String sql = "SELECT id, name, categoryTypeId, originalPrice, discountPrice, discountPercent, avgRate, numReviews " +
                 "FROM products WHERE categoryTypeId = ? AND status = 1 " +
                 "ORDER BY modifiedDate DESC "+
                 "LIMIT 4";
@@ -262,43 +269,8 @@ public class ProductDAO {
                 productBean.setOriginalPrice(resultSet.getDouble("originalPrice"));
                 productBean.setDiscountPrice(resultSet.getDouble("discountPrice"));
                 productBean.setDiscountPercent(resultSet.getDouble("discountPercent"));
-
-                products.add(productBean);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
-        }
-        return products;
-    }
-
-
-    // TODO: Chưa có offset và limit
-    public List<ProductBean> findProductByTypeId(String categoryTypeId) {
-        List<ProductBean> products = new ArrayList<>();
-        String sql = "SELECT id, name, categoryTypeId, originalPrice, discountPrice, discountPercent " +
-                "FROM products WHERE categoryTypeId = ? AND status = 1 " +
-                "ORDER BY name ASC";
-
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        try {
-            connection = OpenConnectionUtil.openConnection();
-            preparedStatement = connection.prepareStatement(sql);
-            SetParameterUtil.setParameter(preparedStatement, categoryTypeId);
-            resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                ProductBean productBean = new ProductBean();
-                productBean.setId(resultSet.getInt("id"));
-                productBean.setName(resultSet.getString("name"));
-                productBean.setCategoryTypeId(resultSet.getInt("categoryTypeId"));
-                productBean.setOriginalPrice(resultSet.getDouble("originalPrice"));
-                productBean.setDiscountPrice(resultSet.getDouble("discountPrice"));
-                productBean.setDiscountPercent(resultSet.getDouble("discountPercent"));
+                productBean.setAvgRate(resultSet.getDouble("avgRate"));
+                productBean.setNumReviews(resultSet.getInt("numReviews"));
 
                 products.add(productBean);
             }
@@ -414,7 +386,7 @@ public class ProductDAO {
 
     private String modifiedQueryByTypeId(double[] range, String sort) {
         StringBuilder sb = new StringBuilder();
-        sb.append("SELECT id, name, categoryTypeId, originalPrice, discountPrice, discountPercent ")
+        sb.append("SELECT id, name, categoryTypeId, originalPrice, discountPrice, discountPercent, quantity, soldQuantity, avgRate, numReviews ")
            .append("FROM products WHERE categoryTypeId = ? AND status = 1 ");
 
         if (range != null) {
@@ -434,7 +406,7 @@ public class ProductDAO {
 
     private String modifiedQueryByKey(String key, double[] range, String sort) {
         StringBuilder sb = new StringBuilder();
-        sb.append("SELECT id, name, categoryTypeId, originalPrice, discountPrice, discountPercent, keyword ")
+        sb.append("SELECT id, name, categoryTypeId, originalPrice, discountPrice, discountPercent, keyword, quantity, soldQuantity, avgRate, numReviews ")
                 .append("FROM products WHERE (name LIKE \"%")
                 .append(key)
                 .append("%\" OR keyword LIKE \"%")
@@ -533,7 +505,7 @@ public class ProductDAO {
     public ProductBean findProductByName(String name) {
         ProductBean product = null;
         String sql = "SELECT id, name, description, categoryTypeId, originalPrice, discountPrice, " +
-                "discountPercent, quantity, soldQuantity, size, otherSpec, status, keyword, " +
+                "discountPercent, quantity, soldQuantity, avgRate, numReviews, size, otherSpec, status, keyword, " +
                 "createdDate, createdBy, modifiedDate, modifiedBy " +
                 "FROM products " +
                 "WHERE name = ? AND status <> 0";
@@ -559,6 +531,8 @@ public class ProductDAO {
                 product.setDiscountPercent(resultSet.getDouble("discountPercent"));
                 product.setQuantity(resultSet.getInt("quantity"));
                 product.setSoldQuantity(resultSet.getInt("soldQuantity"));
+                product.setAvgRate(resultSet.getDouble("avgRate"));
+                product.setNumReviews(resultSet.getInt("numReviews"));
                 product.setSize(resultSet.getString("size"));
                 product.setOtherSpec(resultSet.getString("otherSpec"));
                 product.setStatus(resultSet.getInt("status"));
@@ -605,7 +579,7 @@ public class ProductDAO {
 
     public List<ProductBean> findSixProductsForSuggest(int productId, int categoryTypeId, int offset) {
         String sql = "SELECT id, name, description, categoryTypeId, originalPrice, discountPrice, " +
-                "discountPercent, quantity, soldQuantity, size, otherSpec, keyword, status, " +
+                "discountPercent, quantity, soldQuantity, avgRate, numReviews, size, otherSpec, keyword, status, " +
                 "createdDate, createdBy, modifiedDate, modifiedBy " +
                 "FROM products " +
                 "WHERE (id <> ? AND categoryTypeId = ?) " +
@@ -635,6 +609,8 @@ public class ProductDAO {
                 productBean.setDiscountPercent(resultSet.getDouble("discountPercent"));
                 productBean.setQuantity(resultSet.getInt("quantity"));
                 productBean.setSoldQuantity(resultSet.getInt("soldQuantity"));
+                productBean.setAvgRate(resultSet.getDouble("avgRate"));
+                productBean.setNumReviews(resultSet.getInt("numReviews"));
                 productBean.setSize(resultSet.getString("size"));
                 productBean.setOtherSpec(resultSet.getString("otherSpec"));
                 productBean.setKeyword(resultSet.getString("keyword"));
