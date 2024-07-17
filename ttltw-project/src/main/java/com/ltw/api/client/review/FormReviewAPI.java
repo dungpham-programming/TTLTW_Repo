@@ -54,4 +54,9 @@ public class FormReviewAPI extends HttpServlet {
         resp.setContentType("application/json");
         resp.getWriter().write(json);
     }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+            resp.getWriter().write("OK");
+    }
 }
