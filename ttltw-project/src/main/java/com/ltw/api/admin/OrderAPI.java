@@ -37,7 +37,7 @@ public class OrderAPI extends HttpServlet {
         String orderDir = req.getParameter("order[0][dir]") == null ? "asc" : req.getParameter("order[0][dir]");
         String columnOrder = req.getParameter("columns[" + orderBy + "][data]");      // Tên của cột muốn sắp xếp
 
-        List<OrderBean> orders = orderDAO.getOrderDatatable(start, length, columnOrder, orderDir, searchValue);
+        List<OrderBean> orders = orderDAO.getOrdersDatatable(start, length, columnOrder, orderDir, searchValue);
         int recordsTotal = orderDAO.getRecordsTotal();
         // Tổng số record khi filter search
         int recordsFiltered = orderDAO.getRecordsFiltered(searchValue);

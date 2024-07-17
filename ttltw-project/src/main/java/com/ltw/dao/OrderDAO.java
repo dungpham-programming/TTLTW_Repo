@@ -287,7 +287,7 @@ public class OrderDAO {
         return affectRows;
     }
 
-    public List<OrderBean> getOrderDatatable(int start, int length, String columnOrder, String orderDir, String searchValue) {
+    public List<OrderBean> getOrdersDatatable(int start, int length, String columnOrder, String orderDir, String searchValue) {
         List<OrderBean> orders = new ArrayList<>();
     String sql = "SELECT id, userId, total,paymentMethod,status, shipToDate, createdDate, createdBy, modifiedDate,modifiedBy FROM orders";
     int index = 1;
