@@ -260,6 +260,45 @@ public class UserDAO {
         return id;
     }
 
+    public int createOAuth(UserBean user, String platform) {
+        int id = -1;
+        StringBuilder sql = new StringBuilder();
+        sql.append("INSERT INTO users ")
+                .append("(email, password, roleId, status, viaOAuth, verifiedCode)")
+                .append(" VALUES ")
+                .append("(?, ?, 1, 1, ").append("\"").append(platform).append("\"").append(", ?)");
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            connection.setAutoCommit(false);
+            preparedStatement = connection.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
+
+            SetParameterUtil.setParameter(preparedStatement, user.getEmail(), user.getPassword(), user.getVerifiedCode());
+
+            preparedStatement.executeUpdate();
+            resultSet = preparedStatement.getGeneratedKeys();
+
+            if (resultSet.next()) {
+                id = resultSet.getInt(1);
+            }
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+                e.printStackTrace();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        } finally {
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return id;
+    }
+
     // Lấy lên email dựa vào verifiedCode (Để kiểm tra tính hợp lệ của code)
     public String checkVerifiedCode(String verifiedCode) {
         String email = "";
@@ -695,6 +734,7 @@ public class UserDAO {
             CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
         }
         return "error";
+    }
 
     public List<UserBean> getUsersDatatable(int start, int length, String columnOrder, String orderDir, String searchValue) {
         List<UserBean> users = new ArrayList<>();

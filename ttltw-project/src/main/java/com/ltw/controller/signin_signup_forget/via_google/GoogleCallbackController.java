@@ -80,7 +80,7 @@ public class GoogleCallbackController extends HttpServlet {
 
                     // Nếu email chưa xuất hiện trong database thì thêm thông tin vào database
                     if (userDAO.findUserByEmail(email) == null) {
-                        userDAO.createInRegister(user);
+                        userDAO.createOAuth(user, "Google");
                         // Set user vào Session
                         SessionUtil.getInstance().putValue(req, "user", userDAO.findUserByEmail(email));
                         resp.sendRedirect(req.getContextPath() + "/home");
