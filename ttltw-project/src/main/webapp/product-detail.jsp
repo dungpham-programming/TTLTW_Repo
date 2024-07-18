@@ -229,6 +229,10 @@
                         <hr>
                         <%}%>
                     </div>
+                    <div class="d-flex justify-content-center align-items-center">
+                        <div id="pagination"></div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -250,7 +254,7 @@
                         <div class="col-2 mb-3">
                             <a href="<c:url value="/product-detail"><c:param name="id" value="<%=String.valueOf(product.getId())%>"/></c:url>">
                                 <div class="card">
-                            <span class="discount-percent"><f:formatNumber value="<%=product.getDiscountPercent()%>"
+                            <span class="discount-percent suggest"><f:formatNumber value="<%=product.getDiscountPercent()%>"
                                                                            pattern="##0"/>%</span>
                                     <img src="<%=product.getImages().get(0).getLink()%>"
                                          class="card-img-top suggest-img"
@@ -305,10 +309,13 @@
 <script>
     const averageRating = <%=productDetail.getAvgRate()%>;
     const totalReview = <%=productDetail.getNumReviews()%>;
+    const productId = <%=productDetail.getId()%>;
 </script>
 <jsp:include page="/common/client/using-resource-footer.jsp"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.2/jquery.twbsPagination.min.js"></script>
 <script src="<c:url value="/templates/client/js/render-rating.js"/>"></script>
 <script src="<c:url value="/templates/client/js/ajax/cart/cart-add.js"/>"></script>
 <script src="<c:url value="/templates/client/js/ajax/product-suggest.js"/>"></script>
+<script src="<c:url value="/templates/client/js/ajax/review-pagination.js"/>"></script>
 </body>
 </html>

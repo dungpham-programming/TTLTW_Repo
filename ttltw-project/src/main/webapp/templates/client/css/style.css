@@ -2254,7 +2254,7 @@ a.cart-btn:hover {
     transition: .3s all ease-out;
 }
 
-span.discount-percent {
+span.discount-percent.suggest {
     position: absolute;
     top: 0;
     right: 0;

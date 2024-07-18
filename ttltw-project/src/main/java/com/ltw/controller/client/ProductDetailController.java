@@ -39,7 +39,7 @@ public class ProductDetailController extends HttpServlet {
             product.setImages(thumbnail);
         }
 
-        List<ReviewBean> reviews = reviewDAO.findReviewPaginationByProductId(productId, 0);
+        List<ReviewBean> reviews = reviewDAO.findReviewPaginationByProductId(productId, 0, 0);
 
         req.setAttribute("customizeInfo", customizeInfo);
         req.setAttribute("productDetail", productDetailBean);

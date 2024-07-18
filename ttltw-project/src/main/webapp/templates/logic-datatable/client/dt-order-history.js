@@ -78,7 +78,7 @@ $(() => {
                         allButton += cancelButton;
                     }
 
-                    if (row.status === 4) {
+                    if (row.status === 4 ) {
                         const reviewButton = `<button data-bs-toggle="tooltip" title="Đánh giá sản phẩm"
                            class="edit get-form-review" data-send="${row.id}" style="padding: 6px 10px; margin-left: 4px; border: 0;"><i class="fa-solid fa-face-smile" style="color: #e3bd74;"></i></button>`;
 

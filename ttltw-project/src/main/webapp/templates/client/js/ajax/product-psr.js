@@ -81,7 +81,7 @@ $(() => {
 
 // Hàm thay đổi URL mà không refresh lại toàn bộ trang
 function changeURL(page, categoryTypeId, sort, range) {
-    let newURL = `http://localhost:8080/ttltw/shop-detail-by-type?categoryTypeId=${categoryTypeId}&recentPage=${page}&sort=${sort}&range=${range}`;
+    let newURL = `http://localhost:8080${contextPath}/shop-detail-by-type?categoryTypeId=${categoryTypeId}&recentPage=${page}&sort=${sort}&range=${range}`;
     history.pushState({initial: true}, null, newURL);
 }
 

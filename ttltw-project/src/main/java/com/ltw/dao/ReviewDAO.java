@@ -92,14 +92,20 @@ public class ReviewDAO {
         return id;
     }
 
-    public List<ReviewBean> findReviewPaginationByProductId(int productId, int offset) {
+    public List<ReviewBean> findReviewPaginationByProductId(int productId, int offset, int rating) {
         String sql = "SELECT id, productId, userId, username, " +
                 "orderId, content, rating, status, " +
                 "createdDate, createdBy, modifiedDate, modifiedBy " +
                 "FROM reviews " +
-                "WHERE (productId = ? AND status = 1) " +
-                "ORDER BY createdDate DESC " +
-                "LIMIT 10 OFFSET ?";
+                "WHERE productId = ? AND status = 1";
+
+        // Kiểm tra giá trị của rating
+        if (rating > 0 && rating < 6) {
+            sql += " AND rating = ?";
+        }
+
+        // Thêm phần sắp xếp và giới hạn kết quả
+        sql += " ORDER BY createdDate DESC LIMIT 5 OFFSET ?";
 
         List<ReviewBean> reviews = new ArrayList<>();
 
@@ -110,7 +116,11 @@ public class ReviewDAO {
         try {
             connection = OpenConnectionUtil.openConnection();
             preparedStatement = connection.prepareStatement(sql);
-            SetParameterUtil.setParameter(preparedStatement, productId, offset);
+            if (rating > 0 && rating < 6) {
+                SetParameterUtil.setParameter(preparedStatement, productId, rating, offset);
+            } else {
+                SetParameterUtil.setParameter(preparedStatement, productId, offset);
+            }
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 ReviewBean reviewBean = new ReviewBean();
