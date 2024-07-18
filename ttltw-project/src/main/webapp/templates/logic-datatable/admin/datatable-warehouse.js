@@ -22,13 +22,7 @@ $(document).ready(function () {
         ],
         columnDefs: [
             {
-                targets: 2,
-                render: function (data, type, row, meta) {
-                    return new Date(data).toLocaleString();
-                }
-            },
-            {
-                targets: 3,
+                targets: [2, 3, 5],
                 render: function (data, type, row, meta) {
                     return new Date(data).toLocaleString();
                 }
@@ -37,6 +31,10 @@ $(document).ready(function () {
                 targets: 7,
                 render: function (data, type, row, meta) {
                     let allButton = '';
+                    const infoButton = `<a href="http://localhost:8080/admin/warehouse-detail-management?warehouseId=${row.id}" data-bs-toggle="tooltip" title="Chi tiết đơn hàng"
+                           class="edit" style="padding: 10px 14px; margin-right: 4px;"><i class="fa-solid fa-info fa-xl" style="color: #e3bd74;"></i></a>`;
+
+
                     const updateBtn = `<a href="http://localhost:8080/admin/warehouse-management/editing?id=${row.id}" data-bs-toggle="tooltip" title="Chỉnh sửa kho"
                        class="edit">
                         <svg class="svg-inline--fa fa-pen-to-square" style="color: #e3bd74;" aria-hidden="true"
@@ -51,6 +49,8 @@ $(document).ready(function () {
                     const deleteBtn = `<button onclick="deleteRecord(this, ${row.id}, 'warehouse')" style="padding: 9px; margin-left: 4px;" data-bs-toggle="tooltip" title="Xóa kho" class="delete">
                         <svg class="svg-inline--fa fa-trash" style="color: #e3bd74;" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="trash" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"></path></svg>
                         <!-- <i class="fa-solid fa-trash" style="color: #e3bd74;"></i> Font Awesome fontawesome.com --></button>`;
+
+                    allButton += infoButton;
                     allButton += updateBtn;
                     allButton += deleteBtn;
                     return allButton;

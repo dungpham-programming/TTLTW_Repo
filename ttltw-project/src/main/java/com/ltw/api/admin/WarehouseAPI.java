@@ -1,10 +1,14 @@
 package com.ltw.api.admin;
 
+import com.ltw.bean.ProductBean;
 import com.ltw.bean.UserBean;
 import com.ltw.bean.WarehouseBean;
+import com.ltw.bean.WarehouseDetailBean;
 import com.ltw.constant.LogLevel;
 import com.ltw.constant.LogState;
+import com.ltw.dao.ProductDAO;
 import com.ltw.dao.WarehouseDAO;
+import com.ltw.dao.WarehouseDetailDAO;
 import com.ltw.dto.DatatableDTO;
 import com.ltw.service.LogService;
 import com.ltw.util.SendEmailUtil;
@@ -17,6 +21,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(value = {"/api/admin/warehouse"})
@@ -24,6 +29,8 @@ public class WarehouseAPI extends HttpServlet {
     private final WarehouseDAO warehouseDAO = new WarehouseDAO();
     private WarehouseBean prevWarehouse;
     private final LogService<WarehouseBean> logService = new LogService<>();
+    private final WarehouseDetailDAO warehouseDetailDAO = new WarehouseDetailDAO();
+    private final ProductDAO productDAO = new ProductDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -70,11 +77,35 @@ public class WarehouseAPI extends HttpServlet {
             status = "error";
             notify = "Có lỗi khi xóa kho!";
         } else {
-            logService.log(req, "admin-delete-warehouse", LogState.SUCCESS, LogLevel.WARNING, prevWarehouse, null);
-            status = "success";
-            notify = "Xóa kho thành công!";
-            UserBean user = (UserBean) SessionUtil.getInstance().getValue(req, "user");
-            SendEmailUtil.sendDeleteNotify(user.getId(), user.getEmail(), prevWarehouse.getId(), "Warehouse");
+            List<WarehouseDetailBean> warehouseDetail = warehouseDetailDAO.findWarehouseDetailByWarehouseId(id);
+            int count = 0;
+            List<Integer> newQuantity = new ArrayList<>();
+            List<Integer> productIds = new ArrayList<>();
+            for (WarehouseDetailBean detail : warehouseDetail) {
+                ProductBean product = productDAO.findProductById(detail.getProductId());
+                if (detail.getQuantity() > product.getQuantity()) {
+                    count++;
+                } else {
+                    newQuantity.add(product.getQuantity() - detail.getQuantity());
+                    productIds.add(detail.getProductId());
+                }
+            }
+
+            // Bằng 0 thì xóa được
+            if (count == 0) {
+                for (int i = 0; i < newQuantity.size(); i++) {
+                    productDAO.updateQuantity(newQuantity.get(i), productIds.get(i));
+                }
+                logService.log(req, "admin-delete-warehouse", LogState.SUCCESS, LogLevel.WARNING, prevWarehouse, null);
+                status = "success";
+                notify = "Xóa kho thành công!";
+                UserBean user = (UserBean) SessionUtil.getInstance().getValue(req, "user");
+                SendEmailUtil.sendDeleteNotify(user.getId(), user.getEmail(), prevWarehouse.getId(), "Warehouse");
+            } else {
+                logService.log(req, "admin-delete-warehouse", LogState.FAIL, LogLevel.ALERT, prevWarehouse, null);
+                status = "error";
+                notify = "Số lượng hàng thực tế ít hơn nhập hàng, không thể hủy!";
+            }
         }
 
         String jsonData = "{\"status\": \"" + status + "\", \"notify\": \"" + notify + "\"}";

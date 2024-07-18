@@ -1,6 +1,5 @@
 package com.ltw.dao;
 
-import com.ltw.bean.BlogBean;
 import com.ltw.bean.OrderBean;
 import com.ltw.bean.OrderDetailBean;
 import com.ltw.util.CloseResourceUtil;
@@ -8,11 +7,6 @@ import com.ltw.util.OpenConnectionUtil;
 import com.ltw.util.SetParameterUtil;
 
 import java.sql.*;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -259,9 +253,9 @@ public class OrderDAO {
         return affected;
     }
 
-    public int deleteOrder(int id) {
+    public int cancerOrderAdmin(int id) {
         int affectRows;
-        String sql = "DELETE FROM orders WHERE id = ?";
+        String sql = "UPDATE orders SET status = 0 WHERE id = ?";
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
