@@ -1,30 +1,35 @@
 package com.ltw.bean;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public class ReviewBean {
     private int id;
-    private int productId ;
-    private  int userId;
-    private  String username;
-    private  String content;
-    private  int rating;
-    private  int helpfulCount;
-    private int reportCount;
+    private int productId;
+    private String productName;
+    private List<String> productImgs;
+    private int userId;
+    private String username;
+    private int orderId;
+    private String content;
+    private int rating;
+    private int status;
     private Timestamp createdDate;
     private String createdBy;
     private Timestamp modifiedDate;
     private String modifiedBy;
 
-    public ReviewBean(int id, int productId, int userId, String username, String content, int rating, int helpfulCount, int reportCount, Timestamp createdDate, String createdBy, Timestamp modifiedDate, String modifiedBy) {
+    public ReviewBean(int id, int productId, String productName, List<String> productImgs, int userId, String username, int orderId, String content, int rating, int status, Timestamp createdDate, String createdBy, Timestamp modifiedDate, String modifiedBy) {
         this.id = id;
         this.productId = productId;
+        this.productName = productName;
+        this.productImgs = productImgs;
         this.userId = userId;
         this.username = username;
+        this.orderId = orderId;
         this.content = content;
         this.rating = rating;
-        this.helpfulCount = helpfulCount;
-        this.reportCount = reportCount;
+        this.status = status;
         this.createdDate = createdDate;
         this.createdBy = createdBy;
         this.modifiedDate = modifiedDate;
@@ -50,6 +55,22 @@ public class ReviewBean {
         this.productId = productId;
     }
 
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public List<String> getProductImgs() {
+        return productImgs;
+    }
+
+    public void setProductImgs(List<String> productImgs) {
+        this.productImgs = productImgs;
+    }
+
     public int getUserId() {
         return userId;
     }
@@ -64,6 +85,14 @@ public class ReviewBean {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public int getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
     }
 
     public String getContent() {
@@ -82,20 +111,12 @@ public class ReviewBean {
         this.rating = rating;
     }
 
-    public int getHelpfulCount() {
-        return helpfulCount;
+    public int getStatus() {
+        return status;
     }
 
-    public void setHelpfulCount(int helpfulCount) {
-        this.helpfulCount = helpfulCount;
-    }
-
-    public int getReportCount() {
-        return reportCount;
-    }
-
-    public void setReportCount(int reportCount) {
-        this.reportCount = reportCount;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public Timestamp getCreatedDate() {

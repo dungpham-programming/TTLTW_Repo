@@ -1,5 +1,6 @@
 <%@ page import="com.ltw.bean.UserBean" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.List" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -19,29 +20,37 @@
                     <li class="breadcrumb-item active">DDD. Administrator</li>
                 </ol>
                 <%
-                    String success = request.getParameter("success");
-                    if (success != null) {
+                    String msg = (String) request.getAttribute("msg");
+                    if (msg != null) {
                 %>
-                <div class="alert alert-success">Thay đổi thành công!</div>
+                <%= (msg.equals("success") ? "<div class=\"alert alert-success\">Thay đổi thành công!</div>" : "<div class=\"alert alert-danger\">Thay đổi thất bại!</div>") %>
                 <%}%>
                 <form action="<c:url value="/admin/account-management/editing"/>" method="post">
                     <%
-                        UserBean user = (UserBean) request.getAttribute("accountBean");
+                        List<String> errors = (List<String>) request.getAttribute("errors");
+                        UserBean user = (UserBean) request.getAttribute("displayUser");
+                        if (user != null) {
                     %>
                     <div class="row">
                         <div class="col-3">
                             <label for="email">Email</label>
-                            <input type="email" id="email" name="email" value="<%=user.getEmail()%>" disabled>
+                            <input type="email" id="email" name="email" value="<%=user.getEmail()%>">
                         </div>
 
                         <div class="col-3">
                             <label for="firstName">Họ</label>
-                            <input type="text" id="firstName" name="firstName" value="<%=user.getFirstName()%>" disabled>
+                            <input type="text" id="firstName" name="firstName" value="<%=user.getFirstName()%>">
+                            <% if (errors != null && errors.get(0) != null) { %>
+                            <div class="error" id="error1">Không được để trống!</div>
+                            <% } %>
                         </div>
 
                         <div class="col-3">
                             <label for="lastName">Tên</label>
-                            <input type="text" id="lastName" name="lastName" value="<%=user.getLastName()%>" disabled>
+                            <input type="text" id="lastName" name="lastName" value="<%=user.getLastName()%>">
+                            <% if (errors != null && errors.get(1) != null) { %>
+                            <div class="error" id="error2">Không được để trống!</div>
+                            <% } %>
                         </div>
 
                         <div class="col-2">
@@ -50,6 +59,9 @@
                                 <option value="1" <%= (user.getStatus() == 1) ? "selected" : "" %>>Người dùng</option>
                                 <option value="2" <%= (user.getStatus() == 2) ? "selected" : "" %>>Quản trị viên</option>
                             </select>
+                            <% if (errors != null && errors.get(2) != null) { %>
+                            <div class="error" id="error3">Không được để trống!</div>
+                            <% } %>
                         </div>
 
                         <div class="col-1">
@@ -59,26 +71,41 @@
                                 <option value="2" <%= (user.getStatus() == 2) ? "selected" : "" %>>Chưa xác thực</option>
                                 <option value="3" <%= (user.getStatus() == 3) ? "selected" : "" %>>Vô hiệu hóa</option>
                             </select>
+                            <% if (errors != null && errors.get(3) != null) { %>
+                            <div class="error" id="error4">Không được để trống!</div>
+                            <% } %>
                         </div>
 
                         <div class="col-12">
                             <label for="addressLine">Số nhà/Tên đường</label>
-                            <input type="text" id="addressLine" name="addressLine" value="Đường NAQ" disabled>
+                            <input type="text" id="addressLine" name="addressLine">
+                            <% if (errors != null && errors.get(4) != null) { %>
+                            <div class="error" id="error5">Không được để trống!</div>
+                            <% } %>
                         </div>
 
                         <div class="col-12">
                             <label for="addressWard">Phường/Xã</label>
-                            <input type="text" id="addressWard" name="addressWard" value="Phường Klfa" disabled>
+                            <input type="text" id="addressWard" name="addressWard">
+                            <% if (errors != null && errors.get(5) != null) { %>
+                            <div class="error" id="error6">Không được để trống!</div>
+                            <% } %>
                         </div>
 
                         <div class="col-12">
                             <label for="addressDistrict">Quận/Huyện</label>
-                            <input type="text" id="addressDistrict" name="addressDistrict" value="BH" disabled>
+                            <input type="text" id="addressDistrict" name="addressDistrict">
+                            <% if (errors != null && errors.get(6) != null) { %>
+                            <div class="error" id="error7">Không được để trống!</div>
+                            <% } %>
                         </div>
 
                         <div class="col-12">
                             <label for="addressProvince">Tỉnh/Thành phố</label>
-                            <input type="text" id="addressProvince" name="addressProvince" value="Đồng Nai" disabled>
+                            <input type="text" id="addressProvince" name="addressProvince">
+                            <% if (errors != null && errors.get(7) != null) { %>
+                            <div class="error" id="error8">Không được để trống!</div>
+                            <% } %>
                         </div>
                     </div>
                     <input type="hidden" name="id" value="<%=user.getId()%>">
@@ -86,6 +113,9 @@
                     <a href="<c:url value="/admin/account-management"/>">Quay về trang quản lý</a>
                     <a href="<c:url value="/admin/home"/>">Quay về trang chủ</a>
                 </form>
+                <%} else {%>
+                <div class="alert alert-danger">Lỗi hệ thống!</div>
+                <%}%>
             </div>
         </main>
     </div>

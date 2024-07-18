@@ -28,10 +28,12 @@
                     String error = (String) request.getAttribute("error");
                 %>
                 <% if (success != null) { %>
-                <div class="alert alert-success"><%=success%></div>
+                <div class="alert alert-success"><%=success%>
+                </div>
                 <% } %>
                 <% if (error != null) { %>
-                <div class="alert alert-error"><%=error%></div>
+                <div class="alert alert-error"><%=error%>
+                </div>
                 <% } %>
                 <div class="card mb-4 mt-4">
                     <div class="card-header">
@@ -39,11 +41,13 @@
                         Quản lý liên hệ
                     </div>
                     <div class="table-responsive">
-                        <table id="manageAccountTable">
+                        <table id="contactData" class="table table-striped" style="width:100%">
                             <thead>
                             <tr>
                                 <th>ID Tài khoản</th>
                                 <th>Email</th>
+                                <th>Tên</th>
+                                <th>Họ</th>
                                 <th>Tiêu đề</th>
                                 <th>Tin nhắn</th>
                                 <th>Trạng thái</th>
@@ -54,38 +58,24 @@
                                 <th>Chức năng</th>
                             </tr>
                             </thead>
-                            <%
-                                List<ContactBean> listContact = (List<ContactBean>) request.getAttribute("listContact");
-
-                                for (ContactBean contact : listContact) {
-                                    String idStr = String.valueOf(contact.getId());
-                            %>
                             <tbody>
-                            <tr>
-                                <td><%=contact.getId()%></td>
-
-                                <td><%=contact.getEmail()%></td>
-                                <td><%=contact.getTitle()%></td>
-                                <td><%=contact.getMessage()%></td>
-                                <% if (contact.getStatus() == 1) { %>
-                                <td>Đã phản hồi</td>
-                                <% } else if (contact.getStatus() == 2) { %>
-                                <td>Cần xác thực</td>
-                                <% } else if (contact.getStatus() == 0) { %>
-                                <td>Vô hiệu hóa</td>
-                                <% } %>
-                                <td><%=contact.getCreatedDate()%></td>
-                                <td><%=contact.getCreatedBy()%></td>
-                                <td><%=contact.getModifiedDate()%></td>
-                                <td><%=contact.getModifiedBy()%></td>
-                                <td>
-                                    <a href="<c:url value="/admin/contact-management/editing"/>" data-bs-toggle="tooltip" title="Chỉnh sửa liên hệ" class="edit"><i
-                                            class="fa-regular fa-pen-to-square" style="color: #e3bd74;"></i></a>
-                                    <a href="<c:url value="/admin/contact-management/delete"/>" data-bs-toggle="tooltip" title="Xóa liên hệ" class="add"><i
-                                            class="fa-solid fa-trash" style="color: #e3bd74;"></i></a>
-                                </td>
-                            </tr>
                             </tbody>
+                            <tfoot>
+                            <tr>
+                                <th>ID Tài khoản</th>
+                                <th>Email</th>
+                                <th>Tên</th>
+                                <th>Họ</th>
+                                <th>Tiêu đề</th>
+                                <th>Tin nhắn</th>
+                                <th>Trạng thái</th>
+                                <th>Tạo ngày</th>
+                                <th>Tạo bởi</th>
+                                <th>Sửa ngày</th>
+                                <th>Sửa bởi</th>
+                                <th>Chức năng</th>
+                            </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -95,6 +85,7 @@
 </div>
 
 <jsp:include page="/common/admin/using-resource-footer.jsp"/>
-
+<script src="<c:url value="/templates/logic-datatable/admin/datatable-contact.js"/>"></script>
+<script src="<c:url value="/templates/logic-datatable/service-logic.js"/>"></script>
 </body>
 </html>

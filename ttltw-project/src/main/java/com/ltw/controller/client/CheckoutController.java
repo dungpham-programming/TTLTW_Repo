@@ -1,12 +1,13 @@
 package com.ltw.controller.client;
 
 import com.ltw.bean.*;
+import com.ltw.constant.LogLevel;
+import com.ltw.constant.LogState;
 import com.ltw.dao.*;
 import com.ltw.dto.FullOrderDTO;
-import com.ltw.dto.LogAddressDTO;
 import com.ltw.service.LogService;
-import com.ltw.util.BlankInputUtil;
 import com.ltw.util.SessionUtil;
+import com.ltw.util.ValidateParamUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -57,26 +58,24 @@ public class CheckoutController extends HttpServlet {
         String paymentMethod = req.getParameter("paymentMethod");
 
         String[] inputsForm = new String[]{firstName, lastName, addressLine, addressWard, addressDistrict, addressProvince};
-        ArrayList<String> errors = new ArrayList<>();
 
-        UserBean modifyUser = (UserBean) SessionUtil.getInstance().getValue(req, "user");
-
+        // Biến bắt lỗi
         boolean isValid = true;
 
-        for (String string : inputsForm) {
-            if (BlankInputUtil.isBlank(string)) {
-                errors.add("e");
-                if (isValid) {
-                    isValid = false;
-                }
-            } else {
-                errors.add(null);
+        // Kiểm tra input rằng/null trong hàm checkEmptyParam
+        List<String> errors = ValidateParamUtil.checkEmptyParam(inputsForm);
+
+        // Nếu có lỗi (khác null) trả về isValid = false
+        for (String error : errors) {
+            if (error != null) {
+                isValid = false;
+                break;
             }
         }
-        req.setAttribute("errors", errors);
 
         UserBean user = (UserBean) SessionUtil.getInstance().getValue(req, "user");
         Cart cart = (Cart) SessionUtil.getInstance().getValue(req, "cart");
+        UserBean prevUser = userDAO.findUserById(user.getId());
         if (isValid) {
             // Lưu thông tin của người dùng đã nhập
             UserBean userBean = new UserBean();
@@ -88,16 +87,12 @@ public class CheckoutController extends HttpServlet {
             userBean.setAddressDistrict(addressDistrict.trim());
             userBean.setAddressProvince(addressProvince.trim());
 
-            UserBean prevUser = userDAO.findUserById(user.getId());
-            int userAffected = userDAO.updateAccount(userBean);
-
-            if (userAffected < 0) {
-                LogAddressDTO addressObj = new LogAddressDTO("user-update-in-checkout", modifyUser.getId(), logBundle.getString("user-update-in-checkout-fail"));
-                userLogService.createLog(req.getRemoteAddr(), "", "ALERT", addressObj, prevUser, prevUser);
-            } else if (userAffected > 0) {
-                UserBean nowUser = userDAO.findUserById(user.getId());
-                LogAddressDTO addressObj = new LogAddressDTO("user-update-in-checkout", modifyUser.getId(), logBundle.getString("user-update-in-checkout-success"));
-                userLogService.createLog(req.getRemoteAddr(), "", "ALERT", addressObj, prevUser, nowUser);
+            int affectedRows = userDAO.updateAccount(userBean);
+            UserBean currentUser = userDAO.findUserById(user.getId());
+            if (affectedRows <= 0) {
+                userLogService.log(req, "user-update-in-checkout", LogState.FAIL, LogLevel.ALERT, prevUser, currentUser);
+            } else {
+                userLogService.log(req, "user-update-in-checkout", LogState.SUCCESS, LogLevel.INFO, prevUser, currentUser);
             }
 
             // Lưu thông tin đơn hàng
@@ -129,6 +124,8 @@ public class CheckoutController extends HttpServlet {
                     orderDetailBean.setOrderId(orderId);
                     orderDetailBean.setProductId(item.getProduct().getId());
                     orderDetailBean.setQuantity(item.getQuantity());
+                    // Đánh dấu là chưa review cho sản phẩm này
+                    orderDetailBean.setReviewed(0);
 
                     orderDetails.add(orderDetailBean);
                     orderDetailDAO.createOrderDetail(orderDetailBean);
@@ -138,17 +135,16 @@ public class CheckoutController extends HttpServlet {
                     productDAO.updateQuantity(item.getProduct().getId(), quantityProductAfterOrder);
                 }
                 // Ghi log thành công
-                LogAddressDTO addressObj = new LogAddressDTO("order-in-checkout", modifyUser.getId(), logBundle.getString("order-in-checkout-success"));
                 FullOrderDTO fullOrder = new FullOrderDTO(orderDAO.findOrderById(orderId), orderDetails);
-                orderLogService.createLog(req.getRemoteAddr(), "", "ALERT", addressObj, null, fullOrder);
+                orderLogService.log(req, "order-in-checkout", LogState.SUCCESS, LogLevel.INFO, null, fullOrder);
+                SessionUtil.getInstance().removeValue(req, "cart");
 
                 resp.sendRedirect(req.getContextPath() + "/thankyou");
             }
         } else {
+            req.setAttribute("errors", errors);
             // Ghi log thất bại
-            LogAddressDTO addressObj = new LogAddressDTO("order-in-checkout", modifyUser.getId(), logBundle.getString("order-in-checkout-fail"));
-            orderLogService.createLog(req.getRemoteAddr(), "", "ALERT", addressObj, null, null);
-
+            orderLogService.log(req, "order-in-checkout", LogState.FAIL, LogLevel.ALERT, null, null);
             req.getRequestDispatcher("/checkout.jsp").forward(req, resp);
         }
     }

@@ -113,7 +113,7 @@
 
             <div class="col-lg-5">
                 <div class="img-wrap">
-                    <img src="<% if (customizeInfo.getPrLink1() != null) {%><%=customizeInfo.getPrLink1()%><% } %>" alt="Image" class="img-fluid">
+                    <img src="https://img.freepik.com/free-photo/man-working-cutting-mdf-board_23-2149384827.jpg?t=st=1721241941~exp=1721245541~hmac=b98c7d939be50f3d401d9e9fabe76c0ac5a89916fed054d8bf8722057ea0b7d1&w=360" alt="Image" class="img-fluid">
                 </div>
             </div>
 
@@ -127,7 +127,7 @@
     <div class="container">
         <div class="row justify-content-between">
             <div class="col-lg-5 mb-5 mb-lg-0">
-                <div><img class="img-wrap" src="<% if (customizeInfo.getPrLink2() != null) {%><%=customizeInfo.getPrLink2()%><% } %>" alt="DDD."></div>
+                <div><img class="img-wrap" src="https://img.freepik.com/free-photo/preparing-sake-japanese-beverage_23-2150158608.jpg?size=626&ext=jpg&ga=GA1.2.2092897014.1721241907&semt=ais_user" alt="DDD."></div>
             </div>
             <div class="col-lg-7 ps-lg-5">
                 <h2 class="section-title mb-4"><% if (customizeInfo.getPrTitle2() != null) {%><%=customizeInfo.getPrTitle2()%><% } %></h2>

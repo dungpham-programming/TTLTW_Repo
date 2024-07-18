@@ -51,22 +51,30 @@ public class UserDAO {
         return accountList;
     }
 
-    public void createAccount(UserBean userBean) {
+    public int createAccount(UserBean userBean) {
+        int id = -1;
         String sql = "INSERT INTO users (password, firstName, lastName, roleId, " +
                 "email, addressLine, addressWard, addressDistrict, addressProvince, status) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
 
         try {
             connection = OpenConnectionUtil.openConnection();
             connection.setAutoCommit(false);
-            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             SetParameterUtil.setParameter(preparedStatement, userBean.getPassword(), userBean.getFirstName(),
                     userBean.getLastName(), userBean.getRoleId(), userBean.getEmail(), userBean.getAddressLine(),
                     userBean.getAddressWard(), userBean.getAddressDistrict(), userBean.getAddressProvince(), userBean.getStatus());
-            preparedStatement.executeUpdate();
+            int affectedRows = preparedStatement.executeUpdate();
+            if (affectedRows > 0) {
+                resultSet = preparedStatement.getGeneratedKeys();
+                if (resultSet.next()) {
+                    id = resultSet.getInt(1);
+                }
+            }
             connection.commit();
         } catch (SQLException e) {
             try {
@@ -75,8 +83,9 @@ public class UserDAO {
                 throw new RuntimeException(ex);
             }
         } finally {
-            CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
         }
+        return id;
     }
 
     public int deleteAccount(int id) {
@@ -139,7 +148,7 @@ public class UserDAO {
     public UserBean findUserById(int id) {
         UserBean userBean = new UserBean();
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT id, email, roleId, firstName, lastName, addressLine, addressWard, addressDistrict, addressProvince, createdDate " )
+        sql.append("SELECT id, email, roleId, status, firstName, lastName, addressLine, addressWard, addressDistrict, addressProvince, createdDate " )
                 .append("FROM users ")
                 .append("WHERE id = ?");
 
@@ -158,6 +167,7 @@ public class UserDAO {
                 userBean.setId(resultSet.getInt("id"));
                 userBean.setEmail(resultSet.getString("email"));
                 userBean.setRoleId(resultSet.getInt("roleId"));
+                userBean.setStatus(resultSet.getInt("status"));
                 userBean.setFirstName(resultSet.getString("firstName"));
                 userBean.setLastName(resultSet.getString("lastName"));
                 userBean.setAddressLine(resultSet.getString("addressLine"));
@@ -685,5 +695,162 @@ public class UserDAO {
             CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
         }
         return "error";
+
+    public List<UserBean> getUsersDatatable(int start, int length, String columnOrder, String orderDir, String searchValue) {
+        List<UserBean> users = new ArrayList<>();
+        String sql = "SELECT id, email, firstName, lastName, roleId, status, addressLine, addressWard, addressDistrict, addressProvince, createdDate FROM users";
+        int index = 1;
+
+        Connection conn = null;
+        PreparedStatement preStat = null;
+        ResultSet rs = null;
+
+        try {
+            conn = OpenConnectionUtil.openConnection();
+            if (searchValue != null && !searchValue.isEmpty()) {
+                sql += " WHERE (id LIKE ? OR email LIKE ? OR firstName LIKE ? OR lastName LIKE ? OR roleId LIKE ? OR status LIKE ? " +
+                        "OR addressLine LIKE ? OR addressWard LIKE ? OR addressDistrict LIKE ? OR addressProvince LIKE ? OR createdDate LIKE ?)";
+            }
+            sql += " ORDER BY " + columnOrder + " " + orderDir + " ";
+            sql += "LIMIT ?, ?";
+
+            preStat = conn.prepareStatement(sql);
+            if (searchValue != null && !searchValue.isEmpty()) {
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+            }
+            preStat.setInt(index++, start);
+            preStat.setInt(index, length);
+
+            rs = preStat.executeQuery();
+            while (rs.next()) {
+                UserBean user = new UserBean();
+                user.setId(rs.getInt("id"));
+                user.setEmail(rs.getString("email"));
+                user.setFirstName(rs.getString("firstName"));
+                user.setLastName(rs.getString("lastName"));
+                user.setRoleId(rs.getInt("roleId"));
+                user.setStatus(rs.getInt("status"));
+                user.setAddressLine(rs.getString("addressLine"));
+                user.setAddressWard(rs.getString("addressWard"));
+                user.setAddressDistrict(rs.getString("addressDistrict"));
+                user.setAddressProvince(rs.getString("addressProvince"));
+                user.setCreatedDate(rs.getTimestamp("createdDate"));
+
+                users.add(user);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            CloseResourceUtil.closeResource(rs, preStat, conn);
+        }
+        return users;
+    }
+
+    public int getRecordsTotal() {
+        int recordsTotal = -1;
+        String sql = "SELECT COUNT(id) FROM users";
+
+        Connection conn = null;
+        PreparedStatement preStat = null;
+        ResultSet rs = null;
+
+        try {
+            conn = OpenConnectionUtil.openConnection();
+            preStat = conn.prepareStatement(sql);
+            rs = preStat.executeQuery();
+
+            if (rs.next()) {
+                recordsTotal = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            CloseResourceUtil.closeResource(rs, preStat, conn);
+        }
+        return recordsTotal;
+    }
+
+    public int getRecordsFiltered(String searchValue) {
+        int recordsFiltered = -1;
+        String sql = "SELECT COUNT(id) FROM users";
+
+        Connection conn = null;
+        PreparedStatement preStat = null;
+        ResultSet rs = null;
+
+        try {
+            conn = OpenConnectionUtil.openConnection();
+            if (searchValue != null && !searchValue.isEmpty()) {
+                sql += " WHERE (id LIKE ? OR email LIKE ? OR firstName LIKE ? OR lastName LIKE ? OR roleId LIKE ? OR status LIKE ? " +
+                        "OR addressLine LIKE ? OR addressWard LIKE ? OR addressDistrict LIKE ? OR addressProvince LIKE ? OR createdDate LIKE ?)";
+            }
+            preStat = conn.prepareStatement(sql);
+            int index = 1;
+            if (searchValue != null && !searchValue.isEmpty()) {
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index, "%" + searchValue + "%");
+            }
+            rs = preStat.executeQuery();
+
+            if (rs.next()) {
+                recordsFiltered = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            CloseResourceUtil.closeResource(rs, preStat, conn);
+        }
+        return recordsFiltered;
+    }
+
+    public UserBean findUserByOrderId(int orderId) {
+        String sql = "SELECT * FROM users WHERE id = (SELECT userId FROM orders WHERE id = ?)";
+        Connection conn = null;
+        PreparedStatement preStat = null;
+        ResultSet rs = null;
+        UserBean user = new UserBean();
+        try {
+            conn = OpenConnectionUtil.openConnection();
+            preStat = conn.prepareStatement(sql);
+            preStat.setInt(1, orderId);
+            rs = preStat.executeQuery();
+            while (rs.next()) {
+                user.setId(rs.getInt("id"));
+                user.setEmail(rs.getString("email"));
+                user.setFirstName(rs.getString("firstName"));
+                user.setLastName(rs.getString("lastName"));
+                user.setRoleId(rs.getInt("roleId"));
+                user.setStatus(rs.getInt("status"));
+                user.setAddressLine(rs.getString("addressLine"));
+                user.setAddressWard(rs.getString("addressWard"));
+                user.setAddressDistrict(rs.getString("addressDistrict"));
+                user.setAddressProvince(rs.getString("addressProvince"));
+                user.setCreatedDate(rs.getTimestamp("createdDate"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            CloseResourceUtil.closeResource(rs, preStat, conn);
+        }
+        return user;
     }
 }

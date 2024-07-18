@@ -1,13 +1,14 @@
 package com.ltw.controller.admin.product;
 
 import com.ltw.bean.ProductBean;
-import com.ltw.bean.UserBean;
+import com.ltw.bean.ProductImageBean;
+import com.ltw.constant.LogLevel;
+import com.ltw.constant.LogState;
+import com.ltw.dao.ImageDAO;
 import com.ltw.dao.ProductDAO;
-import com.ltw.dto.LogAddressDTO;
 import com.ltw.service.LogService;
-import com.ltw.util.BlankInputUtil;
 import com.ltw.util.NumberValidateUtil;
-import com.ltw.util.SessionUtil;
+import com.ltw.util.ValidateParamUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,24 +16,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
+import java.util.List;
+import java.util.UUID;
 
 @WebServlet(value = {"/admin/product-management/adding"})
 public class ProductAddingController extends HttpServlet {
     private final ProductDAO productDAO = new ProductDAO();
     private LogService<ProductBean> logService = new LogService<>();
-    private ResourceBundle logBundle = ResourceBundle.getBundle("log-content");
+    private ImageDAO imageDAO = new ImageDAO();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("/adding-product.jsp").forward(req, resp);
     }
 
-    // TODO: Xử lý trường hợp không nhập discount price hoặc nhập số âm
-    // TODO: Gom các util validate làm 1 (Sau khi sửa xong)
-    // TODO: Thêm thông báo thành công
-    // TODO: Sticky cho nút add và thẻ td trong table
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
@@ -49,55 +46,57 @@ public class ProductAddingController extends HttpServlet {
         String otherSpec = req.getParameter("otherSpec");
         String status = req.getParameter("status");
         String keyword = req.getParameter("keyword");
+        String imgUrls = req.getParameter("imgUrls");
 
-        // Các biến lưu giữ lỗi về giá (Tên biến là viết tắt của
-        // originalPriceErr, discountPriceErr, discountPercentErr)
-        String oPrErr = "e", dPrErr = "e", dPeErr = "e";
+        // Các biến lưu giữ lỗi về giá
+        String oPrErr = "e", dPrErr = "e", dPeErr = "e", qErr = "e";
 
-        // Biến thông báo thành công
-        String success = "success";
+        // Biến thông báo
+        String msg = "";
 
         // Đặt các thuộc tính đúng thứ tự
-        String[] inputsForm = new String[]{name, description, categoryTypeId, originalPrice, discountPrice, discountPercent, quantity, size, otherSpec, status, keyword};
-        // Mảng lưu trữ lỗi
-        ArrayList<String> errors = new ArrayList<>();
-
+        String[] inputsForm = new String[]{name, description, categoryTypeId, originalPrice, discountPrice, discountPercent, quantity, size, status, imgUrls};
         // Biến bắt lỗi
         boolean isValid = true;
 
-        for (String string : inputsForm) {
-            if (BlankInputUtil.isBlank(string)) {
-                errors.add("e");
-                if (isValid) {
-                    isValid = false;
-                }
-            } else {
-                errors.add(null);
+        // Kiểm tra input rằng/null trong hàm checkEmptyParam
+        List<String> errors = ValidateParamUtil.checkEmptyParam(inputsForm);
+
+        // Nếu có lỗi (khác null) trả về isValid = false
+        for (String error : errors) {
+            if (error != null) {
+                isValid = false;
+                break;
             }
         }
-        req.setAttribute("errors", errors);
 
         // Kiểm tra các lỗi nhập liệu khác
         // Lỗi nhập liệu cho giá và phần trăm (Là phần số)
-        if (!NumberValidateUtil.isNumeric(originalPrice) || NumberValidateUtil.isValidPrice(originalPrice)) {
+        if (!NumberValidateUtil.isNumeric(originalPrice) || !NumberValidateUtil.isValidPrice(originalPrice)) {
             if (isValid) {
                 isValid = false;
             }
             req.setAttribute("oPrErr", oPrErr);
         }
 
-        if (!NumberValidateUtil.isNumeric(discountPrice) || NumberValidateUtil.isValidPrice(discountPrice)) {
+        if (!NumberValidateUtil.isNumeric(discountPrice) || !NumberValidateUtil.isValidPrice(discountPrice)) {
             if (isValid) {
                 isValid = false;
             }
             req.setAttribute("oPrErr", dPrErr);
         }
 
-        if (!NumberValidateUtil.isNumeric(discountPercent)) {
+        if (!NumberValidateUtil.isNumeric(discountPercent) || !NumberValidateUtil.isValidPercent(discountPercent)) {
             if (isValid) {
                 isValid = false;
             }
             req.setAttribute("dPeErr", dPeErr);
+        }
+        if (!NumberValidateUtil.isNumeric(quantity) || !NumberValidateUtil.isValidQuantity(quantity)) {
+            if (isValid) {
+                isValid = false;
+            }
+            req.setAttribute("qErr", qErr);
         }
 
         // Kiểm tra tên sản phẩm (Không được trùng tên)
@@ -110,8 +109,6 @@ public class ProductAddingController extends HttpServlet {
             req.setAttribute("nameErr", nameErr);
         }
 
-        LogAddressDTO addressObj;
-        UserBean userLogin = (UserBean) SessionUtil.getInstance().getValue(req, "user");
         // Nếu không lỗi thì lưu vào database
         if (isValid) {
             // Đổi String về số
@@ -132,27 +129,47 @@ public class ProductAddingController extends HttpServlet {
             productBean.setDiscountPercent(discountPercentDouble);
             productBean.setQuantity(quantityInt);
             productBean.setSize(size);
-            productBean.setOtherSpec(otherSpec);
-            productBean.setStatus(statusInt);
-            productBean.setKeyword(keyword);
-
-            int affectedRows = productDAO.createProduct(productBean);
-            if (affectedRows < 0) {
-                // TODO: Thêm bắt lỗi trên JSP khi xử lý lỗi db
-                addressObj = new LogAddressDTO("admin-create-product", userLogin.getId(), logBundle.getString("admin-create-product-fail"));
-                logService.createLog(req.getRemoteAddr(), "", "ALERT", addressObj, null, null);
-                String createErr = "e";
-                req.setAttribute("createErr", createErr);
-                req.getRequestDispatcher("/adding-product.jsp").forward(req, resp);
+            if (otherSpec != null) {
+                productBean.setOtherSpec(otherSpec);
             } else {
-                addressObj = new LogAddressDTO("admin-create-product", userLogin.getId(), logBundle.getString("admin-create-product-success"));
-                logService.createLog(req.getRemoteAddr(), "", "ALERT", addressObj, null, productDAO.findProductByName(name));
-                resp.sendRedirect(req.getContextPath() + "/admin/product-management/adding?success=" + success);
+                productBean.setOtherSpec("");
+            }
+            productBean.setStatus(statusInt);
+            if (otherSpec != null) {
+                productBean.setKeyword(keyword);
+            } else {
+                productBean.setKeyword("");
+            }
+
+            int id = productDAO.createProduct(productBean);
+            if (id <= 0) {
+                logService.log(req, "admin-create-product", LogState.FAIL, LogLevel.ALERT, null, null);
+                msg = "error";
+            } else {
+                ProductBean currentProduct = productDAO.findProductById(id);
+                logService.log(req, "admin-create-product", LogState.SUCCESS, LogLevel.WARNING, null, currentProduct);
+                msg = "success";
+                for (String url : splitUrls(imgUrls)) {
+                    ProductImageBean productImgBean = new ProductImageBean();
+                    String uuid = UUID.randomUUID().toString().replace("-", "");
+                    productImgBean.setName(uuid);
+                    productImgBean.setProductId(id);
+                    productImgBean.setLink(url);
+                    imageDAO.insertProductImage(productImgBean);
+                }
             }
         } else {
-            addressObj = new LogAddressDTO("admin-create-product", userLogin.getId(), logBundle.getString("admin-create-product-fail"));
-            logService.createLog(req.getRemoteAddr(), "", "ALERT", addressObj, null, null);
-            req.getRequestDispatcher("/adding-product.jsp").forward(req, resp);
+            req.setAttribute("errors", errors);
+            logService.log(req, "admin-create-product", LogState.FAIL, LogLevel.ALERT, null, null);
+            msg = "error";
         }
+
+        req.setAttribute("msg", msg);
+        req.getRequestDispatcher("/adding-product.jsp").forward(req, resp);
+    }
+
+    private String[] splitUrls(String imgUrls) {
+        String replaceSpace = imgUrls.replaceAll("\\s+", "");
+        return replaceSpace.split(",");
     }
 }

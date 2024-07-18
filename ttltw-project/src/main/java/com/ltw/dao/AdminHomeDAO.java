@@ -1,6 +1,5 @@
 package com.ltw.dao;
 
-import com.ltw.bean.CategoryBean;
 import com.ltw.util.CloseResourceUtil;
 import com.ltw.util.OpenConnectionUtil;
 
@@ -18,8 +17,8 @@ public class AdminHomeDAO {
                 " COUNT(id) AS total_accounts, " +
                 " SUM(CASE WHEN status = 1 THEN 1 ELSE 0 END) AS active_accounts," +
                 " SUM(CASE WHEN status = 0 THEN 1 ELSE 0 END) AS disable_accounts," +
-                " SUM(CASE WHEN roleId = 1 THEN 1 ELSE 0 END) AS admin_accounts," +
-                " SUM(CASE WHEN roleId = 2 THEN 1 ELSE 0 END) AS client_accounts" +
+                " SUM(CASE WHEN roleId = 1 THEN 1 ELSE 0 END) AS client_accounts," +
+                " SUM(CASE WHEN roleId = 2 THEN 1 ELSE 0 END) AS admin_accounts" +
                 " FROM users";
 
         Connection connection = null;

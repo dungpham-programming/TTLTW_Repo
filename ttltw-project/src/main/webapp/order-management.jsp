@@ -20,81 +20,49 @@
         <ol class="breadcrumb mb-4">
           <li class="breadcrumb-item active">DDD. Administrator</li>
         </ol>
-        <%
-          String success = (String) request.getAttribute("success");
-          String error = (String) request.getAttribute("error");
-        %>
-        <% if (success != null) { %>
-        <div class="alert alert-success"><%=success%></div>
-        <% } %>
-        <% if (error != null) { %>
-        <div class="alert alert-error"><%=error%></div>
-        <% } %>
         <div class="card mb-4 mt-4">
           <div class="card-header">
             <i class="fas fa-table me-1"></i>
             Quản lý đơn hàng
           </div>
+          <div class="list-button">
+            <a href="<c:url value="/admin/order-management/adding"/>" data-bs-toggle="tooltip"
+               title="Thêm bài viết" class="add"><i class="fa-solid fa-plus" style="color: #e3bd74;"></i>Thêm
+              đơn hàng</a>
+          </div>
           <div class="table-responsive">
-            <table id="manageAccountTable">
+            <table id="orderData" class="table table-striped" style="width:100%">
               <thead>
               <tr>
-                <th>ID Đơn hàng</th>
+                <th>#</th>
                 <th>ID Khách hàng</th>
-                <th>Ngày đặt</th>
-                <th>Ngày giao</th>
                 <th>Tổng trị giá</th>
+                <th>Phơng thức thanh toán</th>
                 <th>Trạng thái</th>
                 <th>Tạo ngày</th>
+                <th>Ngày giao</th>
                 <th>Tạo bởi</th>
                 <th>Sửa ngày</th>
                 <th>Sửa bởi</th>
                 <th>Chức năng</th>
               </tr>
               </thead>
-              <%
-                List<OrderBean> listOrders = (List<OrderBean>) request.getAttribute("listOrders");
-
-                for (OrderBean order : listOrders) {
-                  String idStr = String.valueOf(order.getId());
-              %>
-              <tbody>
+              <tfoot>
               <tr>
-                <td><%=order.getId()%></td>
-                <td><%=order.getUserId()%></td>
-                <td>13/11/2022</td>
-                <td><%=order.getShipToDate()%></td>
-                <td><fmt:formatNumber value="<%=order.getTotal()%>" pattern="#,##0.##"/>đ</td>
-                <% if (order.getStatus() == 1) { %>
-                <td>Chờ xác nhận</td>
-                <% } else if (order.getStatus() == 2) { %>
-                <td>Đã xác nhận</td>
-                <% } else if (order.getStatus() == 3) { %>
-                <td>Đang vận chuyển</td>
-                <% } else if (order.getStatus() == 4) { %>
-                <td>Thành công</td>
-                <% } else if (order.getStatus() == 0) { %>
-                <td>Hủy bỏ</td>
-                <% } %>
-                <td><%=order.getCreatedDate()%></td>
-                <td><%=order.getCreatedBy()%></td>
-                <td><%=order.getModifiedDate()%></td>
-                <td><%=order.getModifiedBy()%></td>
-                <td>
-                  <a href="<c:url value="/admin/order-management/editing">
-                              <c:param name="id" value="<%=idStr%>"/>
-                           </c:url>"
-                     data-bs-toggle="tooltip" title="Chỉnh sửa đơn hàng" class="edit"><i
-                          class="fa-regular fa-pen-to-square" style="color: #e3bd74;"></i></a>
-                  <a href="<c:url value="/admin/order-management/delete">
-                              <c:param name="id" value="<%=idStr%>"/>
-                           </c:url>"
-                     data-bs-toggle="tooltip" title="Xóa đơn hàng" class="add"><i
-                          class="fa-solid fa-trash" style="color: #e3bd74;"></i></a>
-                </td>
+                <th>#</th>
+                <th>ID Khách hàng</th>
+                <th>Tổng trị giá</th>
+                <th>Phơng thức thanh toán</th>
+                <th>Trạng thái</th>
+                <th>Tạo ngày</th>
+                <th>Ngày giao</th>
+                <th>Tạo bởi</th>
+                <th>Sửa ngày</th>
+                <th>Sửa bởi</th>
+                <th>Chức năng</th>
               </tr>
-              </tbody>
-<% }%>
+              </tfoot>
+              </tr>
             </table>
           </div>
         </div>
@@ -102,8 +70,9 @@
     </main>
   </div>
 </div>
-
 <jsp:include page="/common/admin/using-resource-footer.jsp"/>
+<script src="<c:url value="/templates/logic-datatable/admin/datatable-order.js"/>"></script>
+<script src="<c:url value="/templates/logic-datatable/service-logic.js"/>"></script>
 </body>
 </html>
 

@@ -1660,7 +1660,7 @@ p, dd {
 }
 
 .product-detail {
-    padding: 30px 30px 50px
+    padding: 40px 50px
 }
 
 .product-detail hr + .description-tabs {
@@ -1993,6 +1993,7 @@ p, dd {
 }
 
 th, td {
+    border: 1px solid rgba(0, 0, 0, .25);
     padding: 8px;
     text-align: left;
 }
@@ -2064,10 +2065,11 @@ a.check {
 }
 
 .return-btn {
-    padding-bottom: 2rem;
+    padding: 2rem 0;
 }
 
 .checking-order-detail {
+    display: inline-block;
     padding: 1rem;
     background-color: var(--primary-color-darkred);
     color: var(--primary-color-gray);
@@ -2085,6 +2087,11 @@ a.check {
 .success {
     font-weight: 700;
     color: green;
+}
+
+.fail {
+    font-weight: 700;
+    color: red;
 }
 
 .more {
@@ -2210,10 +2217,6 @@ a.cart-btn:hover {
     color: var(--primary-color-darkyellow);
 }
 
-.product-suggest {
-    margin-top: 50px;
-}
-
 .product-wrap:not(last-child) {
     margin-bottom: 16px;
 }
@@ -2251,7 +2254,7 @@ a.cart-btn:hover {
     transition: .3s all ease-out;
 }
 
-span.discount-percent {
+span.discount-percent.suggest {
     position: absolute;
     top: 0;
     right: 0;
@@ -2290,4 +2293,73 @@ del.original {
 
 .sold-quantity {
     color: #c21f1f;
+}
+
+/* CSS cho phần tử select */
+select#filter-rating {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: #f2f2f2;
+    color: #333;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 200px;
+    cursor: pointer;
+}
+
+/* CSS cho các phần tử option */
+select#filter-rating option {
+    background-color: #fff;
+    color: #333;
+    padding: 8px 12px;
+}
+
+/* CSS cho các phần tử option khi hover */
+select#filter-rating option:hover {
+    background-color: #e0e0e0;
+}
+
+/* CSS cho phần tử select khi focus */
+select#filter-rating:focus {
+    outline: none;
+    border-color: #5b9dd9;
+    box-shadow: 0 0 5px rgba(91, 157, 217, 0.5);
+}
+
+.vote {
+    cursor: pointer;
+}
+
+.star-rating {
+    white-space: nowrap;
+}
+.star-rating [type="radio"] {
+    appearance: none;
+}
+.star-rating i {
+    font-size: 1.2em;
+    transition: 0.3s;
+}
+
+.star-rating label:is(:hover, :has(~ :hover)) i {
+    transform: scale(1.35);
+    color: #676432;
+    animation: jump 0.5s calc(0.3s + (var(--i) - 1) * 0.15s) alternate infinite;
+}
+.star-rating label:has(~ :checked) i {
+    color: #faec1b;
+    text-shadow: 0 0 2px #ffffff, 0 0 10px #ffee58;
+}
+
+@keyframes jump {
+    0%,
+    50% {
+        transform: translatey(0) scale(1.35);
+    }
+    100% {
+        transform: translatey(-15%) scale(1.35);
+    }
 }

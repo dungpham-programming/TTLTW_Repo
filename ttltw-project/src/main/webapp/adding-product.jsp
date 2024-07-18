@@ -20,16 +20,18 @@
                 </ol>
                 <%
                     ArrayList<String> errors = (ArrayList<String>) request.getAttribute("errors");
-                    String success = request.getParameter("success");
-                    String oPrErr = request.getParameter("oPrErr");
-                    String dPrErr = request.getParameter("dPrErr");
-                    String dPeErr = request.getParameter("dPeErr");
+                    String oPrErr = (String) request.getAttribute("oPrErr");
+                    String dPrErr = (String) request.getAttribute("dPrErr");
+                    String dPeErr = (String) request.getAttribute("dPeErr");
+                    String qErr = (String) request.getAttribute("qErr");
+                    String nameErr = (String) request.getAttribute("nameErr");
                 %>
-                <% if (success != null) { %>
-                <div class="alert alert-success">
-                    Thêm sản phẩm thành công!
-                </div>
-                <% } %>
+                <%
+                    String msg = (String) request.getAttribute("msg");
+                    if (msg != null) {
+                %>
+                <%= (msg.equals("success") ? "<div class=\"alert alert-success\">Thêm thành công!</div>" : "<div class=\"alert alert-danger\">Thêm thất bại!</div>") %>
+                <%}%>
                 <form action="<c:url value="/admin/product-management/adding"/>" method="post">
                     <div class="row">
                         <div class="col-12">
@@ -37,6 +39,9 @@
                             <input type="text" id="name" name="name" placeholder="Tên sản phẩm" required>
                             <% if (errors != null && errors.get(0) != null) { %>
                             <div class="error" id="error1">Không được để trống!</div>
+                            <% } %>
+                            <% if (nameErr != null) { %>
+                            <div class="error" id="nameErr">Trùng tên sản phẩm!</div>
                             <% } %>
                         </div>
 
@@ -84,7 +89,9 @@
                             <% if (errors != null && errors.get(5) != null) { %>
                             <div class="error" id="error6">Không được để trống!</div>
                             <% } %>
-                            <div class="error" id="dPeError"></div>
+                            <% if (dPeErr != null) { %>
+                            <div class="error" id="dPeError">Phải là số lớn hơn 0 và nhỏ hơn 100!</div>
+                            <%}%>
                         </div>
 
                         <div class="col-3">
@@ -93,7 +100,9 @@
                             <% if (errors != null && errors.get(6) != null) { %>
                             <div class="error" id="error7">Không được để trống!</div>
                             <% } %>
-                            <div class="error" id="qError"></div>
+                            <% if (qErr != null) { %>
+                            <div class="error" id="qError">Phải là số nguyên lớn hơn 0!</div>
+                            <%}%>
                         </div>
 
                         <div class="col-3">
@@ -106,10 +115,7 @@
 
                         <div class="col-3">
                             <label for="otherSpec">Thông số khác</label>
-                            <input type="text" id="otherSpec" name="otherSpec" placeholder="Thông số khác" required>
-                            <% if (errors != null && errors.get(8) != null) { %>
-                            <div class="error" id="error9">Không được để trống!</div>
-                            <% } %>
+                            <input type="text" id="otherSpec" name="otherSpec" placeholder="Thông số khác">
                         </div>
 
                         <div class="col-3">
@@ -119,23 +125,22 @@
                                 <option value="2">Hết hàng</option>
                                 <option value="3">Vô hiệu hóa</option>
                             </select>
-                            <% if (errors != null && errors.get(9) != null) { %>
+                            <% if (errors != null && errors.get(8) != null) { %>
                             <div class="error" id="error10">Không được để trống!</div>
                             <% } %>
                         </div>
 
                         <div class="col-12">
                             <label for="keyword">Từ khóa tìm kiếm</label>
-                            <input type="text" id="keyword" name="keyword" placeholder="Phân cách từ khóa bằng dấu phẩy" required>
-                            <% if (errors != null && errors.get(10) != null) { %>
-                            <div class="error" id="error11">Không được để trống!</div>
-                            <% } %>
+                            <input type="text" id="keyword" name="keyword" placeholder="Phân cách từ khóa bằng dấu phẩy">
                         </div>
 
                         <div class="col-12">
-                            <label for="images">Các ảnh của sản phẩm</label>
-                            <input type="file" name="images" id="images" multiple>
-                            <div class="error" id="error12"></div>
+                            <label for="imgUrls">Các ảnh của sản phẩm</label>
+                            <input type="text" id="imgUrls" name="imgUrls" placeholder="Phân cách url bằng dấu phẩy" required>
+                            <% if (errors != null && errors.get(9) != null) { %>
+                            <div class="error" id="error12">Không được để trống!</div>
+                            <% } %>
                         </div>
                     </div>
 
