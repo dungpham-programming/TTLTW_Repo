@@ -662,6 +662,40 @@ public class UserDAO {
         }
     }
 
+    public String checkOAuthAccount(String email) {
+        String sql = "SELECT viaOAuth FROM users WHERE email = ?";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            preparedStatement = connection.prepareStatement(sql);
+
+            // Set the email parameter
+            SetParameterUtil.setParameter(preparedStatement, email);
+
+            // Execute the query
+            resultSet = preparedStatement.executeQuery();
+
+            // Check if the result set has a row
+            if (resultSet.next()) {
+                String oAuth = resultSet.getString("viaOAuth");
+                if (oAuth == null) {
+                    return "notOAuth";
+                } else {
+                    return "oAuth";
+                }
+            }
+        } catch (SQLException e) {
+            // Handle the exception (log it or throw a custom exception)
+            e.printStackTrace(); // Example, you should handle this appropriately in your application
+        } finally {
+            // Close resources in the finally block
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return "error";
+
     public List<UserBean> getUsersDatatable(int start, int length, String columnOrder, String orderDir, String searchValue) {
         List<UserBean> users = new ArrayList<>();
         String sql = "SELECT id, email, firstName, lastName, roleId, status, addressLine, addressWard, addressDistrict, addressProvince, createdDate FROM users";
