@@ -4,6 +4,7 @@ import com.ltw.bean.ProductBean;
 import com.ltw.bean.UserBean;
 import com.ltw.constant.LogLevel;
 import com.ltw.constant.LogState;
+import com.ltw.dao.ImageDAO;
 import com.ltw.dao.ProductDAO;
 import com.ltw.dto.DatatableDTO;
 import com.ltw.service.LogService;
@@ -22,6 +23,7 @@ import java.util.List;
 @WebServlet(value = {"/api/admin/product"})
 public class ProductAPI extends HttpServlet {
     private final ProductDAO productDAO = new ProductDAO();
+    private ImageDAO imageDAO = new ImageDAO();
     private LogService<ProductBean> logService = new LogService<>();
 
     @Override
@@ -41,6 +43,9 @@ public class ProductAPI extends HttpServlet {
         String columnOrder = req.getParameter("columns[" + orderBy + "][data]");      // Tên của cột muốn sắp xếp
 
         List<ProductBean> products = productDAO.getProductsDatatable(start, length, columnOrder, orderDir, searchValue);
+        for (ProductBean product : products) {
+            product.setImages(imageDAO.findImagesByProductId(product.getId()));
+        }
         int recordsTotal = productDAO.getRecordsTotal();
         // Tổng số record khi filter search
         int recordsFiltered = productDAO.getRecordsFiltered(searchValue);

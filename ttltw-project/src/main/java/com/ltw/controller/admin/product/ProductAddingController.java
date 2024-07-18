@@ -1,8 +1,10 @@
 package com.ltw.controller.admin.product;
 
 import com.ltw.bean.ProductBean;
+import com.ltw.bean.ProductImageBean;
 import com.ltw.constant.LogLevel;
 import com.ltw.constant.LogState;
+import com.ltw.dao.ImageDAO;
 import com.ltw.dao.ProductDAO;
 import com.ltw.service.LogService;
 import com.ltw.util.NumberValidateUtil;
@@ -15,13 +17,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
-import java.util.ResourceBundle;
+import java.util.UUID;
 
 @WebServlet(value = {"/admin/product-management/adding"})
 public class ProductAddingController extends HttpServlet {
     private final ProductDAO productDAO = new ProductDAO();
     private LogService<ProductBean> logService = new LogService<>();
-    private ResourceBundle logBundle = ResourceBundle.getBundle("log-content");
+    private ImageDAO imageDAO = new ImageDAO();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -44,6 +46,7 @@ public class ProductAddingController extends HttpServlet {
         String otherSpec = req.getParameter("otherSpec");
         String status = req.getParameter("status");
         String keyword = req.getParameter("keyword");
+        String imgUrls = req.getParameter("imgUrls");
 
         // Các biến lưu giữ lỗi về giá
         String oPrErr = "e", dPrErr = "e", dPeErr = "e", qErr = "e";
@@ -52,7 +55,7 @@ public class ProductAddingController extends HttpServlet {
         String msg = "";
 
         // Đặt các thuộc tính đúng thứ tự
-        String[] inputsForm = new String[]{name, description, categoryTypeId, originalPrice, discountPrice, discountPercent, quantity, size, otherSpec, status, keyword};
+        String[] inputsForm = new String[]{name, description, categoryTypeId, originalPrice, discountPrice, discountPercent, quantity, size, status, imgUrls};
         // Biến bắt lỗi
         boolean isValid = true;
 
@@ -126,9 +129,17 @@ public class ProductAddingController extends HttpServlet {
             productBean.setDiscountPercent(discountPercentDouble);
             productBean.setQuantity(quantityInt);
             productBean.setSize(size);
-            productBean.setOtherSpec(otherSpec);
+            if (otherSpec != null) {
+                productBean.setOtherSpec(otherSpec);
+            } else {
+                productBean.setOtherSpec("");
+            }
             productBean.setStatus(statusInt);
-            productBean.setKeyword(keyword);
+            if (otherSpec != null) {
+                productBean.setKeyword(keyword);
+            } else {
+                productBean.setKeyword("");
+            }
 
             int id = productDAO.createProduct(productBean);
             if (id <= 0) {
@@ -138,6 +149,14 @@ public class ProductAddingController extends HttpServlet {
                 ProductBean currentProduct = productDAO.findProductById(id);
                 logService.log(req, "admin-create-product", LogState.SUCCESS, LogLevel.WARNING, null, currentProduct);
                 msg = "success";
+                for (String url : splitUrls(imgUrls)) {
+                    ProductImageBean productImgBean = new ProductImageBean();
+                    String uuid = UUID.randomUUID().toString().replace("-", "");
+                    productImgBean.setName(uuid);
+                    productImgBean.setProductId(id);
+                    productImgBean.setLink(url);
+                    imageDAO.insertProductImage(productImgBean);
+                }
             }
         } else {
             req.setAttribute("errors", errors);
@@ -147,5 +166,10 @@ public class ProductAddingController extends HttpServlet {
 
         req.setAttribute("msg", msg);
         req.getRequestDispatcher("/adding-product.jsp").forward(req, resp);
+    }
+
+    private String[] splitUrls(String imgUrls) {
+        String replaceSpace = imgUrls.replaceAll("\\s+", "");
+        return replaceSpace.split(",");
     }
 }

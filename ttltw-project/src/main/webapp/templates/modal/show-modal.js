@@ -7,6 +7,8 @@ $(document).ready(function () {
         const data = $(this).attr("data-send");
         const jsonData = JSON.parse(data);
         $('.json-content').html(`<pre style="white-space: pre-wrap; margin: 0;"><code class="json">${JSON.stringify(jsonData, null, 2)}</code></pre>`)
+
+        $("#showJsonData").modal('show');
     });
 
     // Khi ấn vào nút đánh giá (order-history)
@@ -32,6 +34,27 @@ $(document).ready(function () {
         });
 
         $("#reviewProduct").modal('show');
+    });
+
+    // Khi ấn vào nút hiển thị des trong product-management
+    $("body").on("click", ".get-des", function () {
+        console.log("clicked");
+        const buttonClicked = $(this);
+        const data = buttonClicked.attr("data-send");
+
+        $('.description-content').html(data);
+        $("#showDescription").modal('show');
+    });
+
+    // Khi ấn vào nút hiển thị ảnh
+    $("body").on("click", ".get-imgs", function () {
+        console.log("clicked");
+        const buttonClicked = $(this);
+        const jsonData = JSON.parse(buttonClicked.attr("data-send"));
+
+        renderImgs(jsonData);
+
+        $("#showImgs").modal('show');
     });
 });
 
@@ -147,5 +170,28 @@ function notify(message, formContainer) {
                   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
              </div>`
         );
+    }
+}
+
+function renderImgs(data) {
+    const indicators = $('.carousel-indicators');
+    const inner = $('.carousel-inner');
+
+    indicators.empty();
+    inner.empty();
+
+    for (const [index, image] of data.entries()) {
+        const indicator = `
+            <button type="button" data-bs-target="#imgsCarousel" data-bs-slide-to="${index}" ${index === 0 ? 'class="active" aria-current="true"' : ''} aria-label="Slide ${index + 1}"></button>
+        `;
+
+        const carouselItem = `
+            <div class="carousel-item ${index === 0 ? 'active' : ''}">
+                <img src="${image.link}" class="d-block w-100" style="height: 350px;" alt="Image">
+            </div>
+        `;
+
+        indicators.append(indicator);
+        inner.append(carouselItem);
     }
 }

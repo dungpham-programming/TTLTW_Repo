@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/sharp-regular.css">
 <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/sharp-light.css">
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="<c:url value="/templates/admin/css/styles.css"/>">
 <link rel="stylesheet" href="<c:url value="/templates/admin/css/admin-custom.css"/>">
 
