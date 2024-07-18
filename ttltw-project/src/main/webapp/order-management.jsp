@@ -20,16 +20,6 @@
         <ol class="breadcrumb mb-4">
           <li class="breadcrumb-item active">DDD. Administrator</li>
         </ol>
-        <%
-          String success = (String) request.getAttribute("success");
-          String error = (String) request.getAttribute("error");
-        %>
-        <% if (success != null) { %>
-        <div class="alert alert-success"><%=success%></div>
-        <% } %>
-        <% if (error != null) { %>
-        <div class="alert alert-error"><%=error%></div>
-        <% } %>
         <div class="card mb-4 mt-4">
           <div class="card-header">
             <i class="fas fa-table me-1"></i>
@@ -44,13 +34,13 @@
             <table id="orderData" class="table table-striped" style="width:100%">
               <thead>
               <tr>
-                <th>ID Đơn hàng</th>
+                <th>#</th>
                 <th>ID Khách hàng</th>
                 <th>Tổng trị giá</th>
                 <th>Phơng thức thanh toán</th>
                 <th>Trạng thái</th>
-                <th>Ngày giao</th>
                 <th>Tạo ngày</th>
+                <th>Ngày giao</th>
                 <th>Tạo bởi</th>
                 <th>Sửa ngày</th>
                 <th>Sửa bởi</th>
@@ -59,13 +49,13 @@
               </thead>
               <tfoot>
               <tr>
-                <th>ID Đơn hàng</th>
+                <th>#</th>
                 <th>ID Khách hàng</th>
                 <th>Tổng trị giá</th>
                 <th>Phơng thức thanh toán</th>
                 <th>Trạng thái</th>
-                <th>Ngày giao</th>
                 <th>Tạo ngày</th>
+                <th>Ngày giao</th>
                 <th>Tạo bởi</th>
                 <th>Sửa ngày</th>
                 <th>Sửa bởi</th>

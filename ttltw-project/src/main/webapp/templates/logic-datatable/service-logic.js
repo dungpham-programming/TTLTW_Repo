@@ -14,7 +14,7 @@ function deleteRecord(buttonClicked, id, requestBy) {
     }
 }
 
-const deleteRecordByClient = (buttonClicked, id, requestBy) => {
+function deleteRecordByClient(buttonClicked, id, requestBy) {
     if (confirm("Bạn có muốn xóa record không?")) {
         $.ajax({
             url: `http://localhost:8080/api/client/${requestBy}?id=${id}`,
@@ -52,6 +52,19 @@ function renderCancelOrder(buttonClicked, response) {
         const status = response["status"];
         const notify = response["notify"];
 
+        const currentRow = buttonClicked.closest('tr');
+        const currentBadge = currentRow.querySelector('span.badge');
+
+        if (status === "success") {
+            // Nhớ chuyển đổi DOM thành jQuery để sử dụng được các hàm của jQuery
+            if (currentBadge) {
+                // Thay đổi nội dung và lớp CSS của <span>
+                $(currentBadge).removeClass('bg-info bg-gradient').addClass('bg-danger bg-gradient').text('Đã huỷ');
+            } else {
+                console.error('Không tìm thấy phần tử phù hợp');
+            }
+        }
+
         setTimeout(() => {
             alert(`${notify} Code: ${status}`);
         }, 100);
@@ -63,16 +76,13 @@ function renderUi(buttonClicked, response) {
         const status = response["status"];
         const notify = response["notify"];
 
-        if (status === "success") {
-            buttonClicked.closest('tr').remove();
-        }
         setTimeout(() => {
             alert(`${notify} Code: ${status}`);
         }, 100);
     }
 }
 
-const escapeHtml = (unsafe) => {
+function escapeHtml(unsafe) {
     if (unsafe === null) {
         return null;
     }

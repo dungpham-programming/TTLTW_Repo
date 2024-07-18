@@ -15,8 +15,8 @@ $(document).ready(function (){
             { data: "total"},
             { data: "paymentMethod"},
             { data: "status"},
-            { data: "shipToDate"},
             { data: "createdDate"},
+            { data: "shipToDate"},
             { data: "createdBy"},
             { data: "modifiedDate"},
             { data: "modifiedBy"},
@@ -25,17 +25,40 @@ $(document).ready(function (){
         ],
         columnDefs: [
             {
+                targets: 2,
+                render: function (data, type, row, meta) {
+                    return `<span style="color: #d31616; font-weight: 500;">${new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(data)}</span>`;;
+                }
+            },
+            {
                 targets: 4,
                 render:function (data,type,row,meta) {
-                    if (data ==1) {
-                        return '<span class ="badge bg-success">Thành công</span> ';
-                    }else if(data==2){
-                        return '<span class ="badge bg-info">Chờ xác nhận </span> ';
+                    if (data == 1) {
+                        return '<span class ="badge bg-primary">Chờ xác nhận</span> ';
+                    }else if(data== 2){
+                        return '<span class ="badge bg-info">Đã xác nhận</span> ';
                     } else if (data == 3) {
                         return '<span class="badge bg-warning">Đang vận chuyển</span>';
+                    } else if (data == 4) {
+                        return '<span class="badge bg-success">Thành công</span>';
                     } else if (data == 0) {
-                        return '<span class="badge bg-danger">Hủy bỏ</span>';
-
+                        return '<span class="badge bg-danger">Đã hủy</span>';
+                    }
+                }
+            },
+            {
+                targets: [5, 8],
+                render: function (data, type, row, meta) {
+                    if (data != null) {
+                        return `<span>${moment(data).format("DD/MM/YYYY")}</span>`
+                    }
+                }
+            },
+            {
+                targets: 6,
+                render: function (data, type, row, meta) {
+                    if (data != null) {
+                        return `<span style="color: #198754; font-weight: 600;">${moment(data).format("DD/MM/YYYY")}</span>`;
                     }
                 }
             },

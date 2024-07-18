@@ -1,11 +1,13 @@
 package com.ltw.controller.client;
 
 import com.ltw.bean.CustomizeBean;
-import com.ltw.bean.ProductImageBean;
 import com.ltw.bean.ProductBean;
+import com.ltw.bean.ProductImageBean;
+import com.ltw.bean.ReviewBean;
 import com.ltw.dao.CustomizeDAO;
 import com.ltw.dao.ImageDAO;
 import com.ltw.dao.ProductDAO;
+import com.ltw.dao.ReviewDAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,6 +22,8 @@ public class ProductDetailController extends HttpServlet {
     private final CustomizeDAO customizeDAO = new CustomizeDAO();
     private final ProductDAO productDetailDAO = new ProductDAO();
     private final ImageDAO imageDAO = new ImageDAO();
+    private final ReviewDAO reviewDAO = new ReviewDAO();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         CustomizeBean customizeInfo = customizeDAO.getCustomizeInfo();
@@ -35,10 +39,12 @@ public class ProductDetailController extends HttpServlet {
             product.setImages(thumbnail);
         }
 
+        List<ReviewBean> reviews = reviewDAO.findReviewPaginationByProductId(productId, 0, 0);
+
         req.setAttribute("customizeInfo", customizeInfo);
         req.setAttribute("productDetail", productDetailBean);
         req.setAttribute("productSuggest", productSuggest);
-
+        req.setAttribute("reviews", reviews);
 
         req.getRequestDispatcher("/product-detail.jsp").forward(req, resp); 
     }

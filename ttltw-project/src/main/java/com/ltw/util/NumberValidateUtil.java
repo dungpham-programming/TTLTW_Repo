@@ -31,6 +31,14 @@ public class NumberValidateUtil {
     }
 
     private static String replaceDot(String input) {
-        return input.replace(".", "");
+        String result = "";
+        if (input.contains(".")) {
+            result = input.replace(".", "");
+        } else if (input.contains(",")) {
+            result = input.replace(",", "");
+        } else {
+            result = input;
+        }
+        return result;
     }
 }

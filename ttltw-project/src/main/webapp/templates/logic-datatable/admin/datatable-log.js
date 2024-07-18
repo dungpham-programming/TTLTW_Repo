@@ -59,7 +59,7 @@ $(document).ready(function () {
                 target: 9,
                 render: function (data, type, row, meta) {
                     let allButton = '';
-                    const deleteBtn = `<button onclick="deleteRecord(this, ${row.id}, 'log')" style="padding: 9px; margin-left: 4px;" data-bs-toggle="tooltip" title="Xóa ảnh" class="delete">
+                    const deleteBtn = `<button type="button" onclick="deleteRecord(this, ${row.id}, 'log')" style="padding: 9px; margin-left: 4px;" data-bs-toggle="tooltip" title="Xóa ảnh" class="delete">
                         <i class="fa-solid fa-trash" style="color: #e3bd74;"></i></button>`;
                     allButton += deleteBtn;
                     return allButton;

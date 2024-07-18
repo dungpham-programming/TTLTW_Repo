@@ -1,11 +1,14 @@
 package com.ltw.api.admin;
 
 import com.ltw.bean.ContactBean;
+import com.ltw.bean.UserBean;
 import com.ltw.constant.LogLevel;
 import com.ltw.constant.LogState;
 import com.ltw.dao.ContactDAO;
 import com.ltw.dto.DatatableDTO;
 import com.ltw.service.LogService;
+import com.ltw.util.SendEmailUtil;
+import com.ltw.util.SessionUtil;
 import com.ltw.util.TransferDataUtil;
 
 import javax.servlet.ServletException;
@@ -70,6 +73,8 @@ public class ContactAPI extends HttpServlet {
             logService.log(req, "admin-delete-contact", LogState.SUCCESS, LogLevel.WARNING, prevContact, null);
             status = "success";
             notify = "Xóa log thành công!";
+            UserBean user = (UserBean) SessionUtil.getInstance().getValue(req, "user");
+            SendEmailUtil.sendDeleteNotify(user.getId(), user.getEmail(), prevContact.getId(), "Contact");
         }
 
         String jsonData = "{\"status\": \"" + status + "\", \"notify\": \"" + notify + "\"}";

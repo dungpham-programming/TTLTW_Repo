@@ -8,11 +8,12 @@ public class OrderDetailBean {
     private double discountPrice;
     private double discountPercent;
     private int quantity;
+    private int reviewed;
 
     public OrderDetailBean() {
     }
 
-    public OrderDetailBean(int orderId, int productId, String productName, double originalPrice, double discountPrice, double discountPercent, int quantity) {
+    public OrderDetailBean(int orderId, int productId, String productName, double originalPrice, double discountPrice, double discountPercent, int quantity, int reviewed) {
         this.orderId = orderId;
         this.productId = productId;
         this.productName = productName;
@@ -20,6 +21,7 @@ public class OrderDetailBean {
         this.discountPrice = discountPrice;
         this.discountPercent = discountPercent;
         this.quantity = quantity;
+        this.reviewed = reviewed;
     }
 
     public int getOrderId() {
@@ -76,5 +78,13 @@ public class OrderDetailBean {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public int getReviewed() {
+        return reviewed;
+    }
+
+    public void setReviewed(int reviewed) {
+        this.reviewed = reviewed;
     }
 }

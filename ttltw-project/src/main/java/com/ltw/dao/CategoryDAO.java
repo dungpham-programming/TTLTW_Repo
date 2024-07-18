@@ -13,7 +13,7 @@ import java.util.List;
 
 public class CategoryDAO {
     public List<CategoryBean> findAllCategories() {
-        String sql = "SELECT id, name FROM categories";
+        String sql = "SELECT id, name, profilePic FROM categories";
         List<CategoryBean> result = new ArrayList<>();
 
         Connection connection = null;
@@ -29,6 +29,7 @@ public class CategoryDAO {
                 CategoryBean categoryBean = new CategoryBean();
                 categoryBean.setId(resultSet.getInt("id"));
                 categoryBean.setName(resultSet.getString("name"));
+                categoryBean.setProfilePic(resultSet.getString("profilePic"));
 
                 result.add(categoryBean);
             }

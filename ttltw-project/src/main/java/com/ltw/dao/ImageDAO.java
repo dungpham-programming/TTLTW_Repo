@@ -46,9 +46,9 @@ public class ImageDAO {
         int id = -1;
         StringBuilder sql = new StringBuilder();
         sql.append("INSERT INTO images ")
-                .append("(name, link, productId, nameInStorage, createdDate, createdBy, modifiedDate, modifiedBy )")
+                .append("(name, link, productId, createdBy, modifiedBy )")
                 .append(" VALUES ")
-                .append("(?, ?, ?, ?, ?, ?, ?, ?)");
+                .append("(?, ?, ?, ?, ?)");
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -60,8 +60,7 @@ public class ImageDAO {
             preparedStatement = connection.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
 
             SetParameterUtil.setParameter(preparedStatement, image.getName(), image.getLink(), image.getProductId(),
-                                                image.getNameInStorage(), image.getCreatedDate(), image.getCreatedBy(),
-                                                image.getModifiedDate(), image.getModifiedBy());
+                                                image.getCreatedBy(), image.getModifiedBy());
             id = preparedStatement.executeUpdate();
 
             // ... và commit ở đây...
@@ -119,7 +118,7 @@ public class ImageDAO {
 
 
     public void updateImage(ProductImageBean image) {
-        String sql = "UPDATE images SET name = ?, link = ?, productId = ?, nameInStorage = ?, modifiedDate = ?, modifiedBy = ? " +
+        String sql = "UPDATE images SET name = ?, link = ?, productId = ?, modifiedBy = ? " +
                      "WHERE id = ?";
 
         Connection connection = null;
@@ -131,8 +130,7 @@ public class ImageDAO {
             preparedStatement = connection.prepareStatement(sql);
 
             SetParameterUtil.setParameter(preparedStatement, image.getName(), image.getLink(), image.getProductId(),
-                                                    image.getNameInStorage(), image.getModifiedDate(), image.getModifiedBy(),
-                                                    image.getId());
+                                                    image.getModifiedBy(), image.getId());
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {

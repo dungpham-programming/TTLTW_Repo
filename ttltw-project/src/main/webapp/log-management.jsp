@@ -72,7 +72,6 @@
 </div>
 
 <!-- Modal -->
-<!-- Modal -->
 <div class="modal fade" id="showJsonData" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
         <div class="modal-content">

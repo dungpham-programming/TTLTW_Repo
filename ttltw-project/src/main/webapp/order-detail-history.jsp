@@ -41,6 +41,7 @@
                         <th>Giá giảm</th>
                         <th>Phần trăm giảm</th>
                         <th>Số lượng</th>
+                        <th>Trạng thái đánh giá</th>
                         </thead>
                         <tbody>
                         </tbody>
@@ -51,6 +52,7 @@
                         <th>Giá giảm</th>
                         <th>Phần trăm giảm</th>
                         <th>Số lượng</th>
+                        <th>Trạng thái đánh giá</th>
                         </tfoot>
                     </table>
                 </div>

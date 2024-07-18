@@ -788,4 +788,35 @@ public class UserDAO {
         return recordsFiltered;
     }
 
+    public UserBean findUserByOrderId(int orderId) {
+        String sql = "SELECT * FROM users WHERE id = (SELECT userId FROM orders WHERE id = ?)";
+        Connection conn = null;
+        PreparedStatement preStat = null;
+        ResultSet rs = null;
+        UserBean user = new UserBean();
+        try {
+            conn = OpenConnectionUtil.openConnection();
+            preStat = conn.prepareStatement(sql);
+            preStat.setInt(1, orderId);
+            rs = preStat.executeQuery();
+            while (rs.next()) {
+                user.setId(rs.getInt("id"));
+                user.setEmail(rs.getString("email"));
+                user.setFirstName(rs.getString("firstName"));
+                user.setLastName(rs.getString("lastName"));
+                user.setRoleId(rs.getInt("roleId"));
+                user.setStatus(rs.getInt("status"));
+                user.setAddressLine(rs.getString("addressLine"));
+                user.setAddressWard(rs.getString("addressWard"));
+                user.setAddressDistrict(rs.getString("addressDistrict"));
+                user.setAddressProvince(rs.getString("addressProvince"));
+                user.setCreatedDate(rs.getTimestamp("createdDate"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            CloseResourceUtil.closeResource(rs, preStat, conn);
+        }
+        return user;
+    }
 }
