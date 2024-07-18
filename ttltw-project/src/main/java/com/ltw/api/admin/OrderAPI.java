@@ -1,11 +1,14 @@
 package com.ltw.api.admin;
 
 import com.ltw.bean.OrderBean;
+import com.ltw.bean.UserBean;
 import com.ltw.constant.LogLevel;
 import com.ltw.constant.LogState;
 import com.ltw.dao.OrderDAO;
 import com.ltw.dto.DatatableDTO;
 import com.ltw.service.LogService;
+import com.ltw.util.SendEmailUtil;
+import com.ltw.util.SessionUtil;
 import com.ltw.util.TransferDataUtil;
 
 import javax.servlet.ServletException;
@@ -64,11 +67,13 @@ public class OrderAPI extends HttpServlet {
             OrderBean currentOrder = orderDAO.findOrderById(id);
             logService.log(req, "admin-delete-order", LogState.FAIL, LogLevel.ALERT, prevOrder, currentOrder);
             status = "error";
-            notify = "Có lỗi khi xóa log!";
+            notify = "Có lỗi khi xóa đơn hàng!";
         } else {
             logService.log(req, "admin-delete-order", LogState.SUCCESS, LogLevel.WARNING, prevOrder, null);
             status = "success";
-            notify = "Xóa log thành công!";
+            notify = "Xóa đơn hàng thành công!";
+            UserBean user = (UserBean) SessionUtil.getInstance().getValue(req, "user");
+            SendEmailUtil.sendDeleteNotify(user.getId(), user.getEmail(), prevOrder.getId(), "Order");
         }
 
         String jsonData = "{\"status\": \"" + status + "\", \"notify\": \"" + notify + "\"}";

@@ -6,6 +6,8 @@ import com.ltw.constant.LogState;
 import com.ltw.dao.UserDAO;
 import com.ltw.dto.DatatableDTO;
 import com.ltw.service.LogService;
+import com.ltw.util.SendEmailUtil;
+import com.ltw.util.SessionUtil;
 import com.ltw.util.TransferDataUtil;
 
 import javax.servlet.ServletException;
@@ -70,6 +72,8 @@ public class AccountAPI extends HttpServlet {
             logService.log(req, "admin-delete-account", LogState.SUCCESS, LogLevel.WARNING, prevUser, null);
             status = "success";
             notify = "Xóa log thành công!";
+            UserBean user = (UserBean) SessionUtil.getInstance().getValue(req, "user");
+            SendEmailUtil.sendDeleteNotify(user.getId(), user.getEmail(), prevUser.getId(), "User");
         }
 
         String jsonData = "{\"status\": \"" + status + "\", \"notify\": \"" + notify + "\"}";

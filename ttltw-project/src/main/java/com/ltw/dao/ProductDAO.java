@@ -654,4 +654,202 @@ public class ProductDAO {
             CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
         }
     }
+
+    public List<ProductBean> getProductsDatatable(int start, int length, String columnOrder, String orderDir, String searchValue) {
+        String sql = "SELECT id, name, description, categoryTypeId, originalPrice, discountPrice, " +
+                "discountPercent, quantity, soldQuantity, avgRate, numReviews, size, otherSpec, keyword, status, " +
+                "createdDate, createdBy, modifiedDate, modifiedBy " +
+                "FROM products WHERE (status <> 0) ";
+        List<ProductBean> productList = new ArrayList<>();
+        int index = 1;
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            if (searchValue != null && !searchValue.isEmpty()) {
+                sql += " AND (id LIKE ? OR name LIKE ? OR description LIKE ? OR categoryTypeId LIKE ? OR originalPrice LIKE ? " +
+                        "OR discountPrice LIKE ? OR discountPercent LIKE ? OR quantity LIKE ? OR soldQuantity LIKE ? OR avgRate LIKE ? " +
+                        "OR numReviews LIKE ? OR size LIKE ? OR otherSpec LIKE ? OR keyword LIKE ? OR status LIKE ? OR createdDate LIKE ? " +
+                        "OR createdBy LIKE ? OR modifiedDate LIKE ? OR modifiedBy LIKE ?) ";
+            }
+            sql += " ORDER BY " + columnOrder + " " + orderDir + " ";
+            sql += "LIMIT ?, ?";
+            preparedStatement = connection.prepareStatement(sql);
+
+            if (searchValue != null && !searchValue.isEmpty()) {
+                preparedStatement.setString(index++, "%" + searchValue + "%");
+                preparedStatement.setString(index++, "%" + searchValue + "%");
+                preparedStatement.setString(index++, "%" + searchValue + "%");
+                preparedStatement.setString(index++, "%" + searchValue + "%");
+                preparedStatement.setString(index++, "%" + searchValue + "%");
+                preparedStatement.setString(index++, "%" + searchValue + "%");
+                preparedStatement.setString(index++, "%" + searchValue + "%");
+                preparedStatement.setString(index++, "%" + searchValue + "%");
+                preparedStatement.setString(index++, "%" + searchValue + "%");
+                preparedStatement.setString(index++, "%" + searchValue + "%");
+                preparedStatement.setString(index++, "%" + searchValue + "%");
+                preparedStatement.setString(index++, "%" + searchValue + "%");
+                preparedStatement.setString(index++, "%" + searchValue + "%");
+                preparedStatement.setString(index++, "%" + searchValue + "%");
+                preparedStatement.setString(index++, "%" + searchValue + "%");
+                preparedStatement.setString(index++, "%" + searchValue + "%");
+                preparedStatement.setString(index++, "%" + searchValue + "%");
+                preparedStatement.setString(index++, "%" + searchValue + "%");
+                preparedStatement.setString(index++, "%" + searchValue + "%");
+            }
+            preparedStatement.setInt(index++, start);
+            preparedStatement.setInt(index, length);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                ProductBean productBean = new ProductBean();
+                productBean.setId(resultSet.getInt("id"));
+                productBean.setName(resultSet.getString("name"));
+                productBean.setDescription(resultSet.getString("description"));
+                productBean.setCategoryTypeId(resultSet.getInt("categoryTypeId"));
+                productBean.setOriginalPrice(resultSet.getDouble("originalPrice"));
+                productBean.setDiscountPrice(resultSet.getDouble("discountPrice"));
+                productBean.setDiscountPercent(resultSet.getDouble("discountPercent"));
+                productBean.setQuantity(resultSet.getInt("quantity"));
+                productBean.setSoldQuantity(resultSet.getInt("soldQuantity"));
+                productBean.setAvgRate(resultSet.getDouble("avgRate"));
+                productBean.setNumReviews(resultSet.getInt("numReviews"));
+                productBean.setSize(resultSet.getString("size"));
+                productBean.setOtherSpec(resultSet.getString("otherSpec"));
+                productBean.setKeyword(resultSet.getString("keyword"));
+                productBean.setStatus(resultSet.getInt("status"));
+                productBean.setCreatedDate(resultSet.getTimestamp("createdDate"));
+                productBean.setCreatedBy(resultSet.getString("createdBy"));
+                productBean.setModifiedDate(resultSet.getTimestamp("modifiedDate"));
+                productBean.setModifiedBy(resultSet.getString("modifiedBy"));
+
+                productList.add(productBean);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return productList;
+    }
+
+    public int getRecordsTotal() {
+        int recordsTotal = -1;
+        String sql = "SELECT COUNT(id) AS recordsTotal FROM products WHERE status <> 0";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                recordsTotal = resultSet.getInt("recordsTotal");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return recordsTotal;
+    }
+
+    public int getRecordsFiltered(String searchValue) {
+        int recordsFiltered = -1;
+        String sql = "SELECT COUNT(id) AS recordsFiltered FROM products WHERE (status <> 0)";
+        int index = 1;
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            if (searchValue != null && !searchValue.isEmpty()) {
+                sql += " AND (id LIKE ? OR name LIKE ? OR description LIKE ? OR categoryTypeId LIKE ? OR originalPrice LIKE ? " +
+                        "OR discountPrice LIKE ? OR discountPercent LIKE ? OR quantity LIKE ? OR soldQuantity LIKE ? OR avgRate LIKE ? " +
+                        "OR numReviews LIKE ? OR size LIKE ? OR otherSpec LIKE ? OR keyword LIKE ? OR status LIKE ? OR createdDate LIKE ? " +
+                        "OR createdBy LIKE ? OR modifiedDate LIKE ? OR modifiedBy LIKE ?) ";
+            }
+
+            preparedStatement = connection.prepareStatement(sql);
+            if (searchValue != null && !searchValue.isEmpty()) {
+                preparedStatement.setString(index++, "%" + searchValue + "%");
+                preparedStatement.setString(index++, "%" + searchValue + "%");
+                preparedStatement.setString(index++, "%" + searchValue + "%");
+                preparedStatement.setString(index++, "%" + searchValue + "%");
+                preparedStatement.setString(index++, "%" + searchValue + "%");
+                preparedStatement.setString(index++, "%" + searchValue + "%");
+                preparedStatement.setString(index++, "%" + searchValue + "%");
+                preparedStatement.setString(index++, "%" + searchValue + "%");
+                preparedStatement.setString(index++, "%" + searchValue + "%");
+                preparedStatement.setString(index++, "%" + searchValue + "%");
+                preparedStatement.setString(index++, "%" + searchValue + "%");
+                preparedStatement.setString(index++, "%" + searchValue + "%");
+                preparedStatement.setString(index++, "%" + searchValue + "%");
+                preparedStatement.setString(index++, "%" + searchValue + "%");
+                preparedStatement.setString(index++, "%" + searchValue + "%");
+                preparedStatement.setString(index++, "%" + searchValue + "%");
+                preparedStatement.setString(index++, "%" + searchValue + "%");
+                preparedStatement.setString(index++, "%" + searchValue + "%");
+                preparedStatement.setString(index, "%" + searchValue + "%");
+            }
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                recordsFiltered = resultSet.getInt("recordsFiltered");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return recordsFiltered;
+    }
+
+    public void updateQuantityProduct(int id, int quantity) {
+        String sql = "UPDATE products SET quantity = ? WHERE id = ?";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            SetParameterUtil.setParameter(preparedStatement, quantity, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
+        }
+    }
+
+    public int disableProduct(int id) {
+        int affectedRows = -1;
+        String sql = "UPDATE products SET status = 0 WHERE id = ?";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            connection.setAutoCommit(false);
+            preparedStatement = connection.prepareStatement(sql);
+            SetParameterUtil.setParameter(preparedStatement, id);
+            affectedRows = preparedStatement.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            throw new RuntimeException(e);
+        } finally {
+            CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
+        }
+        return affectedRows;
+    }
 }

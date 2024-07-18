@@ -1,5 +1,8 @@
 <%@ page import="com.ltw.bean.OrderBean" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.sql.Timestamp" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Date" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -21,8 +24,17 @@
                     <li class="breadcrumb-item active">DDD. Administrator</li>
                 </ol>
                 <%
-                    OrderBean orderBean = (OrderBean) request.getAttribute("orderBean");
+                    OrderBean orderBean = (OrderBean) request.getAttribute("displayOrder");
                     String msg = (String) request.getAttribute("msg");
+                    // Giả sử orderBean đã được đưa vào scope (request, session, hoặc page scope)
+                    Timestamp createdDate = orderBean.getCreatedDate();
+                    Timestamp shipToDate = orderBean.getShipToDate();
+                    String formatCreatedDate = "", formatShipToDate = "";
+                    if (createdDate != null) {
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                        formatCreatedDate = sdf.format(new Date(createdDate.getTime()));
+                        formatShipToDate = sdf.format(new Date(shipToDate.getTime()));
+                    }
                 %>
                 <%
                     if (msg != null) {
@@ -38,12 +50,12 @@
 
                         <div class="col-3">
                             <label for="createdDate">Ngày đặt</label>
-                            <input type="date" id="createdDate" name="createdDate" value="<%=orderBean.getCreatedDate()%>">
+                            <input type="date" id="createdDate" name="createdDate" value="<%=formatCreatedDate%>" disabled>
                         </div>
 
                         <div class="col-3">
                             <label for="shipToDate">Ngày giao</label>
-                            <input type="date" id="shipToDate" name="shipToDate" value="<%=orderBean.getShipToDate()%>">
+                            <input type="date" id="shipToDate" name="shipToDate" value="<%=formatShipToDate%>">
                         </div>
 
                         <div class="col-6">

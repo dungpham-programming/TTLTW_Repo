@@ -28,10 +28,6 @@ public class ProductAddingController extends HttpServlet {
         req.getRequestDispatcher("/adding-product.jsp").forward(req, resp);
     }
 
-    // TODO: Xử lý trường hợp không nhập discount price hoặc nhập số âm
-    // TODO: Gom các util validate làm 1 (Sau khi sửa xong)
-    // TODO: Thêm thông báo thành công
-    // TODO: Sticky cho nút add và thẻ td trong table
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");

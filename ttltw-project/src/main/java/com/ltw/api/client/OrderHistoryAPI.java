@@ -2,10 +2,12 @@ package com.ltw.api.client;
 
 import com.ltw.bean.OrderBean;
 import com.ltw.bean.OrderDetailBean;
+import com.ltw.bean.ProductBean;
 import com.ltw.constant.LogLevel;
 import com.ltw.constant.LogState;
 import com.ltw.dao.OrderDAO;
 import com.ltw.dao.OrderDetailDAO;
+import com.ltw.dao.ProductDAO;
 import com.ltw.dto.DatatableDTO;
 import com.ltw.dto.FullOrderDTO;
 import com.ltw.service.LogService;
@@ -23,7 +25,9 @@ import java.util.List;
 public class OrderHistoryAPI extends HttpServlet {
     private final OrderDAO orderDAO = new OrderDAO();
     private final OrderDetailDAO orderDetailDAO = new OrderDetailDAO();
+    private final ProductDAO productDAO = new ProductDAO();
     private final LogService<FullOrderDTO> cancelLogService = new LogService<>();
+    private final LogService<ProductBean> productLogService = new LogService<>();
     private FullOrderDTO prevFullOrderDTO;
 
     @Override
@@ -93,6 +97,16 @@ public class OrderHistoryAPI extends HttpServlet {
             } else {
                 status = "success";
                 notify = "Hủy đơn hàng thành công!";
+                // Update lại số lượng hàng khi hủy
+                for (OrderDetailBean detail : nowDetails) {
+                    ProductBean prevProduct = productDAO.findProductById(detail.getProductId());
+                    int newQuantity = prevProduct.getQuantity() + detail.getQuantity();
+                    productDAO.updateQuantityProduct(detail.getProductId(), newQuantity);
+
+                    ProductBean nowProduct = productDAO.findProductById(detail.getProductId());
+                    productLogService.log(req, "user-cancel-plus-product", LogState.SUCCESS, LogLevel.ALERT, prevProduct, nowProduct);
+//                    SendEmailUtil.sendEmailCancelProduct(prevProduct, nowProduct);
+                }
                 cancelLogService.log(req, "user-cancel-order", LogState.SUCCESS, LogLevel.ALERT, prevFullOrderDTO, nowFullOrderDTO);
             }
         }

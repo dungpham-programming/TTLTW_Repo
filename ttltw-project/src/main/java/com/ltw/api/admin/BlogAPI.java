@@ -1,11 +1,14 @@
 package com.ltw.api.admin;
 
 import com.ltw.bean.BlogBean;
+import com.ltw.bean.UserBean;
 import com.ltw.constant.LogLevel;
 import com.ltw.constant.LogState;
 import com.ltw.dao.BlogDAO;
 import com.ltw.dto.DatatableDTO;
 import com.ltw.service.LogService;
+import com.ltw.util.SendEmailUtil;
+import com.ltw.util.SessionUtil;
 import com.ltw.util.TransferDataUtil;
 
 import javax.servlet.ServletException;
@@ -69,6 +72,8 @@ public class BlogAPI extends HttpServlet {
             logService.log(req, "admin-delete-blog", LogState.SUCCESS, LogLevel.WARNING, prevBlog, null);
             status = "success";
             notify = "Xóa log thành công!";
+            UserBean user = (UserBean) SessionUtil.getInstance().getValue(req, "user");
+            SendEmailUtil.sendDeleteNotify(user.getId(), user.getEmail(), prevBlog.getId(), "Blog");
         }
 
         String jsonData = "{\"status\": \"" + status + "\", \"notify\": \"" + notify + "\"}";

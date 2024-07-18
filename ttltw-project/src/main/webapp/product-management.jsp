@@ -21,12 +21,6 @@
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item active">DDD. Administrator</li>
                 </ol>
-                <%
-                    String msg = (String) request.getAttribute("msg");
-                    if (msg != null) {
-                %>
-                <%= (msg.equals("success") ? "<div class=\"alert alert-success\">Xóa thành công!</div>" : "<div class=\"alert alert-danger\">Xóa thất bại!</div>") %>
-                <%}%>
                 <div class="card mb-4 mt-4">
                     <div class="card-header">
                         <i class="fas fa-table me-1"></i>
@@ -40,13 +34,14 @@
                         <table id="manageAccountTable">
                             <thead>
                             <tr>
-                                <th>ID Sản phẩm</th>
+                                <th>#</th>
                                 <th>Tên sản phẩm</th>
                                 <th>Mã danh mục</th>
                                 <th>Giá gốc</th>
                                 <th>Giá giảm</th>
-                                <th>Phần trăm giảm</th>
-                                <th>Số lượng còn</th>
+                                <th>%</th>
+                                <th>Còn lại</th>
+                                <th>Đã bán</th>
                                 <th>Trạng thái</th>
                                 <th>Ảnh</th>
                                 <th>Tạo ngày</th>
@@ -56,50 +51,11 @@
                                 <th>Chức năng</th>
                             </tr>
                             </thead>
-                            <%
-                                List<ProductBean> listProduct = (List<ProductBean>) request.getAttribute("listProduct");
-
-                                for (ProductBean product : listProduct) {
-                                    String idStr = String.valueOf(product.getId());
-                            %>
                             <tbody>
-                            <tr>
-                                <td><%=product.getId()%></td>
-
-                                <% if (product.getName() != null) { %>
-                                <td><%=product.getName()%></td>
-                                <% } %>
-
-
-                                <td><%=product.getCategoryTypeId()%></td>
-                                <td><fmt:formatNumber value="<%=product.getOriginalPrice()%>" pattern="#,##0.##"/>đ</td>
-                                <td><fmt:formatNumber value="<%=product.getDiscountPrice()%>" pattern="#,##0.##"/>đ</td>
-                                <td><fmt:formatNumber value="<%=product.getDiscountPercent()%>" pattern="#.##"/>%</td>
-                                <td><%=product.getQuantity()%></td>
-                                <% if (product.getStatus() == 1) { %>
-                                <td>Còn hàng</td>
-                                <% } else if (product.getStatus() == 2) { %>
-                                <td>Vô hiệu hóa</td>
-                                <% } else if (product.getStatus() == 0) { %>
-                                <td>Hết hàng</td>
-                                <% } %>
-                                <%-- TODO: Ảnh chỉ là để link tạm thời --%>
-                                <td>
-                                </td>
-                                <td><%=product.getCreatedDate()%></td>
-                                <td><%=product.getCreatedBy()%></td>
-                                <td><%=product.getModifiedDate()%></td>
-                                <td><%=product.getModifiedBy()%></td>
-                                <td>
-                                    <a href="<c:url value="/admin/product-management/editing">
-                                                <c:param name="id" value="<%=idStr%>"/>
-                                             </c:url>"
-                                       data-bs-toggle="tooltip" title="Chỉnh sửa sản phẩm" class="edit"><i
-                                            class="fa-regular fa-pen-to-square" style="color: #e3bd74;"></i></a>
-                                </td>
-                            </tr>
                             </tbody>
-                            <% } %>
+                            <tfoot>
+
+                            </tfoot>
                         </table>
                     </div>
                 </div>
