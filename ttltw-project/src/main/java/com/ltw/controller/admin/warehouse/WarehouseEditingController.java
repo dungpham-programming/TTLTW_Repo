@@ -5,7 +5,6 @@ import com.ltw.constant.LogLevel;
 import com.ltw.constant.LogState;
 import com.ltw.dao.WarehouseDAO;
 import com.ltw.service.LogService;
-import com.ltw.util.NumberValidateUtil;
 import com.ltw.util.ValidateParamUtil;
 
 import javax.servlet.ServletException;
@@ -16,13 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.ResourceBundle;
 
 @WebServlet("/admin/warehouse-management/editing")
 public class WarehouseEditingController extends HttpServlet {
     private final WarehouseDAO warehouseDAO = new WarehouseDAO();
     private LogService<WarehouseBean> logService = new LogService<>();
-    private ResourceBundle logBundle = ResourceBundle.getBundle("log-content");
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
