@@ -33,6 +33,7 @@ $(() => {
             {data: 'modifiedBy'},
             {sortable: false, searchable: false,}
         ],
+        order: [[16, 'desc']],
         columnDefs: [
             {
                 targets: 2,
