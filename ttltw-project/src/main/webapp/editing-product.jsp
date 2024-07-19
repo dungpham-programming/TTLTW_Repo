@@ -24,16 +24,18 @@
                 <%
                     ProductBean productBean = (ProductBean) request.getAttribute("productBean");
                     ArrayList<String> errors = (ArrayList<String>) request.getAttribute("errors");
-                    String success = request.getParameter("success");
-                    String oPrErr = request.getParameter("oPrErr");
-                    String dPrErr = request.getParameter("dPrErr");
-                    String dPeErr = request.getParameter("dPeErr");
+                    String msg = (String) request.getAttribute("msg");
+                    String oPrErr = (String) request.getAttribute("oPrErr");
+                    String dPrErr = (String) request.getAttribute("dPrErr");
+                    String dPeErr = (String) request.getAttribute("dPeErr");
+                    String qErr = (String) request.getAttribute("qErr");
+                    String imgUrls = (String) request.getAttribute("imgUrls");
                 %>
-                <% if (success != null) { %>
-                <div class="alert alert-success">
-                    Chỉnh sửa sản phẩm thành công!
-                </div>
-                <% } %>
+                <%
+                    if (msg != null) {
+                %>
+                <%= (msg.equals("success") ? "<div class=\"alert alert-success\">Thay đổi thành công!</div>" : "<div class=\"alert alert-danger\">Thay đổi thất bại!</div>") %>
+                <%}%>
                 <form action="<c:url value="/admin/product-management/editing"/>" method="post">
                     <div class="row">
                         <div class="col-12">
@@ -88,7 +90,9 @@
                             <% if (errors != null && errors.get(5) != null) { %>
                             <div class="error" id="error6">Không được để trống!</div>
                             <% } %>
-                            <div class="error" id="dPeError"></div>
+                            <% if (dPeErr != null) { %>
+                            <div class="error" id="dPeError">Phải là số và lớn hơn 0!</div>
+                            <%}%>
                         </div>
 
                         <div class="col-3">
@@ -97,7 +101,9 @@
                             <% if (errors != null && errors.get(6) != null) { %>
                             <div class="error" id="error7">Không được để trống!</div>
                             <% } %>
+                            <% if (qErr != null) { %>
                             <div class="error" id="qError"></div>
+                            <% } %>
                         </div>
 
                         <div class="col-3">
@@ -111,9 +117,6 @@
                         <div class="col-3">
                             <label for="otherSpec">Thông số khác</label>
                             <input type="text" id="otherSpec" name="otherSpec" placeholder="Thông số khác" value="<%=productBean.getOtherSpec()%>">
-                            <% if (errors != null && errors.get(8) != null) { %>
-                            <div class="error" id="error9">Không được để trống!</div>
-                            <% } %>
                         </div>
 
                         <div class="col-3">
@@ -123,23 +126,22 @@
                                 <option value="2" <%= (productBean.getStatus() == 2) ? "selected" : "" %>>Hết hàng</option>
                                 <option value="3" <%= (productBean.getStatus() == 3) ? "selected" : "" %>>Vô hiệu hóa</option>
                             </select>
-                            <% if (errors != null && errors.get(9) != null) { %>
+                            <% if (errors != null && errors.get(8) != null) { %>
                             <div class="error" id="error10">Không được để trống!</div>
                             <% } %>
                         </div>
 
                         <div class="col-12">
                             <label for="keyword">Từ khóa tìm kiếm</label>
-                            <input type="text" id="keyword" name="keyword" value="<%=productBean.getKeyword()%>" placeholder="Phân cách từ khóa bằng dấu phẩy" required>
-                            <% if (errors != null && errors.get(10) != null) { %>
-                            <div class="error" id="error11">Không được để trống!</div>
-                            <% } %>
+                            <input type="text" id="keyword" name="keyword" value="<%=productBean.getKeyword()%>" placeholder="Phân cách từ khóa bằng dấu phẩy">
                         </div>
 
                         <div class="col-12">
-                            <label for="images">Các ảnh của sản phẩm</label>
-                            <input type="file" name="images" id="images" multiple>
-                            <div class="error" id="error12"></div>
+                            <label for="imgUrls">Các ảnh của sản phẩm</label>
+                            <input type="text" id="imgUrls" name="imgUrls" value="<%=imgUrls%>" placeholder="Phân cách url bằng dấu phẩy" required>
+                            <% if (errors != null && errors.get(9) != null) { %>
+                            <div class="error" id="error12">Không được để trống!</div>
+                            <% } %>
                         </div>
                     </div>
 

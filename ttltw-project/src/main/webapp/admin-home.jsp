@@ -34,8 +34,8 @@
                                 <h6>Tổng số tài khoản: <%=countUser.get(0)%></h6>
                                 <h6>Số tài khoản còn hoạt động: <%=countUser.get(1)%></h6>
                                 <h6>Số tài khoản bị vô hiệu hóa: <%=countUser.get(2)%></h6>
-                                <h6>Số tài khoản quản trị viên: <%=countUser.get(3)%></h6>
-                                <h6>Số tài khoản người dùng: <%=countUser.get(4)%></h6>
+                                <h6>Số tài khoản người dùng: <%=countUser.get(3)%></h6>
+                                <h6>Số tài khoản quản trị viên: <%=countUser.get(4)%></h6>
                                 <a href="<c:url value="/admin/account-management"/>" class="to-manage-link">Quản lý tài khoản</a>
                             </div>
                         </div>

@@ -21,6 +21,8 @@
 
     <link rel="stylesheet" type="text/css" href="<c:url value="/templates/login-signup-forget/signin/css/Dangnhap.css"/>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap">
 </head>
@@ -38,6 +40,25 @@
     <div class="header">
         <h2>Đăng nhập</h2>
     </div>
+
+    <%
+        String notify = request.getParameter("notify");
+        if (notify != null ) {
+            if (notify.equals("registed-by-page")) {
+    %>
+    <div class="alert alert-danger">
+        Email này đã được đăng ký thông qua page!
+    </div>
+        <%} else if (notify.equals("error-oauth")) {%>
+        <div class="alert alert-danger">
+            Lỗi OAuth 2.0!
+        </div>
+        <%} else if (notify.equals("access-denied")) {%>
+        <div class="alert alert-danger">
+            Từ chối bởi Google!
+        </div>
+        <%}%>
+    <%}%>
 
     <%
         String emailError = (String) request.getAttribute("emailError");
@@ -74,12 +95,34 @@
         </div>
 
         <div class="form-group">
-            <input class="submit-button" type="submit"/>
+            <input class="submit-button" type="submit" value="Đăng nhập"/>
         </div>
     </form>
     <div class="footer">
         <a href="<c:url value="/register"/>" class="link">Đăng ký</a>
         <a href="<c:url value="forget.jsp"/>" class="link">Quên mật khẩu</a>
+    </div>
+    <div class="via-oauth">
+        <div class="d-flex align-items-center justify-content-between">
+            <hr class="flex-fill m-0">
+            <span class="mx-3">Hoặc đăng nhập bằng</span>
+            <hr class="flex-fill m-0">
+        </div>
+        <div class="list-unstyled d-flex align-items-center justify-content-between flex-wrap mt-2">
+            <form action="<c:url value="/signin-via-google"/>" class="mt-0">
+                <button type="submit" class="oauth-btn">
+                    <i class="fa-brands fa-google" style="color: #e11414;"></i>
+                    <span>Google</span>
+                </button>
+            </form>
+
+            <form action="<c:url value="/signin-via-facebook"/>" class="mt-0">
+                <button type="submit" class="oauth-btn">
+                    <i class="fa-brands fa-facebook-f" style="color: #045be7;"></i>
+                    <span>Facebook</span>
+                </button>
+            </form>
+        </div>
     </div>
 </div>
 

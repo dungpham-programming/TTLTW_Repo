@@ -19,8 +19,13 @@
                 </ol>
                 <%
                     ArrayList<String> errors = (ArrayList<String>) request.getAttribute("errors");
-                    String success = request.getParameter("success");
+                    String msg = (String) request.getAttribute("msg");
                 %>
+                <%
+                    if (msg != null) {
+                %>
+                <%= (msg.equals("success") ? "<div class=\"alert alert-success\">Thay đổi thành công!</div>" : "<div class=\"alert alert-danger\">Thay đổi thất bại!</div>") %>
+                <%}%>
                 <form action="<c:url value="/admin/account-management/adding"/>" method="post">
                     <div class="row">
                         <div class="col-6">

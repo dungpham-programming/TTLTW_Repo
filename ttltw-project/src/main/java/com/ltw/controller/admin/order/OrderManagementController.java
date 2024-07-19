@@ -14,11 +14,11 @@ import java.util.List;
 @WebServlet(value = {"/admin/order-management"})
 
 public class OrderManagementController extends HttpServlet {
-    private final OrderDAO orderDAO = new OrderDAO();
+//    private final OrderDAO orderDAO = new OrderDAO();
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<OrderBean> listOrders = orderDAO.findAllOrders();
-
-        request.setAttribute("listOrders", listOrders);
+//        List<OrderBean> listOrders = orderDAO.findAllOrders();
+//
+//        request.setAttribute("listOrders", listOrders);
         request.getRequestDispatcher("/order-management.jsp").forward(request,response);
     }
 }

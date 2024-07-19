@@ -1,9 +1,13 @@
 package com.ltw.controller.client;
 
 import com.ltw.bean.*;
+import com.ltw.constant.LogLevel;
+import com.ltw.constant.LogState;
 import com.ltw.dao.*;
-import com.ltw.util.BlankInputUtil;
+import com.ltw.dto.FullOrderDTO;
+import com.ltw.service.LogService;
 import com.ltw.util.SessionUtil;
+import com.ltw.util.ValidateParamUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,10 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @WebServlet(value = {"/checkout"})
 public class CheckoutController extends HttpServlet {
@@ -24,6 +25,9 @@ public class CheckoutController extends HttpServlet {
     private final OrderDAO orderDAO = new OrderDAO();
     private final OrderDetailDAO orderDetailDAO = new OrderDetailDAO();
     private final ProductDAO productDAO = new ProductDAO();
+    private LogService<UserBean> userLogService = new LogService<>();
+    private LogService<FullOrderDTO> orderLogService = new LogService<>();
+    private ResourceBundle logBundle = ResourceBundle.getBundle("log-content");
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -54,24 +58,24 @@ public class CheckoutController extends HttpServlet {
         String paymentMethod = req.getParameter("paymentMethod");
 
         String[] inputsForm = new String[]{firstName, lastName, addressLine, addressWard, addressDistrict, addressProvince};
-        ArrayList<String> errors = new ArrayList<>();
 
+        // Biến bắt lỗi
         boolean isValid = true;
 
-        for (String string : inputsForm) {
-            if (BlankInputUtil.isBlank(string)) {
-                errors.add("e");
-                if (isValid) {
-                    isValid = false;
-                }
-            } else {
-                errors.add(null);
+        // Kiểm tra input rằng/null trong hàm checkEmptyParam
+        List<String> errors = ValidateParamUtil.checkEmptyParam(inputsForm);
+
+        // Nếu có lỗi (khác null) trả về isValid = false
+        for (String error : errors) {
+            if (error != null) {
+                isValid = false;
+                break;
             }
         }
-        req.setAttribute("errors", errors);
 
         UserBean user = (UserBean) SessionUtil.getInstance().getValue(req, "user");
         Cart cart = (Cart) SessionUtil.getInstance().getValue(req, "cart");
+        UserBean prevUser = userDAO.findUserById(user.getId());
         if (isValid) {
             // Lưu thông tin của người dùng đã nhập
             UserBean userBean = new UserBean();
@@ -83,7 +87,14 @@ public class CheckoutController extends HttpServlet {
             userBean.setAddressDistrict(addressDistrict.trim());
             userBean.setAddressProvince(addressProvince.trim());
 
-            userDAO.updateAccount(userBean);
+            int affectedRows = userDAO.updateAccount(userBean);
+            UserBean currentUser = userDAO.findUserById(user.getId());
+            if (affectedRows <= 0) {
+                userLogService.log(req, "user-update-in-checkout", LogState.FAIL, LogLevel.ALERT, prevUser, currentUser);
+            } else {
+                userLogService.log(req, "user-update-in-checkout", LogState.SUCCESS, LogLevel.INFO, prevUser, currentUser);
+            }
+
             // Lưu thông tin đơn hàng
             OrderBean orderBean = new OrderBean();
             orderBean.setUserId(user.getId());
@@ -100,27 +111,40 @@ public class CheckoutController extends HttpServlet {
             orderBean.setModifiedBy(user.getEmail());
 
             int orderId = orderDAO.createOrder(orderBean);
-            if (orderId == -1) {
+            if (orderId <= 0) {
                 req.setAttribute("insertError", "ie");
                 CustomizeBean customizeInfo = customizeDAO.getCustomizeInfo();
                 req.setAttribute("customizeInfo", customizeInfo);
                 req.getRequestDispatcher("/checkout.jsp").forward(req, resp);
             } else {
+                List<OrderDetailBean> orderDetails = new ArrayList<>();
+
                 for (Item item : cart.getItems()) {
                     OrderDetailBean orderDetailBean = new OrderDetailBean();
                     orderDetailBean.setOrderId(orderId);
                     orderDetailBean.setProductId(item.getProduct().getId());
                     orderDetailBean.setQuantity(item.getQuantity());
+                    // Đánh dấu là chưa review cho sản phẩm này
+                    orderDetailBean.setReviewed(0);
 
+                    orderDetails.add(orderDetailBean);
                     orderDetailDAO.createOrderDetail(orderDetailBean);
 
                     int quantityProductAfterOrder = productDAO.getTotalItems() - item.getQuantity();
                     // Set lại số lượng product
                     productDAO.updateQuantity(item.getProduct().getId(), quantityProductAfterOrder);
                 }
+                // Ghi log thành công
+                FullOrderDTO fullOrder = new FullOrderDTO(orderDAO.findOrderById(orderId), orderDetails);
+                orderLogService.log(req, "order-in-checkout", LogState.SUCCESS, LogLevel.INFO, null, fullOrder);
+                SessionUtil.getInstance().removeValue(req, "cart");
+
                 resp.sendRedirect(req.getContextPath() + "/thankyou");
             }
         } else {
+            req.setAttribute("errors", errors);
+            // Ghi log thất bại
+            orderLogService.log(req, "order-in-checkout", LogState.FAIL, LogLevel.ALERT, null, null);
             req.getRequestDispatcher("/checkout.jsp").forward(req, resp);
         }
     }
@@ -137,7 +161,6 @@ public class CheckoutController extends HttpServlet {
 
         // Lấy thời gian sau khi thêm 7 ngày
         Date sevenDaysLater = calendar.getTime();
-        Timestamp timestampSevenDaysLater = new Timestamp(sevenDaysLater.getTime());
-        return timestampSevenDaysLater;
+        return new Timestamp(sevenDaysLater.getTime());
     }
 }

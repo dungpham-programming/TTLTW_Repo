@@ -37,6 +37,7 @@
         String email = request.getParameter("email");
         String key = request.getParameter("key");
         String linkError = (String) request.getAttribute("linkError");
+        String error = (String) request.getAttribute("error");
 
         String newPasswordInputErr = (String) request.getAttribute("newPasswordInputErr");
         String retypePasswordInputErr = (String) request.getAttribute("retypePasswordInputErr");
@@ -48,6 +49,12 @@
         Lỗi đường dẫn xác thực!
     </div>
     <%}%>
+    <% if (error != null) {%>
+    <div class="error-message">
+        Đổi mật khẩu thất bại!
+    </div>
+    <%}%>
+
     <form action="<c:url value="/change-password"/>" method="post">
         <div class="password2">
             <label for="newPassword">Mật khẩu mới</label>

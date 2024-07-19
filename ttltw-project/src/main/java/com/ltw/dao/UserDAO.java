@@ -51,22 +51,30 @@ public class UserDAO {
         return accountList;
     }
 
-    public void createAccount(UserBean userBean) {
+    public int createAccount(UserBean userBean) {
+        int id = -1;
         String sql = "INSERT INTO users (password, firstName, lastName, roleId, " +
-                "email, addressLine, addressWard, addressDistrict, status) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "email, addressLine, addressWard, addressDistrict, addressProvince, status) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
 
         try {
             connection = OpenConnectionUtil.openConnection();
             connection.setAutoCommit(false);
-            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             SetParameterUtil.setParameter(preparedStatement, userBean.getPassword(), userBean.getFirstName(),
                     userBean.getLastName(), userBean.getRoleId(), userBean.getEmail(), userBean.getAddressLine(),
-                    userBean.getAddressWard(), userBean.getAddressDistrict(), userBean.getStatus());
-            preparedStatement.executeUpdate();
+                    userBean.getAddressWard(), userBean.getAddressDistrict(), userBean.getAddressProvince(), userBean.getStatus());
+            int affectedRows = preparedStatement.executeUpdate();
+            if (affectedRows > 0) {
+                resultSet = preparedStatement.getGeneratedKeys();
+                if (resultSet.next()) {
+                    id = resultSet.getInt(1);
+                }
+            }
             connection.commit();
         } catch (SQLException e) {
             try {
@@ -75,8 +83,9 @@ public class UserDAO {
                 throw new RuntimeException(ex);
             }
         } finally {
-            CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
         }
+        return id;
     }
 
     public int deleteAccount(int id) {
@@ -139,7 +148,7 @@ public class UserDAO {
     public UserBean findUserById(int id) {
         UserBean userBean = new UserBean();
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT id, email, roleId, firstName, lastName, addressLine, addressWard, addressDistrict, addressProvince, createdDate " )
+        sql.append("SELECT id, email, roleId, status, firstName, lastName, addressLine, addressWard, addressDistrict, addressProvince, createdDate " )
                 .append("FROM users ")
                 .append("WHERE id = ?");
 
@@ -158,6 +167,7 @@ public class UserDAO {
                 userBean.setId(resultSet.getInt("id"));
                 userBean.setEmail(resultSet.getString("email"));
                 userBean.setRoleId(resultSet.getInt("roleId"));
+                userBean.setStatus(resultSet.getInt("status"));
                 userBean.setFirstName(resultSet.getString("firstName"));
                 userBean.setLastName(resultSet.getString("lastName"));
                 userBean.setAddressLine(resultSet.getString("addressLine"));
@@ -218,6 +228,45 @@ public class UserDAO {
                 .append("(email, password, roleId, status, verifiedCode)")
                 .append(" VALUES ")
                 .append("(?, ?, 1, 2, ?)");
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            connection.setAutoCommit(false);
+            preparedStatement = connection.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
+
+            SetParameterUtil.setParameter(preparedStatement, user.getEmail(), user.getPassword(), user.getVerifiedCode());
+
+            preparedStatement.executeUpdate();
+            resultSet = preparedStatement.getGeneratedKeys();
+
+            if (resultSet.next()) {
+                id = resultSet.getInt(1);
+            }
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+                e.printStackTrace();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        } finally {
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return id;
+    }
+
+    public int createOAuth(UserBean user, String platform) {
+        int id = -1;
+        StringBuilder sql = new StringBuilder();
+        sql.append("INSERT INTO users ")
+                .append("(email, password, roleId, status, viaOAuth, verifiedCode)")
+                .append(" VALUES ")
+                .append("(?, ?, 1, 1, ").append("\"").append(platform).append("\"").append(", ?)");
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -338,7 +387,8 @@ public class UserDAO {
     }
 
     // Cập nhật lại thông tin tài khoản
-    public void updateAccount(UserBean user) {
+    public int updateAccount(UserBean user) {
+        int affectedRows = -1;
         StringBuilder sql = new StringBuilder();
         sql.append("UPDATE users ")
                 .append("SET firstName = ?, lastName = ?, addressLine = ?, ")
@@ -355,7 +405,7 @@ public class UserDAO {
             SetParameterUtil.setParameter(preparedStatement, user.getFirstName(), user.getLastName(),
                                             user.getAddressLine(), user.getAddressWard(), user.getAddressDistrict(),
                                             user.getAddressProvince(), user.getId());
-            preparedStatement.executeUpdate();
+            affectedRows = preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
             try {
@@ -366,10 +416,12 @@ public class UserDAO {
         } finally {
             CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
         }
+        return affectedRows;
     }
 
     // Lưu mật khẩu mới cho tài khoản
-    public void saveRenewPasswordByEmail(String email, String password) {
+    public int saveRenewPasswordByEmail(String email, String password) {
+        int affectedRows = -1;
         StringBuilder sql = new StringBuilder();
         sql.append("UPDATE users ")
                 .append("SET password = ? ")
@@ -384,7 +436,7 @@ public class UserDAO {
             preparedStatement = connection.prepareStatement(sql.toString());
 
             SetParameterUtil.setParameter(preparedStatement, password, email);
-            preparedStatement.executeUpdate();
+            affectedRows = preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
             try {
@@ -395,6 +447,7 @@ public class UserDAO {
         } finally {
             CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
         }
+        return affectedRows;
     }
 
     // Kiểm tra xem tài khoản và mật khẩu có hợp lệ không
@@ -459,7 +512,7 @@ public class UserDAO {
     public UserBean findUserByEmail(String email) {
         UserBean userBean = null;
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT id, email, roleId, firstName, lastName, addressLine, addressWard, addressDistrict, addressProvince, createdDate ")
+        sql.append("SELECT id, email, roleId, status, firstName, lastName, addressLine, addressWard, addressDistrict, addressProvince, createdDate ")
                 .append("FROM users ")
                 .append("WHERE email = ?");
 
@@ -478,6 +531,7 @@ public class UserDAO {
                 userBean.setId(resultSet.getInt("id"));
                 userBean.setEmail(resultSet.getString("email"));
                 userBean.setRoleId(resultSet.getInt("roleId"));
+                userBean.setStatus(resultSet.getInt("status"));
                 userBean.setFirstName(resultSet.getString("firstName"));
                 userBean.setLastName(resultSet.getString("lastName"));
                 userBean.setAddressLine(resultSet.getString("addressLine"));
@@ -577,7 +631,7 @@ public class UserDAO {
             // Check if the result set has a row
             if (resultSet.next()) {
                 String keyInDB = resultSet.getString("changePwHash");
-                return (keyInDB != null && !keyInDB.isEmpty());
+                return keyInDB != null && keyInDB.equals(key);
             }
         } catch (SQLException e) {
             // Handle the exception (log it or throw a custom exception)
@@ -645,5 +699,198 @@ public class UserDAO {
         } finally {
             CloseResourceUtil.closeNotUseRS(preparedStatement, connection);
         }
+    }
+
+    public String checkOAuthAccount(String email) {
+        String sql = "SELECT viaOAuth FROM users WHERE email = ?";
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = OpenConnectionUtil.openConnection();
+            preparedStatement = connection.prepareStatement(sql);
+
+            // Set the email parameter
+            SetParameterUtil.setParameter(preparedStatement, email);
+
+            // Execute the query
+            resultSet = preparedStatement.executeQuery();
+
+            // Check if the result set has a row
+            if (resultSet.next()) {
+                String oAuth = resultSet.getString("viaOAuth");
+                if (oAuth == null) {
+                    return "notOAuth";
+                } else {
+                    return "oAuth";
+                }
+            }
+        } catch (SQLException e) {
+            // Handle the exception (log it or throw a custom exception)
+            e.printStackTrace(); // Example, you should handle this appropriately in your application
+        } finally {
+            // Close resources in the finally block
+            CloseResourceUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return "error";
+    }
+
+    public List<UserBean> getUsersDatatable(int start, int length, String columnOrder, String orderDir, String searchValue) {
+        List<UserBean> users = new ArrayList<>();
+        String sql = "SELECT id, email, firstName, lastName, roleId, status, addressLine, addressWard, addressDistrict, addressProvince, createdDate FROM users";
+        int index = 1;
+
+        Connection conn = null;
+        PreparedStatement preStat = null;
+        ResultSet rs = null;
+
+        try {
+            conn = OpenConnectionUtil.openConnection();
+            if (searchValue != null && !searchValue.isEmpty()) {
+                sql += " WHERE (id LIKE ? OR email LIKE ? OR firstName LIKE ? OR lastName LIKE ? OR roleId LIKE ? OR status LIKE ? " +
+                        "OR addressLine LIKE ? OR addressWard LIKE ? OR addressDistrict LIKE ? OR addressProvince LIKE ? OR createdDate LIKE ?)";
+            }
+            sql += " ORDER BY " + columnOrder + " " + orderDir + " ";
+            sql += "LIMIT ?, ?";
+
+            preStat = conn.prepareStatement(sql);
+            if (searchValue != null && !searchValue.isEmpty()) {
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+            }
+            preStat.setInt(index++, start);
+            preStat.setInt(index, length);
+
+            rs = preStat.executeQuery();
+            while (rs.next()) {
+                UserBean user = new UserBean();
+                user.setId(rs.getInt("id"));
+                user.setEmail(rs.getString("email"));
+                user.setFirstName(rs.getString("firstName"));
+                user.setLastName(rs.getString("lastName"));
+                user.setRoleId(rs.getInt("roleId"));
+                user.setStatus(rs.getInt("status"));
+                user.setAddressLine(rs.getString("addressLine"));
+                user.setAddressWard(rs.getString("addressWard"));
+                user.setAddressDistrict(rs.getString("addressDistrict"));
+                user.setAddressProvince(rs.getString("addressProvince"));
+                user.setCreatedDate(rs.getTimestamp("createdDate"));
+
+                users.add(user);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            CloseResourceUtil.closeResource(rs, preStat, conn);
+        }
+        return users;
+    }
+
+    public int getRecordsTotal() {
+        int recordsTotal = -1;
+        String sql = "SELECT COUNT(id) FROM users";
+
+        Connection conn = null;
+        PreparedStatement preStat = null;
+        ResultSet rs = null;
+
+        try {
+            conn = OpenConnectionUtil.openConnection();
+            preStat = conn.prepareStatement(sql);
+            rs = preStat.executeQuery();
+
+            if (rs.next()) {
+                recordsTotal = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            CloseResourceUtil.closeResource(rs, preStat, conn);
+        }
+        return recordsTotal;
+    }
+
+    public int getRecordsFiltered(String searchValue) {
+        int recordsFiltered = -1;
+        String sql = "SELECT COUNT(id) FROM users";
+
+        Connection conn = null;
+        PreparedStatement preStat = null;
+        ResultSet rs = null;
+
+        try {
+            conn = OpenConnectionUtil.openConnection();
+            if (searchValue != null && !searchValue.isEmpty()) {
+                sql += " WHERE (id LIKE ? OR email LIKE ? OR firstName LIKE ? OR lastName LIKE ? OR roleId LIKE ? OR status LIKE ? " +
+                        "OR addressLine LIKE ? OR addressWard LIKE ? OR addressDistrict LIKE ? OR addressProvince LIKE ? OR createdDate LIKE ?)";
+            }
+            preStat = conn.prepareStatement(sql);
+            int index = 1;
+            if (searchValue != null && !searchValue.isEmpty()) {
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index++, "%" + searchValue + "%");
+                preStat.setString(index, "%" + searchValue + "%");
+            }
+            rs = preStat.executeQuery();
+
+            if (rs.next()) {
+                recordsFiltered = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            CloseResourceUtil.closeResource(rs, preStat, conn);
+        }
+        return recordsFiltered;
+    }
+
+    public UserBean findUserByOrderId(int orderId) {
+        String sql = "SELECT * FROM users WHERE id = (SELECT userId FROM orders WHERE id = ?)";
+        Connection conn = null;
+        PreparedStatement preStat = null;
+        ResultSet rs = null;
+        UserBean user = new UserBean();
+        try {
+            conn = OpenConnectionUtil.openConnection();
+            preStat = conn.prepareStatement(sql);
+            preStat.setInt(1, orderId);
+            rs = preStat.executeQuery();
+            while (rs.next()) {
+                user.setId(rs.getInt("id"));
+                user.setEmail(rs.getString("email"));
+                user.setFirstName(rs.getString("firstName"));
+                user.setLastName(rs.getString("lastName"));
+                user.setRoleId(rs.getInt("roleId"));
+                user.setStatus(rs.getInt("status"));
+                user.setAddressLine(rs.getString("addressLine"));
+                user.setAddressWard(rs.getString("addressWard"));
+                user.setAddressDistrict(rs.getString("addressDistrict"));
+                user.setAddressProvince(rs.getString("addressProvince"));
+                user.setCreatedDate(rs.getTimestamp("createdDate"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            CloseResourceUtil.closeResource(rs, preStat, conn);
+        }
+        return user;
     }
 }

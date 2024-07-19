@@ -1,5 +1,8 @@
 <%@ page import="com.ltw.bean.OrderBean" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.sql.Timestamp" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Date" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -21,14 +24,23 @@
                     <li class="breadcrumb-item active">DDD. Administrator</li>
                 </ol>
                 <%
-                    OrderBean orderBean = (OrderBean) request.getAttribute("orderBean");
-                    String success = request.getParameter("success");
+                    OrderBean orderBean = (OrderBean) request.getAttribute("displayOrder");
+                    String msg = (String) request.getAttribute("msg");
+                    // Giả sử orderBean đã được đưa vào scope (request, session, hoặc page scope)
+                    Timestamp createdDate = orderBean.getCreatedDate();
+                    Timestamp shipToDate = orderBean.getShipToDate();
+                    String formatCreatedDate = "", formatShipToDate = "";
+                    if (createdDate != null) {
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                        formatCreatedDate = sdf.format(new Date(createdDate.getTime()));
+                        formatShipToDate = sdf.format(new Date(shipToDate.getTime()));
+                    }
                 %>
-                <% if (success != null) { %>
-                <div class="alert alert-success">
-                    Chỉnh sửa đơn hàng thành công!
-                </div>
-                <% } %>
+                <%
+                    if (msg != null) {
+                %>
+                <%= (msg.equals("success") ? "<div class=\"alert alert-success\">Thay đổi thành công!</div>" : "<div class=\"alert alert-danger\">Thay đổi thất bại!</div>") %>
+                <%}%>
                 <form action="<c:url value="/admin/order-management/editing"/>" method="post">
                     <div class="row">
                         <div class="col-6">
@@ -38,12 +50,12 @@
 
                         <div class="col-3">
                             <label for="createdDate">Ngày đặt</label>
-                            <input type="text" id="createdDate" name="createdDate" value="<%=orderBean.getCreatedDate()%>" disabled>
+                            <input type="date" id="createdDate" name="createdDate" value="<%=formatCreatedDate%>" disabled>
                         </div>
 
                         <div class="col-3">
                             <label for="shipToDate">Ngày giao</label>
-                            <input type="text" id="shipToDate" name="shipToDate" value="<%=orderBean.getShipToDate()%>" disabled>
+                            <input type="date" id="shipToDate" name="shipToDate" value="<%=formatShipToDate%>">
                         </div>
 
                         <div class="col-6">

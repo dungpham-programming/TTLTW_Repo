@@ -4,6 +4,7 @@ public class CategoryBean {
     private int id;
     private String name;
     private String des;
+    private String profilePic;
 
     public CategoryBean() {
     }
@@ -30,5 +31,13 @@ public class CategoryBean {
 
     public void setDes(String des) {
         this.des = des;
+    }
+
+    public String getProfilePic() {
+        return profilePic;
+    }
+
+    public void setProfilePic(String profilePic) {
+        this.profilePic = profilePic;
     }
 }

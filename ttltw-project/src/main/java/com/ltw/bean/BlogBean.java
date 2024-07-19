@@ -12,7 +12,7 @@ public class BlogBean {
     private int status;
     private String profilePic;
     private Timestamp createdDate;
-    private String cratedBy;
+    private String createdBy;
     private Timestamp modifiedDate;
     private String modifiedBy;
 
@@ -83,12 +83,12 @@ public class BlogBean {
         this.createdDate = createdDate;
     }
 
-    public String getCratedBy() {
-        return cratedBy;
+    public String getCreatedBy() {
+        return createdBy;
     }
 
-    public void setCratedBy(String cratedBy) {
-        this.cratedBy = cratedBy;
+    public void setCreatedBy(String cratedBy) {
+        this.createdBy = cratedBy;
     }
 
     public Timestamp getModifiedDate() {

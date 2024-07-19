@@ -1,10 +1,13 @@
 package com.ltw.controller.admin.account;
 
 import com.ltw.bean.UserBean;
+import com.ltw.constant.LogLevel;
+import com.ltw.constant.LogState;
 import com.ltw.dao.UserDAO;
-import com.ltw.util.BlankInputUtil;
+import com.ltw.service.LogService;
 import com.ltw.util.EncryptPasswordUtil;
 import com.ltw.util.NumberValidateUtil;
+import com.ltw.util.ValidateParamUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,14 +15,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
 
 @WebServlet("/admin/account-management/adding")
 public class AccountAddingController extends HttpServlet {
     private final UserDAO userDAO = new UserDAO();
+    private LogService<UserBean> logService = new LogService<>();
+    private ResourceBundle logBundle = ResourceBundle.getBundle("log-content");
+
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("/adding-account.jsp").forward(req, resp);
     }
+
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
 
@@ -34,47 +42,58 @@ public class AccountAddingController extends HttpServlet {
         String addressProvince = req.getParameter("addressProvince");
         String status = req.getParameter("status");
 
-        String success = "success";
-        String[] inputsForm = new String[] {email, password, firstName, lastName, roleId, status, addressLine, addressWard, addressDistrict, addressProvince};
-        ArrayList<String> errors = new ArrayList<>();
+        String msg = null;
+        String[] inputsForm = {email, password, firstName, lastName, roleId, status};
         // Biến bắt lỗi
         boolean isValid = true;
 
-        for (String string : inputsForm) {
-            if (BlankInputUtil.isBlank(string)) {
-                errors.add("e");
-                if (isValid) {
-                    isValid = false;
-                }
-            } else {
-                errors.add(null);
+        // Kiểm tra input rỗng/null trong hàm checkEmptyParam
+        List<String> errors = ValidateParamUtil.checkEmptyParam(inputsForm);
+
+        // Nếu có lỗi (khác null) trả về isValid = false
+        for (String error : errors) {
+            if (error != null) {
+                isValid = false;
+                break;
             }
         }
-        req.setAttribute("errors", errors);
 
-        // Nếu không lỗi thì lưu vào database
+        // Nếu không lỗi thì lưu vào database cùng với
         if (isValid) {
             // Đổi String về số
             int roleIdInt = NumberValidateUtil.toInt(roleId);
             int statusInt = NumberValidateUtil.toInt(status);
 
             // Set thuộc tính vào bean
-            UserBean userBean = new UserBean();
-            userBean.setEmail(email);
-            userBean.setPassword(EncryptPasswordUtil.encryptPassword(password));
-            userBean.setFirstName(firstName);
-            userBean.setLastName(lastName);
-            userBean.setRoleId(roleIdInt);
-            userBean.setStatus(statusInt);
-            userBean.setAddressLine(addressLine);
-            userBean.setAddressWard(addressWard);
-            userBean.setAddressDistrict(addressDistrict);
-            userBean.setAddressProvince(addressProvince);
+            UserBean nowChange = new UserBean();
+            nowChange.setEmail(email);
+            nowChange.setPassword(EncryptPasswordUtil.encryptPassword(password));
+            nowChange.setFirstName(firstName);
+            nowChange.setLastName(lastName);
+            nowChange.setRoleId(roleIdInt);
+            nowChange.setStatus(statusInt);
+            nowChange.setAddressLine(addressLine);
+            nowChange.setAddressWard(addressWard);
+            nowChange.setAddressDistrict(addressDistrict);
+            nowChange.setAddressProvince(addressProvince);
 
-            userDAO.createAccount(userBean);
-            resp.sendRedirect(req.getContextPath() + "/admin/account-management/adding?success=" + success);
+            int id = userDAO.createAccount(nowChange);
+
+            if (id <= 0) {
+                logService.log(req, "admin-update-account", LogState.FAIL, LogLevel.ALERT, null, null);
+                msg = "error";
+            } else {
+                UserBean currentUser = userDAO.findUserById(id);
+                logService.log(req, "admin-update-account", LogState.SUCCESS, LogLevel.WARNING, null, currentUser);
+                msg = "success";
+            }
         } else {
-            req.getRequestDispatcher("/adding-account.jsp").forward(req, resp);
+            // Lỗi nhập liệu người dùng thì không ghi log
+            req.setAttribute("errors", errors);
+            msg = "error";
         }
+
+        req.setAttribute("msg", msg);
+        req.getRequestDispatcher("/adding-account.jsp").forward(req, resp);
     }
 }

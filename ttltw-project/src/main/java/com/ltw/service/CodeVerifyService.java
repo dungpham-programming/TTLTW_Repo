@@ -112,6 +112,9 @@ public class CodeVerifyService {
     // Service kiểm tra xem email và password có hợp lệ không
     public boolean isValidLogin(String email, String password) {
        String hashedPassword = userDAO.getHashedPasswordByEmail(email);
+       if (hashedPassword == null) {
+           return false;
+       }
        return EncryptPasswordUtil.checkPassword(password, hashedPassword);
     }
 

@@ -21,6 +21,8 @@ public class ShopDetailByCategoryController extends HttpServlet {
     private final ProductDAO productDAO = new ProductDAO();
     private final ImageDAO imageDAO = new ImageDAO();
 
+
+    // Todo: Cần sửa lại logic gán link ảnh
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String categoryId = req.getParameter("categoryId");

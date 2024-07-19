@@ -10,6 +10,7 @@ public class UserBean {
     private String lastName;
     private int roleId;
     private int status;
+    private int viaOAuth;
     private String verifiedCode;
     private String key;
     private String addressLine;
@@ -78,6 +79,15 @@ public class UserBean {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+
+    public int getViaOAuth() {
+        return viaOAuth;
+    }
+
+    public void setViaOAuth(int viaOAuth) {
+        this.viaOAuth = viaOAuth;
     }
 
     public String getVerifiedCode() {
@@ -159,4 +169,6 @@ public class UserBean {
     public void setModifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
+
+
 }
