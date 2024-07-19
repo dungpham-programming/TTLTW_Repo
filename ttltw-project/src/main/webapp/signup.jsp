@@ -91,18 +91,11 @@
                 <span class="mx-3">Hoặc đăng nhập bằng</span>
                 <hr class="flex-fill m-0">
             </div>
-            <div class="list-unstyled d-flex align-items-center justify-content-around flex-wrap mt-2">
+            <div class="list-unstyled d-flex align-items-center justify-content-center">
                 <form action="<c:url value="/signin-via-google"/>" class="mt-0">
                     <button type="submit" class="oauth-btn">
                         <i class="fa-brands fa-google" style="color: #e11414;"></i>
                         <span>Google</span>
-                    </button>
-                </form>
-
-                <form action="<c:url value="/signin-via-facebook"/>" class="mt-0">
-                    <button type="submit" class="oauth-btn">
-                        <i class="fa-brands fa-facebook-f" style="color: #045be7;"></i>
-                        <span>Facebook</span>
                     </button>
                 </form>
             </div>
